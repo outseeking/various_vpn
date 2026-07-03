@@ -1,0 +1,69 @@
+name: various_vpn
+description: "Various VPN — умный VPN с раздельным туннелированием (per-app роутинг)."
+publish_to: 'none'
+version: 0.6.0+31
+
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Управление состоянием — простое и хорошо документированное (для новичка).
+  provider: ^6.1.2
+
+  # Сеть: запросы к нашему бэкенду (auth-код) и загрузка subscription-ссылки.
+  http: ^1.2.2
+
+  # Хранилище: гибрид — SharedPreferences (UI-состояние) + файл (конфиги VPN).
+  shared_preferences: ^2.3.2
+  path_provider: ^2.1.4
+
+  # Иконки
+  cupertino_icons: ^1.0.8
+
+  # Открытие внешних ссылок (бот в Telegram, поддержка). Работает и в web.
+  url_launcher: ^6.3.0
+
+  # Шрифты бренда: Orbitron (заголовки) + Rajdhani (текст). Тянутся с Google
+  # Fonts и кэшируются на устройстве при первом запуске.
+  google_fonts: ^6.2.1
+
+  # Звуки подключения/отключения (брендовые wav-ассеты).
+  audioplayers: ^6.1.0
+
+  # VPN-ядро (Xray внутри) для VLESS+Reality на Android/iOS. На web не работает —
+  # выбор реализации идёт через conditional import (см. services/vpn_core.dart),
+  # поэтому web-сборка тянет только заглушку. Hysteria2/TUIC — позже через sing-box.
+  flutter_v2ray: ^1.0.4
+
+  # Список установленных приложений (с иконками) для per-app туннелирования
+  # в стиле Quattro. Только Android; на web — не тянется (conditional по Platform).
+  installed_apps: ^1.6.0
+
+  # ВНИМАНИЕ: сканер QR (mobile_scanner) добавим на мобильной сборке.
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  # Генерация иконок приложения (Android/iOS) из assets/icon/icon.png.
+  flutter_launcher_icons: ^0.14.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/icon.png"
+  remove_alpha_ios: true
+  adaptive_icon_background: "#05070C"
+  adaptive_icon_foreground: "assets/icon/icon.png"
+
+flutter:
+  uses-material-design: true
+  assets:
+    # Упрощённая карта мира (Natural Earth 110m) для тёмного глобуса на главной.
+    - assets/geo/world.json
+    # Брендовые звуки подключения/отключения.
+    - assets/audio/connect.wav
+    - assets/audio/disconnect.wav

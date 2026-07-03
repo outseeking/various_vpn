@@ -1,0 +1,443 @@
+06-30 14:44:52.148 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:44:52.148 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:44:52.149 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{d8c37bf u0 V2RAY_CONNECTION_INFO}
+06-30 14:44:52.545 I/ActivityTaskManager( 1575): START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 hwFlg=0x10 cmp=com.example.various_vpn/.MainActivity} from uid 2000
+06-30 14:44:52.547 I/ActivityTaskManager( 1575): ActivityRecord info: ActivityInfo{1a35fb7 com.example.various_vpn.MainActivity}
+06-30 14:44:52.547 D/ActivityTaskManager( 1575): TaskLaunchParamsModifier:task=null activity=ActivityRecord{843b324 u0 com.example.various_vpn/.MainActivity t-1} display-id=0 display-windowing-mode=1
+06-30 14:44:52.547 D/ActivityTaskManager( 1575): TaskLaunchParamsModifier:task=TaskRecord{e0bb61d #682 I=com.example.various_vpn/.MainActivity U=0 StackId=27 sz=1} activity=ActivityRecord{843b324 u0 com.example.various_vpn/.MainActivity t-1} display-from-task=0 display-id=0 display-windowing-mode=1 non-freeform-display maximized-bounds
+06-30 14:44:52.551 E/ActivityTaskManager( 1575): START {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 hwFlg=0x10 cmp=com.example.various_vpn/.MainActivity} result: 3
+06-30 14:44:52.563 I/ClipboardService( 1575): callingPackage:com.example.various_vpn, uid =10053, isFocusedWindow =true
+06-30 14:44:52.582 V/ActivityTaskManager( 1575): Activity idle: Token{3e79092 ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}}
+06-30 14:44:53.151 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:44:53.151 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:44:53.151 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{62c3842 u0 V2RAY_CONNECTION_INFO}
+06-30 14:44:54.152 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:44:54.152 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:44:54.153 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{39add90 u0 V2RAY_CONNECTION_INFO}
+06-30 14:44:55.153 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:44:55.153 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:44:55.154 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{5d26689 u0 V2RAY_CONNECTION_INFO}
+06-30 14:44:55.345 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:44:55.345 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:44:55.346 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{cc9968e u0 V2RAY_CONNECTION_INFO}
+06-30 14:44:55.432 I/NotificationService( 1575): cancelNotificationLocked called,tell the app,reason = 8,sbn key = 0|com.example.various_vpn|1|null|10053
+06-30 14:44:55.442 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:44:55.442 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:44:55.442 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{f71e245 u0 V2RAY_CONNECTION_INFO}
+06-30 14:44:55.471 I/ConnectivityService( 1575): NetworkAgentInfo [VPN () - 101] EVENT_NETWORK_INFO_CHANGED, going from CONNECTED to DISCONNECTED
+06-30 14:44:55.471 I/HwConnectivityService( 1575): WiFi_PRO, setVpnSettingValue =false
+06-30 14:44:55.477 I/SmartDualCardSM( 2696): IdleState:got msg.what=EVENT_VPN_STATE_DISCONNECT
+06-30 14:44:55.479 I/ConnectivityService( 1575): NetworkAgentInfo [VPN () - 101] got DISCONNECTED, was satisfying 31
+06-30 14:44:55.489 I/ConnectivityService( 1575): notifyType CALLBACK_LOST for NetworkAgentInfo [VPN () - 101]
+06-30 14:44:55.508 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:44:55.508 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:44:55.508 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{928cac0 u0 V2RAY_CONNECTION_INFO}
+06-30 14:44:55.520 I/ConnectivityService( 1575): Sending DISCONNECTED broadcast for type 17 NetworkAgentInfo [VPN () - 101] isDefaultNetwork=false
+06-30 14:44:55.568 E/V2rayProxyOnlyService(32560): onStartCommand success => v2ray core started.
+06-30 14:44:55.578 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:44:55.578 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:44:55.578 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{670e5b4 u0 V2RAY_CONNECTION_INFO}
+06-30 14:44:55.593 I/ConnectivityService( 1575): NetworkAgentInfo [VPN () - 102] EVENT_NETWORK_INFO_CHANGED, going from null to CONNECTING
+06-30 14:44:55.594 I/netd    (  669): networkCreateVpn(102, "true") <0.14ms>
+06-30 14:44:55.594 E/b       (32560): setUpListener => new initialize from V2rayVPNService
+06-30 14:44:55.610 I/ConnectivityService( 1575): NetworkAgentInfo [VPN () - 102] EVENT_NETWORK_INFO_CHANGED, going from CONNECTING to CONNECTED
+06-30 14:44:55.641 I/HwOUC   (20665): [main-1]doNetworkChanged, networkInfo:[type: VPN[], state: DISCONNECTED/DISCONNECTED, reason: agentDisconnect, extra: (none), failover: false, available: false, roaming: false](DownloadOnReceiveService:4)
+06-30 14:44:55.649 I/ConnectivityService( 1575): notifyType CALLBACK_IP_CHANGED for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.649 I/ConnectivityService( 1575): updateSignalStrengthThresholds: CONNECT, sending [] to NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.649 I/HwConnectivityService( 1575): WiFi_PRO, setVpnSettingValue =true
+06-30 14:44:55.650 I/ConnectivityService( 1575): rematching NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.650 I/ConnectivityService( 1575): rematch for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.651 I/SmartDualCardSM( 2696): IdleState:got msg.what=EVENT_VPN_STATE_CONNECT
+06-30 14:44:55.652 I/ConnectivityService( 1575): rematch for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.652 I/ConnectivityService( 1575): rematch for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.652 I/ConnectivityService( 1575): rematch for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.653 I/ConnectivityService( 1575): rematch for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.653 I/ConnectivityService( 1575): rematch for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.655 I/ConnectivityService( 1575): rematch for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.657 I/ConnectivityService( 1575): rematch for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.658 I/ConnectivityService( 1575): rematch for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.658 I/ConnectivityService( 1575): rematch for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.659 I/ConnectivityService( 1575): rematch for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.662 I/ConnectivityService( 1575): rematch for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.663 I/ConnectivityService( 1575): rematch for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.665 I/ConnectivityService( 1575): rematch for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.665 I/ConnectivityService( 1575): rematch for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.665 I/ConnectivityService( 1575): rematch for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.665 I/ConnectivityService( 1575): rematch for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.666 I/ConnectivityService( 1575): rematch for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.666 I/ConnectivityService( 1575): rematch for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.666 I/ConnectivityService( 1575): rematch for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.666 I/ConnectivityService( 1575): rematch for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.666 I/ConnectivityService( 1575): rematch for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.666 I/ConnectivityService( 1575): rematch for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.667 I/ConnectivityService( 1575): NetworkAgentInfo [VPN () - 102] NC all is: 
+06-30 14:44:55.674 I/HAF_NetworkUtil(15806): 1400012310|R|I|network available: mobile=false, wifi=true, vpn=true, other=false, network=102, internet=true, validated=false
+06-30 14:44:55.682 I/ConnectivityService( 1575): Sending CONNECTED broadcast for type 17 NetworkAgentInfo [VPN () - 102] isDefaultNetwork=false
+06-30 14:44:55.683 I/ConnectivityService( 1575): notifyType CALLBACK_PRECHECK for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.685 I/ConnectivityService( 1575): NetworkAgentInfo [VPN () - 102] validation passed
+06-30 14:44:55.686 I/ConnectivityService( 1575): notifyType CALLBACK_CAP_CHANGED for NetworkAgentInfo [VPN () - 102]
+06-30 14:44:55.692 I/HAF_NetworkUtil(15806): 1400012310|R|I|network available: mobile=false, wifi=true, vpn=true, other=false, network=102, internet=true, validated=true
+06-30 14:44:56.484 I/HwOUC   (20665): [main-1]doNetworkChanged, networkInfo:[type: VPN[], state: CONNECTED/CONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false](DownloadOnReceiveService:4)
+06-30 14:44:56.575 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:44:56.575 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:44:56.575 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{8c9beae u0 V2RAY_CONNECTION_INFO}
+06-30 14:44:56.933 I/HwWindowManagerServiceEx( 1575): com.example.various_vpn/com.example.various_vpn.MainActivity blur level: -1
+06-30 14:44:56.933 I/HwWindowManagerServiceEx( 1575): com.example.various_vpn blur level: -1
+06-30 14:44:56.947 I/HwAudioServiceEx( 1575): ComponentInfo : className = com.example.various_vpn.MainActivity, flag = onPause, isHomeActivity = , isTop = false
+06-30 14:44:56.958 I/HidataAppQoeP( 2696): foregroundUidRemove uid: 10053 name: com.example.various_vpn
+06-30 14:44:56.959 D/ActivityTaskManager( 1575): Ignore adjust for same activity when stop r:ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}
+06-30 14:44:56.959 I/SmartDualCardConfig( 2696): getAppType,pkgName=com.example.various_vpn,appType=-1
+06-30 14:44:56.960 I/SmartDualCardConfig( 2696): getAppType,pkgName=com.example.various_vpn,appType=-1
+06-30 14:44:56.960 I/SmartDualCardSM( 2696): onUidStateUpdate,uid=10053,appName=com.example.various_vpn,state=BACKGROUND
+06-30 14:44:56.962 I/SmartDualCardConfig( 2696): getAppType,pkgName=com.example.various_vpn,appType=-1
+06-30 14:44:56.966 I/DollieChr( 2696): handleForegroundAppUpdateMsg,mAppState=2,scenes=1,mForegroundAppName=com.example.various_vpn
+06-30 14:44:56.967 I/SmartDualCardConfig( 2696): getAppType,pkgName=com.example.various_vpn,appType=-1
+06-30 14:44:56.977 I/WindowManager( 1575): notifyAppStopped: AppWindowToken{a913a63 token=Token{3e79092 ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}}}
+06-30 14:44:57.188 D/ActivityTaskManager( 1575): canShowActivityWhileKeyguardShowing false r=ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}
+06-30 14:44:57.188 V/WindowManager( 1575): commitVisibility: AppWindowToken{a913a63 token=Token{3e79092 ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}}}: hidden=true hiddenRequested=true
+06-30 14:44:57.189 I/WindowManager( 1575): Changing focus from Window{3d40102 u0 com.example.various_vpn/com.example.various_vpn.MainActivity} to null displayId=0 Callers=com.android.server.wm.RootWindowContainer.updateFocusedWindowLocked:210 com.android.server.wm.WindowManagerService.updateFocusedWindowLocked:6517 com.android.server.wm.AppWindowToken.commitVisibility:1008 com.android.server.wm.AppWindowToken.setVisibility:919 
+06-30 14:44:57.195 I/WindowManager( 1575): Animation done in AppWindowToken{a913a63 token=Token{3e79092 ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}}} isHidden:true hiddenRequested:true
+06-30 14:44:57.198 I/WindowManager( 1575): notifyAppStopped: AppWindowToken{a913a63 token=Token{3e79092 ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}}}
+06-30 14:44:57.218 W/BufferQueueProducer(  766): [com.example.various_vpn/com.example.various_vpn.MainActivity#0]:1390: disconnect: not connected (req=1)
+06-30 14:44:57.223 E/WindowManager( 1575): win=Window{3d40102 u0 com.example.various_vpn/com.example.various_vpn.MainActivity} destroySurfaces: appStopped=true win.mWindowRemovalAllowed=false win.mRemoveOnExit=false
+06-30 14:44:57.229 I/ActivityThread(32317): Handle window ActivityRecord{9738331 token=android.os.BinderProxy@aad83d5 {com.example.various_vpn/com.example.various_vpn.MainActivity}} visibility: false
+06-30 14:44:57.578 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:44:57.578 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:44:57.580 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{b47a35 u0 V2RAY_CONNECTION_INFO}
+06-30 14:44:57.859 D/ActivityTaskManager( 1575): canShowActivityWhileKeyguardShowing false r=ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}
+06-30 14:44:58.578 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:44:58.578 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:44:58.578 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{ed45100 u0 V2RAY_CONNECTION_INFO}
+06-30 14:44:59.582 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:44:59.582 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:44:59.583 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{bc218d7 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:00.584 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:00.584 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:00.584 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{fa56b73 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:01.264 D/ActivityTaskManager( 1575): canShowActivityWhileKeyguardShowing false r=ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}
+06-30 14:45:01.585 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:01.585 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:01.586 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{179f624 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:02.586 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:02.586 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:02.586 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{dc4f58d u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:02.712 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:02.712 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:02.712 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{7bbb342 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:03.713 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:03.713 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:03.714 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{2959f53 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:04.715 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:04.715 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:04.715 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{d725090 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:05.178 I/HiAdKit.HiAdRequestDataLogger.Cal( 9267):  upper thread name: PPS-Net-pool-thread-59 request data: {"androidApiVer":"29","buildVer":"OXF-N19 5.2.0.235(C10E2R1P1)","emuiVer":"EmotionUI_12.0.0","magicUIVer":"5.2.0","maker":"HUAWEI","model":"OXF-AN10","ppsKitVersion":"3.4.68.300","appPkgName":"com.example.various_vpn","appVersionCode":"1","hmVer":"2.0.0","type":4} 
+06-30 14:45:05.713 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:05.714 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:05.714 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{c5c7466 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:06.718 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:06.718 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:06.718 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{bb8d3a7 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:07.718 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:07.718 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:07.720 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{6950343 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:08.718 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:08.719 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:08.719 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{d42fdc0 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:09.720 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:09.720 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:09.720 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{156baf9 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:09.914 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:09.914 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:09.914 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{47baa3e u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:10.915 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:10.916 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:10.916 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{20197bb u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:11.916 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:11.917 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:11.917 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{c8ac4d8 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:12.508 I/APwMonitor( 2751): screen on skip visible app : com.example.various_vpn
+06-30 14:45:12.509 I/APwMonitor( 2751): screen on skip visible app : com.example.various_vpn
+06-30 14:45:12.511 D/ScenarioService( 2751): front pkg : com.example.various_vpn launcher: false
+06-30 14:45:12.526 I/PGServer( 2751): report state:10000 event type:2 pid:0 uid:0 pkg:com.example.various_vpn to pid: 2108
+06-30 14:45:12.526 I/PGServer( 2751): report state:10000 event type:2 pid:0 uid:0 pkg:com.example.various_vpn to pid: 1575
+06-30 14:45:12.526 I/PGServer( 2751): report state:10000 event type:2 pid:0 uid:0 pkg:com.example.various_vpn to pid: 2751
+06-30 14:45:12.526 I/SceneReceiver( 2751): state type: 10000 eventType:2 pid:0 uid:0 pkg:com.example.various_vpn
+06-30 14:45:12.526 I/PGServer( 2751): report state:10000 event type:1 pid:0 uid:0 pkg:com.example.various_vpn to pid: 2108
+06-30 14:45:12.526 I/PGServer( 2751): report state:10000 event type:1 pid:0 uid:0 pkg:com.example.various_vpn to pid: 1575
+06-30 14:45:12.526 I/PGServer( 2751): report state:10000 event type:1 pid:0 uid:0 pkg:com.example.various_vpn to pid: 2751
+06-30 14:45:12.526 I/SceneReceiver( 2751): state type: 10000 eventType:1 pid:0 uid:0 pkg:com.example.various_vpn
+06-30 14:45:12.536 I/DE J DES( 1575): [effect] Pg pkg:com.example.various_vpn
+06-30 14:45:12.916 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:12.916 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:12.916 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{54ff726 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:12.950 I/HiAdKit.HiAdRequestDataLogger.Cal( 9267):  upper thread name: PPS-Net-pool-thread-60 request data: {"androidApiVer":"29","buildVer":"OXF-N19 5.2.0.235(C10E2R1P1)","emuiVer":"EmotionUI_12.0.0","magicUIVer":"5.2.0","maker":"HUAWEI","model":"OXF-AN10","ppsKitVersion":"3.4.68.300","appPkgName":"com.android.vpndialogs","appVersionCode":"29","hmVer":"2.0.0","type":4} 
+06-30 14:45:13.915 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:13.915 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:13.915 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{e615114 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:14.916 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:14.916 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:14.917 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{f9bcdbd u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:15.611 V/WindowManager( 1575): notifyAppResumed: wasStopped=true AppWindowToken{a913a63 token=Token{3e79092 ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}}}
+06-30 14:45:15.614 I/ActivityTaskManager( 1575): setAppStartingWindow: token=Token{3e79092 ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}} pkg=com.example.various_vpn transferFrom=null newTask=false taskSwitch=true processRunning=true allowTaskSnapshot=true activityCreated=true LowRamTaskSnapshots=false
+06-30 14:45:15.616 I/WindowManager( 1575): Check opening app=AppWindowToken{a913a63 token=Token{3e79092 ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}}}: allDrawn=false startingDisplayed=false startingMoved=false isRelaunching()=false startingWindow=null
+06-30 14:45:15.620 I/WindowManager( 1575): Check opening app=AppWindowToken{a913a63 token=Token{3e79092 ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}}}: allDrawn=false startingDisplayed=false startingMoved=false isRelaunching()=false startingWindow=null
+06-30 14:45:15.621 I/HwAudioServiceEx( 1575): ComponentInfo : className = com.example.various_vpn.MainActivity, flag = showStartingWindow, isHomeActivity = , isTop = false
+06-30 14:45:15.626 I/WindowManager( 1575): addWindow: Window{a84c4fe u0 SnapshotStartingWindow for taskId=682} client:com.android.server.wm.TaskSnapshotSurface$Window@33c88b9 currentDisplayId:0 requestDisplayId:0 token:Token{3e79092 ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}}
+06-30 14:45:15.628 I/WindowManager( 1575): Check opening app=AppWindowToken{a913a63 token=Token{3e79092 ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}}}: allDrawn=false startingDisplayed=false startingMoved=false isRelaunching()=false startingWindow=Window{a84c4fe u0 SnapshotStartingWindow for taskId=682}
+06-30 14:45:15.636 I/HwAudioServiceEx( 1575): ComponentInfo : className = com.example.various_vpn.MainActivity, flag = onResume, isHomeActivity = , isTop = true
+06-30 14:45:15.639 I/WindowManager( 1575): Check opening app=AppWindowToken{a913a63 token=Token{3e79092 ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}}}: allDrawn=false startingDisplayed=true startingMoved=false isRelaunching()=false startingWindow=Window{a84c4fe u0 SnapshotStartingWindow for taskId=682}
+06-30 14:45:15.640 D/HwWindowManagerServiceEx( 1575): is app exit to launcher info: transit = 20, app = AppWindowToken{a913a63 token=Token{3e79092 ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}}}, window = Window{3d40102 u0 com.example.various_vpn/com.example.various_vpn.MainActivity}, mClosingApps = {}, topOpeningApp = AppWindowToken{a913a63 token=Token{3e79092 ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}}}, mExitIconBitmap = null, mExitIconHeight = 0, mExitIconWidth = 0
+06-30 14:45:15.640 V/WindowManager( 1575): commitVisibility: AppWindowToken{a913a63 token=Token{3e79092 ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}}}: hidden=false hiddenRequested=false
+06-30 14:45:15.640 I/WindowManager( 1575): Animation done in AppWindowToken{a913a63 token=Token{3e79092 ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}}} isHidden:false hiddenRequested:false
+06-30 14:45:15.657 I/Hicom_Monitor( 2696): mActivityNotifierEx, className = com.example.various_vpn.MainActivity, uid = 10053
+06-30 14:45:15.657 I/CAWARENESS_AppUsageManager(10780): onEvent, packageName=com.example.various_vpn, activityName=com.example.various_vpn.MainActivity
+06-30 14:45:15.657 D/DollieActivityManagerAdapter( 2696): [Resumed] bg:true pid:32317 uid:10053 ComponentInfo{com.example.various_vpn/com.example.various_vpn.MainActivity}
+06-30 14:45:15.657 E/DollieAdapterService( 2696): notifyActivityState pkg:com.example.various_vpn/com.example.various_vpn.MainActivity state:2 fg:true mUid:10053
+06-30 14:45:15.663 I/SmartDualCardConfig( 2696): getAppType,pkgName=com.example.various_vpn,appType=-1
+06-30 14:45:15.664 I/SmartDualCardConfig( 2696): getAppType,pkgName=com.example.various_vpn,appType=-1
+06-30 14:45:15.664 I/SmartDualCardSM( 2696): onUidStateUpdate,uid=10053,appName=com.example.various_vpn,state=FOREGROUND
+06-30 14:45:15.664 I/SmartDualCardConfig( 2696): getAppType,pkgName=com.example.various_vpn,appType=-1
+06-30 14:45:15.690 I/SmartDualCardSM( 2696): boosterDump:SlaveActive=true SameOperator=false M_NetworkBad=true S_NetworkBad=true M_DLSpeedLimit=1048576 S_DLSpeedLimit=1048576 M_DataRoam=false S_DataRoam=false VPNMode=true TetherOn=false AppQoeSlow=false HidataAppQoeSlow=false GameExpBad=false DsdsState=0 S_TrafficEnough=true M_NetworkStatus=1 S_NetworkStatus=1 1xTaskRun=false QoeSlowReason=0 MovementType=-1 M_NetworkServicestatus=1 S_NetworkServicestatus=1 isUidBindListEmpty=true M_DetectAppQoe=-1 AppRouteSlot=0 WifiProSwitchSlaveCard=false LinkTurboActive=false
+06-30 14:45:15.692 V/ActivityTaskManager( 1575): Activity idle: Token{3e79092 ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}}
+06-30 14:45:15.693 I/SmartDualCardConfig( 2696): getAppType,pkgName=com.example.various_vpn,appType=-1
+06-30 14:45:15.758 I/WindowManager( 1575): Changing focus from Window{fae35a3 u0 StatusBar} to Window{3d40102 u0 com.example.various_vpn/com.example.various_vpn.MainActivity} displayId=0 Callers=com.android.server.wm.RootWindowContainer.updateFocusedWindowLocked:210 com.android.server.wm.WindowManagerService.updateFocusedWindowLocked:6517 com.android.server.wm.WindowManagerService.relayoutWindow:2813 com.android.server.wm.Session.relayout:197 
+06-30 14:45:15.759 V/HwPhoneWindowManager( 1575): updateSystemUiColorLw window=Window{3d40102 u0 com.example.various_vpn/com.example.various_vpn.MainActivity},EmuiStyle=0,StatusBarColor=0x0,NavigationBarColor=0xff000000, mForceNotchStatusBar=false
+06-30 14:45:15.760 D/StatusBarManagerService( 1575): win:Window{3d40102 u0 com.example.various_vpn/com.example.various_vpn.MainActivity}mIsColorEnable:truelight:false
+06-30 14:45:15.760 I/StatusBarDisable( 1575): setFlags what=0 which=1 pkg=Window{3d40102 u0 com.example.various_vpn/com.example.various_vpn.MainActivity}
+06-30 14:45:15.767 I/ClipboardService( 1575): callingPackage:com.example.various_vpn, uid =10053, isFocusedWindow =true
+06-30 14:45:15.769 I/AGPService( 1037): aps-info: focus pkgName - com.example.various_vpn, with 0 more apps
+06-30 14:45:15.772 I/ScenarioService( 2751): refresh visibleApp:[com.example.various_vpn]
+06-30 14:45:15.772 I/PGServer( 2751): report state:14 event type:1 pid:-1 uid:-1 pkg:com.example.various_vpn to pid: 2751
+06-30 14:45:15.774 I/PG_ash  ( 2751): current visiblePkgs:[com.example.various_vpn]
+06-30 14:45:15.816 I/WindowManager( 1575): Removing Window{a84c4fe u0 SnapshotStartingWindow for taskId=682} from AppWindowToken{a913a63 token=Token{3e79092 ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}}}
+06-30 14:45:15.848 I/ScenarioService( 2751): check surface view pkg: com.example.various_vpn
+06-30 14:45:15.917 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:15.917 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:15.917 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{8dea041 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:16.920 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:16.921 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:16.921 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{9d831d4 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:17.115 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:17.115 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:17.116 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{e33ff7d u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:17.224 V/WindowManager( 1575): setImeHolder from Window{c92add0 u0 com.android.settings/com.android.settings.HWSettings} to Window{3d40102 u0 com.example.various_vpn/com.example.various_vpn.MainActivity}
+06-30 14:45:17.324 I/WindowManager( 1575): dispatchResized : win = Window{3d40102 u0 com.example.various_vpn/com.example.various_vpn.MainActivity} drawState = HAS_DRAWN
+06-30 14:45:17.666 D/ConnCureConfigUtil( 2696): isCaredApp: input = com.example.various_vpn
+06-30 14:45:18.118 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:18.119 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:18.119 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{8a4e896 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:19.119 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:19.119 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:19.120 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{478746e u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:20.121 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:20.122 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:20.122 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{5d7470f u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:21.124 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:21.124 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:21.125 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{8ea039c u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:22.120 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:22.120 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:22.121 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{f6541a5 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:23.122 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:23.122 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:23.123 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{361bd88 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:24.124 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:24.124 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:24.125 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{3cb005d u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:24.319 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:24.319 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:24.320 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{c79add2 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:25.318 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:25.319 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:25.319 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{5312ea3 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:25.414 I/NotificationManager(32560): com.example.various_vpn: cancel(1)
+06-30 14:45:25.419 I/HwMediaFocusControl( 1575): isRemoteAppFromDmsDp: false, packageName: com.example.various_vpn, packages: []
+06-30 14:45:25.424 I/NotificationManager(32560): com.example.various_vpn: cancel(1)
+06-30 14:45:25.426 E/b       (32560): stopCore failed => v2ray core not running.
+06-30 14:45:25.431 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:25.431 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:25.432 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{738b5a0 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:25.437 E/b       (32560): stopCore success => v2ray core stopped.
+06-30 14:45:25.440 I/GoLog   (32560): loading core config
+06-30 14:45:25.440 I/GoLog   (32560): Preparing Domain: nl1.ug-connect.site:443
+06-30 14:45:25.440 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:25.440 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:25.441 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{43c4559 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:25.442 I/GoLog   (32560): new core
+06-30 14:45:25.448 I/GoLog   (32560): start core
+06-30 14:45:25.455 D/DeviceVpnManager( 1575): isVpnDisabled: false
+06-30 14:45:25.455 D/        ( 1575): isVpnDisabled and result is false
+06-30 14:45:25.461 I/MediaFocusControl( 1575): requestAudioFocus() from uid/pid 10053/32317 clientId=android.media.AudioManager@b03f5f3g1.a@291f2b0 callingPack=com.example.various_vpn req=1 flags=0x0 sdk=36
+06-30 14:45:25.463 I/HwMediaFocusControl( 1575): isRemoteAppFromDmsDp: false, packageName: com.example.various_vpn, packages: []
+06-30 14:45:25.467 D/PGAudioState( 2751): audio focus pkg : com.example.various_vpn last focus pkg : com.example.various_vpn
+06-30 14:45:25.467 I/AppManager( 2751): audio focus pkg: com.example.various_vpn
+06-30 14:45:25.474 D/VpnJni  ( 1575): Address added on tun1: 26.26.26.1/30
+06-30 14:45:25.478 I/ConnectivityService( 1575): Update of LinkProperties for NetworkAgentInfo [VPN () - 102]; created=true; everConnected=true
+06-30 14:45:25.496 I/Vpn     ( 1575): Established by com.example.various_vpn on tun1
+06-30 14:45:25.496 I/DeviceStateService( 2751): app: com.example.various_vpn pid: 1053 start mediacodec.
+06-30 14:45:25.499 E/VPN_SERVICE(32560): FAILED=>
+06-30 14:45:25.499 E/VPN_SERVICE(32560): java.io.IOException: Cannot run program "/data/app/com.example.various_vpn-JU5hVWdDXBtI6nKnXPto0A==/lib/arm64/libtun2socks.so" (in directory "/data/user/0/com.example.various_vpn/files"): error=2, No such file or directory
+06-30 14:45:25.499 E/VPN_SERVICE(32560): 	at java.lang.ProcessBuilder.start(ProcessBuilder.java:1050)
+06-30 14:45:25.499 E/VPN_SERVICE(32560): 	at com.github.blueboytm.flutter_v2ray.v2ray.services.V2rayVPNService.e(SourceFile:96)
+06-30 14:45:25.499 E/VPN_SERVICE(32560): 	at com.github.blueboytm.flutter_v2ray.v2ray.services.V2rayVPNService.a(SourceFile:190)
+06-30 14:45:25.499 E/VPN_SERVICE(32560): 	at A.n.setup(SourceFile:9)
+06-30 14:45:25.499 E/VPN_SERVICE(32560): 	at libv2ray.V2RayPoint.runLoop(Native Method)
+06-30 14:45:25.499 E/VPN_SERVICE(32560): 	at i0.b.f(SourceFile:88)
+06-30 14:45:25.499 E/VPN_SERVICE(32560): 	at com.github.blueboytm.flutter_v2ray.v2ray.services.V2rayVPNService.onStartCommand(SourceFile:55)
+06-30 14:45:25.499 E/VPN_SERVICE(32560): 	at android.app.ActivityThread.handleServiceArgs(ActivityThread.java:4951)
+06-30 14:45:25.499 E/VPN_SERVICE(32560): 	at android.app.ActivityThread.access$3300(ActivityThread.java:260)
+06-30 14:45:25.499 E/VPN_SERVICE(32560): 	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2486)
+06-30 14:45:25.499 E/VPN_SERVICE(32560): 	at android.os.Handler.dispatchMessage(Handler.java:110)
+06-30 14:45:25.499 E/VPN_SERVICE(32560): 	at android.os.Looper.loop(Looper.java:219)
+06-30 14:45:25.499 E/VPN_SERVICE(32560): 	at android.app.ActivityThread.main(ActivityThread.java:8676)
+06-30 14:45:25.499 E/VPN_SERVICE(32560): 	at java.lang.reflect.Method.invoke(Native Method)
+06-30 14:45:25.499 E/VPN_SERVICE(32560): 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:513)
+06-30 14:45:25.499 E/VPN_SERVICE(32560): 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1109)
+06-30 14:45:25.499 E/VPN_SERVICE(32560): Caused by: java.io.IOException: error=2, No such file or directory
+06-30 14:45:25.499 E/VPN_SERVICE(32560): 	at java.lang.UNIXProcess.forkAndExec(Native Method)
+06-30 14:45:25.499 E/VPN_SERVICE(32560): 	at java.lang.UNIXProcess.<init>(UNIXProcess.java:133)
+06-30 14:45:25.499 E/VPN_SERVICE(32560): 	at java.lang.ProcessImpl.start(ProcessImpl.java:141)
+06-30 14:45:25.499 E/VPN_SERVICE(32560): 	at java.lang.ProcessBuilder.start(ProcessBuilder.java:1029)
+06-30 14:45:25.499 E/VPN_SERVICE(32560): 	... 15 more
+06-30 14:45:25.502 E/V2rayProxyOnlyService(32560): onStartCommand success => v2ray core started.
+06-30 14:45:25.503 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:25.504 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:25.504 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{e6469f6 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:25.504 I/NotificationService( 1575): enqueueNotificationInternal: pkg=com.example.various_vpn id=1 notification=Notification(channel=A_FLUTTER_V2RAY_SERVICE_CH_ID pri=-2 contentView=null vibrate=null sound=null defaults=0x0 flags=0x4a color=0x00000000 actions=1 vis=PRIVATE)
+06-30 14:45:25.505 I/HwMediaFocusControl( 1575): isRemoteAppFromDmsDp: false, packageName: com.example.various_vpn, packages: []
+06-30 14:45:25.506 I/HwMediaFocusControl( 1575): isRemoteAppFromDmsDp: false, packageName: com.example.various_vpn, packages: []
+06-30 14:45:25.507 I/NotificationService( 1575): enqueueNotificationInternal Channel Info : pkg=com.example.various_vpn id=1 importance =3
+06-30 14:45:25.507 I/HwNotificationService( 1575): shouldBlockByMediaController : pkgName =com.example.various_vpn,isCustomNotification =false,isMediaNotification =false
+06-30 14:45:25.511 I/HwNotificationService( 1575): isHwSoundAllow pkg=com.example.various_vpn, channelId=A_FLUTTER_V2RAY_SERVICE_CH_ID, userId=0, soundVibrate=1
+06-30 14:45:25.511 I/NotificationService( 1575): buzzBeepBlinkLocked hasValidSound=true,hasValidVibrate=false,vibration=null,key=0|com.example.various_vpn|1|null|10053
+06-30 14:45:25.511 I/HwNotificationService_Vibrate( 1575): getHwVibratorType pkg=com.example.various_vpn, channelId=A_FLUTTER_V2RAY_SERVICE_CH_ID, userId=0, vibratorType=haptic.pattern.type4
+06-30 14:45:25.525 I/NotificationListener( 2381): onNotificationPosted: StatusBarNotification(pkg=com.example.various_vpn user=UserHandle{0} id=1 tag=null key=0|com.example.various_vpn|1|null|10053: Notification(channel=A_FLUTTER_V2RAY_SERVICE_CH_ID pri=-2 contentView=null vibrate=null sound=null defaults=0x0 flags=0x6a color=0x00000000 groupKey=ranker_group1 actions=1 vis=PRIVATE)) important=3, post=1782819925507, when=1782819925501,showWhen=false, vis=0, userid=0, hasFullScreenIntent=false,style=null
+06-30 14:45:25.527 I/DeviceStateService( 2751): event is too short, not process app: com.example.various_vpn mediacodec action.
+06-30 14:45:25.527 I/AppManager( 2751): app:com.example.various_vpn Notification update time:53202402
+06-30 14:45:25.527 I/AppManager( 2751): app : com.example.various_vpn add Notification persist:true now Ids:[1]
+06-30 14:45:25.536 I/ConnectivityService( 1575): notifyType CALLBACK_IP_CHANGED for NetworkAgentInfo [VPN () - 102]
+06-30 14:45:25.544 E/HiEvent.Payload( 2381): new JsonPayload exception:Unterminated object at character 80 of {pkg:com.example.various_vpn,id:1,tag:"null",channelid:" ",channelname:Flutter V2,isOnGoing:"true",importance:3,isCustomNotification:false,language:ru,style:"null",isFromPush:"false",isNoClear:true,isForeground:true}
+06-30 14:45:25.545 I/MediaFocusControl( 1575): requestAudioFocus() from uid/pid 10053/32317 clientId=android.media.AudioManager@b03f5f3g1.a@291f2b0 callingPack=com.example.various_vpn req=1 flags=0x0 sdk=36
+06-30 14:45:25.546 I/HwMediaFocusControl( 1575): isRemoteAppFromDmsDp: false, packageName: com.example.various_vpn, packages: []
+06-30 14:45:25.546 D/PGAudioState( 2751): audio focus pkg : com.example.various_vpn last focus pkg : com.example.various_vpn
+06-30 14:45:25.546 I/AppManager( 2751): audio focus pkg: com.example.various_vpn
+06-30 14:45:25.558 I/DeviceStateService( 2751): app: com.example.various_vpn pid: 1053 start mediacodec.
+06-30 14:45:25.591 I/ScrollLayout2( 2381): addContainerView StatusBarNotification(pkg=com.example.various_vpn user=UserHandle{0} id=1 tag=null key=0|com.example.various_vpn|1|null|10053: Notification(channel=A_FLUTTER_V2RAY_SERVICE_CH_ID pri=-2 contentView=null vibrate=null sound=null defaults=0x0 flags=0x6a color=0x00000000 groupKey=ranker_group1 actions=1 vis=PRIVATE))
+06-30 14:45:26.259 I/HwMediaFocusControl( 1575): isRemoteAppFromDmsDp: false, packageName: com.example.various_vpn, packages: []
+06-30 14:45:26.261 I/HwMediaFocusControl( 1575): isRemoteAppFromDmsDp: false, packageName: com.example.various_vpn, packages: []
+06-30 14:45:26.268 I/DeviceStateService( 2751): app: com.example.various_vpn pid: 1053 release mediacodec.
+06-30 14:45:26.507 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:26.508 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:26.508 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{40c7bdf u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:27.508 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:27.508 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:27.508 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{5e6f6fb u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:28.508 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:28.508 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:28.508 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{3b9d318 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:29.510 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:29.510 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:29.510 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{9401b56 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:30.511 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:30.511 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:30.511 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{e68a3ad u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:31.512 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:31.512 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:31.512 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{aabed30 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:32.406 I/HwAudioServiceEx( 1575): ComponentInfo : className = com.example.various_vpn.MainActivity, flag = onPause, isHomeActivity = , isTop = false
+06-30 14:45:32.408 D/DollieActivityManagerAdapter( 2696): [Paused] pid:32317 uid:10053 ComponentInfo{com.example.various_vpn/com.example.various_vpn.MainActivity} uidState:2
+06-30 14:45:32.422 E/DollieAdapterService( 2696): notifyActivityState pkg:com.example.various_vpn/com.example.various_vpn.MainActivity state:5 fg:false mUid:10053
+06-30 14:45:32.422 I/HidataAppQoeP( 2696): foregroundUidRemove uid: 10053 name: com.example.various_vpn
+06-30 14:45:32.424 I/SmartDualCardConfig( 2696): getAppType,pkgName=com.example.various_vpn,appType=-1
+06-30 14:45:32.425 I/SmartDualCardConfig( 2696): getAppType,pkgName=com.example.various_vpn,appType=-1
+06-30 14:45:32.425 I/SmartDualCardSM( 2696): onUidStateUpdate,uid=10053,appName=com.example.various_vpn,state=BACKGROUND
+06-30 14:45:32.425 D/ActivityTaskManager( 1575): Ignore adjust for same activity when stop r:ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}
+06-30 14:45:32.426 I/SmartDualCardConfig( 2696): getAppType,pkgName=com.example.various_vpn,appType=-1
+06-30 14:45:32.427 I/WindowManager( 1575): notifyAppStopped: AppWindowToken{a913a63 token=Token{3e79092 ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}}}
+06-30 14:45:32.428 I/DollieChr( 2696): handleForegroundAppUpdateMsg,mAppState=2,scenes=1,mForegroundAppName=com.example.various_vpn
+06-30 14:45:32.429 I/SmartDualCardConfig( 2696): getAppType,pkgName=com.example.various_vpn,appType=-1
+06-30 14:45:32.438 I/ScenarioService( 2751): check surface view pkg: com.example.various_vpn
+06-30 14:45:32.513 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:32.513 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:32.513 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{b3fcfde u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:32.641 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:32.641 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:32.643 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{72f27d5 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:32.660 D/ActivityTaskManager( 1575): canShowActivityWhileKeyguardShowing false r=ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}
+06-30 14:45:32.660 V/WindowManager( 1575): commitVisibility: AppWindowToken{a913a63 token=Token{3e79092 ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}}}: hidden=true hiddenRequested=true
+06-30 14:45:32.661 I/WindowManager( 1575): Changing focus from Window{3d40102 u0 com.example.various_vpn/com.example.various_vpn.MainActivity} to null displayId=0 Callers=com.android.server.wm.RootWindowContainer.updateFocusedWindowLocked:210 com.android.server.wm.WindowManagerService.updateFocusedWindowLocked:6517 com.android.server.wm.AppWindowToken.commitVisibility:1008 com.android.server.wm.AppWindowToken.setVisibility:919 
+06-30 14:45:32.666 I/WindowManager( 1575): Animation done in AppWindowToken{a913a63 token=Token{3e79092 ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}}} isHidden:true hiddenRequested:true
+06-30 14:45:32.667 I/WindowManager( 1575): notifyAppStopped: AppWindowToken{a913a63 token=Token{3e79092 ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}}}
+06-30 14:45:32.688 W/BufferQueueProducer(  766): [com.example.various_vpn/com.example.various_vpn.MainActivity#0]:1390: disconnect: not connected (req=1)
+06-30 14:45:32.689 E/WindowManager( 1575): win=Window{3d40102 u0 com.example.various_vpn/com.example.various_vpn.MainActivity} destroySurfaces: appStopped=true win.mWindowRemovalAllowed=false win.mRemoveOnExit=false
+06-30 14:45:32.694 I/ActivityThread(32317): Handle window ActivityRecord{9738331 token=android.os.BinderProxy@aad83d5 {com.example.various_vpn/com.example.various_vpn.MainActivity}} visibility: false
+06-30 14:45:33.148 D/ActivityTaskManager( 1575): canShowActivityWhileKeyguardShowing false r=ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}
+06-30 14:45:33.642 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:33.642 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:33.642 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{501a5a u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:34.644 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:34.644 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:34.644 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{b6b14bd u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:35.441 I/GoLog   (32560): PrepareDomain err: lookup nl1.ug-connect.site: i/o timeout
+06-30 14:45:35.646 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:35.646 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:35.646 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{4179ab2 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:36.369 I/ConnectivityService( 1575): Update of LinkProperties for NetworkAgentInfo [VPN () - 102]; created=true; everConnected=true
+06-30 14:45:36.369 I/ConnectivityService( 1575): Update of LinkProperties for NetworkAgentInfo [VPN () - 102]; created=true; everConnected=true
+06-30 14:45:36.644 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:36.644 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:36.644 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{6b62cf1 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:36.964 I/APwMonitor( 2751): screen on skip visible app : com.example.various_vpn
+06-30 14:45:36.964 I/APwMonitor( 2751): screen on skip visible app : com.example.various_vpn
+06-30 14:45:37.312 I/AppInfoRecord( 2751): com.example.various_vpn AllFgServiceType:
+06-30 14:45:37.346 D/ActivityTaskManager( 1575): canShowActivityWhileKeyguardShowing false r=ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}
+06-30 14:45:37.645 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:37.645 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:37.646 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{c8fdb17 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:37.725 I/wallet_QuickSwipeUtil(19821): isMedicareAuthActivity topActivity:{com.example.various_vpn/com.example.various_vpn.MainActivity}
+06-30 14:45:37.771 W/HwActivityTaskManagerServiceEx( 1575): appSwitch from: com.example.various_vpn to: com.huawei.wallet
+06-30 14:45:37.773 D/ScenarioService( 2751): new above launcher front pkgs: [com.android.settings, com.android.packageinstaller, com.huawei.appmarket, com.example.various_vpn, com.huawei.wallet]
+06-30 14:45:37.773 I/AppsUsage( 2751): scnOff:false FgAPP:com.huawei.wallet BgAPP:com.example.various_vpn
+06-30 14:45:37.774 I/AssistantService-11.2.1.200( 2696): registerHwActivityNotifier call fromPackage:com.example.various_vpn, toPackage:com.huawei.wallet
+06-30 14:45:37.774 D/AssistantService-11.2.1.200( 2696): handleMessage app switch fromPackage:com.example.various_vpn, toPackage:com.huawei.wallet
+06-30 14:45:37.775 I/ScenarioService( 2751): app focus change from: com.example.various_vpn to:com.huawei.wallet
+06-30 14:45:37.779 I/PGServer( 2751): report state:10000 event type:2 pid:0 uid:0 pkg:com.example.various_vpn to pid: 2108
+06-30 14:45:37.779 I/PGServer( 2751): report state:10000 event type:2 pid:0 uid:0 pkg:com.example.various_vpn to pid: 1575
+06-30 14:45:37.779 I/PGServer( 2751): report state:10000 event type:2 pid:0 uid:0 pkg:com.example.various_vpn to pid: 2751
+06-30 14:45:37.779 I/SceneReceiver( 2751): state type: 10000 eventType:2 pid:0 uid:0 pkg:com.example.various_vpn
+06-30 14:45:37.811 D/ITouchService( 1037): itouch currentPackageName = com.example.various_vpn
+06-30 14:45:37.811 D/ITouchService( 1037): itouch:app com.example.various_vpn is  not game app
+06-30 14:45:37.811 D/ITouchService( 1037): itouch:app com.example.various_vpn is  not in StylusPenList
+06-30 14:45:37.879 I/PG_ash  ( 2751): com.example.various_vpn become invisible
+06-30 14:45:37.910 I/ConnectivityService( 1575): rematching NetworkAgentInfo [VPN () - 102]
+06-30 14:45:37.910 I/ConnectivityService( 1575): rematch for NetworkAgentInfo [VPN () - 102]
+06-30 14:45:37.911 I/ConnectivityService( 1575): NetworkAgentInfo [VPN () - 102] NC all is: 301 320 38 14 272 236 10 41 240 21 275 229 28 25 9 270 274 8 304 4 339 300 32 
+06-30 14:45:38.146 I/ConnectivityService( 1575): rematching NetworkAgentInfo [VPN () - 102]
+06-30 14:45:38.146 I/ConnectivityService( 1575): rematch for NetworkAgentInfo [VPN () - 102]
+06-30 14:45:38.146 I/ConnectivityService( 1575): NetworkAgentInfo [VPN () - 102] NC all is: 301 320 38 14 361 272 236 10 41 240 21 275 229 28 25 9 270 274 8 304 4 339 300 32 
+06-30 14:45:38.148 I/ConnectivityService( 1575): rematching NetworkAgentInfo [VPN () - 102]
+06-30 14:45:38.149 I/ConnectivityService( 1575): NetworkAgentInfo [VPN () - 102] NC all is: 301 320 38 14 361 272 236 10 41 240 21 275 229 28 25 9 270 274 8 304 4 339 300 362 32 
+06-30 14:45:38.318 I/ConnectivityService( 1575):  Removing from current network NetworkAgentInfo [VPN () - 102], leaving 32 requests.
+06-30 14:45:38.588 D/        ( 1064): HibSTrategy::HibStrategySwapCandidateProcessAdd packageName com.example.various_vpn
+06-30 14:45:38.645 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:38.646 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:38.646 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{a552d36 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:38.692 D/        ( 1064): HibStrategy::HibStrategySwapCandidateProcessRemove packageName is com.example.various_vpn
+06-30 14:45:38.709 D/        ( 1064): HibSTrategy::HibStrategySwapCandidateProcessAdd packageName com.example.various_vpn
+06-30 14:45:38.864 D/        ( 1064): HibStrategy::HibStrategySwapCandidateProcessRemove packageName is com.example.various_vpn
+06-30 14:45:39.648 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:39.648 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:39.648 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{48c8d7d u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:39.840 I/ActivityManager( 1575): App 10053/com.example.various_vpn targets O+, restricted
+06-30 14:45:39.840 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:45:39.840 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{c54fd40 u0 V2RAY_CONNECTION_INFO}
+06-30 14:45:40.599 W/HwActivityTaskManagerServiceEx( 1575): appSwitch from: com.huawei.wallet to: com.example.various_vpn
+06-30 14:45:40.600 I/ScenarioService( 2751): app focus change from: com.huawei.wallet to:com.example.various_vpn
+06-30 14:45:40.600 I/ScenarioService( 2751): add focus on app:com.example.various_vpn to visiblePkgs
+06-30 14:45:40.603 I/Hicom_Monitor( 2696): mAppSwitchNotifierEx. uid: 10053, foreground app: com.example.various_vpn, foreground activity: com.example.various_vpn.MainActivity
+06-30 14:45:40.604 I/AssistantService-11.2.1.200( 2696): registerHwActivityNotifier call fromPackage:com.huawei.wallet, toPackage:com.example.various_vpn
+06-30 14:45:40.605 D/HwGameAssistantController( 1575): UPDATE: mCurFgPkg=com.example.various_vpn, mCurFgPid=32317, mIsCurGame=false
+06-30 14:45:40.605 D/AssistantService-11.2.1.200( 2696): handleMessage app switch fromPackage:com.huawei.wallet, toPackage:com.example.various_vpn
+06-30 14:45:40.615 D/ActivityTaskManager( 1575): canShowActivityWhileKeyguardShowing false r=ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}
+06-30 14:45:40.617 D/ActivityTaskManager( 1575): canShowActivityWhileKeyguardShowing false r=ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}
+06-30 14:45:40.618 D/ActivityTaskManager( 1575): canShowActivityWhileKeyguardShowing false r=ActivityRecord{8381ef4 u0 com.example.various_vpn/.MainActivity t682}

@@ -1,0 +1,24 @@
+06-30 15:15:05.797 I/WindowManager( 1575): dispatchResized : win = Window{6c7f7b6 u0 com.example.various_vpn/com.example.various_vpn.MainActivity} drawState = HAS_DRAWN
+06-30 15:15:06.466 I/MQoS    ( 1575): onSignal: mSubId=1,currDataSubID=0
+06-30 15:15:06.482 I/MQoS    ( 1575): onSignal: mSubId=0,currDataSubID=0
+06-30 15:15:06.894 I/WindowManager( 1575): dispatchResized : win = Window{6c7f7b6 u0 com.example.various_vpn/com.example.various_vpn.MainActivity} drawState = HAS_DRAWN
+06-30 15:15:08.934 I/MQoS    ( 1575): onSignal: mSubId=0,currDataSubID=0
+06-30 15:15:09.482 I/MQoS    ( 1575): onSignal: mSubId=1,currDataSubID=0
+06-30 15:15:10.050 D/        ( 1575): HWExtDeviceService getActiveConnections 
+06-30 15:15:10.367 W/uniperf server(  753): EnterActionProc DoParse failed, cmdId=13120
+06-30 15:15:11.345 D/HwConnectivityManagerImpl( 1575): sendIntentDnsEvent mDnsCount:100mDnsIpv6Timeout:0mDnsResponseTotalTime:3751mDnsFailCount:19mDnsResponse20Count:36mDnsResponse150Count:44mDnsResponse500Count:0mDnsResponse1000Count:0mDnsResponse2000Count:0mDnsResponseOver2000Count:1
+06-30 15:15:14.941 I/MQoS    ( 1575): onSignal: mSubId=0,currDataSubID=0
+06-30 15:15:15.491 I/MQoS    ( 1575): onSignal: mSubId=1,currDataSubID=0
+06-30 15:15:16.057 I/MQoS    ( 1575): mSubId=1,voiceState:1,dataState:1
+06-30 15:15:16.069 I/SarControl_Manager( 2696): handleSimOperatorNumberic, subId=4, defaultId=5
+06-30 15:15:17.648 I/MQoS    ( 1575): onSignal: mSubId=1,currDataSubID=0
+06-30 15:15:19.181 I/MQoS    ( 1575): onSignal: mSubId=0,currDataSubID=0
+06-30 15:15:19.466 W/health@2.0-serv(  725): type=1400 audit(0.0:38134): avc: denied { write } for pid=725 name="property_service" dev="tmpfs" ino=2948 scontext=u:r:hal_health_default:s0 tcontext=u:object_r:property_socket:s0 tclass=sock_file permissive=0
+06-30 15:15:19.471 W/libc    (  725): Unable to set property "sys.check.usbupdate" to "start": connection failed; errno=13 (Permission denied)
+06-30 15:15:23.163 I/CloudFolderApiClientImpl( 2814): HiFolderSdk [2026-06-30 15:15:23.163 I/CloudFolderApiClientImpl 2814:524 CloudFolderApiClientImpl.java:218] Enter disconnect, Connection Status: 1
+06-30 15:15:23.274 I/MQoS    ( 1575): onSignal: mSubId=1,currDataSubID=0
+06-30 15:15:23.277 I/HwPowerManagerService( 1575): UL_Power Screen timeout occured. mStayOn = false, mProximityPositive = false, mWakeLockSummary = 0x0, mUserActivitySummary = 0x2, mScreenBrightnessBoostInProgress = false
+06-30 15:15:23.429 D/        ( 1575): HWExtDeviceService getActiveConnections 
+06-30 15:15:23.835 I/CAWARENESS_MsdpMotionParser(10780): parseMsdpEvent count: 1 state: MsdpMotionTransportState{abilityType=still, eventType=enter, timestampNs=55000304176264, confidence=100, extra=}
+06-30 15:15:23.836 I/CAWARENESS_AbilityContext(10780): [1782821724227] subscribe list is empty, ignore this publish
+06-30 15:15:25.175 I/MQoS    ( 1575): onSignal: mSubId=0,currDataSubID=0

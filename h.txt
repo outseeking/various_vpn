@@ -1,0 +1,1758 @@
+06-30 16:25:02.483 I/HwConnectivityService( 1575): hintUserSwitchToMobileWhileWifiDisconnected, state=CONNECTING  type =17
+06-30 16:25:02.498 I/ConnectivityService( 1575): NetworkAgent connected
+06-30 16:25:02.498 I/ConnectivityService( 1575): NetworkAgentInfo [VPN () - 131] EVENT_NETWORK_INFO_CHANGED, going from CONNECTING to CONNECTED
+06-30 16:25:02.596 I/ConnectivityService( 1575): Sending CONNECTED broadcast for type 17 NetworkAgentInfo [VPN () - 131] isDefaultNetwork=false
+06-30 16:25:02.602 I/HwConnectivityService( 1575): hintUserSwitchToMobileWhileWifiDisconnected, state=CONNECTED  type =17
+06-30 16:25:02.602 I/ConnectivityService( 1575): Update of LinkProperties for NetworkAgentInfo [VPN () - 131]; created=true; everConnected=true
+06-30 16:25:02.602 I/ConnectivityService( 1575): Update of LinkProperties for NetworkAgentInfo [VPN () - 131]; created=true; everConnected=true
+06-30 16:25:02.717 I/ConnectivityService( 1575): Update of LinkProperties for NetworkAgentInfo [VPN () - 131]; created=true; everConnected=true
+06-30 16:25:02.718 I/ConnectivityService( 1575): Update of LinkProperties for NetworkAgentInfo [VPN () - 131]; created=true; everConnected=true
+06-30 16:25:02.728 I/ConnectivityService( 1575): NetworkAgentInfo [VPN () - 131] EVENT_NETWORK_INFO_CHANGED, going from CONNECTED to DISCONNECTED
+06-30 16:25:02.728 I/AsyncChannel( 1575): replyDisconnected, send success
+06-30 16:25:02.736 I/ConnectivityService( 1575): NetworkAgentInfo [VPN () - 131] got DISCONNECTED, was satisfying 40
+06-30 16:25:02.774 I/ConnectivityService( 1575): Sending DISCONNECTED broadcast for type 17 NetworkAgentInfo [VPN () - 131] isDefaultNetwork=false
+06-30 16:25:02.806 I/HwConnectivityService( 1575): hintUserSwitchToMobileWhileWifiDisconnected, state=DISCONNECTED  type =17
+06-30 16:25:03.450 I/GoLog   (25166): loading core config
+06-30 16:25:03.450 I/GoLog   (25166): new core
+06-30 16:25:03.451 I/GoLog   (25166): Preparing Domain: 132.243.224.220:443
+06-30 16:25:03.451 I/GoLog   (25166): Prepare Result:
+06-30 16:25:03.451 I/GoLog   (25166):  Domain: 132.243.224.220
+06-30 16:25:03.451 I/GoLog   (25166):  Port: 443
+06-30 16:25:03.451 I/GoLog   (25166):  IPs: [132.243.224.220]
+06-30 16:25:03.451 I/GoLog   (25166): start core
+06-30 16:25:03.469 I/HwConnectivityService( 1575): hintUserSwitchToMobileWhileWifiDisconnected, state=CONNECTING  type =17
+06-30 16:25:03.473 I/ConnectivityService( 1575): NetworkAgent connected
+06-30 16:25:03.473 I/ConnectivityService( 1575): NetworkAgentInfo [VPN () - 132] EVENT_NETWORK_INFO_CHANGED, going from CONNECTING to CONNECTED
+06-30 16:25:03.475 W/NK_InterceptorExecutor(10144): Weather-weather-ParseTask-1-th-1|embedded.m2|459|request fail:
+06-30 16:25:03.475 W/NK_InterceptorExecutor(10144): 	at libcore.io.IoBridge.isConnected(IoBridge.java:288)
+06-30 16:25:03.475 W/NK_InterceptorExecutor(10144): 	at libcore.io.IoBridge.isConnected(IoBridge.java:275)
+06-30 16:25:03.477 E/V2rayVPNService(25166): sendFd failed =>
+06-30 16:25:03.482 W/app_process(25347): Qarth read proc_cmdline fail.
+06-30 16:25:03.483 W/System  (10144): A resource failed to call end. 
+06-30 16:25:03.484 W/NetworkKit_RetryInterceptor( 9858): javax.net.ssl.SSLHandshakeException: S*L*h*n*s*a*e*a*o*t*d* *s*=*x*b*2*2*b*8* */* *r*o* *u*i*g*s*s*e* *a*l* *o*t*a*e*c*u*e* *o*n*c*i*n*a*o*t
+06-30 16:25:03.484 W/NetworkKit_RetryInterceptor( 9858): 	at com.android.org.conscrypt.NativeCrypto.SSL_do_handshake(Native Method)
+06-30 16:25:03.484 W/NetworkKit_RetryInterceptor( 9858): 	at com.android.org.conscrypt.NativeSsl.doHandshake(NativeSsl.java:387)
+06-30 16:25:03.484 W/NetworkKit_RetryInterceptor( 9858): 	at com.android.org.conscrypt.ConscryptFileDescriptorSocket.startHandshake(ConscryptFileDescriptorSocket.java:226)
+06-30 16:25:03.522 I/FWK-NetworkSdk_DNResolver(18818): app-networkIo-thread-p-2-22 -->NetworkKit_DNKeeper_DNKeeperManager_1|embedded.f0|62|DNKeeper query failed, dnsResult is null, domain:dnkeeper.platform.dbankcloud.com
+06-30 16:25:03.528 E/SOCK_FILE(25166): connected to sock file [/data/user/0/com.example.various_vpn/files/sock_path]
+06-30 16:25:03.529 I/GoLog   (25166): from udp:127.0.0.1:43999 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:03.535 I/CCodecConfig( 1053): query failed after returning 8 values (BAD_INDEX)
+06-30 16:25:03.541 W/DnsTlsSocket(  669): SSL_connect error 5, errno=104
+06-30 16:25:03.541 W/DnsTlsSocket(  669): SSL_connect error 5, errno=104
+06-30 16:25:03.543 I/GoLog   (25166): from tcp:127.0.0.1:44678 accepted tcp:159.138.207.140:443 [in_proxy >> proxy]
+06-30 16:25:03.543 I/GoLog   (25166): from tcp:127.0.0.1:44680 accepted tcp:34.120.206.254:443 [in_proxy >> proxy]
+06-30 16:25:03.548 D/CCodecConfig( 1053): config failed => CORRUPTED
+06-30 16:25:03.564 I/ConnectivityService( 1575): Sending CONNECTED broadcast for type 17 NetworkAgentInfo [VPN () - 132] isDefaultNetwork=false
+06-30 16:25:03.570 E/FWK-HttpUtil(18818): IOException while requesting, errorCode: 16102, SSL handshake aborted: ssl=0x7c03ca1008: I/O error during system call, Software caused connection abort
+06-30 16:25:03.570 W/HWBR-O-0205|BasicConfigServer(18818): Post request failed for #1 time.
+06-30 16:25:03.583 I/HwConnectivityService( 1575): hintUserSwitchToMobileWhileWifiDisconnected, state=CONNECTED  type =17
+06-30 16:25:03.591 I/ConnectivityService( 1575): Update of LinkProperties for NetworkAgentInfo [VPN () - 132]; created=true; everConnected=true
+06-30 16:25:03.591 I/ConnectivityService( 1575): Update of LinkProperties for NetworkAgentInfo [VPN () - 132]; created=true; everConnected=true
+06-30 16:25:03.592 E/FWK-HttpUtil(18818): IOException while requesting, errorCode: 16103, Failed to connect to /159.138.202.1:443
+06-30 16:25:03.592 D/HIGNSS_ADAPTER(  736): RilUpdateNetWorkStateV20 interface called. handle=570341380109,connected=1,capabilities=3,apn=
+06-30 16:25:03.594 W/FWK-HWNF-UI-R-0205|BasicConfigServer(18818): Post request failed for #1 time.
+06-30 16:25:03.598 I/GoLog   (25166): from tcp:127.0.0.1:44698 accepted tcp:8.8.8.8:853 [in_proxy >> proxy]
+06-30 16:25:03.598 I/GoLog   (25166): from tcp:127.0.0.1:44694 accepted tcp:8.8.4.4:853 [in_proxy >> proxy]
+06-30 16:25:03.615 E/statsd  ( 1054): Found dropped events: 1 error -5 last atom tag 41 from uid 1000
+06-30 16:25:03.634 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:03.634 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:03.635 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:03.665 E/statsd  ( 1054): Found dropped events: 1 error -5 last atom tag 41 from uid 1000
+06-30 16:25:03.670 E/JavaBinder(10144): Unknown binder error code. 0x4
+06-30 16:25:03.687 E/statsd  ( 1054): Found dropped events: 1 error -5 last atom tag 41 from uid 1000
+06-30 16:25:03.710 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:03.716 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:03.745 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:03.751 E/ TrustCircleService.( 2713): NetworkChangeReceiver - isNetworkConnected: unknown network
+06-30 16:25:03.759 W/ContextImpl( 2814): Failed to ensure /data/user_de/0/com.huawei.android.totemweather/shared_prefs: mkdir failed: EACCES (Permission denied)
+06-30 16:25:03.769 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:03.771 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:03.796 I/ConnectionCapabilities( 2666): mWifi: [type: WIFI[], state: CONNECTED/CONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false]ip is: 192.168.1***
+06-30 16:25:03.803 I/GoLog   (25166): from udp:127.0.0.1:52743 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:03.818 E/statsd  ( 1054): Found dropped events: 1 error -5 last atom tag 41 from uid 1000
+06-30 16:25:03.846 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:03.847 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:03.885 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:03.913 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:03.978 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:03.984 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:04.034 W/System  ( 9858): A resource failed to call end. 
+06-30 16:25:04.049 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:04.145 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:04.148 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:04.151 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:04.269 W/AMessage( 1053): failed to post message as target looper for handler 0 is gone.
+06-30 16:25:04.303 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:04.304 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:04.327 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:04.425 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:04.426 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:04.440 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:04.440 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:04.440 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:04.463 I/FWK-HWNF-UI-R-0205|PushSwitchFlow(18818): network connected.
+06-30 16:25:04.495 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:04.495 I/bastetd ( 1026): [ProxySocket    ] DoReconnFailed# set reconn break
+06-30 16:25:04.510 W/app_process(25425): [MemLeak.JavaTrack]: failed to dlopen libmemleak_tracker.so
+06-30 16:25:04.512 E/        (25425): open file error
+06-30 16:25:04.538 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:04.595 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:04.608 W/app_process(25425): Qarth read proc_cmdline fail.
+06-30 16:25:04.618 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:04.628 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:04.641 I/PushLog110109302( 4799): [AsyncSeqTask-203]query trs error:-1
+06-30 16:25:04.768 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:04.768 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:04.944 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:04.953 W/ContextImpl( 2814): Failed to ensure /data/user_de/0/com.huawei.android.totemweather/shared_prefs: mkdir failed: EACCES (Permission denied)
+06-30 16:25:04.954 W/ContextImpl( 2814): Failed to ensure /data/user_de/0/com.huawei.android.totemweather/shared_prefs: mkdir failed: EACCES (Permission denied)
+06-30 16:25:04.988 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:05.098 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:05.099 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:05.224 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:05.224 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:05.289 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:05.308 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:05.411 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:05.424 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:05.533 I/GoLog   (25166): from udp:127.0.0.1:58175 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:05.534 I/HWBR-O-0205|PushSwitchFlow(18818): Receive NETWORK_CONNECTED.
+06-30 16:25:05.592 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:05.602 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:05.732 I/GoLog   (25166): from udp:127.0.0.1:44097 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:05.732 I/GoLog   (25166): from tcp:127.0.0.1:44706 accepted tcp:76.223.113.180:80 [in_proxy >> proxy]
+06-30 16:25:05.797 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:05.803 I/GoLog   (25166): from udp:127.0.0.1:48130 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:05.804 I/GoLog   (25166): from udp:127.0.0.1:49015 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:05.814 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:05.835 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:05.847 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:05.880 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:05.880 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:05.917 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:05.975 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:06.030 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:06.081 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:06.082 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:06.158 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:06.184 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:06.258 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:06.286 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:06.318 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:06.465 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:06.466 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:06.591 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:06.645 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:06.650 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:06.736 I/NetworkStartup(23790): network:[type: MOBILE[], state: DISCONNECTED/DISCONNECTED, reason: (unspecified), extra: (none), failover: false, available: false, roaming: false] [main] 32302
+06-30 16:25:06.736 I/NetworkStartup(23790): network:[type: WIFI[], state: CONNECTED/CONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false] [main] 32302
+06-30 16:25:06.737 I/NetworkStartup(23790): network:[type: BLUETOOTH[], state: DISCONNECTED/DISCONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false] [main] 32302
+06-30 16:25:06.738 I/NetworkStartup(23790): connected-->true [main] 32302
+06-30 16:25:06.778 W/DnsTlsSocket(  669): SSL_connect error 5, errno=0
+06-30 16:25:06.779 I/ConnectivityService( 1575): Update of LinkProperties for NetworkAgentInfo [VPN () - 132]; created=true; everConnected=true
+06-30 16:25:06.887 W/DnsTlsSocket(  669): SSL_connect error 5, errno=0
+06-30 16:25:06.887 I/ConnectivityService( 1575): Update of LinkProperties for NetworkAgentInfo [VPN () - 132]; created=true; everConnected=true
+06-30 16:25:06.957 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:07.031 I/NetworkStartup(23790): network:[type: MOBILE[], state: DISCONNECTED/DISCONNECTED, reason: (unspecified), extra: (none), failover: false, available: false, roaming: false] [main] 32302
+06-30 16:25:07.031 I/NetworkStartup(23790): network:[type: WIFI[], state: CONNECTED/CONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false] [main] 32302
+06-30 16:25:07.032 I/NetworkStartup(23790): network:[type: BLUETOOTH[], state: DISCONNECTED/DISCONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false] [main] 32302
+06-30 16:25:07.034 I/NetworkStartup(23790): connected-->true [main] 32302
+06-30 16:25:07.214 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:07.279 E/SparkleSearch( 9858): bbd: get data onError msg = Connection closed by peer
+06-30 16:25:07.279 E/SparkleSearch( 9858): AppResourceApi: getAppResource error
+06-30 16:25:07.313 W/audio_custom(  734): getConfigValue: open dts file failed! May not need in this case
+06-30 16:25:07.313 W/audio_custom(  734): record_effect_init: get record_algo_compatible failed, may not need
+06-30 16:25:07.322 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:07.324 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:07.328 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:07.584 I/GoLog   (25166): from udp:127.0.0.1:52225 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:07.682 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:07.735 I/GoLog   (25166): from udp:127.0.0.1:40896 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:07.781 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:07.806 I/GoLog   (25166): from udp:127.0.0.1:52743 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:07.807 I/GoLog   (25166): from udp:127.0.0.1:41225 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:07.807 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:07.874 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:07.878 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:07.931 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:08.028 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:08.166 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:08.166 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:08.168 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:08.173 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:08.183 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:08.183 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:08.356 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:08.438 I/NetworkKit_ProcessPolicyNetworkService( 9858): options = {"core_connect_timeout":10000,"core_read_timeout":60000,"core_retry_time":1}
+06-30 16:25:08.491 I/GoLog   (25166): from tcp:127.0.0.1:44716 accepted tcp:159.138.207.140:443 [in_proxy >> proxy]
+06-30 16:25:08.590 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:08.590 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:08.628 I/GoLog   (25166): from tcp:127.0.0.1:44722 accepted tcp:159.138.202.1:443 [in_proxy >> proxy]
+06-30 16:25:08.651 I/GoLog   (25166): from tcp:127.0.0.1:44732 accepted tcp:159.138.202.1:443 [in_proxy >> proxy]
+06-30 16:25:08.710 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:08.711 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:08.763 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:08.974 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:08.976 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.061 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.062 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.130 I/GoLog   (25166): from udp:127.0.0.1:37958 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:09.169 I/GoLog   (25166): from tcp:127.0.0.1:44740 accepted tcp:13.248.244.92:80 [in_proxy >> proxy]
+06-30 16:25:09.200 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.214 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.250 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.282 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.427 I/GoLog   (25166): from udp:127.0.0.1:50492 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:09.481 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.482 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.484 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.487 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.512 I/GoLog   (25166): from udp:127.0.0.1:52680 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:09.513 I/GoLog   (25166): from udp:127.0.0.1:56018 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:09.513 I/GoLog   (25166): from udp:127.0.0.1:48059 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:09.515 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.526 I/GoLog   (25166): from tcp:127.0.0.1:44764 accepted tcp:132.243.224.220:443 [in_proxy >> proxy]
+06-30 16:25:09.526 I/GoLog   (25166): from tcp:127.0.0.1:44760 accepted tcp:132.243.224.220:29265 [in_proxy >> proxy]
+06-30 16:25:09.533 I/GoLog   (25166): from udp:127.0.0.1:59237 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:09.533 I/GoLog   (25166): from udp:127.0.0.1:56746 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:09.534 I/GoLog   (25166): from udp:127.0.0.1:45163 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:09.535 I/GoLog   (25166): from udp:127.0.0.1:58175 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:09.538 D/LAUNCH_SDK(18271): main ||| network connected
+06-30 16:25:09.566 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.566 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.582 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.582 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.582 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.586 I/GoLog   (25166): from udp:127.0.0.1:49851 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:09.592 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.603 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.603 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.603 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.607 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.611 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.668 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.692 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.733 I/GoLog   (25166): from udp:127.0.0.1:44097 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:09.779 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.810 I/GoLog   (25166): from udp:127.0.0.1:48130 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:09.811 I/GoLog   (25166): from udp:127.0.0.1:49015 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:09.826 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.860 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.860 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.861 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.888 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.888 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.932 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.932 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.932 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.933 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.934 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.936 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.966 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.966 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:09.976 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.072 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.078 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.108 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.157 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.163 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.170 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.248 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.273 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.274 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.386 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.387 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.391 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.393 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.395 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.397 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.401 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.404 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.410 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.412 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.432 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.547 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.591 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.599 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.639 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.674 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.676 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.938 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:10.938 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:10.941 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:10.942 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:10.942 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:10.942 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:10.943 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:10.943 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:10.944 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.944 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:10.945 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:10.945 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:10.947 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:10.950 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:10.951 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:11.057 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 16:25:11.058 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 16:25:11.059 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.060 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.062 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.062 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.062 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.062 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.062 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.065 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.066 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.073 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.097 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 16:25:11.097 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 16:25:11.132 I/GoLog   (25166): from udp:127.0.0.1:40766 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:11.185 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.186 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.229 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.230 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.258 I/HwOUC   (20665): [main-1]doNetworkChanged, networkInfo:[type: VPN[], state: CONNECTED/CONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false](DownloadOnReceiveService:4)
+06-30 16:25:11.323 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.326 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.418 I/NetworkStartup(23790): network:[type: MOBILE[], state: DISCONNECTED/DISCONNECTED, reason: (unspecified), extra: (none), failover: false, available: false, roaming: false] [main] 32302
+06-30 16:25:11.420 I/NetworkStartup(23790): network:[type: WIFI[], state: CONNECTED/CONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false] [main] 32302
+06-30 16:25:11.420 I/NetworkStartup(23790): network:[type: BLUETOOTH[], state: DISCONNECTED/DISCONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false] [main] 32302
+06-30 16:25:11.422 I/NetworkStartup(23790): connected-->true [main] 32302
+06-30 16:25:11.430 I/GoLog   (25166): from udp:127.0.0.1:48756 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:11.467 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.494 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.505 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.515 I/GoLog   (25166): from udp:127.0.0.1:35005 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:11.516 I/GoLog   (25166): from udp:127.0.0.1:57794 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:11.516 I/GoLog   (25166): from udp:127.0.0.1:48643 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:11.535 I/GoLog   (25166): from udp:127.0.0.1:56334 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:11.535 I/GoLog   (25166): from udp:127.0.0.1:38165 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:11.538 I/NetworkStartup(23790): network:[type: MOBILE[], state: DISCONNECTED/DISCONNECTED, reason: (unspecified), extra: (none), failover: false, available: false, roaming: false] [main] 32302
+06-30 16:25:11.538 I/GoLog   (25166): from udp:127.0.0.1:54268 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:11.539 I/GoLog   (25166): from udp:127.0.0.1:45631 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:11.539 I/NetworkStartup(23790): network:[type: WIFI[], state: CONNECTED/CONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false] [main] 32302
+06-30 16:25:11.539 I/NetworkStartup(23790): network:[type: BLUETOOTH[], state: DISCONNECTED/DISCONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false] [main] 32302
+06-30 16:25:11.541 I/NetworkStartup(23790): connected-->true [main] 32302
+06-30 16:25:11.589 I/GoLog   (25166): from udp:127.0.0.1:52225 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:11.600 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.604 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.607 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.607 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.613 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.614 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.615 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.621 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.667 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.735 I/GoLog   (25166): from udp:127.0.0.1:40896 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:11.737 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.775 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.776 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.809 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.809 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.814 I/GoLog   (25166): from udp:127.0.0.1:53732 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:11.815 I/GoLog   (25166): from udp:127.0.0.1:41225 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:11.861 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.890 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.890 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.890 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.891 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.891 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.894 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.909 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.909 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.910 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.911 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.912 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.917 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.917 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.922 W/NetworkKit_RetryInterceptor( 9858): javax.net.ssl.SSLHandshakeException: C*n*e*t*o* *l*s*d*b* *e*r
+06-30 16:25:11.922 W/NetworkKit_RetryInterceptor( 9858): 	at com.android.org.conscrypt.NativeCrypto.SSL_do_handshake(Native Method)
+06-30 16:25:11.922 W/NetworkKit_RetryInterceptor( 9858): 	at com.android.org.conscrypt.NativeSsl.doHandshake(NativeSsl.java:387)
+06-30 16:25:11.922 W/NetworkKit_RetryInterceptor( 9858): 	at com.android.org.conscrypt.ConscryptFileDescriptorSocket.startHandshake(ConscryptFileDescriptorSocket.java:226)
+06-30 16:25:11.932 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.933 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.933 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.939 I/GoLog   (25166): from tcp:127.0.0.1:44770 accepted tcp:159.138.207.140:443 [in_proxy >> proxy]
+06-30 16:25:11.942 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:11.950 I/GoLog   (25166): from tcp:127.0.0.1:44784 accepted tcp:80.158.35.173:443 [in_proxy >> proxy]
+06-30 16:25:11.985 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.004 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.026 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.069 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.091 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.160 E/FWK-HttpUtil(18818): IOException while requesting, errorCode: 15400, Connection closed by peer
+06-30 16:25:12.160 W/HWBR-O-0205|BasicConfigServer(18818): Post request failed for #2 time.
+06-30 16:25:12.177 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.179 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.179 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.181 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.188 E/FWK-HttpUtil(18818): IOException while requesting, errorCode: 15400, Connection closed by peer
+06-30 16:25:12.189 W/FWK-HWNF-UI-R-0205|BasicConfigServer(18818): Post request failed for #2 time.
+06-30 16:25:12.226 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.266 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.275 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.293 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.310 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.324 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.325 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.390 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.394 W/NetworkKit_ErrorCodeUtil( 9858): Request failed with java.net.SocketException
+06-30 16:25:12.395 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.401 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.404 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.448 I/NetworkKit_ProcessPolicyNetworkService( 9858): options = {"core_connect_timeout":10000,"core_read_timeout":60000,"core_retry_time":1}
+06-30 16:25:12.514 W/System.err(18271): Caused by: java.io.EOFException: \n not found: limit=0 content=…
+06-30 16:25:12.518 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.519 I/GoLog   (25166): from tcp:127.0.0.1:44788 accepted tcp:159.138.207.140:443 [in_proxy >> proxy]
+06-30 16:25:12.588 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.639 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.640 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.660 I/LocationDetection( 2751): leaveHomeFence: RequestResult{6, 2, 3, null, 0, 0, 100, com.huawei.powergenie_1:1;6,2,3, 1, null, 4, 200007, error_unknown}
+06-30 16:25:12.664 I/LocationDetection( 2751): arriveHomeFence: RequestResult{6, 1, 3, null, 0, 0, 100, com.huawei.powergenie_1:1;6,1,3, 1, null, 4, 200007, error_unknown}
+06-30 16:25:12.668 I/LocationDetection( 2751): leaveCompanyFence: RequestResult{6, 8, 3, null, 0, 0, 100, com.huawei.powergenie_1:1;6,8,3, 1, null, 4, 200007, error_unknown}
+06-30 16:25:12.669 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.671 I/LocationDetection( 2751): arriveCompanyFence: RequestResult{6, 4, 3, null, 0, 0, 100, com.huawei.powergenie_1:1;6,4,3, 1, null, 4, 200007, error_unknown}
+06-30 16:25:12.677 I/LocationDetection( 2751): leaveHomeFence: RequestResult{6, 2, 3, null, 0, 0, 100, com.huawei.powergenie_1:1;6,2,3, 1, null, 4, 200007, error_unknown}
+06-30 16:25:12.678 I/LocationDetection( 2751): arriveHomeFence: RequestResult{6, 1, 3, null, 0, 0, 100, com.huawei.powergenie_1:1;6,1,3, 1, null, 4, 200007, error_unknown}
+06-30 16:25:12.678 I/SCUI_ActiveGoalUtil(15806): 1400012310|R|I|onResult errorCode: 0, data: [HiSampleConfig {id = 3, type = 9002, configId = 900200009, scopeApp = 0, scopeDeviceType = 0, configData = {"goal":12,"modifiedTime":1}, configDescription = null, metaData = null, clientId = 7, syncStatus = 1, modifiedTime=1, deviceUniqueId=null, packageName=null}, HiSampleConfig {id = 2, type = 9002, configId = 900200008, scopeApp = 0, scopeDeviceType = 0, configData = {"goal":25,"modifiedTime":1}, configDescription = null, metaData = null, clientId = 7, syncStatus = 1, modifiedTime=1, deviceUniqueId=null, packageName=null}, HiSampleConfig {id = 4, type = 9002, configId = 900200007, scopeApp = 0, scopeDeviceType = 0, configData = {"goal":270000,"modifiedTime":1}, configDescription = null, metaData = null, clientId = 7, syncStatus = 1, modifiedTime=1, deviceUniqueId=null, packageName=null}]
+06-30 16:25:12.679 I/LocationDetection( 2751): leaveCompanyFence: RequestResult{6, 8, 3, null, 0, 0, 100, com.huawei.powergenie_1:1;6,8,3, 1, null, 4, 200007, error_unknown}
+06-30 16:25:12.680 I/LocationDetection( 2751): arriveCompanyFence: RequestResult{6, 4, 3, null, 0, 0, 100, com.huawei.powergenie_1:1;6,4,3, 1, null, 4, 200007, error_unknown}
+06-30 16:25:12.684 I/LocationDetection( 2751): leaveHomeFence: RequestResult{6, 2, 3, null, 0, 0, 100, com.huawei.powergenie_1:1;6,2,3, 1, null, 4, 200007, error_unknown}
+06-30 16:25:12.685 I/LocationDetection( 2751): arriveHomeFence: RequestResult{6, 1, 3, null, 0, 0, 100, com.huawei.powergenie_1:1;6,1,3, 1, null, 4, 200007, error_unknown}
+06-30 16:25:12.686 I/LocationDetection( 2751): leaveCompanyFence: RequestResult{6, 8, 3, null, 0, 0, 100, com.huawei.powergenie_1:1;6,8,3, 1, null, 4, 200007, error_unknown}
+06-30 16:25:12.687 I/LocationDetection( 2751): arriveCompanyFence: RequestResult{6, 4, 3, null, 0, 0, 100, com.huawei.powergenie_1:1;6,4,3, 1, null, 4, 200007, error_unknown}
+06-30 16:25:12.756 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.759 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.823 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.861 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.964 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.964 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.965 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:12.968 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.028 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.054 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.063 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.063 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.131 I/GoLog   (25166): from udp:127.0.0.1:37958 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:13.201 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.218 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.257 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.293 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.300 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.423 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.430 I/GoLog   (25166): from udp:127.0.0.1:50492 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:13.440 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.465 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.516 I/GoLog   (25166): from udp:127.0.0.1:52680 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:13.516 I/GoLog   (25166): from udp:127.0.0.1:48059 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:13.516 I/GoLog   (25166): from udp:127.0.0.1:56018 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:13.525 W/FWK-NetworkSdk_TaskManager(18818): app-networkIo-thread-p-2-22 -->NetworkKit_DNKeeper_DNKeeperManager_1|embedded.r0|91|query failed CANCEL_TIMEOUT
+06-30 16:25:13.526 W/FWK-NetworkSdk_TaskManager(18818): app-networkIo-thread-p-2-22 -->NetworkKit_DNKeeper_DNKeeperManager_1|embedded.r0|127|dns failed from local, domain is :dnkeeper.platform.dbankcloud.com
+06-30 16:25:13.536 I/GoLog   (25166): from udp:127.0.0.1:56746 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:13.536 I/GoLog   (25166): from udp:127.0.0.1:59237 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:13.538 I/GoLog   (25166): from udp:127.0.0.1:45163 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:13.539 D/LAUNCH_SDK(18271): main ||| network connected
+06-30 16:25:13.541 I/GoLog   (25166): from udp:127.0.0.1:39754 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:13.542 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.543 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.591 I/GoLog   (25166): from udp:127.0.0.1:49851 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:13.624 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.625 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.625 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.625 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.640 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.642 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.643 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.678 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.705 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.739 I/GoLog   (25166): from udp:127.0.0.1:44991 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:13.740 I/GoLog   (25166): from udp:127.0.0.1:34271 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:13.741 I/GoLog   (25166): from udp:127.0.0.1:58623 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:13.741 I/GoLog   (25166): from udp:127.0.0.1:47612 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:13.807 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.811 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.812 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.814 I/GoLog   (25166): from udp:127.0.0.1:53871 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:13.815 I/GoLog   (25166): from udp:127.0.0.1:45806 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:13.816 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.817 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.818 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.819 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.819 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.820 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.876 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.877 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.888 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.888 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.889 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.890 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.906 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.906 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.906 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.919 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.922 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.924 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.933 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.934 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.936 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:13.937 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.048 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.081 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.088 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.090 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.103 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.103 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.127 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.167 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.168 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.170 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.303 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.313 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.361 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.362 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.366 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.370 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.396 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.407 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.407 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.470 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.549 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.550 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.551 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.553 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.590 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.682 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.720 W/R_TC_ThreeCircleUtils(15806): 1400012310|R|W|onResponse: objData is not instanceof HashMap
+06-30 16:25:14.782 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.828 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:14.975 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:15.022 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:15.023 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:15.023 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:15.025 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:15.030 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:15.133 I/GoLog   (25166): from udp:127.0.0.1:40766 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:15.156 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:15.160 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:15.160 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:15.210 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:15.236 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:15.249 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:15.277 W/NetworkKit_RetryInterceptor( 9858): javax.net.ssl.SSLHandshakeException: C*n*e*t*o* *l*s*d*b* *e*r
+06-30 16:25:15.277 W/NetworkKit_RetryInterceptor( 9858): 	at com.android.org.conscrypt.NativeCrypto.SSL_do_handshake(Native Method)
+06-30 16:25:15.277 W/NetworkKit_RetryInterceptor( 9858): 	at com.android.org.conscrypt.NativeSsl.doHandshake(NativeSsl.java:387)
+06-30 16:25:15.277 W/NetworkKit_RetryInterceptor( 9858): 	at com.android.org.conscrypt.ConscryptFileDescriptorSocket.startHandshake(ConscryptFileDescriptorSocket.java:226)
+06-30 16:25:15.288 D/OkHttp  ( 9858): address /2407:c080:1400:83:6cc0:158b:5436:beca:443 connect failed
+06-30 16:25:15.788 W/NetworkKit_RetryInterceptor( 9858): javax.net.ssl.SSLHandshakeException: C*n*e*t*o* *l*s*d*b* *e*r
+06-30 16:25:15.788 W/NetworkKit_RetryInterceptor( 9858): 	at com.android.org.conscrypt.NativeCrypto.SSL_do_handshake(Native Method)
+06-30 16:25:15.788 W/NetworkKit_RetryInterceptor( 9858): 	at com.android.org.conscrypt.NativeSsl.doHandshake(NativeSsl.java:387)
+06-30 16:25:15.788 W/NetworkKit_RetryInterceptor( 9858): 	at com.android.org.conscrypt.ConscryptFileDescriptorSocket.startHandshake(ConscryptFileDescriptorSocket.java:226)
+06-30 16:25:16.075 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:16.075 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:16.081 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:16.082 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:16.083 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:16.083 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:16.083 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:16.083 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:16.084 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:16.084 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:16.086 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:16.086 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:16.087 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:16.089 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:18.895 D/OkHttp  ( 9858): address /2407:c080:1400:83:6cc0:158b:5436:beca:443 connect failed
+06-30 16:25:19.087 E/SparkleSearch( 9858): bbd: get data onError msg = Connection closed by peer
+06-30 16:25:19.088 E/SparkleSearch( 9858): AppResourceApi: getAppResource error
+06-30 16:25:19.395 D/OkHttp  ( 9858): address /2407:c080:1400:83:dfa:e218:4611:84db:443 connect failed
+06-30 16:25:19.547 W/FWK-NetworkSdk_LocalDNSResolver(18818): NetworkKit_DNKeeper_DNKeeperManager_1 -->NetworkKit_TaskManager_lookupThreadPool_2|embedded.k0|70|LocalDNSResolver query failed,UnknownHostException:dnkeeper.platform.dbankcloud.com
+06-30 16:25:19.548 I/FWK-NetworkSdk_DNResolver(18818): NetworkKit_DNKeeper_DNKeeperManager_1 -->NetworkKit_TaskManager_lookupThreadPool_2|embedded.f0|62|LocalDns query failed, dnsResult is null, domain:dnkeeper.platform.dbankcloud.com
+06-30 16:25:19.818 W/Antivirus_Plugin_AVAST(22791): AvastVirusEngine:sdk: HttpWorker failed to download the content. Unable to resolve host "sp-8f237ea3.honzik.avcdn.net": No address associated with hostname
+06-30 16:25:19.819 E/Antivirus_Plugin_AVAST(22791): AvastVirusEngine:vps: VPS: Checking update info error, XML definition file download failed.
+06-30 16:25:20.551 E/FWK-HttpUtil(18818): IOException while requesting, errorCode: 15400, Connection closed by peer
+06-30 16:25:20.551 W/HWBR-O-0205|BasicConfigServer(18818): Post request failed for #3 time.
+06-30 16:25:20.552 E/HWBR-O-0205|ChangedListCache(18818): queryChangedCfgListCache Server error : obj is null
+06-30 16:25:20.554 E/FWK-HttpUtil(18818): IOException while requesting, errorCode: 15400, Connection closed by peer
+06-30 16:25:20.556 W/FWK-HWNF-UI-R-0205|BasicConfigServer(18818): failed response from network, code is 15400
+06-30 16:25:20.557 E/FWK-HWNF-UI-R-0205|ChangedCfgListCache(18818): queryChangedCfgListCache Server error : obj is null
+06-30 16:25:20.819 E/Antivirus_Plugin_AVAST(22791): UpdateManager:virus lib start error.
+06-30 16:25:20.839 W/Antivirus_Plugin_AVAST(22791): AvastVirusEngine:sdk: HttpWorker failed to download the content. Unable to resolve host "sp-8f237ea3.honzik.avcdn.net": No address associated with hostname
+06-30 16:25:20.840 E/Antivirus_Plugin_AVAST(22791): AvastVirusEngine:vps: VPS: Checking update info error, XML definition file download failed.
+06-30 16:25:21.183 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:21.183 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:22.084 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:22.093 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:22.094 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:22.094 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:22.094 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:22.095 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:22.095 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:22.095 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:22.095 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:22.097 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:22.101 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:22.101 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:22.792 W/System.err(18271): Caused by: java.io.EOFException: \n not found: limit=0 content=…
+06-30 16:25:24.995 I/WificondControl( 1575): Noise: -86, Snr: 127, Chload: 358, rssi: -53, txBitrate: 144, rxBitrate: 144, frequency: 2422, UlDelay: 0, currentTxBytes: 1740933963, currentTxPackets: 1964723, currentTxFailed: 66, currentRxBytes: -1889240088, currentRxPackets: 2254923
+06-30 16:25:26.302 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:26.302 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:28.011 I/WificondControl( 1575): Noise: -89, Snr: 35, Chload: 215, rssi: -54, txBitrate: 144, rxBitrate: 144, frequency: 2422, UlDelay: 0, currentTxBytes: 1741204393, currentTxPackets: 1966376, currentTxFailed: 66, currentRxBytes: -1888408098, currentRxPackets: 2256306
+06-30 16:25:28.085 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:28.085 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:28.086 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:28.086 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:28.086 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:28.087 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:28.087 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:28.087 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:28.088 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:28.088 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:28.095 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:28.095 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:28.098 I/MQoS    ( 1575): QOS_level:0(0),wifi-link;SIM error;use level-0
+06-30 16:25:28.121 W/libc    (  725): Unable to set property "sys.check.usbupdate" to "start": connection failed; errno=13 (Permission denied)
+06-30 16:25:29.847 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:29.854 I/GoLog   (25166): from udp:127.0.0.1:52653 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:29.860 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:29.860 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:29.860 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:29.862 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:29.902 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:29.903 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:29.903 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:29.904 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:29.905 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:29.907 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:29.928 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:29.929 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:29.929 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:29.929 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:29.930 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:29.931 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:29.931 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:29.932 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:29.933 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:29.936 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.103 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.104 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.132 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.138 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.168 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.238 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.239 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.239 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.240 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.243 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.244 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.245 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.246 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.306 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.306 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.308 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.308 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.309 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.341 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.342 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.371 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.371 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.407 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.408 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.409 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.414 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.545 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.567 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.588 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.641 I/GoLog   (25166): from udp:127.0.0.1:41784 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:30.774 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.776 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.776 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.834 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:30.970 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.023 I/WificondControl( 1575): Noise: -90, Snr: 35, Chload: 239, rssi: -56, txBitrate: 144, rxBitrate: 130, frequency: 2422, UlDelay: 0, currentTxBytes: 1741376407, currentTxPackets: 1967457, currentTxFailed: 66, currentRxBytes: -1887859759, currentRxPackets: 2257297
+06-30 16:25:31.026 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.027 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.028 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.028 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.029 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.029 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.032 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.033 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.057 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.057 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.080 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.123 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.258 I/GoLog   (25166): from udp:127.0.0.1:53242 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:31.264 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.264 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.337 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.338 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.423 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:31.423 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:31.427 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:31.429 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:31.429 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:31.430 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:31.430 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:31.430 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.430 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.435 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:31.435 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:31.435 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:31.437 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:31.440 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:31.443 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:31.529 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.535 I/GoLog   (25166): from udp:127.0.0.1:57224 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:31.535 I/GoLog   (25166): from udp:127.0.0.1:37777 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:31.535 I/GoLog   (25166): from udp:127.0.0.1:37234 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:31.538 I/GoLog   (25166): from udp:127.0.0.1:41262 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:31.543 I/GoLog   (25166): from udp:127.0.0.1:60018 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:31.553 I/GoLog   (25166): from udp:127.0.0.1:39330 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:31.553 I/GoLog   (25166): from udp:127.0.0.1:48008 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:31.554 I/GoLog   (25166): from udp:127.0.0.1:54396 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:31.554 I/GoLog   (25166): from udp:127.0.0.1:45911 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:31.555 I/GoLog   (25166): from udp:127.0.0.1:50120 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:31.555 I/GoLog   (25166): from udp:127.0.0.1:60910 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:31.555 I/GoLog   (25166): from udp:127.0.0.1:59792 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:31.604 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.604 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.604 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.604 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.607 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.617 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.626 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.681 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.682 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.684 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.684 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.684 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.686 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.735 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.755 I/GoLog   (25166): from udp:127.0.0.1:52508 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:31.763 I/GoLog   (25166): from udp:127.0.0.1:42066 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:31.828 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.831 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.833 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.835 I/GoLog   (25166): from udp:127.0.0.1:53109 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:31.837 I/GoLog   (25166): from udp:127.0.0.1:44498 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:31.855 I/GoLog   (25166): from udp:127.0.0.1:41794 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:31.880 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.881 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.882 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.882 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.885 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.886 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.888 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.888 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.888 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.896 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.897 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.897 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.912 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.912 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.913 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.914 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.915 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.937 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.938 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.963 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.964 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.965 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.967 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.975 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:31.978 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.093 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.093 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.096 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.135 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.135 I/GoLog   (25166): fdConn FileConn Close Fd: 92 Err: file file+net Socket: protocol not supported
+06-30 16:25:32.136 I/GoLog   (25166): [Error] [2708954532] transport/internet/httpupgrade: failed to dial to tcp:132.243.224.220:443 > file file+net Socket: protocol not supported
+06-30 16:25:32.178 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.179 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.197 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.203 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.276 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.283 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.298 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.398 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.399 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.400 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.401 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.403 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.404 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.467 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.467 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.470 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.473 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.491 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.493 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.544 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.545 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.646 I/GoLog   (25166): from udp:127.0.0.1:46997 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:32.654 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.654 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.715 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.755 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.756 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:32.954 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.004 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.055 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.055 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.095 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.096 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.096 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.171 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.171 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.173 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.173 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.175 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.180 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.200 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.204 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.265 I/GoLog   (25166): from udp:127.0.0.1:48648 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:33.387 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.387 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.388 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.430 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.465 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.548 I/GoLog   (25166): from udp:127.0.0.1:42192 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:33.548 I/GoLog   (25166): from udp:127.0.0.1:38965 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:33.548 I/GoLog   (25166): from udp:127.0.0.1:52320 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:33.548 I/GoLog   (25166): from udp:127.0.0.1:34546 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:33.548 I/GoLog   (25166): from udp:127.0.0.1:41601 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:33.557 I/GoLog   (25166): from udp:127.0.0.1:46399 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:33.559 I/GoLog   (25166): from udp:127.0.0.1:60673 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:33.559 I/GoLog   (25166): from udp:127.0.0.1:34032 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:33.559 I/GoLog   (25166): from udp:127.0.0.1:50511 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:33.559 I/GoLog   (25166): from udp:127.0.0.1:40502 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:33.559 I/GoLog   (25166): from udp:127.0.0.1:41349 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:33.615 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.615 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.626 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.626 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.626 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.628 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.633 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.635 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.636 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.636 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.642 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.643 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.680 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.757 I/GoLog   (25166): from udp:127.0.0.1:55072 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:33.764 I/GoLog   (25166): from udp:127.0.0.1:53302 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:33.829 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.836 I/GoLog   (25166): from udp:127.0.0.1:42734 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:33.839 I/GoLog   (25166): from udp:127.0.0.1:54172 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:33.841 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.857 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.857 I/GoLog   (25166): from udp:127.0.0.1:52653 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:33.874 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.919 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.920 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.920 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.920 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.921 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.922 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.922 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.922 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.922 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.924 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.926 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.927 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.941 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.944 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.944 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:33.944 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.015 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.017 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.048 I/WificondControl( 1575): Noise: -90, Snr: 30, Chload: 177, rssi: -56, txBitrate: 117, rxBitrate: 130, frequency: 2422, UlDelay: 0, currentTxBytes: 1741587880, currentTxPackets: 1968762, currentTxFailed: 66, currentRxBytes: -1887204501, currentRxPackets: 2258472
+06-30 16:25:34.091 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.092 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.092 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.094 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.094 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.095 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.100 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.103 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.109 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.155 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.168 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.195 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.241 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.242 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.244 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.294 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.294 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.320 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.383 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.384 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.384 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.384 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.385 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.479 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.481 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.482 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.483 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.485 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.597 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.597 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.651 I/GoLog   (25166): from udp:127.0.0.1:51649 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:34.661 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.741 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.761 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.761 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.822 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.937 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:34.985 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.019 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.058 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.058 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.058 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.062 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.064 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.162 W/AwareLog( 1575): AwareMem_Reclaim: generateCompressList procsGroups error!
+06-30 16:25:35.164 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.167 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.169 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.173 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.174 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.259 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.268 I/GoLog   (25166): from udp:127.0.0.1:46051 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:35.298 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.372 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.374 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.417 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.420 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.492 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.545 I/GoLog   (25166): from udp:127.0.0.1:47543 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:35.545 I/GoLog   (25166): from udp:127.0.0.1:42401 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:35.547 I/GoLog   (25166): from udp:127.0.0.1:36570 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:35.547 I/GoLog   (25166): from udp:127.0.0.1:53376 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:35.552 I/GoLog   (25166): from udp:127.0.0.1:55985 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:35.556 I/GoLog   (25166): from udp:127.0.0.1:53537 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:35.558 I/GoLog   (25166): from udp:127.0.0.1:49467 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:35.558 I/GoLog   (25166): from udp:127.0.0.1:59749 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:35.559 I/GoLog   (25166): from udp:127.0.0.1:57401 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:35.559 I/GoLog   (25166): from udp:127.0.0.1:42596 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:35.562 W/NetworkKit_LocalDNSResolver( 9858): LocalDNSResolver query failed,UnknownHostException:dnkeeper.platform.dbankcloud.com
+06-30 16:25:35.562 I/NetworkKit_DNResolver( 9858): LocalDns query failed, dnsResult is null, domain:dnkeeper.platform.dbankcloud.com
+06-30 16:25:35.621 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.622 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.622 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.626 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.627 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.627 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.634 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.635 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.635 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.635 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.657 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.661 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.761 I/GoLog   (25166): from udp:127.0.0.1:52508 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:35.766 I/GoLog   (25166): from udp:127.0.0.1:42066 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:35.838 I/GoLog   (25166): from udp:127.0.0.1:53109 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:35.841 I/GoLog   (25166): from udp:127.0.0.1:44498 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:35.847 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.848 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.862 I/GoLog   (25166): from udp:127.0.0.1:41794 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:35.867 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.893 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.893 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.893 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.895 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.925 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.926 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.926 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.926 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.927 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.928 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.932 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.933 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.933 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.935 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.935 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.941 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.941 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:35.941 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.020 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.083 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.084 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.084 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.085 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.108 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.108 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.139 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.159 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.173 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.174 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.205 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.217 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.217 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.256 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.261 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.275 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.361 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.361 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.363 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.364 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.365 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.376 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.376 I/GoLog   (25166): fdConn FileConn Close Fd: 127 Err: file file+net Socket: getsockopt: bad file descriptor
+06-30 16:25:36.377 I/GoLog   (25166): [Error] [3551197808] transport/internet/httpupgrade: failed to dial to tcp:132.243.224.220:443 > file file+net Socket: getsockopt: bad file descriptor
+06-30 16:25:36.400 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.400 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.400 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.498 D/ZrHung.AppEyeFocusWindow( 1575): FocusWindowErrorScene CheckFreezeScreen
+06-30 16:25:36.506 E/ThermalTrace:SystemInfo( 2751): number format error! infoItem[2] is: sandboxed_process0
+06-30 16:25:36.507 I/WindowManager( 1575): Checking 1 opening apps (frozen=false timeout=false)...
+06-30 16:25:36.512 I/WindowManager( 1575): Checking 1 opening apps (frozen=false timeout=false)...
+06-30 16:25:36.520 I/WindowManager( 1575): Checking 1 opening apps (frozen=false timeout=false)...
+06-30 16:25:36.525 I/WindowManager( 1575): Checking 1 opening apps (frozen=false timeout=false)...
+06-30 16:25:36.546 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:36.546 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:36.547 I/WindowManager( 1575): Checking 1 opening apps (frozen=false timeout=false)...
+06-30 16:25:36.550 D/ZrHung.AppEyeFocusWindow( 1575): FocusWindowErrorScene cancelCheckFreezeScreen
+06-30 16:25:36.553 E/dubaid  ( 1043): [SqlOperator.cpp] PrepareSqlStatement# Prepare statement error: no such table: raw_backward_modem_cdma_1x_cas
+06-30 16:25:36.554 E/dubaid  ( 1043): [SqlOperator.cpp] QueryEntries# Failed to prepare statement
+06-30 16:25:36.554 E/dubaid  ( 1043): [DubaiStorage.cpp] QueryEntriesInner# Failed to query entries
+06-30 16:25:36.554 E/dubaid  ( 1043): [DubaiStorage.cpp] QueryEntries# Failed to query entries: SELECT SUM(pilot_search_total_time) / 32768, SUM(pilot_search_num) FROM raw_backward_modem_cdma_1x_cas WHERE start_time >= 1782825588995 AND end_time <= 1782825936502
+06-30 16:25:36.554 E/dubaid  ( 1043): [Cdma1xCasData.cpp] QuerySearchData# Failed to get raw backward modem cdma1x cas data
+06-30 16:25:36.554 E/dubaid  ( 1043): [SqlOperator.cpp] PrepareSqlStatement# Prepare statement error: no such table: raw_backward_modem_cdma_1x_cproc
+06-30 16:25:36.554 E/dubaid  ( 1043): [SqlOperator.cpp] QueryEntries# Failed to prepare statement
+06-30 16:25:36.554 E/dubaid  ( 1043): [DubaiStorage.cpp] QueryEntriesInner# Failed to query entries
+06-30 16:25:36.554 E/dubaid  ( 1043): [DubaiStorage.cpp] QueryEntries# Failed to query entries: SELECT SUM(data_tx_pwr_low + voice_tx_pwr_low) / 800, SUM(data_tx_pwr_mid + voice_tx_pwr_mid) / 800, SUM(data_tx_pwr_mid1 + voice_tx_pwr_mid1) / 800, SUM(data_tx_pwr_mid2 + voice_tx_pwr_mid2) / 800, SUM(data_tx_pwr_mid3 + voice_tx_pwr_mid3) / 800, SUM(data_tx_pwr_mid4 + voice_tx_pwr_mid4) / 800, SUM(data_tx_pwr_high + voice_tx_pwr_high) / 800 FROM raw_backward_modem_cdma_1x_cproc WHERE start_time >= 1782825588995 AND end_time <= 1782825936502
+06-30 16:25:36.555 E/dubaid  ( 1043): [Cdma1xCasData.cpp] QueryFeatureData# Failed to get raw backward modem cdma1x cproc data
+06-30 16:25:36.556 E/dubaid  ( 1043): [SqlOperator.cpp] PrepareSqlStatement# Prepare statement error: no such table: raw_backward_modem_nr_rrc
+06-30 16:25:36.556 E/dubaid  ( 1043): [SqlOperator.cpp] QueryEntries# Failed to prepare statement
+06-30 16:25:36.556 E/dubaid  ( 1043): [DubaiStorage.cpp] QueryEntriesInner# Failed to query entries
+06-30 16:25:36.556 E/dubaid  ( 1043): [DubaiStorage.cpp] QueryEntries# Failed to query entries: SELECT SUM(searchTime) / 1000, SUM(searchCnt) FROM raw_backward_modem_nr_rrc WHERE (start_time >= 1782825588995 AND end_time <= 1782825936502)
+06-30 16:25:36.556 E/dubaid  ( 1043): [NrPhyData.cpp] QuerySearchData# Failed to get raw backward modem lte rrc data
+06-30 16:25:36.557 I/WindowManager( 1575): Checking 1 opening apps (frozen=false timeout=false)...
+06-30 16:25:36.559 E/dubaid  ( 1043): [SqlOperator.cpp] PrepareSqlStatement# Prepare statement error: no such table: raw_backward_modem_nr_phy
+06-30 16:25:36.559 E/dubaid  ( 1043): [SqlOperator.cpp] QueryEntries# Failed to prepare statement
+06-30 16:25:36.559 E/dubaid  ( 1043): [DubaiStorage.cpp] QueryEntriesInner# Failed to query entries
+06-30 16:25:36.559 E/dubaid  ( 1043): [DubaiStorage.cpp] QueryEntries# Failed to query entries: SELECT SUM(cc0LowTxPowerTimeCnt + cc1LowTxPowerTimeCnt) / 32768, SUM(cc0Mid1TxPowerTimeCnt + cc1Mid1TxPowerTimeCnt) / 32768, SUM(cc0Mid2TxPowerTimeCnt + cc1Mid2TxPowerTimeCnt) / 32768, SUM(cc0Mid3TxPowerTimeCnt + cc1Mid3TxPowerTimeCnt) / 32768, SUM(cc0Mid4TxPowerTimeCnt + cc1Mid4TxPowerTimeCnt) / 32768, SUM(cc0Mid5TxPowerTimeCnt + cc1Mid5TxPowerTimeCnt) / 32768, SUM(cc0HighTxPowerTimeCnt + cc1HighTxPowerTimeCnt) / 32768, SUM(connDurationSlice + connSaDurationSlice) / 32768, SUM(cdrxActiveDurationSlice + cdrxSaActiveDurationSlice) / 32768, SUM(cc0BwpTime20) * 100 / SUM(cc0BwpTime0 + cc0BwpTime20 + cc0BwpTime40 + cc0BwpTime60 + cc0BwpTime80 + cc0BwpTime100) FROM raw_backward_modem_nr_phy WHERE (start_time >= 1782825588995 AND end_time <= 1782825936502)
+06-30 16:25:36.560 E/dubaid  ( 1043): [NrPhyData.cpp] QueryFeatureData# Failed to get raw backward modem data mode = 6
+06-30 16:25:36.567 I/WindowManager( 1575): Checking 1 opening apps (frozen=false timeout=false)...
+06-30 16:25:36.573 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.574 I/ImageWallpaperRenderer( 2381): updateOffsets mXOffset 0.5 mYOffset 0.5
+06-30 16:25:36.575 I/WindowManager( 1575): Checking 1 opening apps (frozen=false timeout=false)...
+06-30 16:25:36.575 I/WindowManager( 1575): Checking 0 opening apps (frozen=false timeout=false)...
+06-30 16:25:36.586 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.637 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.638 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.650 I/GoLog   (25166): from udp:127.0.0.1:45572 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:36.654 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.749 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.761 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.851 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.969 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:36.992 W/BufferQueueProducer(  766): [com.example.various_vpn/com.example.various_vpn.MainActivity#0]:1390: disconnect: not connected (req=1)
+06-30 16:25:36.993 W/libEGL  (24727): EGLNativeWindowType 0x7c03c47f50 disconnect failed
+06-30 16:25:37.058 I/WificondControl( 1575): Noise: -90, Snr: 32, Chload: 245, rssi: -56, txBitrate: 144, rxBitrate: 117, frequency: 2422, UlDelay: 0, currentTxBytes: 1741825436, currentTxPackets: 1970230, currentTxFailed: 66, currentRxBytes: -1886455345, currentRxPackets: 2259776
+06-30 16:25:37.070 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.071 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.071 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.071 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.071 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.072 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.072 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.073 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.073 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.074 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.249 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.249 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.262 I/GoLog   (25166): from udp:127.0.0.1:48648 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:37.283 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.330 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.330 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.336 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.429 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:37.429 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:37.429 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:37.429 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:37.429 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:37.430 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:37.430 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:37.430 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:37.431 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:37.431 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:37.431 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:37.433 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:37.527 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.542 I/GoLog   (25166): from udp:127.0.0.1:42192 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:37.547 I/GoLog   (25166): from udp:127.0.0.1:38965 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:37.547 I/GoLog   (25166): from udp:127.0.0.1:34546 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:37.548 I/GoLog   (25166): from udp:127.0.0.1:52320 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:37.552 I/GoLog   (25166): from udp:127.0.0.1:41601 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:37.557 I/GoLog   (25166): from udp:127.0.0.1:60673 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:37.557 I/GoLog   (25166): from udp:127.0.0.1:46399 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:37.558 I/GoLog   (25166): from udp:127.0.0.1:34032 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:37.563 I/GoLog   (25166): from udp:127.0.0.1:40502 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:37.563 I/GoLog   (25166): from udp:127.0.0.1:50511 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:37.642 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.643 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.644 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.644 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.645 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.646 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.646 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.647 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.648 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.650 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.650 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.650 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.774 I/GoLog   (25166): from udp:127.0.0.1:48048 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:37.774 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.782 I/GoLog   (25166): from udp:127.0.0.1:55186 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:37.782 I/GoLog   (25166): from udp:127.0.0.1:55836 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:37.782 I/GoLog   (25166): from udp:127.0.0.1:49891 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:37.844 I/GoLog   (25166): from udp:127.0.0.1:57746 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:37.847 I/GoLog   (25166): from udp:127.0.0.1:53131 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:37.849 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.850 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.862 W/Antivirus_Plugin_AVAST(22791): AvastVirusEngine:sdk: HttpWorker failed to download the content. Unable to resolve host "sp-8f237ea3.honzik.avcdn.net": No address associated with hostname
+06-30 16:25:37.863 E/Antivirus_Plugin_AVAST(22791): AvastVirusEngine:vps: VPS: Checking update info error, XML definition file download failed.
+06-30 16:25:37.884 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.884 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.885 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.923 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.924 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.928 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.929 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.929 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.929 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.929 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.930 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.930 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.930 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.931 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.932 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.934 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.941 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.941 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.953 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.962 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.962 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.963 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:37.963 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.088 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.114 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.116 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.116 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.123 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.131 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.132 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.145 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.194 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.196 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.233 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.235 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.235 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.348 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.398 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.398 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.401 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.424 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.424 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.425 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.425 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.425 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.426 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.576 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.590 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.604 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.608 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.650 I/GoLog   (25166): from udp:127.0.0.1:51649 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:38.670 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.672 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.708 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.743 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:38.864 E/Antivirus_Plugin_AVAST(22791): UpdateManager:virus lib start error.
+06-30 16:25:38.887 W/Antivirus_Plugin_AVAST(22791): AvastVirusEngine:sdk: HttpWorker failed to download the content. Unable to resolve host "sp-8f237ea3.honzik.avcdn.net": No address associated with hostname
+06-30 16:25:38.888 E/Antivirus_Plugin_AVAST(22791): AvastVirusEngine:vps: VPS: Checking update info error, XML definition file download failed.
+06-30 16:25:39.018 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.018 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.023 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.053 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.054 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.054 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.067 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.072 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.072 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.075 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.086 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.087 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.238 W/BufferQueueProducer(  766): [GestureNavLeft#0]:1390: disconnect: not connected (req=1)
+06-30 16:25:39.238 W/libEGL  ( 1575): EGLNativeWindowType 0x7adec1f650 disconnect failed
+06-30 16:25:39.248 W/BufferQueueProducer(  766): [GestureNavRight#0]:1390: disconnect: not connected (req=1)
+06-30 16:25:39.248 W/libEGL  ( 1575): EGLNativeWindowType 0x7b7173bb50 disconnect failed
+06-30 16:25:39.260 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.261 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.263 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.264 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.266 I/GoLog   (25166): from udp:127.0.0.1:46051 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:39.361 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.361 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.364 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.465 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.543 I/GoLog   (25166): from udp:127.0.0.1:47543 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:39.550 I/GoLog   (25166): from udp:127.0.0.1:42401 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:39.550 I/GoLog   (25166): from udp:127.0.0.1:36570 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:39.551 I/GoLog   (25166): from udp:127.0.0.1:53376 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:39.554 I/GoLog   (25166): from udp:127.0.0.1:55985 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:39.558 I/GoLog   (25166): from udp:127.0.0.1:53537 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:39.560 I/GoLog   (25166): from udp:127.0.0.1:49467 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:39.560 I/GoLog   (25166): from udp:127.0.0.1:59749 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:39.561 I/GoLog   (25166): from udp:127.0.0.1:57401 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:39.561 I/GoLog   (25166): from udp:127.0.0.1:42596 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:39.576 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.631 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.631 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.631 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.631 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.632 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.632 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.633 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.633 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.634 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.641 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.641 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.663 I/HMSSDK_HuaweiApi(24321): isConnected:false.
+06-30 16:25:39.676 I/HMSSDK_BinderAdapter(24321): BinderAdapter Enter onServiceConnected.
+06-30 16:25:39.677 I/HMSSDK_BaseHmsClient(24321): Enter onServiceConnected.
+06-30 16:25:39.677 I/HMSSDK_HuaweiApi(24321): onConnected
+06-30 16:25:39.677 I/HMSSDK_RequestManager(24321): addToConnectedReqMap
+06-30 16:25:39.683 E/fwkit_presetUtil(17092): getSystemApp flag error for com.google.android.gms:NameNotFoundException
+06-30 16:25:39.690 E/AuthService(17092): [HMSCore AuthService.java:96] Failed to check the permission, appID: 100168529, errorCode: 6004, permission: com.huawei.android.hms.game.base, checkExpiredTimeFlag: 0
+06-30 16:25:39.691 I/JosInitManager(17092): [HwJos_log[6.16.1.300_product] JosInitManager.java:28] consent state is failed or not init.
+06-30 16:25:39.694 I/HuaweiApi(17092): [baseinner AccountKitInnerApiImpl.java:9] isConnected:false.
+06-30 16:25:39.698 I/BinderAdapter(17092): [baseinner Handler.java:900] Enter onServiceConnected.
+06-30 16:25:39.698 I/BaseHmsClient(17092): [baseinner LoadedApk.java:2225] Enter BinderCallBack onServiceConnected.
+06-30 16:25:39.698 I/HuaweiApi(17092): [baseinner Handler.java:106] onConnected
+06-30 16:25:39.699 I/RequestManager(17092): [baseinner HuaweiApi.java:8] addToConnectedReqMap
+06-30 16:25:39.713 I/ScopeCache(17092): [HMSCore ScopeCache.java:31] onConnected, appID:100168529,hostAppId:null
+06-30 16:25:39.713 I/InnerSdkTask(17092): [HwID_APK_log[6.16.2.302|6.21.0.300]core InnerSdkTask.java:873] signInAfterConnected.
+06-30 16:25:39.730 I/HiBoard_22.0.9.301_WebServiceHelper(24321): onServiceConnected
+06-30 16:25:39.733 I/AIDLResponseImpl(17092): [HMSCore AIDLResponseImpl.java:124] Response, uri: hwid.Request, statusCode: 0, errorCode: 0
+06-30 16:25:39.735 I/HmsClient(17092): [baseinner HmsClient.java:1] receive msg status_code:0, error_code0, api_name:hwid.Request, app_id:10132067|, pkg_name:com.huawei.hwid, session_id:*, transaction_id:eea27a50-f76a-4d4c-807a-7ce9a83f1fd0, resolution:null
+06-30 16:25:39.735 I/AccountApiCallback(17092): [Account_SDK_log[6.11.0.303] AccountApiCallback.java:2] TaskApiCall response error code: 0
+06-30 16:25:39.738 I/JosInitManager(17092): [HwJos_log[6.16.1.300_product] JosInitManager.java:28] consent state is failed or not init.
+06-30 16:25:39.742 I/AIDLResponseImpl(17092): [HMSCore AIDLResponseImpl.java:124] Response, uri: account.silentSignIn, statusCode: 0, errorCode: 0
+06-30 16:25:39.743 I/JosSignInLifecycleController(17092): [HwJos_log[6.16.1.300_product] JosSignInLifecycleController.java:55] endSignIn,signInUri:hwidjos.silentSignIn,hasGameServiceLiteScope:false,errorCode:0,isSupportJos:false
+06-30 16:25:39.744 I/HMSSDK_HmsClient(24321): receive msg status_code:0, error_code:0, api_name:hwidjos.silentSignIn, app_id:100168529|, pkg_name:com.huawei.intelligent, session_id:*, transaction_id:100168529SignIn20260630162539658208221, resolution:null
+06-30 16:25:39.744 I/HMSSDK_TaskApiCall(24321): doExecute, uri:account.silentSignIn, errorCode:0, transactionId:100168529SignIn20260630162539658208221
+06-30 16:25:39.744 I/HMSSDK_[AccountSDK]AccountSignInTaskApiCall(24321): HwID_SDK_Log[6.12.0.300]ResponseErrorCode.status:0
+06-30 16:25:39.744 I/JosInitManager(17092): [HwJos_log[6.16.1.300_product] JosInitManager.java:28] consent state is failed or not init.
+06-30 16:25:39.747 I/JosInitManager(17092): [HwJos_log[6.16.1.300_product] JosInitManager.java:28] consent state is failed or not init.
+06-30 16:25:39.748 I/JosInitManager(17092): [HwJos_log[6.16.1.300_product] JosInitManager.java:28] consent state is failed or not init.
+06-30 16:25:39.752 I/HMSSDK_HuaweiApi(24321): isConnected:true.
+06-30 16:25:39.752 I/HMSSDK_RequestManager(24321): addToConnectedReqMap
+06-30 16:25:39.757 I/HMSSDK_HuaweiApi(24321): isConnected:true.
+06-30 16:25:39.757 I/HMSSDK_RequestManager(24321): addToConnectedReqMap
+06-30 16:25:39.757 E/fwkit_presetUtil(17092): getSystemApp flag error for com.google.android.gms:NameNotFoundException
+06-30 16:25:39.759 I/HMSSDK_HuaweiApi(24321): isConnected:true.
+06-30 16:25:39.759 I/HMSSDK_RequestManager(24321): addToConnectedReqMap
+06-30 16:25:39.765 E/fwkit_presetUtil(17092): getSystemApp flag error for com.google.android.gms:NameNotFoundException
+06-30 16:25:39.767 E/fwkit_presetUtil(17092): getSystemApp flag error for com.google.android.gms:NameNotFoundException
+06-30 16:25:39.770 I/AIDLResponseImpl(17092): [HMSCore AIDLResponseImpl.java:124] Response, uri: core.getNoticeIntent, statusCode: 0, errorCode: 8001
+06-30 16:25:39.772 I/GoLog   (25166): from udp:127.0.0.1:44967 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:39.774 I/GoLog   (25166): from udp:127.0.0.1:47011 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:39.775 I/GoLog   (25166): from udp:127.0.0.1:37999 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:39.775 I/HMSSDK_HuaweiApi(24321): isConnected:true.
+06-30 16:25:39.776 I/HMSSDK_RequestManager(24321): addToConnectedReqMap
+06-30 16:25:39.776 I/GoLog   (25166): from udp:127.0.0.1:49203 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:39.780 E/fwkit_presetUtil(17092): getSystemApp flag error for com.google.android.gms:NameNotFoundException
+06-30 16:25:39.784 I/HMSPushLog61600304(17092): [PushKit PendingResultImpl.java:233] awaitOnAnyThread timeout:10 unit:SECONDS
+06-30 16:25:39.788 I/AIDLResponseImpl(17092): [HMSCore AIDLResponseImpl.java:124] Response, uri: hwid.getDeviceInfo, statusCode: 0, errorCode: 0
+06-30 16:25:39.789 I/AIDLResponseImpl(17092): [HMSCore AIDLResponseImpl.java:124] Response, uri: hwid.queryAccountInfo, statusCode: 0, errorCode: 0
+06-30 16:25:39.795 I/PushLog110109302( 4799): [ReceiverDispatcher-202]reconnect pushserver failed, the next reconnect time is:0 after 0 ms
+06-30 16:25:39.800 I/GoLog   (25166): from tcp:127.0.0.1:47942 accepted tcp:159.138.204.113:5223 [in_proxy >> proxy]
+06-30 16:25:39.801 I/AIDLResponseImpl(17092): [HMSCore AIDLResponseImpl.java:124] Response, uri: push.gettoken, statusCode: 0, errorCode: 0
+06-30 16:25:39.846 I/GoLog   (25166): from udp:127.0.0.1:55512 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:39.848 I/GoLog   (25166): from udp:127.0.0.1:34612 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:39.854 E/SecurityComp10200303: EncryptUtil(24321): exception : Failed resolution of: Lorg/bouncycastle/crypto/engines/AESEngine; , you should implementation bcprov-jdk15on library
+06-30 16:25:39.862 I/NK_c    (24321): updateGrs|network.grs.c|96|GrsClient Instance is init, GRS SDK version: 7.0.5.300, GrsBaseInfoParam: app_name=hiboard, reg_country=null, ser_country=RU, issue_country=null ,queryTimeout=-1
+06-30 16:25:39.864 I/HiBoard_22.0.9.301_HmsAccountLogic(24321): authLogin:errorCode2:0
+06-30 16:25:39.866 I/HMSSDK_HmsClient(24321): receive msg status_code:0, error_code:8001, api_name:core.getNoticeIntent, app_id:100168529|, pkg_name:com.huawei.intelligent, session_id:*, transaction_id:100168529Intent20260630162539748566190, resolution:null
+06-30 16:25:39.866 I/HMSSDK_TaskApiCall(24321): doExecute, uri:core.getNoticeIntent, errorCode:8001, transactionId:100168529Intent20260630162539748566190
+06-30 16:25:39.866 W/HMSSDK_AccountNoticeTaskApiCall(24321): HwID_SDK_Log[6.12.0.300]Jos Notice onResult failed:8001,ErrReason:
+06-30 16:25:39.867 I/HMSSDK_HmsClient(24321): receive msg status_code:0, error_code:0, api_name:hwid.queryAccountInfo, app_id:100168529|, pkg_name:com.huawei.intelligent, session_id:*, transaction_id:100168529ntInfo20260630162539754409648, resolution:null
+06-30 16:25:39.867 I/HMSSDK_TaskApiCall(24321): doExecute, uri:hwid.queryAccountInfo, errorCode:0, transactionId:100168529ntInfo20260630162539754409648
+06-30 16:25:39.867 I/HMSSDK_[HUAWEIIDSDK]c(24321): Account_Advanced_log[6.1.0.300]headerErrorCode:0,headerErrorReason:success
+06-30 16:25:39.870 I/HMSSDK_HmsClient(24321): receive msg status_code:0, error_code:0, api_name:hwid.getDeviceInfo, app_id:100168529|, pkg_name:com.huawei.intelligent, session_id:*, transaction_id:100168529ceInfo20260630162539756412652, resolution:null
+06-30 16:25:39.870 I/HMSSDK_TaskApiCall(24321): doExecute, uri:hwid.getDeviceInfo, errorCode:0, transactionId:100168529ceInfo20260630162539756412652
+06-30 16:25:39.870 I/HMSSDK_[HUAWEIIDSDK]d(24321): Account_Advanced_log[6.1.0.300]headerErrorCode:0,headerErrorReason:getDeviceInfo success
+06-30 16:25:39.871 I/GoLog   (25166): from udp:127.0.0.1:50848 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:39.872 I/HMSSDK_HmsClient(24321): receive msg status_code:0, error_code:0, api_name:push.gettoken, app_id:100168529|, pkg_name:com.huawei.intelligent, session_id:*, transaction_id:100168529ttoken20260630162539772304465, resolution:null
+06-30 16:25:39.872 I/HMSSDK_TaskApiCall(24321): doExecute, uri:push.gettoken, errorCode:0, transactionId:100168529ttoken20260630162539772304465
+06-30 16:25:39.873 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.873 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.873 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.873 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.873 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.874 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.874 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.874 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.875 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.878 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.878 I/HiBoard_22.0.9.301_HmsAccountLogic(24321): authLogin:errorCode2:0
+06-30 16:25:39.891 I/GoLog   (25166): from udp:127.0.0.1:45043 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:39.920 I/NK_RequestController(24321): NK_GrsInit_0 ->NK_GrsReqPool_0|network.grs.g.g|174|use grsQueryTimeout 2
+06-30 16:25:39.921 I/NK_RequestController(24321): updateGrs ->NK_GrsReqPool_1|network.grs.g.g|174|use grsQueryTimeout 2
+06-30 16:25:39.926 I/GoLog   (25166): from udp:127.0.0.1:51151 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:39.928 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.928 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.929 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.929 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.929 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.930 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.930 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.930 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.931 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.934 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.937 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.937 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.938 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.991 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.991 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.992 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.995 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:39.996 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.000 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.015 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.066 I/WificondControl( 1575): Noise: -84, Snr: 32, Chload: 347, rssi: -55, txBitrate: 144, rxBitrate: 104, frequency: 2422, UlDelay: 0, currentTxBytes: 1742099986, currentTxPackets: 1971915, currentTxFailed: 66, currentRxBytes: -1885561246, currentRxPackets: 2261294
+06-30 16:25:40.098 W/BufferQueueProducer(  766): [GestureNavLeft#0]:1390: disconnect: not connected (req=1)
+06-30 16:25:40.099 W/libEGL  ( 1575): EGLNativeWindowType 0x7b7173bb50 disconnect failed
+06-30 16:25:40.105 W/BufferQueueProducer(  766): [GestureNavRight#0]:1390: disconnect: not connected (req=1)
+06-30 16:25:40.105 W/libEGL  ( 1575): EGLNativeWindowType 0x7adec1f650 disconnect failed
+06-30 16:25:40.110 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.131 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.136 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.137 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.143 I/HiBoard_22.0.9.301_HmsAccountLogic(24321): authLogin:errorCode2:0
+06-30 16:25:40.147 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.147 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.155 I/HiBoard_22.0.9.301_SmtLogic(24321): requestAtUid errorCode: 0
+06-30 16:25:40.212 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.212 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.213 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.216 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.217 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.217 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.217 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.244 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.244 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.286 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.295 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.296 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.392 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.395 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.396 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.396 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.396 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.396 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.397 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.397 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.398 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.398 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.653 I/GoLog   (25166): from udp:127.0.0.1:45572 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:40.661 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.662 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.678 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.678 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.678 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.679 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.679 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.743 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.777 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.777 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.781 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.787 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.928 I/GoLog   (25166): from udp:127.0.0.1:38138 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:40.984 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:40.999 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.057 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.066 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.066 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.067 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.092 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.092 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.093 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.096 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.097 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.101 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.102 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.252 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.333 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.334 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.334 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.338 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.342 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.346 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.347 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.442 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.445 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.450 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.492 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.550 I/GoLog   (25166): from udp:127.0.0.1:36237 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:41.552 I/GoLog   (25166): from udp:127.0.0.1:52042 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:41.555 I/GoLog   (25166): from udp:127.0.0.1:53540 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:41.555 I/GoLog   (25166): from udp:127.0.0.1:52909 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:41.562 I/GoLog   (25166): from udp:127.0.0.1:55583 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:41.562 I/GoLog   (25166): from udp:127.0.0.1:56011 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:41.563 I/GoLog   (25166): from udp:127.0.0.1:51540 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:41.613 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.628 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.628 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.631 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.632 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.741 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.742 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.743 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.749 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.774 I/GoLog   (25166): from udp:127.0.0.1:48048 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:41.774 I/GoLog   (25166): from udp:127.0.0.1:49891 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:41.774 I/GoLog   (25166): from udp:127.0.0.1:55186 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:41.774 I/GoLog   (25166): from udp:127.0.0.1:55836 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:41.848 I/GoLog   (25166): from udp:127.0.0.1:57746 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:41.848 I/GoLog   (25166): from udp:127.0.0.1:53131 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:41.869 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.869 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.870 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.871 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.891 I/GoLog   (25166): from udp:127.0.0.1:55399 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:41.918 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.918 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.920 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.920 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.921 W/NK_RequestController(24321): NK_GrsInit_0 ->NK_GrsReqPool_0|network.grs.g.g|221|when check result, find TimeoutException, check others
+06-30 16:25:41.921 W/NK_RequestController(24321): java.util.concurrent.TimeoutException
+06-30 16:25:41.922 W/NK_RequestController(24321): updateGrs ->NK_GrsReqPool_1|network.grs.g.g|221|when check result, find TimeoutException, check others
+06-30 16:25:41.922 W/NK_RequestController(24321): java.util.concurrent.TimeoutException
+06-30 16:25:41.927 I/GoLog   (25166): from udp:127.0.0.1:59922 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:41.927 I/GoLog   (25166): from udp:127.0.0.1:58359 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:41.979 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.979 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.980 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.980 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.980 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.981 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.981 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.981 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.982 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.982 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.982 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.983 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.983 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:41.988 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.051 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.051 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.052 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.053 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.131 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.150 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.150 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.150 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.168 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.181 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.182 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.185 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.186 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.187 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.189 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.189 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.220 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.234 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.236 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.275 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.288 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.314 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.315 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.315 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.391 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.396 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.417 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.417 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.418 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.456 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.535 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.535 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.562 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.633 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.633 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.635 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.660 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.679 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.679 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.729 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.764 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:42.932 I/GoLog   (25166): from udp:127.0.0.1:33675 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:42.932 I/GoLog   (25166): from udp:127.0.0.1:34124 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:43.006 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.006 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.034 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.078 I/WificondControl( 1575): Noise: -88, Snr: 35, Chload: 243, rssi: -52, txBitrate: 117, rxBitrate: 130, frequency: 2422, UlDelay: 0, currentTxBytes: 1742332470, currentTxPackets: 1973377, currentTxFailed: 66, currentRxBytes: -1884796747, currentRxPackets: 2262707
+06-30 16:25:43.159 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:43.159 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:43.182 E/PushLog110109302( 4799): [ReceiverDispatcher-202]call connectMode.protocol.init failed!!
+06-30 16:25:43.183 I/PushLog110109302( 4799): [ReceiverDispatcher-202]enter cancelAlarm(Action=com.huawei.android.push.intent.HEARTBEAT_RSP_TIMEOUT
+06-30 16:25:43.185 I/PushLog110109302( 4799): [ReceiverDispatcher-202]enter cancelAlarm(Action=com.huawei.android.push.intent.RESPONSE_FAIL
+06-30 16:25:43.192 E/PushLog110109302( 4799): [ReceiverDispatcher-202]Socket connect failed with IPv4
+06-30 16:25:43.198 I/PushLog110109302( 4799): [ReceiverDispatcher-202]reconnect pushserver failed, the next reconnect time is:1 after 4989 ms
+06-30 16:25:43.214 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.214 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.214 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.321 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.338 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.338 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.338 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.366 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.367 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.432 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:43.432 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:43.433 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:43.433 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:43.433 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:43.434 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:43.434 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:43.434 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:43.434 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:43.436 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:43.436 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:43.436 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 16:25:43.481 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.559 I/GoLog   (25166): from udp:127.0.0.1:39382 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:43.560 I/GoLog   (25166): from udp:127.0.0.1:34700 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:43.560 I/GoLog   (25166): from udp:127.0.0.1:40597 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:43.560 I/GoLog   (25166): from udp:127.0.0.1:33541 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:43.563 I/GoLog   (25166): from udp:127.0.0.1:52830 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:43.565 I/GoLog   (25166): from udp:127.0.0.1:43188 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:43.567 I/GoLog   (25166): from udp:127.0.0.1:41536 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:43.665 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.666 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.666 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.666 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.666 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.667 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.667 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.744 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.745 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.761 D/ZrHung.AppEyeFocusWindow( 1575): FocusWindowErrorScene CheckFreezeScreen
+06-30 16:25:43.773 I/WindowManager( 1575): Checking 1 opening apps (frozen=false timeout=false)...
+06-30 16:25:43.773 I/WindowManager( 1575): Checking 0 opening apps (frozen=false timeout=false)...
+06-30 16:25:43.773 I/GoLog   (25166): from udp:127.0.0.1:44967 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:43.776 I/GoLog   (25166): from udp:127.0.0.1:47011 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:43.776 I/GoLog   (25166): from udp:127.0.0.1:37999 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:43.776 I/GoLog   (25166): from udp:127.0.0.1:49203 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:43.798 W/        ( 1575): Failed to UpdateQosForCgroupInner, tid=0, policy=10
+06-30 16:25:43.807 E/BehaviorCollectManager(25824): Fail to acquire dataAnalyzerService...
+06-30 16:25:43.820 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.850 I/GoLog   (25166): from udp:127.0.0.1:34612 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:43.850 I/GoLog   (25166): from udp:127.0.0.1:55512 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:43.855 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.855 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.856 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.857 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.874 I/GoLog   (25166): from udp:127.0.0.1:50848 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:43.889 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.892 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.893 I/GoLog   (25166): from udp:127.0.0.1:45043 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:43.910 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.911 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.911 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.920 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.928 I/GoLog   (25166): from udp:127.0.0.1:60477 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:43.928 I/GoLog   (25166): from udp:127.0.0.1:34648 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:43.928 I/GoLog   (25166): from udp:127.0.0.1:51151 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:43.931 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.932 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.945 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.945 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.967 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:43.994 I/HMSSDK_HianalyticsExist(25824): In isHianalyticsExist, Failed to find class HiAnalyticsConfig.
+06-30 16:25:44.002 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.012 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.014 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.035 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.042 I/GoLog   (25166): from tcp:127.0.0.1:42072 accepted tcp:149.154.167.41:443 [in_proxy >> proxy]
+06-30 16:25:44.052 I/GoLog   (25166): from tcp:127.0.0.1:42078 accepted tcp:149.154.167.41:443 [in_proxy >> proxy]
+06-30 16:25:44.059 I/GoLog   (25166): from tcp:127.0.0.1:42086 accepted tcp:149.154.167.41:443 [in_proxy >> proxy]
+06-30 16:25:44.065 I/GoLog   (25166): from tcp:127.0.0.1:42098 accepted tcp:149.154.167.41:443 [in_proxy >> proxy]
+06-30 16:25:44.080 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.115 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.115 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.115 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.115 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.116 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.116 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.116 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.116 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.120 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.130 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.130 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.131 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.137 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.137 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.163 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.174 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.174 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.174 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.181 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.189 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.200 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.203 I/HWBR-O-0205|hwbr_engine_mainprocess-11568(18818): [INFO:aw_contents_statics.cc(287)] predictor create failed for incognito context
+06-30 16:25:44.207 W/BufferQueueProducer(  766): [com.huawei.intelligent.Workspace#0]:1390: disconnect: not connected (req=1)
+06-30 16:25:44.207 W/libEGL  (24321): EGLNativeWindowType 0x7b957e7910 disconnect failed
+06-30 16:25:44.213 D/ZrHung.AppEyeFocusWindow( 1575): FocusWindowErrorScene cancelCheckFreezeScreen
+06-30 16:25:44.220 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.222 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.222 W/BufferQueueProducer(  766): [com.huawei.android.launcher/com.huawei.android.launcher.unihome.UniHomeLauncher#0]:1390: disconnect: not connected (req=1)
+06-30 16:25:44.222 W/libEGL  ( 2814): EGLNativeWindowType 0x7c03c47050 disconnect failed
+06-30 16:25:44.227 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.273 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.274 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.279 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.279 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.295 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.295 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.344 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.364 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.365 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.365 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.365 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.366 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.366 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.368 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.369 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.380 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.389 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.508 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.559 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.562 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.565 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.632 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.632 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.639 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.642 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.771 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.771 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.772 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.778 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.779 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.779 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.846 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.880 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.881 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.881 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.882 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.933 I/GoLog   (25166): from udp:127.0.0.1:38138 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:44.933 I/GoLog   (25166): from udp:127.0.0.1:52293 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:44.963 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.964 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.965 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.975 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.975 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.979 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:44.998 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.003 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.050 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.062 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.062 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.062 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.063 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.078 E/hwvibrator@1.1-service(  752): CheckHaptics: get main effect fail
+06-30 16:25:45.137 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.163 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.210 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.211 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.223 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.242 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.252 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.267 I/HMSSDK_HuaweiApi(25824): isConnected:false.
+06-30 16:25:45.280 I/HMSSDK_HuaweiApi(25824): isConnected:false.
+06-30 16:25:45.289 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.289 E/ScreemCommon( 1087): fail to extract lcd fps mode!
+06-30 16:25:45.296 I/HMSSDK_BinderAdapter(25824): BinderAdapter Enter onServiceConnected.
+06-30 16:25:45.296 I/HMSSDK_BaseHmsClient(25824): Enter onServiceConnected.
+06-30 16:25:45.297 I/HMSSDK_HuaweiApi(25824): onConnected
+06-30 16:25:45.297 I/HMSSDK_HuaweiApi(25824): onConnected
+06-30 16:25:45.297 I/HMSSDK_RequestManager(25824): addToConnectedReqMap
+06-30 16:25:45.300 I/HMSSDK_RequestManager(25824): addToConnectedReqMap
+06-30 16:25:45.310 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.311 E/fwkit_presetUtil(17092): getSystemApp flag error for com.google.android.gms:NameNotFoundException
+06-30 16:25:45.312 E/fwkit_presetUtil(17092): getSystemApp flag error for com.google.android.gms:NameNotFoundException
+06-30 16:25:45.318 I/HMSPushLog61600304(17092): [PushKit PendingResultImpl.java:233] awaitOnAnyThread timeout:10 unit:SECONDS
+06-30 16:25:45.318 I/HMSPushLog61600304(17092): [PushKit PendingResultImpl.java:233] awaitOnAnyThread timeout:10 unit:SECONDS
+06-30 16:25:45.327 I/PushLog110109302( 4799): [ReceiverDispatcher-202]reconnect pushserver failed, the next reconnect time is:1 after 2859 ms
+06-30 16:25:45.330 I/AIDLResponseImpl(17092): [HMSCore AIDLResponseImpl.java:124] Response, uri: push.gettoken, statusCode: 0, errorCode: 0
+06-30 16:25:45.331 I/AIDLResponseImpl(17092): [HMSCore AIDLResponseImpl.java:124] Response, uri: push.gettoken, statusCode: 0, errorCode: 0
+06-30 16:25:45.337 I/PushLog110109302( 4799): [ReceiverDispatcher-202]reconnect pushserver failed, the next reconnect time is:1 after 2850 ms
+06-30 16:25:45.351 I/HMSSDK_HmsClient(25824): receive msg status_code:0, error_code:0, api_name:push.gettoken, app_id:101184875|, pkg_name:org.telegram.messenger, session_id:*, transaction_id:101184875ttoken20260630162545263787149, resolution:null
+06-30 16:25:45.352 I/HMSSDK_TaskApiCall(25824): doExecute, uri:push.gettoken, errorCode:0, transactionId:101184875ttoken20260630162545263787149
+06-30 16:25:45.387 I/HMSSDK_HmsClient(25824): receive msg status_code:0, error_code:0, api_name:push.gettoken, app_id:101184875|, pkg_name:org.telegram.messenger, session_id:*, transaction_id:101184875ttoken20260630162545270413924, resolution:null
+06-30 16:25:45.387 I/HMSSDK_TaskApiCall(25824): doExecute, uri:push.gettoken, errorCode:0, transactionId:101184875ttoken20260630162545270413924
+06-30 16:25:45.428 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.428 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.429 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.446 I/HMSSDK_RemoteService(25824): remote service onConnected
+06-30 16:25:45.448 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.529 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.529 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.534 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.560 I/GoLog   (25166): from udp:127.0.0.1:52909 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:45.563 I/GoLog   (25166): from udp:127.0.0.1:56011 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:45.565 I/GoLog   (25166): from udp:127.0.0.1:55583 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:45.634 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.634 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.648 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.648 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.675 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.676 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.713 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.779 I/GoLog   (25166): from udp:127.0.0.1:33825 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:45.779 I/GoLog   (25166): from udp:127.0.0.1:60325 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:45.780 I/GoLog   (25166): from udp:127.0.0.1:52331 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:45.795 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.819 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.853 I/GoLog   (25166): from udp:127.0.0.1:37794 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:45.853 I/GoLog   (25166): from udp:127.0.0.1:59539 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:45.854 I/GoLog   (25166): from udp:127.0.0.1:55136 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:45.856 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.857 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.858 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.861 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.870 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.874 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.882 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.883 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.884 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.894 I/GoLog   (25166): from udp:127.0.0.1:55399 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:45.932 I/GoLog   (25166): from udp:127.0.0.1:59922 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:45.932 I/GoLog   (25166): from udp:127.0.0.1:53521 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 16:25:45.932 I/GoLog   (25166): from udp:127.0.0.1:58359 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 16:25:45.942 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.944 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.949 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.951 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.969 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.971 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:45.981 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:46.012 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:46.013 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:46.016 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:46.061 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:46.061 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:46.095 I/WificondControl( 1575): Noise: -90, Snr: 127, Chload: 180, rssi: -52, txBitrate: 144, rxBitrate: 78, frequency: 2422, UlDelay: 0, currentTxBytes: 1742522762, currentTxPackets: 1974561, currentTxFailed: 66, currentRxBytes: -1884211076, currentRxPackets: 2263733
+06-30 16:25:46.110 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:46.131 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:46.133 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:46.135 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:46.135 I/GoLog   (25166): fdConn FileConn Close Fd: 81 Err: file file+net Socket: setnonblock: bad file descriptor
+06-30 16:25:46.136 I/GoLog   (25166): [Error] [604906204] transport/internet/httpupgrade: failed to dial to tcp:132.243.224.220:443 > file file+net Socket: setnonblock: bad file descriptor
+06-30 16:25:46.143 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:46.212 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:46.212 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:46.215 I/GoLog   (25166): Using Prepared: 132.243.224.220
+06-30 16:25:46.218 I/GoLog   (25166): Using Prepared: 132.243.224.220

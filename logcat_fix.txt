@@ -1,0 +1,1289 @@
+06-30 14:50:31.679 W/app_process(21324): [MemLeak.JavaTrack]: failed to dlopen libmemleak_tracker.so
+06-30 14:50:31.982 I/Monkey  (21324): ## Network stats: elapsed time=47ms (0ms mobile, 0ms wifi, 47ms not connected)
+06-30 14:50:32.012 E/SmartDualCardTrafficManager( 2696): isCustomerApplyTheTrafficPackage:: customer not set the package!
+06-30 14:50:32.019 E/SmartDualCardTrafficManager( 2696): isCustomerApplyTheTrafficPackage:: customer not set the package!
+06-30 14:50:32.024 D/DsduChr ( 2696): uid=10299, isTrafficFree=false, isUsingFreeTraffic=false
+06-30 14:50:32.024 I/SmartDualCardSM( 2696): IdleState:got msg.what=EVENT_SLAVE_TRAFFIC_FREE_APP_BACKGROUND
+06-30 14:50:32.166 I/TrafficMonitor( 1575): expired arrive. level:-1
+06-30 14:50:32.166 I/TrafficMonitor( 1575): during_ms:2003,period_ms:2000
+06-30 14:50:32.166 I/TrafficMonitor( 1575): count:20,rx_sum:19,tx_sum:5,rxBytes:2791,during_ms:2003,rx_speed:1393.4098851722415,tx_speed:1164.752870693959,rto:3.8
+06-30 14:50:32.181 I/netd    (  669): trafficSwapActiveStatsMap() <0.16ms>
+06-30 14:50:32.184 I/netd    (  669): trafficSwapActiveStatsMap() <0.08ms>
+06-30 14:50:32.238 W/BufferQueueProducer(  766): [com.huawei.intelligent.Workspace#0]:1390: disconnect: not connected (req=1)
+06-30 14:50:32.238 W/libEGL  (12456): EGLNativeWindowType 0x7b767c7250 disconnect failed
+06-30 14:50:32.239 W/BufferQueueProducer(  766): [com.huawei.android.launcher/com.huawei.android.launcher.unihome.UniHomeLauncher#0]:1390: disconnect: not connected (req=1)
+06-30 14:50:32.239 W/libEGL  ( 2814): EGLNativeWindowType 0x7b8aa55f90 disconnect failed
+06-30 14:50:33.005 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:50:33.171 I/TrafficMonitor( 1575): update:rxPkts:12,txPkts:5,rxBytes:2780,txBytes:1775
+06-30 14:50:33.171 I/TrafficMonitor( 1575): gettimer:interval=2000
+06-30 14:50:34.029 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:50:34.247 I/WificondControl( 1575): Noise: -83, Snr: 127, Chload: 186, rssi: -55, txBitrate: 115, rxBitrate: 104, frequency: 2422, UlDelay: 0, currentTxBytes: 1722974338, currentTxPackets: 1790945, currentTxFailed: 32, currentRxBytes: -2071276925, currentRxPackets: 2096085
+06-30 14:50:34.375 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:34.375 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:34.563 I/WificondControl( 1575): Noise: -83, Snr: 127, Chload: 186, rssi: -55, txBitrate: 115, rxBitrate: 104, frequency: 2422, UlDelay: 0, currentTxBytes: 1722974338, currentTxPackets: 1790945, currentTxFailed: 32, currentRxBytes: -2071276925, currentRxPackets: 2096085
+06-30 14:50:35.023 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:35.023 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:35.023 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:35.023 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:35.023 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:35.023 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:35.024 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:35.025 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:35.025 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:35.025 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:35.025 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:35.025 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:35.052 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:50:35.090 I/HiAdSDK.HiAdTools(18271):  current connected service pkg: com.huawei.hwid
+06-30 14:50:35.090 I/HiAdSDK.HiAdTools(18271):  current connected service pkg: com.huawei.hwid
+06-30 14:50:35.173 I/TrafficMonitor( 1575): update:rxPkts:157,txPkts:148,rxBytes:121361,txBytes:16945
+06-30 14:50:35.173 I/TrafficMonitor( 1575): no expired. level:4
+06-30 14:50:35.173 I/TrafficMonitor( 1575): gettimer:interval=2000
+06-30 14:50:35.173 I/TrafficMonitor( 1575): during_ms:2002,period_ms:2000
+06-30 14:50:35.173 I/TrafficMonitor( 1575): count:22,rx_sum:157,tx_sum:148,rxBytes:121361,during_ms:2002,rx_speed:60619.88011988012,tx_speed:8464.035964035966,rto:1.0608108108108107
+06-30 14:50:35.277 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:35.277 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:35.933 I/netd    (  669): trafficSwapActiveStatsMap() <0.73ms>
+06-30 14:50:36.055 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:50:36.136 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:36.138 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:36.138 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:36.138 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:36.139 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:36.140 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:36.140 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:36.140 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:36.140 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:36.141 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:36.141 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:36.142 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:37.074 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:50:37.160 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:37.160 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:37.175 I/TrafficMonitor( 1575): update:rxPkts:64,txPkts:63,rxBytes:45701,txBytes:10827
+06-30 14:50:37.175 I/TrafficMonitor( 1575): no expired. level:3
+06-30 14:50:37.175 I/TrafficMonitor( 1575): gettimer:interval=2000
+06-30 14:50:37.175 I/TrafficMonitor( 1575): during_ms:2002,period_ms:2000
+06-30 14:50:37.175 I/TrafficMonitor( 1575): count:23,rx_sum:64,tx_sum:63,rxBytes:45701,during_ms:2002,rx_speed:22827.67232767233,tx_speed:5408.091908091908,rto:1.0158730158730158
+06-30 14:50:37.256 I/WificondControl( 1575): Noise: -87, Snr: 127, Chload: 196, rssi: -53, txBitrate: 115, rxBitrate: 117, frequency: 2422, UlDelay: 0, currentTxBytes: 1723007820, currentTxPackets: 1791151, currentTxFailed: 32, currentRxBytes: -2071112346, currentRxPackets: 2096289
+06-30 14:50:38.096 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:50:38.191 I/netd    (  669): trafficSwapActiveStatsMap() <0.53ms>
+06-30 14:50:38.566 I/WificondControl( 1575): Noise: -87, Snr: 127, Chload: 95, rssi: -54, txBitrate: 115, rxBitrate: 117, frequency: 2422, UlDelay: 0, currentTxBytes: 1723009542, currentTxPackets: 1791159, currentTxFailed: 32, currentRxBytes: -2071103285, currentRxPackets: 2096314
+06-30 14:50:39.120 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:50:39.178 I/TrafficMonitor( 1575): update:rxPkts:70,txPkts:44,rxBytes:55386,txBytes:4817
+06-30 14:50:39.178 I/TrafficMonitor( 1575): gettimer:interval=2000
+06-30 14:50:39.487 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:39.487 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:40.141 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:50:40.268 I/WificondControl( 1575): Noise: -87, Snr: 127, Chload: 95, rssi: -52, txBitrate: 115, rxBitrate: 130, frequency: 2422, UlDelay: 0, currentTxBytes: 1723015597, currentTxPackets: 1791200, currentTxFailed: 32, currentRxBytes: -2071056687, currentRxPackets: 2096364
+06-30 14:50:40.955 I/netd    (  669): trafficSwapActiveStatsMap() <0.66ms>
+06-30 14:50:41.026 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:41.026 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:41.027 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:41.027 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:41.027 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:41.028 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:41.029 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:41.029 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:41.030 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:41.031 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:41.032 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:41.171 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:50:41.180 I/TrafficMonitor( 1575): update:rxPkts:1,txPkts:0,rxBytes:55,txBytes:0
+06-30 14:50:41.180 I/TrafficMonitor( 1575): gettimer:interval=2000
+06-30 14:50:42.140 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:42.140 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:42.140 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:42.140 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:42.140 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:42.141 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:42.141 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:42.141 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:42.142 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:42.143 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:42.143 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:42.144 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:42.176 I/TrafficMonitor( 1575): expired arrive. level:-1
+06-30 14:50:42.176 I/TrafficMonitor( 1575): during_ms:2002,period_ms:2000
+06-30 14:50:42.176 I/TrafficMonitor( 1575): count:25,rx_sum:1,tx_sum:0,rxBytes:55,during_ms:2002,rx_speed:27.472527472527474,tx_speed:0.0,rto:0.0
+06-30 14:50:42.188 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:50:42.561 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:42.561 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:42.564 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:42.565 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:42.565 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:42.565 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:42.566 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:42.566 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:42.566 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:42.566 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:42.568 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:42.569 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:42.569 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:42.570 I/WificondControl( 1575): Noise: -87, Snr: 127, Chload: 95, rssi: -53, txBitrate: 115, rxBitrate: 130, frequency: 2422, UlDelay: 0, currentTxBytes: 1723015597, currentTxPackets: 1791200, currentTxFailed: 32, currentRxBytes: -2071055924, currentRxPackets: 2096366
+06-30 14:50:43.182 I/TrafficMonitor( 1575): update:rxPkts:16,txPkts:1,rxBytes:7410,txBytes:557
+06-30 14:50:43.182 I/TrafficMonitor( 1575): gettimer:interval=2000
+06-30 14:50:43.223 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:50:43.281 I/WificondControl( 1575): Noise: -87, Snr: 127, Chload: 95, rssi: -53, txBitrate: 115, rxBitrate: 130, frequency: 2422, UlDelay: 0, currentTxBytes: 1723016188, currentTxPackets: 1791201, currentTxFailed: 32, currentRxBytes: -2071049277, currentRxPackets: 2096380
+06-30 14:50:44.236 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:50:44.607 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:44.607 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:44.610 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:44.612 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:44.612 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:44.612 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:44.612 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:44.613 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:44.613 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:44.614 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:44.614 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:44.614 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:44.617 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:44.620 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:44.924 W/libc    (  725): Unable to set property "sys.check.usbupdate" to "start": connection failed; errno=13 (Permission denied)
+06-30 14:50:45.185 I/TrafficMonitor( 1575): update:rxPkts:9,txPkts:2,rxBytes:1050,txBytes:1114
+06-30 14:50:45.185 I/TrafficMonitor( 1575): gettimer:interval=2000
+06-30 14:50:45.259 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:50:45.978 I/netd    (  669): trafficSwapActiveStatsMap() <0.52ms>
+06-30 14:50:46.284 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:50:46.291 I/WificondControl( 1575): Noise: -88, Snr: 127, Chload: 151, rssi: -53, txBitrate: 115, rxBitrate: 130, frequency: 2422, UlDelay: 0, currentTxBytes: 1723017370, currentTxPackets: 1791203, currentTxFailed: 32, currentRxBytes: -2071045309, currentRxPackets: 2096403
+06-30 14:50:46.574 I/WificondControl( 1575): Noise: -88, Snr: 127, Chload: 151, rssi: -53, txBitrate: 115, rxBitrate: 130, frequency: 2422, UlDelay: 0, currentTxBytes: 1723017370, currentTxPackets: 1791203, currentTxFailed: 32, currentRxBytes: -2071045309, currentRxPackets: 2096403
+06-30 14:50:47.188 I/TrafficMonitor( 1575): update:rxPkts:16,txPkts:1,rxBytes:3780,txBytes:557
+06-30 14:50:47.188 I/TrafficMonitor( 1575): gettimer:interval=2000
+06-30 14:50:47.311 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:50:47.565 I/WindowManager( 1575): UL_Power Started going to sleep... (why=OFF_BECAUSE_OF_TIMEOUT)
+06-30 14:50:47.572 I/KeyguardService( 2381): KGSvcCall onStartedGoingToSleep. reason:3
+06-30 14:50:47.574 I/DE J HwBrightnessSceneRecognition( 1575): [effect] disableAr failed, mIsArConnected||mHwMsdpMovementManager||mArActivities is null!
+06-30 14:50:47.830 E/ColorFade( 1575): eglDestroySurface failed: error 12301
+06-30 14:50:48.023 I/netd    (  669): trafficSwapActiveStatsMap() <0.27ms>
+06-30 14:50:48.026 I/netd    (  669): trafficSwapActiveStatsMap() <0.26ms>
+06-30 14:50:48.119 W/BufferQueueProducer(  766): [com.example.various_vpn/com.example.various_vpn.MainActivity#0]:1390: disconnect: not connected (req=1)
+06-30 14:50:48.119 W/libEGL  (19907): EGLNativeWindowType 0x7c07d5c250 disconnect failed
+06-30 14:50:48.182 I/TrafficMonitor( 1575): expired arrive. level:-1
+06-30 14:50:48.182 I/TrafficMonitor( 1575): during_ms:2002,period_ms:2000
+06-30 14:50:48.182 I/TrafficMonitor( 1575): count:28,rx_sum:16,tx_sum:1,rxBytes:3780,during_ms:2002,rx_speed:1888.1118881118882,tx_speed:278.22177822177827,rto:16.0
+06-30 14:50:48.202 I/netd    (  669): trafficSwapActiveStatsMap() <0.21ms>
+06-30 14:50:48.224 W/BufferQueueProducer(  766): [StatusBar#0]:1390: disconnect: not connected (req=1)
+06-30 14:50:48.224 W/libEGL  ( 2381): EGLNativeWindowType 0x7b8bb00950 disconnect failed
+06-30 14:50:48.263 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(2). 
+06-30 14:50:48.263 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(5). 
+06-30 14:50:48.263 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(6). 
+06-30 14:50:48.264 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(2). 
+06-30 14:50:48.264 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(5). 
+06-30 14:50:48.264 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(6). 
+06-30 14:50:48.270 W/BufferQueueProducer(  766): [NavigationBar0#0]:1390: disconnect: not connected (req=1)
+06-30 14:50:48.270 W/libEGL  ( 2381): EGLNativeWindowType 0x7b8bb02c50 disconnect failed
+06-30 14:50:48.331 I/SmartDualCardTrafficManager( 2696): startScreenOffTimer
+06-30 14:50:48.339 E//system/bin/tee_auth_daemon(  584): Failed to get IAshmemDeviceService.
+06-30 14:50:48.386 D/HighSpeedDevicesManager( 2696): reportScreenState CONNECTED_DEVICE_STATE_OFF.
+06-30 14:50:48.424 W/BufferQueueProducer(  766): [GestureNavLeft#0]:1390: disconnect: not connected (req=1)
+06-30 14:50:48.424 W/libEGL  ( 1575): EGLNativeWindowType 0x7b6d38e610 disconnect failed
+06-30 14:50:48.425 I/bt_stack( 3309): [INFO:gatt_utils.cc(260)] gatt_find_the_connected_bda start_idx=0
+06-30 14:50:48.433 W/BufferQueueProducer(  766): [GestureNavRight#0]:1390: disconnect: not connected (req=1)
+06-30 14:50:48.433 W/libEGL  ( 1575): EGLNativeWindowType 0x7bf92fc510 disconnect failed
+06-30 14:50:48.469 I/libnfc_nci(10532): [INFO:nfa_rw_act.cc(219)] Stopped presence check timer (if started)
+06-30 14:50:48.479 D/NxpHal  (  757): > Polling Loop Started
+06-30 14:50:48.488 I/libnfc_nci(10532): [INFO:NativeNfcManager.cpp(1027)] nfaConnectionCallback: NFA_RF_DISCOVERY_STARTED_EVT: status = 0x0
+06-30 14:50:48.495 I/libnfc_nci(10532): [INFO:nfa_rw_act.cc(219)] Stopped presence check timer (if started)
+06-30 14:50:48.510 D/NxpHal  (  757): > Polling Loop Started
+06-30 14:50:48.514 I/libnfc_nci(10532): [INFO:NativeNfcManager.cpp(1027)] nfaConnectionCallback: NFA_RF_DISCOVERY_STARTED_EVT: status = 0x0
+06-30 14:50:48.565 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:48.565 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:48.566 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:48.566 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:48.566 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:48.566 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:48.566 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:48.566 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:48.566 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:48.566 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:48.567 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:48.568 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:48.808 E/HwHiAIEngine_VisionBase(21410): Service disconnected : this.service is null 
+06-30 14:50:48.947 E/WideAperture(21410): dlopen failed: library "libdcamera_multiview.so" not found
+06-30 14:50:48.970 E/WideAperture(21410): dlopen failed: library "libdcamera_visual_effect.so" not found
+06-30 14:50:49.190 I/TrafficMonitor( 1575): update:rxPkts:5,txPkts:2,rxBytes:503,txBytes:188
+06-30 14:50:49.190 I/TrafficMonitor( 1575): gettimer:interval=180000
+06-30 14:50:49.582 W/uniperf server(  753): EnterActionProc DoParse failed, cmdId=13252
+06-30 14:50:49.582 D/uniperf hal(  753): do UniPerfEvent failed, cmdId=13252, ret=2
+06-30 14:50:49.594 I/DE J HwBrightnessSceneRecognition( 1575): [effect] enableAr failed, mIsArConnected||mHwMsdpMovementManager||mArActivities is null!
+06-30 14:50:49.595 I/WindowManager( 1575): UL_Power Started waking up... (why=ON_BECAUSE_OF_UNKNOWN)
+06-30 14:50:49.596 I/KeyguardService( 2381): KGSvcCall onStartedWakingUp.
+06-30 14:50:49.614 I/APwBatteryMonitor( 2751): screen off end: 1s, awake: 1s wakeups: 0, traffic:0, battery: 0
+06-30 14:50:49.615 W/AI_FMK  ( 1072): /model_memory_info.cpp GetFeatureMapSizeAndCacheOffset(39)::"Get ATTR_FEATUREMAP_SIZE from op:data_cast_0 failed"
+06-30 14:50:49.648 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(2). 
+06-30 14:50:49.648 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(5). 
+06-30 14:50:49.648 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(6). 
+06-30 14:50:49.648 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(8). 
+06-30 14:50:49.648 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(9). 
+06-30 14:50:49.648 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(2). 
+06-30 14:50:49.648 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(5). 
+06-30 14:50:49.648 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(6). 
+06-30 14:50:49.670 I/bt_stack( 3309): [INFO:gatt_utils.cc(260)] gatt_find_the_connected_bda start_idx=0
+06-30 14:50:49.677 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(2). 
+06-30 14:50:49.677 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(5). 
+06-30 14:50:49.677 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(6). 
+06-30 14:50:49.678 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(2). 
+06-30 14:50:49.678 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(5). 
+06-30 14:50:49.678 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(6). 
+06-30 14:50:49.684 E/FlickerSensorImpl( 1058): enableSensor: activate FAILED
+06-30 14:50:49.732 E/PreProcFilter( 1058): SetColorSyncOnOff: get intent capablity failed
+06-30 14:50:49.741 I/WificondControl( 1575): Noise: -90, Snr: 127, Chload: 113, rssi: -56, txBitrate: 115, rxBitrate: 144, frequency: 2422, UlDelay: 0, currentTxBytes: 1723018217, currentTxPackets: 1791206, currentTxFailed: 32, currentRxBytes: -2071043916, currentRxPackets: 2096411
+06-30 14:50:49.746 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:49.746 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:49.791 I/TrafficMonitor( 1575): send message MSG_CHECK_IPDATA
+06-30 14:50:49.792 I/TrafficMonitor( 1575): update:rxPkts:0,txPkts:0,rxBytes:0,txBytes:0
+06-30 14:50:49.792 I/TrafficMonitor( 1575): gettimer:interval=2000
+06-30 14:50:49.792 I/TrafficMonitor( 1575): before Count:30,after Count:5
+06-30 14:50:49.797 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:49.797 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:49.797 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:49.797 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:49.798 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:49.798 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:49.798 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:49.798 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:49.799 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:49.799 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:49.801 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:49.816 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:49.816 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:49.818 E/FLashInfoProcess( 1058): getVcmOtpInfo() get spSM failed 
+06-30 14:50:49.836 I/CoapMonitor( 2666): publishService after check ConnService started
+06-30 14:50:49.836 I/CoapMonitor( 2666): delay 1s for hicom receive wifi connected first
+06-30 14:50:49.839 I/bt_stack( 3309): [INFO:gatt_utils.cc(260)] gatt_find_the_connected_bda start_idx=0
+06-30 14:50:49.841 I/netd    (  669): trafficSwapActiveStatsMap() <3.38ms>
+06-30 14:50:49.845 I/netd    (  669): trafficSwapActiveStatsMap() <0.88ms>
+06-30 14:50:49.848 I/SmartDualCardTrafficManager( 2696): processScreenOnMsg, need to do nothing.
+06-30 14:50:49.852 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:49.862 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:49.862 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:49.864 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:49.865 D/Mapcon  : WifiLinkTracker( 2784): [isWifiConnected]connect=true
+06-30 14:50:49.866 D/Mapcon  : EpdgManager( 2784): [isServiceConnected]result= true
+06-30 14:50:49.867 E/Booster_HumanFactorTraffic( 2696): [getRemainDailyDataTraffic]dataPackage=-1
+06-30 14:50:49.868 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:49.868 D/Mapcon  : EpdgManager( 2784): [isServiceConnected]result= true
+06-30 14:50:49.870 I/netd    (  669): trafficSwapActiveStatsMap() <0.34ms>
+06-30 14:50:49.876 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:49.878 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:49.878 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:49.895 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:49.895 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:49.933 I/netd    (  669): trafficSwapActiveStatsMap() <0.30ms>
+06-30 14:50:49.937 I/bt_stack( 3309): [INFO:gatt_utils.cc(260)] gatt_find_the_connected_bda start_idx=0
+06-30 14:50:49.948 I/netd    (  669): trafficSwapActiveStatsMap() <0.15ms>
+06-30 14:50:49.968 E/Booster_HumanFactorTraffic( 2696): [getRemainDailyDataTraffic]dataPackage=-1
+06-30 14:50:49.970 I/netd    (  669): trafficSwapActiveStatsMap() <0.33ms>
+06-30 14:50:49.982 I/netd    (  669): trafficSwapActiveStatsMap() <0.22ms>
+06-30 14:50:49.990 I/netd    (  669): trafficSwapActiveStatsMap() <0.12ms>
+06-30 14:50:49.993 W/System  ( 2784): A resource failed to call close. 
+06-30 14:50:49.994 W/System  ( 2784): A resource failed to call close. 
+06-30 14:50:50.036 E/        ( 1058): [22db1eec_64W] LoadPqStateSplitCfg() getOneCfgFile failed. dirPath=[/odm/etc/camera/], extendDir=[OXF/OXF-Standard], fileName=[pq_state_split_config.xml].
+06-30 14:50:50.036 E/FrontBokehAlgo( 1058): [22db1eec_64W] GetFaceDtType, get FD Algo Type failed. use dafault value
+06-30 14:50:50.053 E/HwHiAIEngine_VisionBase(21410): Service disconnected : this.service is null 
+06-30 14:50:50.066 E/HwaUtils( 1058): [22db1eec_64W] FirstLevelXmlParser() LoadFile /odm/etc/camera/scenedetection/config.xml Failed
+06-30 14:50:50.066 I/SensorHdrIpp( 1058): [22db1eec_64I] getXmlPathBySensor(), failed to get sensorhdr config path, will use the default path: /odm/etc/camera/sensorhdr/config.xml
+06-30 14:50:50.066 I/SensorHdrIpp( 1058): [22db1eec_64I] getXmlPathBySensor(), failed to get sensorhdr config path, will use the default path: /odm/etc/camera/sensorhdr/config.xml
+06-30 14:50:50.067 D/Misc____( 1058): [22db1eec_64D] loadFovCropOffsetConfig(), LoadFile /odm/etc/camera/misc/fov_crop_offset.xml failed!
+06-30 14:50:50.068 E/        ( 1058): [22db1eec_64W] LoadPqStateSplitCfg() getOneCfgFile failed. dirPath=[/odm/etc/camera/], extendDir=[OXF/OXF-Standard], fileName=[pq_state_split_config.xml].
+06-30 14:50:50.068 E/HwFaceAttr( 1058): [22db1eec_64W] GetStateInfo() loadPqStateSplitCfg failed.
+06-30 14:50:50.071 E/HwaUtils( 1058): [22db1eec_64W] FirstLevelXmlParser() LoadFile /odm/etc/camera/cie/CIEProxyConfig.xml Failed
+06-30 14:50:50.079 E/        ( 1058): [22db1eec_64W] LoadPqStateSplitCfg() getOneCfgFile failed. dirPath=[/odm/etc/camera/], extendDir=[OXF/OXF-Standard], fileName=[pq_state_split_config.xml].
+06-30 14:50:50.081 I/bt_stack( 3309): [INFO:gatt_utils.cc(260)] gatt_find_the_connected_bda start_idx=0
+06-30 14:50:50.101 I/DeepNoDisturbSM( 2696): isWifiConnected = true
+06-30 14:50:50.105 E/        ( 1058): [22db1eec_64W] LoadPqStateSplitCfg() getOneCfgFile failed. dirPath=[/odm/etc/camera/], extendDir=[OXF/OXF-Standard], fileName=[pq_state_split_config.xml].
+06-30 14:50:50.113 E/HwaStatInfo( 1058): [22db1eec_64W] getSeamlessStatus memcpy_s(seamlessSize, size * sizeof(int), mSeamlessSize, size * sizeof(int)) failed
+06-30 14:50:50.113 D/ReportCaptureMemory__( 1058): [22db1eec_64D] GetCaptureMemoryRequirement(), LoadFile /odm/etc/camera/captureMemoryRequirment.xml failed!
+06-30 14:50:50.140 I/HalFaceRecognizeDevice( 1032): compare ret 0x3000: score 66, live atk 0, compare_failed 1, live_general 0.019792
+06-30 14:50:50.140 E/HalFaceRecognizeDevice( 1032): compare failed!
+06-30 14:50:50.141 I/HalFaceRecognizeDevice( 1032): Compare failed, continue result is 0x3000 --> 12
+06-30 14:50:50.195 I/bt_stack( 3309): [INFO:gatt_utils.cc(260)] gatt_find_the_connected_bda start_idx=0
+06-30 14:50:50.210 D/HighSpeedDevicesManager( 2696): reportScreenState CONNECTED_DEVICE_STATE_ON.
+06-30 14:50:50.276 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:50.276 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:50.293 W/uniperf server(  753): EnterActionProc DoParse failed, cmdId=4225
+06-30 14:50:50.293 D/uniperf hal(  753): do UniPerfEvent failed, cmdId=4225, ret=2
+06-30 14:50:50.303 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:50.304 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:50.304 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:50.307 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:50.307 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:50.307 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:50.307 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:50.308 I/HalFaceRecognizeDevice( 1032): compare ret 0x3000: score 66, live atk 0, compare_failed 2, live_general 0.003711
+06-30 14:50:50.308 E/HalFaceRecognizeDevice( 1032): compare failed!
+06-30 14:50:50.308 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:50.309 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:50.309 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:50.309 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:50.309 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:50.311 I/HalFaceRecognizeDevice( 1032): Compare failed, continue result is 0x3000 --> 12
+06-30 14:50:50.311 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:50.316 I/libnfc_nci(10532): [INFO:nfa_rw_act.cc(219)] Stopped presence check timer (if started)
+06-30 14:50:50.317 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:50.323 D/NxpHal  (  757): > Polling Loop Started
+06-30 14:50:50.326 D/Mapcon  : WifiLinkTracker( 2784): [isWifiConnected]connect=true
+06-30 14:50:50.326 D/Mapcon  : EpdgManager( 2784): [isServiceConnected]result= true
+06-30 14:50:50.327 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:50.327 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:50.328 I/libnfc_nci(10532): [INFO:NativeNfcManager.cpp(1027)] nfaConnectionCallback: NFA_RF_DISCOVERY_STARTED_EVT: status = 0x0
+06-30 14:50:50.329 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:50.329 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:50.331 D/Mapcon  : EpdgManager( 2784): [isServiceConnected]result= true
+06-30 14:50:50.338 I/libnfc_nci(10532): [INFO:nfa_rw_act.cc(219)] Stopped presence check timer (if started)
+06-30 14:50:50.344 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:50.346 D/NxpHal  (  757): > Polling Loop Started
+06-30 14:50:50.349 I/libnfc_nci(10532): [INFO:NativeNfcManager.cpp(1027)] nfaConnectionCallback: NFA_RF_DISCOVERY_STARTED_EVT: status = 0x0
+06-30 14:50:50.354 I/bt_stack( 3309): [INFO:gatt_utils.cc(260)] gatt_find_the_connected_bda start_idx=0
+06-30 14:50:50.362 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:50.377 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:50.377 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:50.464 I/WindowManager( 1575): UL_Power Started going to sleep... (why=OFF_BECAUSE_OF_USER)
+06-30 14:50:50.465 I/KeyguardService( 2381): KGSvcCall onStartedGoingToSleep. reason:2
+06-30 14:50:50.470 I/DE J HwBrightnessSceneRecognition( 1575): [effect] disableAr failed, mIsArConnected||mHwMsdpMovementManager||mArActivities is null!
+06-30 14:50:50.500 I/HalFaceRecognizeDevice( 1032): compare ret 0x3000: score 68, live atk 0, compare_failed 3, live_general 0.000103
+06-30 14:50:50.500 E/HalFaceRecognizeDevice( 1032): compare failed!
+06-30 14:50:50.500 E/HalFaceRecognizeDevice( 1032): Compare failed!
+06-30 14:50:50.542 W/PipelineLayout( 1058): DisconnectPostProc: post proc is already disconnected .
+06-30 14:50:50.563 V/Camera3-IOStreamBase( 1039): disconnectLocked: Stream 0: Already disconnected
+06-30 14:50:50.567 I/CameraService( 1039): disconnect: Disconnected client for camera 1 for PID 2713
+06-30 14:50:50.575 I/WificondControl( 1575): Noise: -90, Snr: 127, Chload: 113, rssi: -56, txBitrate: 115, rxBitrate: 144, frequency: 2422, UlDelay: 0, currentTxBytes: 1723018217, currentTxPackets: 1791206, currentTxFailed: 32, currentRxBytes: -2071043916, currentRxPackets: 2096411
+06-30 14:50:50.612 W/System  (10400): A resource failed to call close. 
+06-30 14:50:50.612 W/System  (10400): A resource failed to call close. 
+06-30 14:50:50.667 E/ColorFade( 1575): eglDestroySurface failed: error 12301
+06-30 14:50:50.668 W/BufferQueueProducer(  766): [SurfaceView - StatusBar#0]:1390: disconnect: not connected (req=1)
+06-30 14:50:50.668 W/libEGL  ( 2381): EGLNativeWindowType 0x7b61b05010 disconnect failed
+06-30 14:50:50.898 I/netd    (  669): trafficSwapActiveStatsMap() <0.31ms>
+06-30 14:50:50.902 I/netd    (  669): trafficSwapActiveStatsMap() <0.29ms>
+06-30 14:50:50.977 W/uniperf server(  753): EnterActionProc DoParse failed, cmdId=13252
+06-30 14:50:50.977 D/uniperf hal(  753): do UniPerfEvent failed, cmdId=13252, ret=2
+06-30 14:50:50.984 I/DE J HwBrightnessSceneRecognition( 1575): [effect] enableAr failed, mIsArConnected||mHwMsdpMovementManager||mArActivities is null!
+06-30 14:50:50.995 I/WindowManager( 1575): UL_Power Started waking up... (why=ON_BECAUSE_OF_USER)
+06-30 14:50:50.995 I/KeyguardService( 2381): KGSvcCall onStartedWakingUp.
+06-30 14:50:51.001 I/netd    (  669): trafficSwapActiveStatsMap() <4.61ms>
+06-30 14:50:51.043 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:51.043 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:51.072 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(2). 
+06-30 14:50:51.072 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(5). 
+06-30 14:50:51.072 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(6). 
+06-30 14:50:51.072 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(8). 
+06-30 14:50:51.072 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(9). 
+06-30 14:50:51.072 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(2). 
+06-30 14:50:51.072 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(5). 
+06-30 14:50:51.072 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(6). 
+06-30 14:50:51.073 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:51.088 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:51.095 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:51.095 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:51.100 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(2). 
+06-30 14:50:51.100 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(5). 
+06-30 14:50:51.100 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(6). 
+06-30 14:50:51.102 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:51.103 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(2). 
+06-30 14:50:51.103 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(5). 
+06-30 14:50:51.103 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(6). 
+06-30 14:50:51.106 E/FlickerSensorImpl( 1058): enableSensor: activate FAILED
+06-30 14:50:51.108 I/SmartDualCardTrafficManager( 2696): startScreenOffTimer
+06-30 14:50:51.112 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:51.115 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:51.115 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:51.115 E//system/bin/tee_auth_daemon(  584): Failed to get IAshmemDeviceService.
+06-30 14:50:51.133 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:51.133 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:51.133 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:51.133 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:51.139 E/PreProcFilter( 1058): SetColorSyncOnOff: get intent capablity failed
+06-30 14:50:51.178 E/FLashInfoProcess( 1058): getVcmOtpInfo() get spSM failed 
+06-30 14:50:51.182 D/HighSpeedDevicesManager( 2696): reportScreenState CONNECTED_DEVICE_STATE_OFF.
+06-30 14:50:51.201 I/bt_stack( 3309): [INFO:gatt_utils.cc(260)] gatt_find_the_connected_bda start_idx=0
+06-30 14:50:51.226 I/netd    (  669): trafficSwapActiveStatsMap() <0.75ms>
+06-30 14:50:51.228 I/netd    (  669): trafficSwapActiveStatsMap() <0.66ms>
+06-30 14:50:51.241 I/libnfc_nci(10532): [INFO:nfa_rw_act.cc(219)] Stopped presence check timer (if started)
+06-30 14:50:51.258 D/NxpHal  (  757): > Polling Loop Started
+06-30 14:50:51.264 I/libnfc_nci(10532): [INFO:NativeNfcManager.cpp(1027)] nfaConnectionCallback: NFA_RF_DISCOVERY_STARTED_EVT: status = 0x0
+06-30 14:50:51.267 I/bt_stack( 3309): [INFO:gatt_utils.cc(260)] gatt_find_the_connected_bda start_idx=0
+06-30 14:50:51.269 I/libnfc_nci(10532): [INFO:nfa_rw_act.cc(219)] Stopped presence check timer (if started)
+06-30 14:50:51.276 D/NxpHal  (  757): > Polling Loop Started
+06-30 14:50:51.278 I/libnfc_nci(10532): [INFO:NativeNfcManager.cpp(1027)] nfaConnectionCallback: NFA_RF_DISCOVERY_STARTED_EVT: status = 0x0
+06-30 14:50:51.395 E/        ( 1058): [22db1eec_64W] LoadPqStateSplitCfg() getOneCfgFile failed. dirPath=[/odm/etc/camera/], extendDir=[OXF/OXF-Standard], fileName=[pq_state_split_config.xml].
+06-30 14:50:51.395 E/FrontBokehAlgo( 1058): [22db1eec_64W] GetFaceDtType, get FD Algo Type failed. use dafault value
+06-30 14:50:51.403 E/HwaUtils( 1058): [22db1eec_64W] FirstLevelXmlParser() LoadFile /odm/etc/camera/scenedetection/config.xml Failed
+06-30 14:50:51.404 I/SensorHdrIpp( 1058): [22db1eec_64I] getXmlPathBySensor(), failed to get sensorhdr config path, will use the default path: /odm/etc/camera/sensorhdr/config.xml
+06-30 14:50:51.404 I/SensorHdrIpp( 1058): [22db1eec_64I] getXmlPathBySensor(), failed to get sensorhdr config path, will use the default path: /odm/etc/camera/sensorhdr/config.xml
+06-30 14:50:51.405 D/Misc____( 1058): [22db1eec_64D] loadFovCropOffsetConfig(), LoadFile /odm/etc/camera/misc/fov_crop_offset.xml failed!
+06-30 14:50:51.406 E/        ( 1058): [22db1eec_64W] LoadPqStateSplitCfg() getOneCfgFile failed. dirPath=[/odm/etc/camera/], extendDir=[OXF/OXF-Standard], fileName=[pq_state_split_config.xml].
+06-30 14:50:51.406 E/HwFaceAttr( 1058): [22db1eec_64W] GetStateInfo() loadPqStateSplitCfg failed.
+06-30 14:50:51.409 E/HwaUtils( 1058): [22db1eec_64W] FirstLevelXmlParser() LoadFile /odm/etc/camera/cie/CIEProxyConfig.xml Failed
+06-30 14:50:51.422 E/        ( 1058): [22db1eec_64W] LoadPqStateSplitCfg() getOneCfgFile failed. dirPath=[/odm/etc/camera/], extendDir=[OXF/OXF-Standard], fileName=[pq_state_split_config.xml].
+06-30 14:50:51.436 I/APwBatteryMonitor( 2751): screen off end: 0s, awake: 0s wakeups: 0, traffic:2, battery: 0
+06-30 14:50:51.444 E/        ( 1058): [22db1eec_64W] LoadPqStateSplitCfg() getOneCfgFile failed. dirPath=[/odm/etc/camera/], extendDir=[OXF/OXF-Standard], fileName=[pq_state_split_config.xml].
+06-30 14:50:51.453 E/HwaStatInfo( 1058): [22db1eec_64W] getSeamlessStatus memcpy_s(seamlessSize, size * sizeof(int), mSeamlessSize, size * sizeof(int)) failed
+06-30 14:50:51.454 D/ReportCaptureMemory__( 1058): [22db1eec_64D] GetCaptureMemoryRequirement(), LoadFile /odm/etc/camera/captureMemoryRequirment.xml failed!
+06-30 14:50:51.484 I/HalFaceRecognizeDevice( 1032): compare ret 0x3000: score 69, live atk 0, compare_failed 1, live_general 0.000019
+06-30 14:50:51.484 E/HalFaceRecognizeDevice( 1032): compare failed!
+06-30 14:50:51.485 I/WificondControl( 1575): Noise: -85, Snr: 127, Chload: 186, rssi: -59, txBitrate: 115, rxBitrate: 130, frequency: 2422, UlDelay: 0, currentTxBytes: 1723020601, currentTxPackets: 1791212, currentTxFailed: 32, currentRxBytes: -2071032034, currentRxPackets: 2096437
+06-30 14:50:51.492 I/HalFaceRecognizeDevice( 1032): Compare failed, continue result is 0x3000 --> 12
+06-30 14:50:51.508 I/TrafficMonitor( 1575): send message MSG_CHECK_IPDATA
+06-30 14:50:51.515 I/TrafficMonitor( 1575): update:rxPkts:30,txPkts:12,rxBytes:13681,txBytes:4850
+06-30 14:50:51.516 I/TrafficMonitor( 1575): gettimer:interval=2000
+06-30 14:50:51.516 I/TrafficMonitor( 1575): before Count:6,after Count:5
+06-30 14:50:51.540 I/CoapMonitor( 2666): publishService after check ConnService started
+06-30 14:50:51.541 I/CoapMonitor( 2666): delay 1s for hicom receive wifi connected first
+06-30 14:50:51.543 I/bt_stack( 3309): [INFO:gatt_utils.cc(260)] gatt_find_the_connected_bda start_idx=0
+06-30 14:50:51.549 E/WideAperture(21672): dlopen failed: library "libdcamera_multiview.so" not found
+06-30 14:50:51.550 E/WideAperture(21672): dlopen failed: library "libdcamera_visual_effect.so" not found
+06-30 14:50:51.551 I/SmartDualCardTrafficManager( 2696): processScreenOnMsg, need to do nothing.
+06-30 14:50:51.581 E/Booster_HumanFactorTraffic( 2696): [getRemainDailyDataTraffic]dataPackage=-1
+06-30 14:50:51.590 I/netd    (  669): trafficSwapActiveStatsMap() <0.70ms>
+06-30 14:50:51.608 D/HighSpeedDevicesManager( 2696): reportScreenState CONNECTED_DEVICE_STATE_ON.
+06-30 14:50:51.612 W/HSM_BG-11.1.1.451( 2841): NormalTrafficAnalysis:Alert byte is 0, so return
+06-30 14:50:51.619 I/netd    (  669): trafficSwapActiveStatsMap() <0.17ms>
+06-30 14:50:51.647 I/netd    (  669): trafficSwapActiveStatsMap() <0.23ms>
+06-30 14:50:51.654 I/bt_stack( 3309): [INFO:gatt_utils.cc(260)] gatt_find_the_connected_bda start_idx=0
+06-30 14:50:51.661 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:51.661 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:51.670 W/uniperf server(  753): EnterActionProc DoParse failed, cmdId=4225
+06-30 14:50:51.670 D/uniperf hal(  753): do UniPerfEvent failed, cmdId=4225, ret=2
+06-30 14:50:51.677 I/HalFaceRecognizeDevice( 1032): compare ret 0x3000: score 65, live atk 0, compare_failed 2, live_general 0.000013
+06-30 14:50:51.677 E/HalFaceRecognizeDevice( 1032): compare failed!
+06-30 14:50:51.685 I/HalFaceRecognizeDevice( 1032): Compare failed, continue result is 0x3000 --> 12
+06-30 14:50:51.695 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:51.706 E/Booster_HumanFactorTraffic( 2696): [getRemainDailyDataTraffic]dataPackage=-1
+06-30 14:50:51.714 I/libnfc_nci(10532): [INFO:nfa_rw_act.cc(219)] Stopped presence check timer (if started)
+06-30 14:50:51.717 I/netd    (  669): trafficSwapActiveStatsMap() <7.51ms>
+06-30 14:50:51.720 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:51.731 I/bt_stack( 3309): [INFO:gatt_utils.cc(260)] gatt_find_the_connected_bda start_idx=0
+06-30 14:50:51.733 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:51.733 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:51.733 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:51.733 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:51.735 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:51.736 I/netd    (  669): trafficSwapActiveStatsMap() <0.09ms>
+06-30 14:50:51.738 D/NxpHal  (  757): > Polling Loop Started
+06-30 14:50:51.740 I/libnfc_nci(10532): [INFO:NativeNfcManager.cpp(1027)] nfaConnectionCallback: NFA_RF_DISCOVERY_STARTED_EVT: status = 0x0
+06-30 14:50:51.751 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:51.754 I/libnfc_nci(10532): [INFO:nfa_rw_act.cc(219)] Stopped presence check timer (if started)
+06-30 14:50:51.761 I/netd    (  669): trafficSwapActiveStatsMap() <0.25ms>
+06-30 14:50:51.762 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:51.762 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:51.762 D/NxpHal  (  757): > Polling Loop Started
+06-30 14:50:51.764 I/libnfc_nci(10532): [INFO:NativeNfcManager.cpp(1027)] nfaConnectionCallback: NFA_RF_DISCOVERY_STARTED_EVT: status = 0x0
+06-30 14:50:51.804 I/bt_stack( 3309): [INFO:gatt_utils.cc(260)] gatt_find_the_connected_bda start_idx=0
+06-30 14:50:51.863 I/HalFaceRecognizeDevice( 1032): compare ret 0x3000: score 63, live atk 0, compare_failed 3, live_general 0.000726
+06-30 14:50:51.863 E/HalFaceRecognizeDevice( 1032): compare failed!
+06-30 14:50:51.863 E/HalFaceRecognizeDevice( 1032): Compare failed!
+06-30 14:50:51.873 I/DeepNoDisturbSM( 2696): isWifiConnected = true
+06-30 14:50:51.884 I/HwSearchService( 2622): [main]: SearchManager: remote search service connected
+06-30 14:50:51.894 I/HwSearchService(26480): [pool-37-thread-1]: PublicIndexManager: update 1 index in 0/gallery/defaultGroup, failed 0
+06-30 14:50:51.904 W/PipelineLayout( 1058): DisconnectPostProc: post proc is already disconnected .
+06-30 14:50:51.965 V/Camera3-IOStreamBase( 1039): disconnectLocked: Stream 0: Already disconnected
+06-30 14:50:51.966 I/CameraService( 1039): disconnect: Disconnected client for camera 1 for PID 2713
+06-30 14:50:52.109 E/SmartDualCardTrafficManager( 2696): isCustomerApplyTheTrafficPackage:: customer not set the package!
+06-30 14:50:52.118 E/SmartDualCardTrafficManager( 2696): isCustomerApplyTheTrafficPackage:: customer not set the package!
+06-30 14:50:52.130 I/SmartDualCardSM( 2696): boosterDump:SlaveActive=true SameOperator=false M_NetworkBad=true S_NetworkBad=true M_DLSpeedLimit=1048576 S_DLSpeedLimit=1048576 M_DataRoam=false S_DataRoam=false VPNMode=false TetherOn=false AppQoeSlow=false HidataAppQoeSlow=false GameExpBad=false DsdsState=0 S_TrafficEnough=true M_NetworkStatus=1 S_NetworkStatus=1 1xTaskRun=false QoeSlowReason=0 MovementType=-1 M_NetworkServicestatus=1 S_NetworkServicestatus=1 isUidBindListEmpty=true M_DetectAppQoe=-1 AppRouteSlot=0 WifiProSwitchSlaveCard=false LinkTurboActive=false
+06-30 14:50:52.133 E/libprocessgroup( 1575): AddTidToCgroup failed to write '19737'; fd=576: No space left on device
+06-30 14:50:52.133 E/libprocessgroup( 1575): Failed to add task into cgroup
+06-30 14:50:52.133 W/libprocessgroup( 1575): Failed to apply ProcessCapacityLow task profile: No space left on device
+06-30 14:50:52.133 E/libprocessgroup( 1575): AddTidToCgroup failed to write '19740'; fd=576: No space left on device
+06-30 14:50:52.133 E/libprocessgroup( 1575): Failed to add task into cgroup
+06-30 14:50:52.133 W/libprocessgroup( 1575): Failed to apply ProcessCapacityLow task profile: No space left on device
+06-30 14:50:52.138 E/SmartDualCardTrafficManager( 2696): isCustomerApplyTheTrafficPackage:: customer not set the package!
+06-30 14:50:52.144 W/uniperf server(  753): EnterActionProc DoParse failed, cmdId=13252
+06-30 14:50:52.145 D/uniperf hal(  753): do UniPerfEvent failed, cmdId=13252, ret=2
+06-30 14:50:52.200 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(2). 
+06-30 14:50:52.200 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(5). 
+06-30 14:50:52.200 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(6). 
+06-30 14:50:52.200 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(8). 
+06-30 14:50:52.200 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(9). 
+06-30 14:50:52.201 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(2). 
+06-30 14:50:52.201 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(5). 
+06-30 14:50:52.201 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(6). 
+06-30 14:50:52.228 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(2). 
+06-30 14:50:52.228 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(5). 
+06-30 14:50:52.228 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(6). 
+06-30 14:50:52.229 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(2). 
+06-30 14:50:52.229 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(5). 
+06-30 14:50:52.229 W/SensorStage( 1058): getDeviceFilterManager: failed to find sensor device node(6). 
+06-30 14:50:52.231 E/FlickerSensorImpl( 1058): enableSensor: activate FAILED
+06-30 14:50:52.267 E/PreProcFilter( 1058): SetColorSyncOnOff: get intent capablity failed
+06-30 14:50:52.274 E/FLashInfoProcess( 1058): getVcmOtpInfo() get spSM failed 
+06-30 14:50:52.484 E/        ( 1058): [22db1eec_64W] LoadPqStateSplitCfg() getOneCfgFile failed. dirPath=[/odm/etc/camera/], extendDir=[OXF/OXF-Standard], fileName=[pq_state_split_config.xml].
+06-30 14:50:52.484 E/FrontBokehAlgo( 1058): [22db1eec_64W] GetFaceDtType, get FD Algo Type failed. use dafault value
+06-30 14:50:52.493 E/HwaUtils( 1058): [22db1eec_64W] FirstLevelXmlParser() LoadFile /odm/etc/camera/scenedetection/config.xml Failed
+06-30 14:50:52.493 I/SensorHdrIpp( 1058): [22db1eec_64I] getXmlPathBySensor(), failed to get sensorhdr config path, will use the default path: /odm/etc/camera/sensorhdr/config.xml
+06-30 14:50:52.493 I/SensorHdrIpp( 1058): [22db1eec_64I] getXmlPathBySensor(), failed to get sensorhdr config path, will use the default path: /odm/etc/camera/sensorhdr/config.xml
+06-30 14:50:52.494 D/Misc____( 1058): [22db1eec_64D] loadFovCropOffsetConfig(), LoadFile /odm/etc/camera/misc/fov_crop_offset.xml failed!
+06-30 14:50:52.495 E/        ( 1058): [22db1eec_64W] LoadPqStateSplitCfg() getOneCfgFile failed. dirPath=[/odm/etc/camera/], extendDir=[OXF/OXF-Standard], fileName=[pq_state_split_config.xml].
+06-30 14:50:52.495 E/HwFaceAttr( 1058): [22db1eec_64W] GetStateInfo() loadPqStateSplitCfg failed.
+06-30 14:50:52.498 E/HwaUtils( 1058): [22db1eec_64W] FirstLevelXmlParser() LoadFile /odm/etc/camera/cie/CIEProxyConfig.xml Failed
+06-30 14:50:52.506 E/        ( 1058): [22db1eec_64W] LoadPqStateSplitCfg() getOneCfgFile failed. dirPath=[/odm/etc/camera/], extendDir=[OXF/OXF-Standard], fileName=[pq_state_split_config.xml].
+06-30 14:50:52.513 E/        ( 1058): [22db1eec_64W] LoadPqStateSplitCfg() getOneCfgFile failed. dirPath=[/odm/etc/camera/], extendDir=[OXF/OXF-Standard], fileName=[pq_state_split_config.xml].
+06-30 14:50:52.518 E/HwaStatInfo( 1058): [22db1eec_64W] getSeamlessStatus memcpy_s(seamlessSize, size * sizeof(int), mSeamlessSize, size * sizeof(int)) failed
+06-30 14:50:52.519 D/ReportCaptureMemory__( 1058): [22db1eec_64D] GetCaptureMemoryRequirement(), LoadFile /odm/etc/camera/captureMemoryRequirment.xml failed!
+06-30 14:50:52.565 I/HalFaceRecognizeDevice( 1032): compare ret 0x3000: score 60, live atk 0, compare_failed 1, live_general 0.018477
+06-30 14:50:52.565 E/HalFaceRecognizeDevice( 1032): compare failed!
+06-30 14:50:52.566 I/HalFaceRecognizeDevice( 1032): Compare failed, continue result is 0x3000 --> 12
+06-30 14:50:52.579 E/fpc_tac ( 1100): fpc_tac_sensorhub_image failed with retval: 6
+06-30 14:50:52.632 E/fpc_tac ( 1100): fpc_tac_sensorhub_image failed with retval: 6
+06-30 14:50:52.685 E/fpc_tac ( 1100): fpc_tac_sensorhub_image failed with retval: 6
+06-30 14:50:52.738 E/fpc_tac ( 1100): fpc_tac_sensorhub_image failed with retval: 6
+06-30 14:50:52.747 I/HalFaceRecognizeDevice( 1032): compare ret 0x3000: score 58, live atk 0, compare_failed 2, live_general 0.001601
+06-30 14:50:52.747 E/HalFaceRecognizeDevice( 1032): compare failed!
+06-30 14:50:52.748 I/HalFaceRecognizeDevice( 1032): Compare failed, continue result is 0x3000 --> 12
+06-30 14:50:52.813 E/fpc_tac ( 1100): fpc_tac_sensorhub_image failed with retval: 6
+06-30 14:50:52.870 E/fpc_tac ( 1100): fpc_tac_sensorhub_image failed with retval: 6
+06-30 14:50:52.920 E/fpc_tac ( 1100): fpc_tac_sensorhub_image failed with retval: 6
+06-30 14:50:52.942 I/HalFaceRecognizeDevice( 1032): compare ret 0x3000: score 61, live atk 0, compare_failed 3, live_general 0.000042
+06-30 14:50:52.942 E/HalFaceRecognizeDevice( 1032): compare failed!
+06-30 14:50:52.942 E/HalFaceRecognizeDevice( 1032): Compare failed!
+06-30 14:50:52.992 W/PipelineLayout( 1058): DisconnectPostProc: post proc is already disconnected .
+06-30 14:50:53.049 V/Camera3-IOStreamBase( 1039): disconnectLocked: Stream 0: Already disconnected
+06-30 14:50:53.050 I/CameraService( 1039): disconnect: Disconnected client for camera 1 for PID 2713
+06-30 14:50:53.516 I/TrafficMonitor( 1575): update:rxPkts:22,txPkts:10,rxBytes:10725,txBytes:3826
+06-30 14:50:53.517 I/TrafficMonitor( 1575): gettimer:interval=2000
+06-30 14:50:53.544 W/libc    (  725): Unable to set property "sys.check.usbupdate" to "start": connection failed; errno=13 (Permission denied)
+06-30 14:50:54.192 I/TrafficMonitor( 1575): expired arrive. level:-1
+06-30 14:50:54.192 I/TrafficMonitor( 1575): during_ms:2001,period_ms:2000
+06-30 14:50:54.192 I/TrafficMonitor( 1575): count:6,rx_sum:22,tx_sum:10,rxBytes:10725,during_ms:2001,rx_speed:5359.820089955023,tx_speed:1912.0439780109946,rto:2.2
+06-30 14:50:54.419 E/LockSettingsStorage( 1575): Cannot read file java.io.FileNotFoundException: /data/system_de/0/spblob/3ffe849e52d6c1ca.weaver: open failed: ENOENT (No such file or directory)
+06-30 14:50:54.491 I/WificondControl( 1575): Noise: -82, Snr: 127, Chload: 120, rssi: -56, txBitrate: 115, rxBitrate: 144, frequency: 2422, UlDelay: 0, currentTxBytes: 1723024710, currentTxPackets: 1791222, currentTxFailed: 32, currentRxBytes: -2071022115, currentRxPackets: 2096457
+06-30 14:50:54.579 I/WificondControl( 1575): Noise: -82, Snr: 127, Chload: 120, rssi: -56, txBitrate: 115, rxBitrate: 144, frequency: 2422, UlDelay: 0, currentTxBytes: 1723024710, currentTxPackets: 1791222, currentTxFailed: 32, currentRxBytes: -2071022115, currentRxPackets: 2096457
+06-30 14:50:54.586 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:54.586 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:54.587 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:54.587 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:54.588 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:54.588 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:54.588 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:54.598 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:54.599 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:54.601 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:54.601 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:54.613 E/SmartDualCardTrafficManager( 2696): isCustomerApplyTheTrafficPackage:: customer not set the package!
+06-30 14:50:54.618 E/SmartDualCardTrafficManager( 2696): isCustomerApplyTheTrafficPackage:: customer not set the package!
+06-30 14:50:54.623 D/DsduChr ( 2696): uid=10299, isTrafficFree=false, isUsingFreeTraffic=false
+06-30 14:50:54.623 I/SmartDualCardSM( 2696): IdleState:got msg.what=EVENT_SLAVE_TRAFFIC_FREE_APP_BACKGROUND
+06-30 14:50:54.711 E/fpc_fingerprint_hal( 1100): capture_image failed -4
+06-30 14:50:54.713 E/fpc_fingerprint_hal( 1100): fp_end_identify failed -4
+06-30 14:50:54.753 I/libnfc_nci(10532): [INFO:nfa_rw_act.cc(219)] Stopped presence check timer (if started)
+06-30 14:50:54.757 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:54.757 I/MobileSignalController( 2381): copyFrom::dataConnected = false
+06-30 14:50:54.767 D/NxpHal  (  757): > Polling Loop Started
+06-30 14:50:54.775 I/libnfc_nci(10532): [INFO:NativeNfcManager.cpp(1027)] nfaConnectionCallback: NFA_RF_DISCOVERY_STARTED_EVT: status = 0x0
+06-30 14:50:54.784 I/libnfc_nci(10532): [INFO:nfa_rw_act.cc(219)] Stopped presence check timer (if started)
+06-30 14:50:54.786 I/libnfc_nci(10532): [INFO:nfc_main.cc(2019)] nfc service set pid failed
+06-30 14:50:54.792 D/NxpHal  (  757): > Polling Loop Started
+06-30 14:50:54.794 I/netd    (  669): trafficSwapActiveStatsMap() <0.28ms>
+06-30 14:50:54.795 I/netd    (  669): trafficSwapActiveStatsMap() <0.79ms>
+06-30 14:50:54.798 I/libnfc_nci(10532): [INFO:NativeNfcManager.cpp(1027)] nfaConnectionCallback: NFA_RF_DISCOVERY_STARTED_EVT: status = 0x0
+06-30 14:50:54.809 W/BufferQueueProducer(  766): [SurfaceView - StatusBar#0]:1390: disconnect: not connected (req=1)
+06-30 14:50:54.809 W/libEGL  ( 2381): EGLNativeWindowType 0x7c0013d010 disconnect failed
+06-30 14:50:54.815 E//system/bin/tee_auth_daemon(  584): Failed to get IAshmemDeviceService.
+06-30 14:50:54.843 I/bt_stack( 3309): [INFO:gatt_utils.cc(260)] gatt_find_the_connected_bda start_idx=0
+06-30 14:50:54.843 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:54.843 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:54.845 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:54.845 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:54.845 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:54.845 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:54.845 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:54.846 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:54.846 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:54.846 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:54.846 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:54.847 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:54.847 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:55.086 W/BufferQueueProducer(  766): [StatusBar#0]:1390: disconnect: not connected (req=1)
+06-30 14:50:55.086 W/libEGL  ( 2381): EGLNativeWindowType 0x7b8c031e50 disconnect failed
+06-30 14:50:55.282 W/System  (18271): A resource failed to call end. 
+06-30 14:50:55.517 I/TrafficMonitor( 1575): update:rxPkts:24,txPkts:25,rxBytes:5974,txBytes:9440
+06-30 14:50:55.518 I/TrafficMonitor( 1575): gettimer:interval=2000
+06-30 14:50:55.626 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:50:56.025 I/netd    (  669): trafficSwapActiveStatsMap() <0.42ms>
+06-30 14:50:56.179 E/        ( 1058): [22db1eec_64W] countPss snprintf_s(tmp, sizeof(tmp), sizeof(tmp) - 1, "/proc/%d/smaps", pid) failed
+06-30 14:50:56.201 E/        ( 1058): [22db1eec_64W] countPss snprintf_s(tmp, sizeof(tmp), sizeof(tmp) - 1, "/proc/%d/smaps", pid) failed
+06-30 14:50:56.658 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:50:57.183 E/SmartDualCardTrafficManager( 2696): isCustomerApplyTheTrafficPackage:: customer not set the package!
+06-30 14:50:57.188 E/SmartDualCardTrafficManager( 2696): isCustomerApplyTheTrafficPackage:: customer not set the package!
+06-30 14:50:57.194 D/DsduChr ( 2696): uid=10044, isTrafficFree=false, isUsingFreeTraffic=false
+06-30 14:50:57.194 I/SmartDualCardSM( 2696): IdleState:got msg.what=EVENT_SLAVE_TRAFFIC_FREE_APP_BACKGROUND
+06-30 14:50:57.350 I/netd    (  669): trafficSwapActiveStatsMap() <0.22ms>
+06-30 14:50:57.351 I/netd    (  669): trafficSwapActiveStatsMap() <0.10ms>
+06-30 14:50:57.498 I/WificondControl( 1575): Noise: -85, Snr: 127, Chload: 78, rssi: -56, txBitrate: 115, rxBitrate: 130, frequency: 2422, UlDelay: 0, currentTxBytes: 1723032000, currentTxPackets: 1791241, currentTxFailed: 32, currentRxBytes: -2071018751, currentRxPackets: 2096476
+06-30 14:50:57.519 I/TrafficMonitor( 1575): update:rxPkts:4,txPkts:2,rxBytes:431,txBytes:2878
+06-30 14:50:57.519 I/TrafficMonitor( 1575): gettimer:interval=2000
+06-30 14:50:57.677 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:50:58.209 I/netd    (  669): trafficSwapActiveStatsMap() <0.17ms>
+06-30 14:50:58.236 V/ActivityManager( 1575): startProcess: name=com.example.various_vpn:RunSoLibV2RayDaemon app=null knownToBeDead=true thread=null pid=-1 preloadStatus=-1
+06-30 14:50:58.239 W/BufferQueueProducer(  766): [com.android.vpndialogs/com.android.vpndialogs.ConfirmDialog#0]:1390: disconnect: not connected (req=1)
+06-30 14:50:58.239 W/libEGL  (32498): EGLNativeWindowType 0x7c03c481d0 disconnect failed
+06-30 14:50:58.241 E/SmartDualCardTrafficManager( 2696): isCustomerApplyTheTrafficPackage:: customer not set the package!
+06-30 14:50:58.249 I/ActivityManager( 1575): Start proc 21862:com.example.various_vpn:RunSoLibV2RayDaemon/u0a299 for service {com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.services.V2rayVPNService}
+06-30 14:50:58.250 E/SmartDualCardTrafficManager( 2696): isCustomerApplyTheTrafficPackage:: customer not set the package!
+06-30 14:50:58.250 W/oLibV2RayDaemo(21862): type=1400 audit(0.0:24910): avc: denied { read } for pid=21862 name="u:object_r:device_config_runtime_native_prop:s0" dev="tmpfs" ino=2721 scontext=u:r:untrusted_app:s0:c43,c257,c512,c768 tcontext=u:object_r:device_config_runtime_native_prop:s0 tclass=file permissive=0
+06-30 14:50:58.254 E/oLibV2RayDaemo(21862): LoadAppImageStartupCache enabled : 1
+06-30 14:50:58.255 D/RtgSchedIpcFile(32498): setCommandByIoctl failed ret:-1, cmdid:22, errno:103
+06-30 14:50:58.258 I/oLibV2RayDaemo(21862): Reinit property: dalvik.vm.checkjni= false
+06-30 14:50:58.258 I/oLibV2RayDaemo(21862): ReInitProperties: persist.vm.debug.dumpapi= false
+06-30 14:50:58.259 E/oLibV2RayDaemo(21862): Not starting debugger since process cannot load the jdwp agent.
+06-30 14:50:58.260 D/RtgSchedIpcFile(32498): setCommandByIoctl failed ret:-1, cmdid:23, errno:103
+06-30 14:50:58.265 D/DsduChr ( 2696): uid=10299, isTrafficFree=false, isUsingFreeTraffic=false
+06-30 14:50:58.265 I/SmartDualCardSM( 2696): IdleState:got msg.what=EVENT_SLAVE_TRAFFIC_FREE_APP_BACKGROUND
+06-30 14:50:58.294 I/AwareBitmapCacher(21862): init processName:com.example.various_vpn:RunSoLibV2RayDaemon pid=21862 uid=10299
+06-30 14:50:58.386 E/b       (21862): setUpListener => new initialize from V2rayVPNService
+06-30 14:50:58.388 I/GoLog   (21862): loading core config
+06-30 14:50:58.390 I/GoLog   (21862): Preparing Domain: nl1.ug-connect.site:443
+06-30 14:50:58.395 I/GoLog   (21862): new core
+06-30 14:50:58.396 I/GoLog   (21862): start core
+06-30 14:50:58.394 W/oLibV2RayDaemon(21862): type=1400 audit(0.0:24911): avc: denied { read } for pid=21862 name="somaxconn" dev="proc" ino=1137367 scontext=u:r:untrusted_app:s0:c43,c257,c512,c768 tcontext=u:object_r:proc_net:s0 tclass=file permissive=0
+06-30 14:50:58.414 D/Vpn     ( 1575): setting state=CONNECTED, reason=agentConnect
+06-30 14:50:58.417 E/V2rayVPNService(21862): sendFd failed =>
+06-30 14:50:58.417 E/V2rayVPNService(21862): java.io.IOException: No such file or directory
+06-30 14:50:58.417 E/V2rayVPNService(21862): 	at android.net.LocalSocketImpl.connectLocal(Native Method)
+06-30 14:50:58.417 E/V2rayVPNService(21862): 	at android.net.LocalSocketImpl.connect(LocalSocketImpl.java:304)
+06-30 14:50:58.417 E/V2rayVPNService(21862): 	at android.net.LocalSocket.connect(LocalSocket.java:147)
+06-30 14:50:58.417 E/V2rayVPNService(21862): 	at g0.b.run(SourceFile:46)
+06-30 14:50:58.417 E/V2rayVPNService(21862): 	at java.lang.Thread.run(Thread.java:929)
+06-30 14:50:58.423 I/HwConnectivityService( 1575): hintUserSwitchToMobileWhileWifiDisconnected, state=CONNECTING  type =17
+06-30 14:50:58.426 I/GoLog   (21862): Prepare Result:
+06-30 14:50:58.426 I/GoLog   (21862):  Domain: nl1.ug-connect.site
+06-30 14:50:58.426 I/GoLog   (21862):  Port: 443
+06-30 14:50:58.426 I/GoLog   (21862):  IPs: [89.125.17.116]
+06-30 14:50:58.429 I/NotificationService( 1575): enqueueNotificationInternal: pkg=com.example.various_vpn id=1 notification=Notification(channel=A_FLUTTER_V2RAY_SERVICE_CH_ID pri=-2 contentView=null vibrate=null sound=null defaults=0x0 flags=0x4a color=0x00000000 actions=1 vis=PRIVATE)
+06-30 14:50:58.429 E/V2rayProxyOnlyService(21862): onStartCommand success => v2ray core started.
+06-30 14:50:58.430 I/HwNotificationService( 1575): isHwSoundAllow pkg=com.example.various_vpn, channelId=A_FLUTTER_V2RAY_SERVICE_CH_ID, userId=0, soundVibrate=null
+06-30 14:50:58.431 I/HwNotificationService_Vibrate( 1575): getHwVibratorType pkg=com.example.various_vpn, channelId=A_FLUTTER_V2RAY_SERVICE_CH_ID, userId=0, vibratorType=haptic.pattern.type4
+06-30 14:50:58.431 I/ConnectivityService( 1575): NetworkAgent connected
+06-30 14:50:58.431 I/ConnectivityService( 1575): NetworkAgentInfo [VPN () - 107] EVENT_NETWORK_INFO_CHANGED, going from CONNECTING to CONNECTED
+06-30 14:50:58.434 I/NotificationListener( 2381): onNotificationPosted: StatusBarNotification(pkg=com.example.various_vpn user=UserHandle{0} id=1 tag=null key=0|com.example.various_vpn|1|null|10299: Notification(channel=A_FLUTTER_V2RAY_SERVICE_CH_ID pri=-2 contentView=null vibrate=null sound=null defaults=0x0 flags=0x6a color=0x00000000 groupKey=ranker_group1 actions=1 vis=PRIVATE)) important=3, post=1782820258429, when=1782820258423,showWhen=false, vis=0, userid=0, hasFullScreenIntent=false,style=null
+06-30 14:50:58.434 W/PushLog110109302( 4799): [SocketRead_14:49:22-216]socket not connected, wait
+06-30 14:50:58.442 I/PushLog110109302( 4799): [ReceiverDispatcher-202]reconnect pushserver failed, the next reconnect time is:0 after 0 ms
+06-30 14:50:58.455 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{7070ec8 u0 V2RAY_CONNECTION_INFO}
+06-30 14:50:58.458 I/netd    (  669): trafficSwapActiveStatsMap() <0.26ms>
+06-30 14:50:58.461 I/netd    (  669): trafficSwapActiveStatsMap() <0.84ms>
+06-30 14:50:58.467 E/SOCK_FILE(21862): connected to sock file [/data/user/0/com.example.various_vpn/files/sock_path]
+06-30 14:50:58.468 I/netd    (  669): trafficSwapActiveStatsMap() <0.51ms>
+06-30 14:50:58.477 I/NetworkMonitor/107( 1575): DefaultState handle CMD_NETWORK_CONNECTED
+06-30 14:50:58.479 W/HSM_BG-11.1.1.451( 2841): NormalTrafficAnalysis:Alert byte is 0, so return
+06-30 14:50:58.482 I/NotificationService( 1575): updateNotificationChannelForPackage, channel: NotificationChannel{mId='A_FLUTTER_V2RAY_SERVICE_CH_ID', mDescription=hasDescription , mImportance=3, mBypassDnd=false, mLockscreenVisibility=-1000, mSound=content://settings/system/notification_sound, mLights=false, mLightColor=-12303292, mVibration=null, mUserLockedFields=0, mFgServiceShown=false, mVibrationEnabled=false, mShowBadge=true, mDeleted=false, mGroup='null', mAudioAttributes=AudioAttributes: usage=USAGE_NOTIFICATION content=CONTENT_TYPE_SONIFICATION flags=0x800 tags= bundle=null, mBlockableSystem=false, mAllowBubbles=true, mImportanceLockedByOEM=false, mImportanceLockedDefaultApp=false}
+06-30 14:50:58.483 I/TrafficMonitor( 1575): enableMonitor:false,type=1
+06-30 14:50:58.484 I/WiFi_PRO_WifiProStateMachine( 1575):  ChrSwitchSuccTrafficSum: 0
+06-30 14:50:58.486 E/WiFi_PRO_WifiProStateMachine( 1575): updateWifi2CellParamSuccExit failed
+06-30 14:50:58.486 E/WiFi_PRO_WifiProStateMachine( 1575): updateWifi2CellParamHandoverFail failed
+06-30 14:50:58.487 I/WiFi_PRO_WifiProStateMachine( 1575): WiFiProEnableState,go to WifiConnectedState
+06-30 14:50:58.487 I/WiFi_PRO_WifiProStateMachine( 1575): WifiConnectedState is Enter
+06-30 14:50:58.495 I/WiFi_PRO_WifiProStateMachine( 1575): WiFiProConnected oldType = 0
+06-30 14:50:58.497 E/PushLog110109302( 4799): libcore.io.IoBridge.isConnected(IoBridge.java:288)
+06-30 14:50:58.501 E/PushLog110109302( 4799): [ReceiverDispatcher-202]setSoLinger failed
+06-30 14:50:58.511 I/ConnectivityService( 1575): Sending CONNECTED broadcast for type 17 NetworkAgentInfo [VPN () - 107] isDefaultNetwork=false
+06-30 14:50:58.515 I/HwConnectivityService( 1575): hintUserSwitchToMobileWhileWifiDisconnected, state=CONNECTED  type =17
+06-30 14:50:58.520 W/ContextImpl( 2814): Failed to ensure /data/user_de/0/com.huawei.android.totemweather/shared_prefs: mkdir failed: EACCES (Permission denied)
+06-30 14:50:58.520 W/ContextImpl( 2814): Failed to ensure /data/user_de/0/com.huawei.android.totemweather/shared_prefs: mkdir failed: EACCES (Permission denied)
+06-30 14:50:58.520 I/FactorChangeMonitor( 2666): mWifi: [type: WIFI[], state: CONNECTED/CONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false] isWifiConnected: true, isEthernetConnected: false
+06-30 14:50:58.521 D/FactorChangeMonitor( 2666): ethernet disconnected
+06-30 14:50:58.523 I/GnssNetworkConnectivityHandler( 1575): updateNetworkState, state=CLOSED, connected=true, network=107, capabilities=[ Transports: WIFI|VPN Capabilities: NOT_METERED&INTERNET&NOT_RESTRICTED&TRUSTED&VALIDATED&NOT_ROAMING&FOREGROUND&NOT_CONGESTED&NOT_SUSPENDED LinkUpBandwidth>=1048576Kbps LinkDnBandwidth>=1048576Kbps Uids: <{0-99999}> EstablishingAppUid: 10299 DNN:  SSCMODE: 0 SNSSAI:  PduSessionType: 0 RouteBitmap: 0], availableNetworkCount: 2
+06-30 14:50:58.523 I/GoLog   (21862): from tcp:127.0.0.1:46348 accepted tcp:157.240.205.1:443 [in_proxy >> proxy]
+06-30 14:50:58.525 E/PushLog110109302( 4799): [ReceiverDispatcher-202]Socket connect failed with IPv4
+06-30 14:50:58.527 E/ TrustCircleService.( 2713): NetworkChangeReceiver - isNetworkConnected: unknown network
+06-30 14:50:58.529 I/SarControl_Manager( 2696): handleConnectivityAction, isChanged =false, is_wifi_connected=1
+06-30 14:50:58.530 I/NetworkStartup(23790): network:[type: MOBILE[], state: DISCONNECTED/DISCONNECTED, reason: (unspecified), extra: (none), failover: false, available: false, roaming: false] [main] 32302
+06-30 14:50:58.533 I/NetworkStartup(23790): network:[type: WIFI[], state: CONNECTED/CONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false] [main] 32302
+06-30 14:50:58.535 D/HIGNSS_ADAPTER(  736): RilUpdateNetWorkStateV20 interface called. handle=462967197709,connected=1,capabilities=3,apn=
+06-30 14:50:58.536 I/ConnectivityService( 1575): Update of LinkProperties for NetworkAgentInfo [VPN () - 107]; created=true; everConnected=true
+06-30 14:50:58.536 I/ConnectivityService( 1575): Update of LinkProperties for NetworkAgentInfo [VPN () - 107]; created=true; everConnected=true
+06-30 14:50:58.538 I/PushLog110109302( 4799): [ReceiverDispatcher-202]reconnect pushserver failed, the next reconnect time is:1 after 4969 ms
+06-30 14:50:58.544 I/NetworkStartup(23790): network:[type: BLUETOOTH[], state: DISCONNECTED/DISCONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false] [main] 32302
+06-30 14:50:58.547 I/GoLog   (21862): from tcp:127.0.0.1:46354 accepted tcp:8.8.8.8:853 [in_proxy >> proxy]
+06-30 14:50:58.554 I/GoLog   (21862): from udp:127.0.0.1:46716 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:50:58.555 I/PushLog110109302( 4799): [ReceiverDispatcher-202]reconnect pushserver failed, the next reconnect time is:1 after 4952 ms
+06-30 14:50:58.560 I/GoLog   (21862): from tcp:127.0.0.1:46366 accepted tcp:8.8.4.4:853 [in_proxy >> proxy]
+06-30 14:50:58.560 I/ConnectionCapabilities( 2666): mWifi: [type: WIFI[], state: CONNECTED/CONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false]ip is: 192.168.1***
+06-30 14:50:58.568 I/GoLog   (21862): from udp:127.0.0.1:44589 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:50:58.590 I/GoLog   (21862): from tcp:127.0.0.1:46378 accepted tcp:157.240.205.1:443 [in_proxy >> proxy]
+06-30 14:50:58.598 I/GoLog   (21862): from udp:127.0.0.1:57228 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:50:58.599 I/GoLog   (21862): from udp:127.0.0.1:33495 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:50:58.599 I/GoLog   (21862): from udp:127.0.0.1:42357 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:50:58.614 I/HiAdSDK.LocationUtils(18271):  loc_tag sendAsyncLocationByNative failed because switch is off
+06-30 14:50:58.619 I/ScrollLayout2( 2381): addContainerView StatusBarNotification(pkg=com.example.various_vpn user=UserHandle{0} id=1 tag=null key=0|com.example.various_vpn|1|null|10299: Notification(channel=A_FLUTTER_V2RAY_SERVICE_CH_ID pri=-2 contentView=null vibrate=null sound=null defaults=0x0 flags=0x6a color=0x00000000 groupKey=ranker_group1 actions=1 vis=PRIVATE))
+06-30 14:50:58.624 I/GoLog   (21862): from udp:127.0.0.1:56843 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:50:58.625 D/LAUNCH_SDK(18271): main ||| network connected
+06-30 14:50:58.631 I/GoLog   (21862): from udp:127.0.0.1:40111 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:50:58.653 I/CCodecConfig( 1053): query failed after returning 8 values (BAD_INDEX)
+06-30 14:50:58.654 D/CCodecConfig( 1053): config failed => CORRUPTED
+06-30 14:50:58.679 W/audio_custom(  734): getConfigValue: open dts file failed! May not need in this case
+06-30 14:50:58.679 W/audio_custom(  734): record_effect_init: get record_algo_compatible failed, may not need
+06-30 14:50:58.704 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:50:58.718 W/System  (18271): A resource failed to call end. 
+06-30 14:50:58.719 I/HiAdSDK.HiAdTools(18271):  current connected service pkg: com.huawei.hwid
+06-30 14:50:58.720 I/HiAdSDK.HiAdTools(18271):  current connected service pkg: com.huawei.hwid
+06-30 14:50:58.720 I/HiAdSDK.HiAdTools(18271):  current connected service pkg: com.huawei.hwid
+06-30 14:50:58.720 I/HiAdSDK.HiAdTools(18271):  current connected service pkg: com.huawei.hwid
+06-30 14:50:58.720 I/HiAdSDK.HiAdTools(18271):  current connected service pkg: com.huawei.hwid
+06-30 14:50:58.721 I/HiAdSDK.HiAdTools(18271):  current connected service pkg: com.huawei.hwid
+06-30 14:50:58.733 I/GoLog   (21862): from udp:127.0.0.1:39924 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:50:58.746 I/NetworkStartup(23790): connected-->true [main] 32302
+06-30 14:50:58.763 I/NetworkStartup(23790): network:[type: MOBILE[], state: DISCONNECTED/DISCONNECTED, reason: (unspecified), extra: (none), failover: false, available: false, roaming: false] [main] 32302
+06-30 14:50:58.764 I/NetworkStartup(23790): network:[type: WIFI[], state: CONNECTED/CONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false] [main] 32302
+06-30 14:50:58.765 I/NetworkStartup(23790): network:[type: BLUETOOTH[], state: DISCONNECTED/DISCONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false] [main] 32302
+06-30 14:50:58.783 I/NetworkStartup(23790): connected-->true [main] 32302
+06-30 14:50:58.804 I/GoLog   (21862): from udp:127.0.0.1:35771 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:50:58.839 I/HwOUC   (20665): [main-1]doNetworkChanged, networkInfo:[type: VPN[], state: CONNECTED/CONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false](DownloadOnReceiveService:4)
+06-30 14:50:58.844 I/WiFi_PRO_WifiProStateMachine( 1575): EVENT_DISPATCH_INTERNET_RESULT in ConnectedState, level = 5, isFirstTimeInformNetResult = true
+06-30 14:50:58.852 I/WiFi_PRO_WifiProStateMachine( 1575): WiFi internet check level = 5, isKeepConnected = true, mIsUserHandoverWiFi = false
+06-30 14:50:58.853 I/WiFi_PRO_WifiProStateMachine( 1575): score = 60, mDisconnectToConnectedState = false
+06-30 14:50:58.853 I/WiFi_PRO_WifiProStateMachine( 1575): continue to keep connected
+06-30 14:50:58.869 I/HiAdKit.ApkUtil.Net( 9267):  Failed to get application signature certificate fingerprint.
+06-30 14:50:58.930 W/System  ( 1575): A resource failed to call release. 
+06-30 14:50:58.967 I/GoLog   (21862): from udp:127.0.0.1:41415 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:50:59.116 I/GoLog   (21862): from udp:127.0.0.1:51011 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:50:59.253 I/GoLog   (21862): from udp:127.0.0.1:48496 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:50:59.257 I/GoLog   (21862): from tcp:127.0.0.1:46390 accepted tcp:159.138.201.211:443 [in_proxy >> proxy]
+06-30 14:50:59.257 I/GoLog   (21862): from tcp:127.0.0.1:46380 accepted tcp:159.138.207.140:443 [in_proxy >> proxy]
+06-30 14:50:59.276 I/GoLog   (21862): from udp:127.0.0.1:54629 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:50:59.289 I/GoLog   (21862): from tcp:127.0.0.1:46404 accepted tcp:159.138.203.215:6447 [in_proxy >> proxy]
+06-30 14:50:59.306 I/GoLog   (21862): from udp:127.0.0.1:34639 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:50:59.307 I/GoLog   (21862): from tcp:127.0.0.1:46412 accepted tcp:159.138.197.194:443 [in_proxy >> proxy]
+06-30 14:50:59.321 I/GoLog   (21862): from udp:127.0.0.1:40408 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:50:59.350 W/AMessage( 1053): failed to post message as target looper for handler 0 is gone.
+06-30 14:50:59.441 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{886a32b u0 V2RAY_CONNECTION_INFO}
+06-30 14:50:59.469 I/bastetd ( 1026): [ProxySocket    ] DoReconnFailed# set reconn break
+06-30 14:50:59.724 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:50:59.971 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:50:59.971 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:00.452 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{fba4ca3 u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:00.502 I/WificondControl( 1575): Noise: -85, Snr: 127, Chload: 95, rssi: -55, txBitrate: 117, rxBitrate: 144, frequency: 2422, UlDelay: 0, currentTxBytes: 1723053571, currentTxPackets: 1791401, currentTxFailed: 32, currentRxBytes: -2071005213, currentRxPackets: 2096525
+06-30 14:51:00.554 I/GoLog   (21862): from udp:127.0.0.1:55490 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:00.569 I/GoLog   (21862): from udp:127.0.0.1:60230 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:00.603 I/GoLog   (21862): from udp:127.0.0.1:54394 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:00.603 I/GoLog   (21862): from udp:127.0.0.1:47102 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:00.603 I/GoLog   (21862): from udp:127.0.0.1:38762 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:00.629 I/GoLog   (21862): from udp:127.0.0.1:48008 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:00.635 I/GoLog   (21862): from udp:127.0.0.1:57993 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:00.736 I/GoLog   (21862): from udp:127.0.0.1:59884 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:00.750 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:51:00.808 I/GoLog   (21862): from udp:127.0.0.1:39142 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:00.848 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:00.848 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:00.848 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:00.848 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:00.849 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:00.849 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:00.849 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:00.849 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:00.850 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:00.850 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:00.851 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:00.969 I/GoLog   (21862): from udp:127.0.0.1:45163 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:01.034 I/netd    (  669): trafficSwapActiveStatsMap() <0.29ms>
+06-30 14:51:01.119 I/GoLog   (21862): from udp:127.0.0.1:56302 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:01.255 I/GoLog   (21862): from udp:127.0.0.1:43221 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:01.279 I/GoLog   (21862): from udp:127.0.0.1:40928 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:01.307 I/GoLog   (21862): from udp:127.0.0.1:45028 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:01.324 I/GoLog   (21862): from udp:127.0.0.1:40234 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:01.445 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{e859359 u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:01.591 I/GoLog   (21862): from udp:127.0.0.1:35138 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:01.602 I/GoLog   (21862): from tcp:127.0.0.1:46416 accepted tcp:76.223.113.180:80 [in_proxy >> proxy]
+06-30 14:51:01.773 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:51:02.393 W/audio_custom(  734): getConfigValue: open dts file failed! May not need in this case
+06-30 14:51:02.393 W/audio_custom(  734): record_effect_init: get record_algo_compatible failed, may not need
+06-30 14:51:02.445 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{19b0b1e u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:02.799 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:51:03.266 E/CHR_PsSlowManager ( 2646): wifi is connected
+06-30 14:51:03.457 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{61fb1cc u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:03.510 I/WificondControl( 1575): Noise: -85, Snr: 127, Chload: 78, rssi: -56, txBitrate: 144, rxBitrate: 144, frequency: 2422, UlDelay: 0, currentTxBytes: 1723061461, currentTxPackets: 1791476, currentTxFailed: 32, currentRxBytes: -2071001369, currentRxPackets: 2096551
+06-30 14:51:03.517 I/PushLog110109302( 4799): [ReceiverDispatcher-202]reconnect pushserver failed, the next reconnect time is:1 after 0 ms
+06-30 14:51:03.528 I/GoLog   (21862): from tcp:127.0.0.1:44678 accepted tcp:159.138.204.113:443 [in_proxy >> proxy]
+06-30 14:51:03.594 I/GoLog   (21862): from udp:127.0.0.1:40905 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:03.823 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:51:04.127 I/GoLog   (21862): from udp:127.0.0.1:47589 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:04.133 I/GoLog   (21862): from udp:127.0.0.1:45058 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:04.450 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{527a493 u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:04.845 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:51:05.093 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.093 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.096 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.097 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.097 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.097 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.097 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.097 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.097 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.098 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.098 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.100 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.100 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.460 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{2b80cd0 u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:05.596 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{52504c9 u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:05.867 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:51:05.903 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.903 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.907 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.908 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.909 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.910 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.910 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.912 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.913 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.913 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.914 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.914 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.915 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.915 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.918 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:05.919 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:06.047 I/netd    (  669): trafficSwapActiveStatsMap() <0.92ms>
+06-30 14:51:06.125 I/GoLog   (21862): from udp:127.0.0.1:34401 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:06.135 I/GoLog   (21862): from udp:127.0.0.1:51728 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:06.518 I/WificondControl( 1575): Noise: -82, Snr: 127, Chload: 206, rssi: -55, txBitrate: 144, rxBitrate: 144, frequency: 2422, UlDelay: 0, currentTxBytes: 1723066725, currentTxPackets: 1791532, currentTxFailed: 32, currentRxBytes: -2070989591, currentRxPackets: 2096582
+06-30 14:51:06.560 I/GoLog   (21862): from udp:127.0.0.1:52800 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:06.576 I/GoLog   (21862): from udp:127.0.0.1:52557 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:06.599 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{4ae77ce u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:06.610 I/GoLog   (21862): from udp:127.0.0.1:37910 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:06.610 I/GoLog   (21862): from udp:127.0.0.1:40880 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:06.616 I/GoLog   (21862): from udp:127.0.0.1:33707 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:06.633 I/GoLog   (21862): from udp:127.0.0.1:37535 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:06.642 I/GoLog   (21862): from udp:127.0.0.1:55701 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:06.743 I/GoLog   (21862): from udp:127.0.0.1:37262 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:06.814 I/GoLog   (21862): from udp:127.0.0.1:38806 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:06.817 I/GoLog   (21862): from udp:127.0.0.1:40720 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:06.892 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:51:06.977 I/GoLog   (21862): from udp:127.0.0.1:44329 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:07.127 I/GoLog   (21862): from udp:127.0.0.1:39959 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:07.259 I/GoLog   (21862): from udp:127.0.0.1:45239 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:07.288 I/GoLog   (21862): from udp:127.0.0.1:57062 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:07.311 I/GoLog   (21862): from udp:127.0.0.1:50528 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:07.327 I/GoLog   (21862): from udp:127.0.0.1:33289 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:07.610 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{5f02485 u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:07.915 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:51:08.219 I/netd    (  669): trafficSwapActiveStatsMap() <0.91ms>
+06-30 14:51:08.549 D/WifiConfigStore( 1575): Writing to stores started
+06-30 14:51:08.565 I/GoLog   (21862): from udp:127.0.0.1:34821 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:08.577 I/GoLog   (21862): from udp:127.0.0.1:43023 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:08.599 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:51:08.599 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{ebe3894 u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:08.611 I/GoLog   (21862): from udp:127.0.0.1:38498 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:08.611 I/GoLog   (21862): from udp:127.0.0.1:42037 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:08.613 I/GoLog   (21862): from udp:127.0.0.1:53163 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:08.636 I/GoLog   (21862): from udp:127.0.0.1:35280 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:08.642 I/GoLog   (21862): from udp:127.0.0.1:58210 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:08.743 I/GoLog   (21862): from udp:127.0.0.1:58072 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:08.818 I/GoLog   (21862): from udp:127.0.0.1:36120 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:08.818 I/GoLog   (21862): from udp:127.0.0.1:41188 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:08.940 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:51:08.978 I/GoLog   (21862): from udp:127.0.0.1:60475 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:09.130 I/GoLog   (21862): from udp:127.0.0.1:56259 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:09.264 I/GoLog   (21862): from udp:127.0.0.1:34865 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:09.279 I/GoLog   (21862): from tcp:127.0.0.1:44690 accepted tcp:159.138.205.231:443 [in_proxy >> proxy]
+06-30 14:51:09.288 I/GoLog   (21862): from udp:127.0.0.1:54468 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:09.314 I/GoLog   (21862): from udp:127.0.0.1:52985 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:09.328 D/OkHttp  ( 9858): address /2407:c080:1400:83:dfa:e218:4611:84db:443 connect failed
+06-30 14:51:09.329 I/GoLog   (21862): from udp:127.0.0.1:44056 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:09.531 I/WificondControl( 1575): Noise: -86, Snr: 127, Chload: 79, rssi: -56, txBitrate: 144, rxBitrate: 144, frequency: 2422, UlDelay: 0, currentTxBytes: 1723075261, currentTxPackets: 1791618, currentTxFailed: 32, currentRxBytes: -2070980705, currentRxPackets: 2096601
+06-30 14:51:09.579 I/GoLog   (21862): from tcp:127.0.0.1:44706 accepted tcp:80.158.35.173:443 [in_proxy >> proxy]
+06-30 14:51:09.598 I/GoLog   (21862): from udp:127.0.0.1:51246 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:09.599 I/GoLog   (21862): from udp:127.0.0.1:41050 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:09.600 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:51:09.601 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{2b35f3d u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:09.968 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:51:10.549 E/b       (21862): stopCore failed => v2ray core not running.
+06-30 14:51:10.550 I/PassThroughStats( 2751): pkg=com.example.various_vpn service=com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.services.V2rayVPNService type=1073741824 fg_duration=12120 bg_duration=0
+06-30 14:51:10.550 I/AppBgModeMgr( 2751): pkg:com.example.various_vpn fgService:com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.services.V2rayVPNService serviceType:1073741824 stop, runningTime:12120 bgRunningTime:0
+06-30 14:51:10.555 I/NotificationListener( 2381): onNotificationRemoved: StatusBarNotification(pkg=com.example.various_vpn user=UserHandle{0} id=1 tag=null key=0|com.example.various_vpn|1|null|10299: Notification(channel=A_FLUTTER_V2RAY_SERVICE_CH_ID pri=-2 contentView=null vibrate=null sound=null defaults=0x0 flags=0x6a color=0x00000000 groupKey=ranker_group1 actions=1 vis=PRIVATE))
+06-30 14:51:10.561 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:51:10.563 I/ScrollLayout2( 2381): removeContainerView StatusBarNotification(pkg=com.example.various_vpn user=UserHandle{0} id=1 tag=null key=0|com.example.various_vpn|1|null|10299: Notification(channel=A_FLUTTER_V2RAY_SERVICE_CH_ID pri=-2 contentView=null vibrate=null sound=null defaults=0x0 flags=0x6a color=0x00000000 groupKey=ranker_group1 actions=1 vis=PRIVATE))
+06-30 14:51:10.565 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{1fbb239 u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:10.587 I/ConnectivityService( 1575): Update of LinkProperties for NetworkAgentInfo [VPN () - 107]; created=true; everConnected=true
+06-30 14:51:10.591 E/PushLog110109302( 4799): [ReceiverDispatcher-202]call connectMode.protocol.init failed!!
+06-30 14:51:10.591 I/ConnectivityService( 1575): Update of LinkProperties for NetworkAgentInfo [VPN () - 107]; created=true; everConnected=true
+06-30 14:51:10.595 D/OkHttp  ( 9858): address /2407:c080:1400:83:dfa:e218:4611:84db:443 connect failed
+06-30 14:51:10.597 D/Vpn     ( 1575): setting state=DISCONNECTED, reason=agentDisconnect
+06-30 14:51:10.597 I/ConnectivityService( 1575): NetworkAgentInfo [VPN () - 107] EVENT_NETWORK_INFO_CHANGED, going from CONNECTED to DISCONNECTED
+06-30 14:51:10.597 I/AsyncChannel( 1575): replyDisconnected, send success
+06-30 14:51:10.599 I/WiFi_PRO_WifiProStateMachine( 1575): WifiConnectedState is Exit
+06-30 14:51:10.599 I/WiFi_PRO_WifiProStateMachine( 1575): WiFiProEnableState,go to WifiConnectedState
+06-30 14:51:10.600 I/WiFi_PRO_WifiProStateMachine( 1575): WifiConnectedState is Enter
+06-30 14:51:10.602 W/System.err(18271): java.net.ConnectException: Failed to connect to /13.248.244.92:80
+06-30 14:51:10.602 I/CCodecConfig( 1053): query failed after returning 8 values (BAD_INDEX)
+06-30 14:51:10.603 I/RouteExceptDetection--0( 2696): get netId failed
+06-30 14:51:10.605 I/WiFi_PRO_WifiProStateMachine( 1575): WiFiProConnected oldType = 0
+06-30 14:51:10.605 D/CCodecConfig( 1053): config failed => CORRUPTED
+06-30 14:51:10.607 E/b       (21862): stopCore success => v2ray core stopped.
+06-30 14:51:10.608 I/GoLog   (21862): loading core config
+06-30 14:51:10.608 E/PushLog110109302( 4799): [ReceiverDispatcher-202]Socket connect failed with IPv4
+06-30 14:51:10.608 I/GoLog   (21862): Preparing Domain: nl1.ug-connect.site:443
+06-30 14:51:10.610 I/GoLog   (21862): new core
+06-30 14:51:10.615 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:51:10.615 I/ConnectivityService( 1575): NetworkAgentInfo [VPN () - 107] got DISCONNECTED, was satisfying 37
+06-30 14:51:10.615 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{ab0062c u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:10.617 W/System.err(18271): Caused by: java.net.ConnectException: failed to connect to /13.248.244.92 (port 80) from /192.168.1.73 (port 58186) after 30000ms: isConnected failed: ECONNABORTED (Software caused connection abort)
+06-30 14:51:10.617 W/System.err(18271): 	at libcore.io.IoBridge.isConnected(IoBridge.java:288)
+06-30 14:51:10.618 I/PushLog110109302( 4799): [ReceiverDispatcher-202]reconnect pushserver failed, the next reconnect time is:0 after 2978 ms
+06-30 14:51:10.620 W/System.err(18271): Caused by: android.system.ErrnoException: isConnected failed: ECONNABORTED (Software caused connection abort)
+06-30 14:51:10.620 W/System.err(18271): 	at libcore.io.IoBridge.isConnected(IoBridge.java:275)
+06-30 14:51:10.621 I/netd    (  669): trafficSwapActiveStatsMap() <1.31ms>
+06-30 14:51:10.621 I/GoLog   (21862): start core
+06-30 14:51:10.626 I/GoLog   (21862): Prepare Result:
+06-30 14:51:10.626 I/GoLog   (21862):  Domain: nl1.ug-connect.site
+06-30 14:51:10.626 I/GoLog   (21862):  Port: 443
+06-30 14:51:10.626 I/GoLog   (21862):  IPs: [89.125.17.116]
+06-30 14:51:10.631 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:10.632 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:10.634 D/Vpn     ( 1575): setting state=CONNECTED, reason=agentConnect
+06-30 14:51:10.637 I/Hicom_Monitor( 2696): HicomNetworkCallback: net type: 10 disconnected, notify
+06-30 14:51:10.638 I/GnssNetworkConnectivityHandler( 1575): updateNetworkState, state=CLOSED, connected=false, network=107, capabilities=[ Transports: WIFI|VPN Capabilities: NOT_METERED&INTERNET&NOT_RESTRICTED&TRUSTED&VALIDATED&NOT_ROAMING&FOREGROUND&NOT_CONGESTED&NOT_SUSPENDED LinkUpBandwidth>=1048576Kbps LinkDnBandwidth>=1048576Kbps Uids: <{0-99999}> EstablishingAppUid: 10299 DNN:  SSCMODE: 0 SNSSAI:  PduSessionType: 0 RouteBitmap: 0], availableNetworkCount: 1
+06-30 14:51:10.638 D/HIGNSS_ADAPTER(  736): RilUpdateNetWorkStateV20 interface called. handle=462967197709,connected=0,capabilities=3,apn=
+06-30 14:51:10.639 I/NetworkMonitor/107( 1575): DefaultState handle CMD_NETWORK_DISCONNECTED
+06-30 14:51:10.640 D/Mapcon  : VoiceManager-5-PrepareState( 2784): [a]MsgIdEnum=MAPCON_MESSAGE_WM_CMD_WIFI_DISCONNECTED_IND
+06-30 14:51:10.640 D/Mapcon  : VoiceManager-0-PrepareState( 2784): [a]MsgIdEnum=MAPCON_MESSAGE_WM_CMD_WIFI_DISCONNECTED_IND
+06-30 14:51:10.642 I/PushLog110109302( 4799): [ConnectivityThread-211]no connected network
+06-30 14:51:10.645 W/audio_custom(  734): getConfigValue: open dts file failed! May not need in this case
+06-30 14:51:10.645 W/audio_custom(  734): record_effect_init: get record_algo_compatible failed, may not need
+06-30 14:51:10.646 D/Mapcon  : VoWifiQoeService( 2784): [notifyWifiStateChange]isConnected:false
+06-30 14:51:10.646 D/Mapcon  : VoWifiQoeService( 2784): [notifyWifiStateChange]isConnected:false
+06-30 14:51:10.648 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.648 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.648 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.648 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.648 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.649 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.649 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.649 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.649 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.651 W/HSM_BG-11.1.1.451( 2841): NormalTrafficAnalysis:Alert byte is 0, so return
+06-30 14:51:10.651 E/V2rayProxyOnlyService(21862): onStartCommand success => v2ray core started.
+06-30 14:51:10.654 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:51:10.654 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.655 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{8a8c860 u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:10.655 D/OkHttp  ( 9858): address /2407:c080:1400:83:dfa:e218:4611:84db:443 connect failed
+06-30 14:51:10.657 E/b       (21862): setUpListener => new initialize from V2rayVPNService
+06-30 14:51:10.660 E/V2rayVPNService(21862): sendFd failed =>
+06-30 14:51:10.660 E/V2rayVPNService(21862): java.io.IOException: Connection refused
+06-30 14:51:10.660 E/V2rayVPNService(21862): 	at android.net.LocalSocketImpl.connectLocal(Native Method)
+06-30 14:51:10.660 E/V2rayVPNService(21862): 	at android.net.LocalSocketImpl.connect(LocalSocketImpl.java:304)
+06-30 14:51:10.660 E/V2rayVPNService(21862): 	at android.net.LocalSocket.connect(LocalSocket.java:147)
+06-30 14:51:10.660 E/V2rayVPNService(21862): 	at g0.b.run(SourceFile:46)
+06-30 14:51:10.660 E/V2rayVPNService(21862): 	at java.lang.Thread.run(Thread.java:929)
+06-30 14:51:10.660 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.660 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.661 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.661 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.661 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.661 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.662 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.663 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.663 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.663 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.663 W/AMessage( 1053): failed to post message as target looper for handler 0 is gone.
+06-30 14:51:10.663 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.663 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.665 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.665 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.665 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.666 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.666 I/ConnectivityService( 1575): Sending DISCONNECTED broadcast for type 17 NetworkAgentInfo [VPN () - 107] isDefaultNetwork=false
+06-30 14:51:10.666 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.666 I/WifiNetworkFactory( 1575): wifi is connected, do not deal with LTE score, score: 0
+06-30 14:51:10.669 I/FactorChangeMonitor( 2666): mWifi: [type: WIFI[], state: CONNECTED/CONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false] isWifiConnected: true, isEthernetConnected: false
+06-30 14:51:10.670 D/FactorChangeMonitor( 2666): ethernet disconnected
+06-30 14:51:10.672 W/ContextImpl( 2814): Failed to ensure /data/user_de/0/com.huawei.android.totemweather/shared_prefs: mkdir failed: EACCES (Permission denied)
+06-30 14:51:10.672 W/ContextImpl( 2814): Failed to ensure /data/user_de/0/com.huawei.android.totemweather/shared_prefs: mkdir failed: EACCES (Permission denied)
+06-30 14:51:10.672 I/SarControl_Manager( 2696): handleConnectivityAction, isChanged =false, is_wifi_connected=1
+06-30 14:51:10.675 I/ConnectionCapabilities( 2666): mWifi: [type: WIFI[], state: CONNECTED/CONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false]ip is: 192.168.1***
+06-30 14:51:10.680 I/NetworkStartup(23790): network:[type: MOBILE[], state: DISCONNECTED/DISCONNECTED, reason: (unspecified), extra: (none), failover: false, available: false, roaming: false] [main] 32302
+06-30 14:51:10.702 I/PushLog110109302( 4799): [ReceiverDispatcher-202]reconnect pushserver failed, the next reconnect time is:0 after 2895 ms
+06-30 14:51:10.710 I/NetworkStartup(23790): network:[type: WIFI[], state: CONNECTED/CONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false] [main] 32302
+06-30 14:51:10.711 E/SOCK_FILE(21862): connected to sock file [/data/user/0/com.example.various_vpn/files/sock_path]
+06-30 14:51:10.712 I/NetworkStartup(23790): network:[type: BLUETOOTH[], state: DISCONNECTED/DISCONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false] [main] 32302
+06-30 14:51:10.719 I/NetworkStartup(23790): connected-->true [main] 32302
+06-30 14:51:10.725 W/u5.a.g1.m1( 1212): [{0}] Failed to resolve name. status={1}
+06-30 14:51:10.725 I/HwConnectivityService( 1575): hintUserSwitchToMobileWhileWifiDisconnected, state=DISCONNECTED  type =17
+06-30 14:51:10.758 W/Antivirus_Plugin_AVAST(24726): AvastVirusEngine:sdk: HttpWorker failed to download the content. Unable to resolve host "sp-8f237ea3.honzik.avcdn.net": No address associated with hostname
+06-30 14:51:10.760 E/Antivirus_Plugin_AVAST(24726): AvastVirusEngine:vps: VPS: Checking update info error, XML definition file download failed.
+06-30 14:51:10.761 I/HwConnectivityService( 1575): hintUserSwitchToMobileWhileWifiDisconnected, state=CONNECTING  type =17
+06-30 14:51:10.769 E//system/bin/tee_auth_daemon(  584): Failed to get IAshmemDeviceService.
+06-30 14:51:10.773 I/ConnectivityService( 1575): NetworkAgent connected
+06-30 14:51:10.773 I/ConnectivityService( 1575): NetworkAgentInfo [VPN () - 108] EVENT_NETWORK_INFO_CHANGED, going from CONNECTING to CONNECTED
+06-30 14:51:10.776 D/LAUNCH_SDK(18271): main ||| network connected
+06-30 14:51:10.789 I/HwOUC   (20665): [main-1]doNetworkChanged, networkInfo:[type: VPN[], state: DISCONNECTED/DISCONNECTED, reason: agentDisconnect, extra: (none), failover: false, available: false, roaming: false](DownloadOnReceiveService:4)
+06-30 14:51:10.791 I/NetworkStartup(23790): network:[type: MOBILE[], state: DISCONNECTED/DISCONNECTED, reason: (unspecified), extra: (none), failover: false, available: false, roaming: false] [main] 32302
+06-30 14:51:10.794 I/NetworkStartup(23790): network:[type: WIFI[], state: CONNECTED/CONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false] [main] 32302
+06-30 14:51:10.796 I/NetworkStartup(23790): network:[type: BLUETOOTH[], state: DISCONNECTED/DISCONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false] [main] 32302
+06-30 14:51:10.799 I/CCodecConfig( 1053): query failed after returning 8 values (BAD_INDEX)
+06-30 14:51:10.800 I/NetworkStartup(23790): connected-->true [main] 32302
+06-30 14:51:10.800 D/CCodecConfig( 1053): config failed => CORRUPTED
+06-30 14:51:10.810 I/GoLog   (21862): from udp:127.0.0.1:47367 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:10.811 I/netd    (  669): trafficSwapActiveStatsMap() <0.25ms>
+06-30 14:51:10.821 I/GoLog   (21862): from udp:127.0.0.1:60882 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:10.831 I/NetworkMonitor/108( 1575): DefaultState handle CMD_NETWORK_CONNECTED
+06-30 14:51:10.831 I/WiFi_PRO_WifiProStateMachine( 1575): WifiConnectedState is Exit
+06-30 14:51:10.833 I/WiFi_PRO_WifiProStateMachine( 1575): WiFiProEnableState,go to WifiConnectedState
+06-30 14:51:10.833 I/WiFi_PRO_WifiProStateMachine( 1575): WifiConnectedState is Enter
+06-30 14:51:10.839 I/WiFi_PRO_WifiProStateMachine( 1575): WiFiProConnected oldType = 0
+06-30 14:51:10.842 W/NetworkKit_ErrorCodeUtil( 9858): Request failed with java.io.IOException
+06-30 14:51:10.853 I/GoLog   (21862): from tcp:127.0.0.1:44720 accepted tcp:159.138.200.58:443 [in_proxy >> proxy]
+06-30 14:51:10.861 D/Mapcon  : VoiceManager-0-PrepareState( 2784): [a]MsgIdEnum=MAPCON_MESSAGE_WM_CMD_WIFI_CONNECTED_IND
+06-30 14:51:10.862 D/Mapcon  : VoiceManager-5-PrepareState( 2784): [a]MsgIdEnum=MAPCON_MESSAGE_WM_CMD_WIFI_CONNECTED_IND
+06-30 14:51:10.863 D/Mapcon  : VoWifiQoeService( 2784): [notifyWifiStateChange]isConnected:true
+06-30 14:51:10.863 D/Mapcon  : WifiLinkTracker( 2784): [isWifiConnected]connect=true
+06-30 14:51:10.863 D/Mapcon  : EpdgManager( 2784): [isServiceConnected]result= true
+06-30 14:51:10.863 D/Mapcon  : WifiLinkTracker( 2784): [isWifiConnected]connect=true
+06-30 14:51:10.863 D/Mapcon  : WifiLinkTracker( 2784): [isWifiConnected]connect=true
+06-30 14:51:10.863 D/Mapcon  : VoWifiQoeService( 2784): [notifyWifiStateChange]isConnected:true
+06-30 14:51:10.863 D/Mapcon  : EpdgManager( 2784): [isServiceConnected]result= true
+06-30 14:51:10.867 D/Mapcon  : WifiLinkTracker( 2784): [isWifiConnected]connect=true
+06-30 14:51:10.871 D/Mapcon  : EpdgManager( 2784): [isServiceConnected]result= true
+06-30 14:51:10.873 D/Mapcon  : EpdgManager( 2784): [isServiceConnected]result= true
+06-30 14:51:10.874 I/ConnectivityService( 1575): Sending CONNECTED broadcast for type 17 NetworkAgentInfo [VPN () - 108] isDefaultNetwork=false
+06-30 14:51:10.877 I/HwConnectivityService( 1575): hintUserSwitchToMobileWhileWifiDisconnected, state=CONNECTED  type =17
+06-30 14:51:10.877 I/ConnectivityService( 1575): Update of LinkProperties for NetworkAgentInfo [VPN () - 108]; created=true; everConnected=true
+06-30 14:51:10.886 I/GnssNetworkConnectivityHandler( 1575): updateNetworkState, state=CLOSED, connected=true, network=108, capabilities=[ Transports: WIFI|VPN Capabilities: NOT_METERED&INTERNET&NOT_RESTRICTED&TRUSTED&VALIDATED&NOT_ROAMING&FOREGROUND&NOT_CONGESTED&NOT_SUSPENDED LinkUpBandwidth>=1048576Kbps LinkDnBandwidth>=1048576Kbps Uids: <{0-99999}> EstablishingAppUid: 10299 DNN:  SSCMODE: 0 SNSSAI:  PduSessionType: 0 RouteBitmap: 0], availableNetworkCount: 2
+06-30 14:51:10.886 D/HIGNSS_ADAPTER(  736): RilUpdateNetWorkStateV20 interface called. handle=467262165005,connected=1,capabilities=3,apn=
+06-30 14:51:10.888 I/PushLog110109302( 4799): [ReceiverDispatcher-202]reconnect pushserver failed, the next reconnect time is:0 after 2708 ms
+06-30 14:51:10.889 I/ConnectivityService( 1575): Update of LinkProperties for NetworkAgentInfo [VPN () - 108]; created=true; everConnected=true
+06-30 14:51:10.897 I/GoLog   (21862): from tcp:127.0.0.1:44732 accepted tcp:8.8.8.8:853 [in_proxy >> proxy]
+06-30 14:51:10.907 I/GoLog   (21862): from tcp:127.0.0.1:44752 accepted tcp:80.158.35.173:443 [in_proxy >> proxy]
+06-30 14:51:10.907 I/GoLog   (21862): from tcp:127.0.0.1:44738 accepted tcp:8.8.4.4:853 [in_proxy >> proxy]
+06-30 14:51:10.919 D/OkHttp  ( 9267): address /2407:c080:1400:83:6cc0:158b:5436:beca:443 connect failed
+06-30 14:51:10.923 I/GoLog   (21862): from udp:127.0.0.1:54965 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:10.936 E/ TrustCircleService.( 2713): NetworkChangeReceiver - isNetworkConnected: unknown network
+06-30 14:51:10.953 I/GoLog   (21862): from tcp:127.0.0.1:44760 accepted tcp:159.138.203.215:6447 [in_proxy >> proxy]
+06-30 14:51:10.962 I/WiFi_PRO_WifiProStateMachine( 1575): EVENT_DISPATCH_INTERNET_RESULT in ConnectedState, level = 5, isFirstTimeInformNetResult = true
+06-30 14:51:10.968 I/WiFi_PRO_WifiProStateMachine( 1575): WiFi internet check level = 5, isKeepConnected = true, mIsUserHandoverWiFi = false
+06-30 14:51:10.969 I/WiFi_PRO_WifiProStateMachine( 1575): score = 60, mDisconnectToConnectedState = false
+06-30 14:51:10.969 I/WiFi_PRO_WifiProStateMachine( 1575): continue to keep connected
+06-30 14:51:10.978 I/FactorChangeMonitor( 2666): mWifi: [type: WIFI[], state: CONNECTED/CONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false] isWifiConnected: true, isEthernetConnected: false
+06-30 14:51:10.978 D/FactorChangeMonitor( 2666): ethernet disconnected
+06-30 14:51:10.983 I/ConnectionCapabilities( 2666): mWifi: [type: WIFI[], state: CONNECTED/CONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false]ip is: 192.168.1***
+06-30 14:51:10.988 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:51:11.000 I/GoLog   (21862): from tcp:127.0.0.1:44772 accepted tcp:159.138.200.58:443 [in_proxy >> proxy]
+06-30 14:51:11.004 I/SarControl_Manager( 2696): handleConnectivityAction, isChanged =false, is_wifi_connected=1
+06-30 14:51:11.048 I/GoLog   (21862): from tcp:127.0.0.1:44784 accepted tcp:159.138.207.140:443 [in_proxy >> proxy]
+06-30 14:51:11.058 I/netd    (  669): trafficSwapActiveStatsMap() <0.21ms>
+06-30 14:51:11.094 D/OkHttp  ( 9858): address /2407:c080:1400:83:6cc0:158b:5436:beca:443 connect failed
+06-30 14:51:11.097 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:11.097 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:11.097 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:11.097 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:11.097 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:11.098 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:11.098 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:11.098 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:11.098 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:11.098 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:11.100 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:11.100 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:11.146 I/GoLog   (21862): from tcp:127.0.0.1:44790 accepted tcp:80.158.35.173:443 [in_proxy >> proxy]
+06-30 14:51:11.186 D/OkHttp  ( 9267): address /2407:c080:1400:83:6cc0:158b:5436:beca:443 connect failed
+06-30 14:51:11.262 W/NetworkKit_LocalDNSResolver( 9858): LocalDNSResolver query failed,UnknownHostException:events-drru.op.dbankcloud.ru
+06-30 14:51:11.262 I/NetworkKit_DNResolver( 9858): LocalDns query failed, dnsResult is null, domain:events-drru.op.dbankcloud.ru
+06-30 14:51:11.289 W/NetworkKit_LocalDNSResolver( 9858): LocalDNSResolver query failed,UnknownHostException:search-drru.dt.dbankcloud.com
+06-30 14:51:11.289 I/NetworkKit_DNResolver( 9858): LocalDns query failed, dnsResult is null, domain:search-drru.dt.dbankcloud.com
+06-30 14:51:11.315 W/NetworkKit_LocalDNSResolver( 9858): LocalDNSResolver query failed,UnknownHostException:dnkeeper.platform.dbankcloud.com
+06-30 14:51:11.315 I/NetworkKit_DNResolver( 9858): LocalDns query failed, dnsResult is null, domain:dnkeeper.platform.dbankcloud.com
+06-30 14:51:11.333 W/NetworkKit_LocalDNSResolver( 9858): LocalDNSResolver query failed,UnknownHostException:metrics5.data.hicloud.com
+06-30 14:51:11.333 I/NetworkKit_DNResolver( 9858): LocalDns query failed, dnsResult is null, domain:metrics5.data.hicloud.com
+06-30 14:51:11.434 I/GoLog   (21862): from tcp:127.0.0.1:44792 accepted tcp:80.158.35.173:443 [in_proxy >> proxy]
+06-30 14:51:11.490 W/ContextImpl( 2814): Failed to ensure /data/user_de/0/com.huawei.android.totemweather/shared_prefs: mkdir failed: EACCES (Permission denied)
+06-30 14:51:11.491 W/ContextImpl( 2814): Failed to ensure /data/user_de/0/com.huawei.android.totemweather/shared_prefs: mkdir failed: EACCES (Permission denied)
+06-30 14:51:11.503 W/AMessage( 1053): failed to post message as target looper for handler 0 is gone.
+06-30 14:51:11.607 I/GoLog   (21862): from udp:127.0.0.1:35837 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:11.658 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:51:11.658 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{42d2838 u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:11.668 I/HwOUC   (20665): [main-1]doNetworkChanged, networkInfo:[type: VPN[], state: CONNECTED/CONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false](DownloadOnReceiveService:4)
+06-30 14:51:11.765 I/GoLog   (21862): from udp:127.0.0.1:58309 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:11.791 I/GoLog   (21862): from tcp:127.0.0.1:44806 accepted tcp:8.6.112.6:443 [in_proxy >> proxy]
+06-30 14:51:11.806 I/bastetd ( 1026): [ProxySocket    ] DoReconnFailed# set reconn break
+06-30 14:51:11.906 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:11.907 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:11.907 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:11.908 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:11.908 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:11.908 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:11.908 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:11.908 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:11.908 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:11.909 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:11.909 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:11.911 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:12.011 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:51:12.132 I/GoLog   (21862): from udp:127.0.0.1:51220 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:12.147 I/GoLog   (21862): from udp:127.0.0.1:47998 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:12.250 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:12.250 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:12.540 I/WificondControl( 1575): Noise: -83, Snr: 127, Chload: 116, rssi: -56, txBitrate: 144, rxBitrate: 144, frequency: 2422, UlDelay: 0, currentTxBytes: 1723095274, currentTxPackets: 1791801, currentTxFailed: 32, currentRxBytes: -2070962945, currentRxPackets: 2096654
+06-30 14:51:12.564 W/u5.a.g1.m1( 1212): [{0}] Failed to resolve name. status={1}
+06-30 14:51:12.657 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:51:12.657 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{2f4ec4d u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:12.806 I/GoLog   (21862): from udp:127.0.0.1:52075 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:12.823 I/GoLog   (21862): from udp:127.0.0.1:42829 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:12.926 I/GoLog   (21862): from udp:127.0.0.1:59577 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:13.041 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:51:13.611 I/PushLog110109302( 4799): [ReceiverDispatcher-202]reconnect pushserver failed, the next reconnect time is:0 after 0 ms
+06-30 14:51:13.612 I/GoLog   (21862): from udp:127.0.0.1:33928 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:13.628 I/GoLog   (21862): from tcp:127.0.0.1:50182 accepted tcp:159.138.204.113:5223 [in_proxy >> proxy]
+06-30 14:51:13.659 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:51:13.659 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{103f77c u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:13.685 I/GoLog   (21862): from udp:127.0.0.1:45499 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:13.749 W/System  (18271): A resource failed to call close. 
+06-30 14:51:13.767 I/GoLog   (21862): from udp:127.0.0.1:54459 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:13.902 I/NetworkStartup(23790): network:[type: MOBILE[], state: DISCONNECTED/DISCONNECTED, reason: (unspecified), extra: (none), failover: false, available: false, roaming: false] [main] 32302
+06-30 14:51:13.903 I/NetworkStartup(23790): network:[type: WIFI[], state: CONNECTED/CONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false] [main] 32302
+06-30 14:51:13.903 I/NetworkStartup(23790): network:[type: BLUETOOTH[], state: DISCONNECTED/DISCONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false] [main] 32302
+06-30 14:51:13.904 I/NetworkStartup(23790): connected-->true [main] 32302
+06-30 14:51:14.023 I/NetworkStartup(23790): network:[type: MOBILE[], state: DISCONNECTED/DISCONNECTED, reason: (unspecified), extra: (none), failover: false, available: false, roaming: false] [main] 32302
+06-30 14:51:14.024 I/NetworkStartup(23790): network:[type: WIFI[], state: CONNECTED/CONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false] [main] 32302
+06-30 14:51:14.025 I/NetworkStartup(23790): network:[type: BLUETOOTH[], state: DISCONNECTED/DISCONNECTED, reason: (unspecified), extra: (none), failover: false, available: true, roaming: false] [main] 32302
+06-30 14:51:14.026 I/NetworkStartup(23790): connected-->true [main] 32302
+06-30 14:51:14.063 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:51:14.134 I/GoLog   (21862): from udp:127.0.0.1:48691 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:14.145 I/GoLog   (21862): from udp:127.0.0.1:35987 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:14.541 W/audio_custom(  734): getConfigValue: open dts file failed! May not need in this case
+06-30 14:51:14.541 W/audio_custom(  734): record_effect_init: get record_algo_compatible failed, may not need
+06-30 14:51:14.662 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:51:14.662 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{a005805 u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:14.816 I/GoLog   (21862): from udp:127.0.0.1:55134 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:14.948 W/NetworkKit_ErrorCodeUtil( 9858): Request failed with java.net.SocketException
+06-30 14:51:15.067 I/GoLog   (21862): from tcp:127.0.0.1:50186 accepted tcp:159.138.207.140:443 [in_proxy >> proxy]
+06-30 14:51:15.084 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:51:15.547 I/WificondControl( 1575): Noise: -84, Snr: 127, Chload: 87, rssi: -55, txBitrate: 144, rxBitrate: 144, frequency: 2422, UlDelay: 0, currentTxBytes: 1723104450, currentTxPackets: 1791889, currentTxFailed: 32, currentRxBytes: -2070957742, currentRxPackets: 2096669
+06-30 14:51:15.636 W/libc    (  725): Unable to set property "sys.check.usbupdate" to "start": connection failed; errno=13 (Permission denied)
+06-30 14:51:15.662 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:51:15.662 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{4570f68 u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:15.688 I/GoLog   (21862): from udp:127.0.0.1:54382 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:16.074 I/netd    (  669): trafficSwapActiveStatsMap() <0.24ms>
+06-30 14:51:16.108 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:51:16.663 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:51:16.663 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{daa6c67 u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:16.769 I/GoLog   (21862): from udp:127.0.0.1:46458 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:16.769 I/GoLog   (21862): from udp:127.0.0.1:47596 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:16.819 I/GoLog   (21862): from udp:127.0.0.1:59761 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:16.863 D/LAUNCH_SDK(18271): main ||| network connected
+06-30 14:51:17.102 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:17.103 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:17.104 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:17.104 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:17.104 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:17.104 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:17.105 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:17.105 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:17.109 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:17.109 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:17.135 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:51:17.666 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:51:17.668 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{d41ba14 u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:17.813 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:51:17.813 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{b2682bd u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:17.889 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:17.889 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:17.908 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:17.909 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:17.909 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:17.910 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:17.910 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:17.910 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:17.910 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:17.910 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:17.910 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:17.912 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:17.912 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:17.912 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:18.155 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:51:18.227 I/netd    (  669): trafficSwapActiveStatsMap() <0.98ms>
+06-30 14:51:18.276 I/GoLog   (21862): from tcp:127.0.0.1:50196 accepted tcp:76.223.113.180:80 [in_proxy >> proxy]
+06-30 14:51:18.554 I/WificondControl( 1575): Noise: -85, Snr: 127, Chload: 158, rssi: -56, txBitrate: 144, rxBitrate: 144, frequency: 2422, UlDelay: 0, currentTxBytes: 1723114414, currentTxPackets: 1791995, currentTxFailed: 32, currentRxBytes: -2070954957, currentRxPackets: 2096690
+06-30 14:51:18.771 I/GoLog   (21862): from udp:127.0.0.1:35968 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:18.771 I/GoLog   (21862): from udp:127.0.0.1:58544 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:18.795 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:18.795 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:18.812 I/GoLog   (21862): from udp:127.0.0.1:41008 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:18.813 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:51:18.813 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{66970b2 u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:18.829 I/GoLog   (21862): from udp:127.0.0.1:41559 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:18.829 I/GoLog   (21862): from udp:127.0.0.1:56902 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:18.931 I/GoLog   (21862): from udp:127.0.0.1:51140 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:19.001 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:19.001 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:19.196 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:51:19.621 I/GoLog   (21862): from udp:127.0.0.1:50077 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:19.773 I/GoLog   (21862): from udp:127.0.0.1:35062 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:19.813 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:51:19.814 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{6e76803 u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:20.140 I/GoLog   (21862): from udp:127.0.0.1:51810 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:20.141 I/GoLog   (21862): from udp:127.0.0.1:59914 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:20.153 I/GoLog   (21862): from udp:127.0.0.1:45218 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:20.153 I/GoLog   (21862): from udp:127.0.0.1:59669 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:20.203 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:51:20.647 D/WifiConfigStore( 1575): Writing to stores started
+06-30 14:51:20.815 I/GoLog   (21862): from udp:127.0.0.1:57947 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:20.815 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:51:20.815 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{26e815f u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:20.831 I/GoLog   (21862): from udp:127.0.0.1:55390 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:20.831 I/GoLog   (21862): from udp:127.0.0.1:54465 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:20.902 I/GoLog   (21862): from udp:127.0.0.1:42833 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:20.921 D/OkHttp  ( 9858): address /2407:c080:1400:83:dfa:e218:4611:84db:443 connect failed
+06-30 14:51:20.933 I/GoLog   (21862): from udp:127.0.0.1:55643 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:21.092 I/netd    (  669): trafficSwapActiveStatsMap() <0.56ms>
+06-30 14:51:21.149 W/NetworkSdk_DNKeeperManager( 9267): [HMSCore NetworkLog.java:2] PPS-Net-pool-thread-62|network.restclient.dnkeeper.DNKeeperManager|279|queryIpsSync failed 
+06-30 14:51:21.156 I/GoLog   (21862): from udp:127.0.0.1:40372 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:21.163 D/OkHttp  ( 9267): address /2407:c080:1400:83:6cc0:158b:5436:beca:443 connect failed
+06-30 14:51:21.230 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:51:21.421 D/OkHttp  ( 9858): address /2407:c080:1400:83:6cc0:158b:5436:beca:443 connect failed
+06-30 14:51:21.446 D/OkHttp  ( 9267): address /2407:c080:1400:83:6cc0:158b:5436:beca:443 connect failed
+06-30 14:51:21.561 I/WificondControl( 1575): Noise: -81, Snr: 127, Chload: 293, rssi: -55, txBitrate: 144, rxBitrate: 144, frequency: 2422, UlDelay: 0, currentTxBytes: 1723122668, currentTxPackets: 1792078, currentTxFailed: 32, currentRxBytes: -2070935161, currentRxPackets: 2096735
+06-30 14:51:21.622 I/GoLog   (21862): from udp:127.0.0.1:34351 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:21.664 D/OkHttp  ( 9267): address /2407:c080:1400:83:dfa:e218:4611:84db:443 connect failed
+06-30 14:51:21.695 I/GoLog   (21862): from udp:127.0.0.1:40782 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:21.698 I/GoLog   (21862): from udp:127.0.0.1:39318 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:21.776 I/GoLog   (21862): from udp:127.0.0.1:60321 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:21.816 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:51:21.816 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{2f237ac u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:21.947 D/OkHttp  ( 9267): address /2407:c080:1400:83:dfa:e218:4611:84db:443 connect failed
+06-30 14:51:22.143 I/GoLog   (21862): from udp:127.0.0.1:42853 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:22.143 I/GoLog   (21862): from udp:127.0.0.1:54557 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:22.152 I/GoLog   (21862): from udp:127.0.0.1:52227 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:22.152 I/GoLog   (21862): from udp:127.0.0.1:39691 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:22.258 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:51:22.817 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:51:22.818 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{18a640a u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:22.824 I/GoLog   (21862): from udp:127.0.0.1:40730 accepted udp:8.8.8.8:53 [in_proxy >> proxy]
+06-30 14:51:22.904 I/GoLog   (21862): from udp:127.0.0.1:43067 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:22.993 I/GestureNav_Strategy( 1575): Gesture failed as up in region(maybe sliping in region)
+06-30 14:51:23.013 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:23.013 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:23.106 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:23.106 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:23.106 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:23.107 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:23.107 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:23.107 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:23.107 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:23.108 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:23.108 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:23.108 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:23.110 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:23.111 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:23.157 I/GoLog   (21862): from udp:127.0.0.1:41626 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:23.280 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 14:51:23.641 E/PushLog110109302( 4799): [ReceiverDispatcher-202]call connectMode.protocol.init failed!!
+06-30 14:51:23.648 E/PushLog110109302( 4799): [ReceiverDispatcher-202]Socket connect failed with IPv4
+06-30 14:51:23.651 I/PushLog110109302( 4799): [ReceiverDispatcher-202]reconnect pushserver failed, the next reconnect time is:1 after 4992 ms
+06-30 14:51:23.696 I/GoLog   (21862): from udp:127.0.0.1:54081 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:23.696 I/GoLog   (21862): from udp:127.0.0.1:39520 accepted udp:8.8.4.4:53 [in_proxy >> proxy]
+06-30 14:51:23.819 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 14:51:23.820 V/BroadcastQueue( 1575): Finished with ordered broadcast BroadcastRecord{8363af1 u0 V2RAY_CONNECTION_INFO}
+06-30 14:51:23.911 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:23.912 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:23.912 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:23.912 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:23.912 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:23.912 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:23.912 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:23.913 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:23.913 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:23.913 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:23.914 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:23.915 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:24.154 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:24.154 E/Telephony-accessory( 2784): [HwPhoneAccessoryService]:Failed to get instance of HwPhoneAccessoryService, not init yet.
+06-30 14:51:24.303 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null

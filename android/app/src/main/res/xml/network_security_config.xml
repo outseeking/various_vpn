@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- HTTPS по умолчанию запрещает cleartext. Разрешаем HTTP только к
+         IP админ-панели (подписка /vsub). Остальное — только по HTTPS. -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">91.236.186.75</domain>
+    </domain-config>
+</network-security-config>

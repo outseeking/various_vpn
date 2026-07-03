@@ -1,0 +1,123 @@
+06-30 15:10:30.430 I/ActivityManager( 1575): App 10299/com.example.various_vpn targets O+, restricted
+06-30 15:10:30.430 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 15:10:31.432 I/ActivityManager( 1575): App 10299/com.example.various_vpn targets O+, restricted
+06-30 15:10:31.432 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 15:10:32.432 I/ActivityManager( 1575): App 10299/com.example.various_vpn targets O+, restricted
+06-30 15:10:32.432 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 15:10:32.919 I/PushLog110109302( 4799): [ReceiverDispatcher-202]call send cause exception: 
+06-30 15:10:32.919 I/PushLog110109302( 4799): Exception: java.net.SocketTimeoutException
+06-30 15:10:32.919 I/PushLog110109302( 4799): java.net.SocketInputStream.socketRead0(Native Method)
+06-30 15:10:32.919 I/PushLog110109302( 4799): java.net.SocketInputStream.socketRead(SocketInputStream.java:119)
+06-30 15:10:32.919 I/PushLog110109302( 4799): java.net.SocketInputStream.read(SocketInputStream.java:176)
+06-30 15:10:32.919 I/PushLog110109302( 4799): java.net.SocketInputStream.read(SocketInputStream.java:144)
+06-30 15:10:32.919 I/PushLog110109302( 4799): java.net.SocketInputStream.read(SocketInputStream.java:229)
+06-30 15:10:32.921 E/PushLog110109302( 4799): Exception: com.huawei.android.pushagent.datatype.exception.PushException
+06-30 15:10:32.921 I/PushLog110109302( 4799): [ReceiverDispatcher-202]enter cancelAlarm(Action=com.huawei.android.push.intent.HEARTBEAT_RSP_TIMEOUT
+06-30 15:10:32.933 E/PushLog110109302( 4799): [ReceiverDispatcher-202]Socket connect failed with IPv4
+06-30 15:10:32.938 W/PushLog110109302( 4799): [ReceiverDispatcher-202]socket is null
+06-30 15:10:32.938 W/PushLog110109302( 4799): [ReceiverDispatcher-202]socket is null
+06-30 15:10:33.434 I/ActivityManager( 1575): App 10299/com.example.various_vpn targets O+, restricted
+06-30 15:10:33.434 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 15:10:33.627 I/ActivityManager( 1575): App 10299/com.example.various_vpn targets O+, restricted
+06-30 15:10:33.627 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 15:10:34.449 W/System.err(18271): java.net.UnknownHostException: Unable to resolve host "api.p5ag4w.ru": No address associated with hostname
+06-30 15:10:34.449 W/System.err(18271): 	at com.android.okhttp.Dns$1.lookup(Dns.java:41)
+06-30 15:10:34.449 W/System.err(18271): 	at com.android.okhttp.internal.http.RouteSelector.resetNextInetSocketAddress(RouteSelector.java:178)
+06-30 15:10:34.449 W/System.err(18271): 	at com.android.okhttp.internal.http.RouteSelector.nextProxy(RouteSelector.java:144)
+06-30 15:10:34.449 W/System.err(18271): 	at com.android.okhttp.internal.http.RouteSelector.next(RouteSelector.java:86)
+06-30 15:10:34.449 W/System.err(18271): 	at com.android.okhttp.internal.http.StreamAllocation.findConnection(StreamAllocation.java:176)
+06-30 15:10:34.449 W/System.err(18271): 	at com.android.okhttp.internal.http.StreamAllocation.findHealthyConnection(StreamAllocation.java:128)
+06-30 15:10:34.450 W/System.err(18271): 	at com.android.okhttp.internal.http.StreamAllocation.newStream(StreamAllocation.java:97)
+06-30 15:10:34.450 W/System.err(18271): 	at com.android.okhttp.internal.http.HttpEngine.connect(HttpEngine.java:289)
+06-30 15:10:34.450 W/System.err(18271): 	at com.android.okhttp.internal.http.HttpEngine.sendRequest(HttpEngine.java:232)
+06-30 15:10:34.450 W/System.err(18271): 	at com.android.okhttp.internal.huc.HttpURLConnectionImpl.execute(HttpURLConnectionImpl.java:465)
+06-30 15:10:34.450 W/System.err(18271): 	at com.android.okhttp.internal.huc.HttpURLConnectionImpl.connect(HttpURLConnectionImpl.java:131)
+06-30 15:10:34.450 W/System.err(18271): 	at com.android.okhttp.internal.huc.HttpURLConnectionImpl.getOutputStream(HttpURLConnectionImpl.java:262)
+06-30 15:10:34.450 W/System.err(18271): 	at com.android.okhttp.internal.huc.DelegatingHttpsURLConnection.getOutputStream(DelegatingHttpsURLConnection.java:219)
+06-30 15:10:34.450 W/System.err(18271): 	at com.android.okhttp.internal.huc.HttpsURLConnectionImpl.getOutputStream(HttpsURLConnectionImpl.java:30)
+06-30 15:10:34.450 W/System.err(18271): Caused by: android.system.GaiException: android_getaddrinfo failed: EAI_NODATA (No address associated with hostname)
+06-30 15:10:34.628 I/ActivityManager( 1575): App 10299/com.example.various_vpn targets O+, restricted
+06-30 15:10:34.628 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 15:10:34.700 I/NotificationManager( 8216): com.example.various_vpn: cancel(1)
+06-30 15:10:34.703 I/HwMediaFocusControl( 1575): isRemoteAppFromDmsDp: false, packageName: com.example.various_vpn, packages: []
+06-30 15:10:34.703 I/NotificationManager( 8216): com.example.various_vpn: cancel(1)
+06-30 15:10:34.709 I/ActivityManager( 1575): App 10299/com.example.various_vpn targets O+, restricted
+06-30 15:10:34.709 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 15:10:34.720 I/ActivityManager( 1575): App 10299/com.example.various_vpn targets O+, restricted
+06-30 15:10:34.720 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 15:10:34.737 I/MediaFocusControl( 1575): requestAudioFocus() from uid/pid 10299/7828 clientId=android.media.AudioManager@4362529g1.a@11680ae callingPack=com.example.various_vpn req=1 flags=0x0 sdk=36
+06-30 15:10:34.737 I/HwMediaFocusControl( 1575): isRemoteAppFromDmsDp: false, packageName: com.example.various_vpn, packages: []
+06-30 15:10:34.743 D/PGAudioState( 2751): audio focus pkg : com.example.various_vpn last focus pkg : com.example.various_vpn
+06-30 15:10:34.743 I/AppManager( 2751): audio focus pkg: com.example.various_vpn
+06-30 15:10:34.749 W/DnsTlsSocket(  669): SSL_connect error 5, errno=103
+06-30 15:10:34.750 W/DnsTlsSocket(  669): SSL_connect error 5, errno=103
+06-30 15:10:34.751 I/Netd    (  669): Destroyed 5 sockets in 2.8 ms
+06-30 15:10:34.758 W/NetworkKit_RetryInterceptor( 9858): intercept IOException, retry 0, code = 10000402
+06-30 15:10:34.758 W/NetworkKit_RetryInterceptor( 9858): javax.net.ssl.SSLHandshakeException: S*L*h*n*s*a*e*a*o*t*d* *s*=*x*b*d*1*2*8* */* *r*o* *u*i*g*s*s*e* *a*l* *o*t*a*e*c*u*e* *o*n*c*i*n*a*o*t
+06-30 15:10:34.758 W/NetworkKit_RetryInterceptor( 9858): 	at com.android.org.conscrypt.ConscryptFileDescriptorSocket.startHandshake(ConscryptFileDescriptorSocket.java:226)
+06-30 15:10:34.759 I/NetworkKit_OkRequestTask( 9858): the request has used the okhttp! 
+06-30 15:10:34.766 I/DeviceStateService( 2751): app: com.example.various_vpn pid: 1053 start mediacodec.
+06-30 15:10:34.766 I/Vpn     ( 1575): Established by com.example.various_vpn on tun3
+06-30 15:10:34.775 I/sound_trigger_parse_params(  734): [parse_start_stream_params:278]: start stream types 3, 0x8
+06-30 15:10:34.775 I/netd    (  669): networkRemoveRoute(128, "tun2", "0.0.0.*/*", "") -> ServiceSpecificException(19, "No such device") <0.02ms>
+06-30 15:10:34.775 E/ConnectivityService( 1575): Exception in removeRoute: *
+06-30 15:10:34.776 I/netd    (  669): networkRemoveRoute(128, "tun2", "::/0", "unreachable") -> ServiceSpecificException(19, "No such device") <0.03ms>
+06-30 15:10:34.776 I/netd    (  669): networkRemoveRoute(128, "tun2", "26.26.26.*/**", "") -> ServiceSpecificException(19, "No such device") <0.02ms>
+06-30 15:10:34.776 E/ConnectivityService( 1575): Exception in removeRoute: *
+06-30 15:10:34.777 E/SOCK_FILE( 8216): connected to sock file [/data/user/0/com.example.various_vpn/files/sock_path]
+06-30 15:10:34.779 I/NotificationService( 1575): enqueueNotificationInternal: pkg=com.example.various_vpn id=1 notification=Notification(channel=A_FLUTTER_V2RAY_SERVICE_CH_ID pri=-2 contentView=null vibrate=null sound=null defaults=0x0 flags=0x4a color=0x00000000 actions=1 vis=PRIVATE)
+06-30 15:10:34.779 I/NotificationService( 1575): enqueueNotificationInternal Channel Info : pkg=com.example.various_vpn id=1 importance =3
+06-30 15:10:34.779 I/ActivityManager( 1575): App 10299/com.example.various_vpn targets O+, restricted
+06-30 15:10:34.779 I/HwNotificationService( 1575): shouldBlockByMediaController : pkgName =com.example.various_vpn,isCustomNotification =false,isMediaNotification =false
+06-30 15:10:34.779 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 15:10:34.782 I/HwMediaFocusControl( 1575): isRemoteAppFromDmsDp: false, packageName: com.example.various_vpn, packages: []
+06-30 15:10:34.783 I/HwNotificationService( 1575): isHwSoundAllow pkg=com.example.various_vpn, channelId=A_FLUTTER_V2RAY_SERVICE_CH_ID, userId=0, soundVibrate=1
+06-30 15:10:34.783 I/NotificationService( 1575): buzzBeepBlinkLocked hasValidSound=true,hasValidVibrate=false,vibration=null,key=0|com.example.various_vpn|1|null|10299
+06-30 15:10:34.783 I/HwMediaFocusControl( 1575): isRemoteAppFromDmsDp: false, packageName: com.example.various_vpn, packages: []
+06-30 15:10:34.784 I/HwNotificationService_Vibrate( 1575): getHwVibratorType pkg=com.example.various_vpn, channelId=A_FLUTTER_V2RAY_SERVICE_CH_ID, userId=0, vibratorType=haptic.pattern.type4
+06-30 15:10:34.795 I/DeviceStateService( 2751): event is too short, not process app: com.example.various_vpn mediacodec action.
+06-30 15:10:34.796 I/AppManager( 2751): app:com.example.various_vpn Notification update time:54711671
+06-30 15:10:34.796 I/AppManager( 2751): app : com.example.various_vpn add Notification persist:true now Ids:[1]
+06-30 15:10:34.796 I/NotificationListener( 2381): onNotificationPosted: StatusBarNotification(pkg=com.example.various_vpn user=UserHandle{0} id=1 tag=null key=0|com.example.various_vpn|1|null|10299: Notification(channel=A_FLUTTER_V2RAY_SERVICE_CH_ID pri=-2 contentView=null vibrate=null sound=null defaults=0x0 flags=0x6a color=0x00000000 groupKey=ranker_group1 actions=1 vis=PRIVATE)) important=3, post=1782821434779, when=1782821434775,showWhen=false, vis=0, userid=0, hasFullScreenIntent=false,style=null
+06-30 15:10:34.816 E/HiEvent.Payload( 2381): new JsonPayload exception:Unterminated object at character 80 of {pkg:com.example.various_vpn,id:1,tag:"null",channelid:" ",channelname:Flutter V2,isOnGoing:"true",importance:3,isCustomNotification:false,language:ru,style:"null",isFromPush:"false",isNoClear:true,isForeground:true}
+06-30 15:10:34.830 I/MediaFocusControl( 1575): requestAudioFocus() from uid/pid 10299/7828 clientId=android.media.AudioManager@4362529g1.a@11680ae callingPack=com.example.various_vpn req=1 flags=0x0 sdk=36
+06-30 15:10:34.830 I/HwMediaFocusControl( 1575): isRemoteAppFromDmsDp: false, packageName: com.example.various_vpn, packages: []
+06-30 15:10:34.832 D/PGAudioState( 2751): audio focus pkg : com.example.various_vpn last focus pkg : com.example.various_vpn
+06-30 15:10:34.832 I/AppManager( 2751): audio focus pkg: com.example.various_vpn
+06-30 15:10:34.848 I/alg_xml_parse(  734): [parse_alg_chain_from_xml:407]: opened lib number 2. chain name alg_chain_primary_play_48000
+06-30 15:10:34.849 I/DeviceStateService( 2751): app: com.example.various_vpn pid: 1053 start mediacodec.
+06-30 15:10:34.850 I/alg_xml_parse(  734): [open_alg_xml:113]: parsing xml /vendor/etc/audio/audiohal_alg_store.xml
+06-30 15:10:34.850 I/alg_xml_parse(  734): [parse_alg_chain:364]: module number 1
+06-30 15:10:34.850 W/alg_xml_parse(  734): [parse_module_config:297]: cant not find -Trconfig node
+06-30 15:10:34.850 I/alg_xml_parse(  734): [parse_alg_chain_from_xml:422]: parse /vendor/etc/audio/audiohal_alg_store.xml done
+06-30 15:10:34.851 I/alg_store(  734): [parse_chain_from_xml:127]: parsed 1 module(s) from /vendor/etc/audio/audiohal_alg_store.xml with 2 openned lib
+06-30 15:10:34.859 I/sound_trigger_parse_params(  734): [parse_start_stream_params:278]: start stream types 3, 0x8
+06-30 15:10:34.860 I/ScrollLayout2( 2381): addContainerView StatusBarNotification(pkg=com.example.various_vpn user=UserHandle{0} id=1 tag=null key=0|com.example.various_vpn|1|null|10299: Notification(channel=A_FLUTTER_V2RAY_SERVICE_CH_ID pri=-2 contentView=null vibrate=null sound=null defaults=0x0 flags=0x6a color=0x00000000 groupKey=ranker_group1 actions=1 vis=PRIVATE))
+06-30 15:10:34.899 I/sound_trigger_parse_params(  734): [parse_stop_stream_params:296]: stop stream types 3, 0x0
+06-30 15:10:35.241 E/bastetd ( 1026): [ProxySocket    ] NotifySocketErrState# No record found by comm prop, state=196619
+06-30 15:10:35.524 I/HwMediaFocusControl( 1575): isRemoteAppFromDmsDp: false, packageName: com.example.various_vpn, packages: []
+06-30 15:10:35.528 I/HwMediaFocusControl( 1575): isRemoteAppFromDmsDp: false, packageName: com.example.various_vpn, packages: []
+06-30 15:10:35.538 I/DeviceStateService( 2751): app: com.example.various_vpn pid: 1053 release mediacodec.
+06-30 15:10:35.577 I/sound_trigger_parse_params(  734): [parse_stop_stream_params:296]: stop stream types 3, 0x0
+06-30 15:10:35.777 I/bastetd ( 1026): [ProxySocket    ] DoReconnFailed# set reconn break
+06-30 15:10:35.780 I/ActivityManager( 1575): App 10299/com.example.various_vpn targets O+, restricted
+06-30 15:10:35.780 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 15:10:35.785 I/SecurityComp10200303: SSLFNew( 9858): createSocket
+06-30 15:10:36.266 E/bastetd ( 1026): [ProxySocket    ] NotifySocketErrState# No record found by comm prop, state=196619
+06-30 15:10:36.523 E/bastetd ( 1026): [ProxySocket    ] NotifySocketErrState# No record found by comm prop, state=196619
+06-30 15:10:36.782 I/ActivityManager( 1575): App 10299/com.example.various_vpn targets O+, restricted
+06-30 15:10:36.782 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 15:10:37.135 I/PowerKit_Impl( 2751): apply pkg: com.huawei.android.totemweather resource:65535 timeout:10000 reason:totemweather
+06-30 15:10:37.784 I/ActivityManager( 1575): App 10299/com.example.various_vpn targets O+, restricted
+06-30 15:10:37.784 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 15:10:38.787 I/ActivityManager( 1575): App 10299/com.example.various_vpn targets O+, restricted
+06-30 15:10:38.787 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 15:10:39.790 I/ActivityManager( 1575): App 10299/com.example.various_vpn targets O+, restricted
+06-30 15:10:39.790 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 15:10:40.787 I/ActivityManager( 1575): App 10299/com.example.various_vpn targets O+, restricted
+06-30 15:10:40.787 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 15:10:41.750 I/GoLog   ( 8216): PrepareDomain err: lookup nl1.ug-connect.site: i/o timeout
+06-30 15:10:41.788 I/ActivityManager( 1575): App 10299/com.example.various_vpn targets O+, restricted
+06-30 15:10:41.788 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver
+06-30 15:10:41.924 I/ActivityManager( 1575): App 10299/com.example.various_vpn targets O+, restricted
+06-30 15:10:41.924 W/BroadcastQueue( 1575): Background execution not allowed: receiving Intent { act=V2RAY_CONNECTION_INFO flg=0x2010 (has extras) } to com.example.various_vpn/com.github.blueboytm.flutter_v2ray.v2ray.V2rayReceiver

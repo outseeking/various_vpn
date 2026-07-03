@@ -1,0 +1,128 @@
+06-30 15:15:05.797 I/WindowManager( 1575): dispatchResized : win = Window{6c7f7b6 u0 com.example.various_vpn/com.example.various_vpn.MainActivity} drawState = HAS_DRAWN
+06-30 15:15:06.894 I/WindowManager( 1575): dispatchResized : win = Window{6c7f7b6 u0 com.example.various_vpn/com.example.various_vpn.MainActivity} drawState = HAS_DRAWN
+06-30 15:15:23.277 I/HwPowerManagerService( 1575): UL_Power Screen timeout occured. mStayOn = false, mProximityPositive = false, mWakeLockSummary = 0x0, mUserActivitySummary = 0x2, mScreenBrightnessBoostInProgress = false
+06-30 15:15:26.280 I/PowerManagerService( 1575): UL_Power Going to sleep due to timeout (uid 1000)...
+06-30 15:15:26.286 I/WindowManager( 1575): UL_Power Started going to sleep... (why=OFF_BECAUSE_OF_TIMEOUT)
+06-30 15:15:26.528 I/HwAudioServiceEx( 1575): ComponentInfo : className = com.example.various_vpn.MainActivity, flag = onPause, isHomeActivity = , isTop = false
+06-30 15:15:26.541 I/HidataAppQoeP( 2696): foregroundUidRemove uid: 10299 name: com.example.various_vpn
+06-30 15:15:26.545 I/SmartDualCardConfig( 2696): getAppType,pkgName=com.example.various_vpn,appType=-1
+06-30 15:15:26.546 I/SmartDualCardConfig( 2696): getAppType,pkgName=com.example.various_vpn,appType=-1
+06-30 15:15:26.546 I/SmartDualCardSM( 2696): onUidStateUpdate,uid=10299,appName=com.example.various_vpn,state=BACKGROUND
+06-30 15:15:26.546 D/ActivityTaskManager( 1575): Ignore adjust for same activity when stop r:ActivityRecord{409babe u0 com.example.various_vpn/.MainActivity t699}
+06-30 15:15:26.547 I/SmartDualCardConfig( 2696): getAppType,pkgName=com.example.various_vpn,appType=-1
+06-30 15:15:26.550 I/DollieChr( 2696): handleForegroundAppUpdateMsg,mAppState=2,scenes=1,mForegroundAppName=com.example.various_vpn
+06-30 15:15:26.551 I/SmartDualCardConfig( 2696): getAppType,pkgName=com.example.various_vpn,appType=-1
+06-30 15:15:26.779 I/WindowManager( 1575): notifyAppStopped: AppWindowToken{5ceb835 token=Token{e6bfa6c ActivityRecord{409babe u0 com.example.various_vpn/.MainActivity t699}}}
+06-30 15:15:26.791 D/ActivityTaskManager( 1575): canShowActivityWhileKeyguardShowing false r=ActivityRecord{409babe u0 com.example.various_vpn/.MainActivity t699}
+06-30 15:15:26.791 V/WindowManager( 1575): commitVisibility: AppWindowToken{5ceb835 token=Token{e6bfa6c ActivityRecord{409babe u0 com.example.various_vpn/.MainActivity t699}}}: hidden=true hiddenRequested=true
+06-30 15:15:26.792 I/WindowManager( 1575): Changing focus from Window{6c7f7b6 u0 com.example.various_vpn/com.example.various_vpn.MainActivity} to null displayId=0 Callers=com.android.server.wm.RootWindowContainer.updateFocusedWindowLocked:210 com.android.server.wm.WindowManagerService.updateFocusedWindowLocked:6517 com.android.server.wm.AppWindowToken.commitVisibility:1008 com.android.server.wm.AppWindowToken.setVisibility:919 
+06-30 15:15:26.795 I/WindowManager( 1575): Animation done in AppWindowToken{5ceb835 token=Token{e6bfa6c ActivityRecord{409babe u0 com.example.various_vpn/.MainActivity t699}}} isHidden:true hiddenRequested:true
+06-30 15:15:26.797 I/WindowManager( 1575): notifyAppStopped: AppWindowToken{5ceb835 token=Token{e6bfa6c ActivityRecord{409babe u0 com.example.various_vpn/.MainActivity t699}}}
+06-30 15:15:26.821 E/WindowManager( 1575): win=Window{6c7f7b6 u0 com.example.various_vpn/com.example.various_vpn.MainActivity} destroySurfaces: appStopped=true win.mWindowRemovalAllowed=false win.mRemoveOnExit=false
+06-30 15:15:26.826 I/ActivityThread( 7828): Handle window ActivityRecord{10dfa16 token=android.os.BinderProxy@5de308c {com.example.various_vpn/com.example.various_vpn.MainActivity}} visibility: false
+06-30 15:15:26.958 I/HwPhoneWindowManager( 1575): OverscanTimeout run
+06-30 15:15:26.998 I/HwActivityTaskManagerServiceEx( 1575): OverscanTimeout run
+06-30 15:15:27.333 D/ActivityTaskManager( 1575): canShowActivityWhileKeyguardShowing false r=ActivityRecord{409babe u0 com.example.various_vpn/.MainActivity t699}
+06-30 15:15:27.744 I/BoosterUtil( 2696): getSlaveCardSubId slotId: 1, subId: 4
+06-30 15:15:27.776 I/HiDecision(10739): OdmfCollectScheduler: cancel unsubscribe odmf alarmService
+06-30 15:15:27.779 I/HiDecision(10739): OdmfCollectScheduler: subscribe omdf time < 30 min , to be control.
+06-30 15:15:27.827 I/fwkit_ScreenStatusReceiver(19160): [fwkit ScreenStatusReceiver.java:157] notify subscriber.[ReportHmsDeviceinfo, SilentTrigger, ReleaseNetConnect, ContinueScreenOffRebootCore]
+06-30 15:15:27.913 I/BoosterUtil( 2696): getSlaveCardSubId slotId: 1, subId: 4
+06-30 15:15:27.979 I/DollieChr( 2696): sendSmartDualCardChrIntent ret=true,subMsg=12,randomInt=1,Bundle=Bundle[{subMsg=12, dsdsState=0}]
+06-30 15:15:27.979 I/DollieChr( 2696): sendSmartDualCardChrIntent ret=true,subMsg=12,randomInt=1,Bundle=Bundle[{subMsg=12, dsdsState=0}]
+06-30 15:15:27.980 E/CHR_ChrSmartDualCard( 2646): reportSmartDualCardChrEvent, subMsg is:12
+06-30 15:15:27.980 I/DollieChr( 2696): sendSmartDualCardChrIntent ret=true,subMsg=12,randomInt=1,Bundle=Bundle[{subMsg=12, dsdsState=0}]
+06-30 15:15:27.980 E/CHR_ChrSmartDualCard( 2646): reportSmartDualCardChrEvent, subMsg is:12
+06-30 15:15:27.981 I/DollieChr( 2696): sendSmartDualCardChrIntent ret=true,subMsg=12,randomInt=1,Bundle=Bundle[{subMsg=12, dsdsState=0}]
+06-30 15:15:27.981 E/CHR_ChrSmartDualCard( 2646): reportSmartDualCardChrEvent, subMsg is:12
+06-30 15:15:27.982 E/CHR_ChrSmartDualCard( 2646): reportSmartDualCardChrEvent, subMsg is:12
+06-30 15:15:28.537 I/CAWARENESS_AbilityContext(10780): [1782821728941] subscribe list is empty, ignore this publish
+06-30 15:15:28.678 I/AppLogManager(19821): PrintWoker poll timeout , shutdown
+06-30 15:15:29.210 I/PreProcFilter( 1058): ResetState[AWB_AP:2171] clear camId:0 subcmd size:0
+06-30 15:15:29.976 I/SmartDualCardSM( 2696): IdleState:got msg.what=EVENT_SEARCH_NETWORK_TIMEOUT
+06-30 15:15:30.233 E/LockSettingsStorage( 1575): Cannot read file java.io.FileNotFoundException: /data/system_de/0/spblob/3ffe849e52d6c1ca.weaver: open failed: ENOENT (No such file or directory)
+06-30 15:15:30.335 V/WindowManager( 1575): notifyAppResumed: wasStopped=true AppWindowToken{5ceb835 token=Token{e6bfa6c ActivityRecord{409babe u0 com.example.various_vpn/.MainActivity t699}}}
+06-30 15:15:30.339 I/ActivityTaskManager( 1575): setAppStartingWindow: token=Token{e6bfa6c ActivityRecord{409babe u0 com.example.various_vpn/.MainActivity t699}} pkg=com.example.various_vpn transferFrom=null newTask=false taskSwitch=true processRunning=true allowTaskSnapshot=true activityCreated=true LowRamTaskSnapshots=false
+06-30 15:15:30.340 I/WindowManager( 1575): Checking 1 opening apps (frozen=false timeout=false)...
+06-30 15:15:30.341 I/WindowManager( 1575): Check opening app=AppWindowToken{5ceb835 token=Token{e6bfa6c ActivityRecord{409babe u0 com.example.various_vpn/.MainActivity t699}}}: allDrawn=false startingDisplayed=false startingMoved=false isRelaunching()=false startingWindow=null
+06-30 15:15:30.342 I/WindowManager( 1575): Checking 1 opening apps (frozen=false timeout=false)...
+06-30 15:15:30.342 I/WindowManager( 1575): Check opening app=AppWindowToken{5ceb835 token=Token{e6bfa6c ActivityRecord{409babe u0 com.example.various_vpn/.MainActivity t699}}}: allDrawn=false startingDisplayed=false startingMoved=false isRelaunching()=false startingWindow=null
+06-30 15:15:30.344 I/WindowManager( 1575): Checking 1 opening apps (frozen=false timeout=false)...
+06-30 15:15:30.344 I/WindowManager( 1575): Check opening app=AppWindowToken{5ceb835 token=Token{e6bfa6c ActivityRecord{409babe u0 com.example.various_vpn/.MainActivity t699}}}: allDrawn=false startingDisplayed=false startingMoved=false isRelaunching()=false startingWindow=null
+06-30 15:15:30.346 I/HwAudioServiceEx( 1575): ComponentInfo : className = com.example.various_vpn.MainActivity, flag = showStartingWindow, isHomeActivity = , isTop = false
+06-30 15:15:30.346 I/WindowManager( 1575): addWindow: Window{8b12835 u0 SnapshotStartingWindow for taskId=699} client:com.android.server.wm.TaskSnapshotSurface$Window@e922a6c currentDisplayId:0 requestDisplayId:0 token:Token{e6bfa6c ActivityRecord{409babe u0 com.example.various_vpn/.MainActivity t699}}
+06-30 15:15:30.348 I/WindowManager( 1575): Checking 1 opening apps (frozen=false timeout=false)...
+06-30 15:15:30.348 I/WindowManager( 1575): Check opening app=AppWindowToken{5ceb835 token=Token{e6bfa6c ActivityRecord{409babe u0 com.example.various_vpn/.MainActivity t699}}}: allDrawn=false startingDisplayed=false startingMoved=false isRelaunching()=false startingWindow=Window{8b12835 u0 SnapshotStartingWindow for taskId=699}
+06-30 15:15:30.355 I/HwAudioServiceEx( 1575): ComponentInfo : className = com.example.various_vpn.MainActivity, flag = onResume, isHomeActivity = , isTop = true
+06-30 15:15:30.357 I/WindowManager( 1575): Checking 1 opening apps (frozen=false timeout=false)...
+06-30 15:15:30.357 I/WindowManager( 1575): Check opening app=AppWindowToken{5ceb835 token=Token{e6bfa6c ActivityRecord{409babe u0 com.example.various_vpn/.MainActivity t699}}}: allDrawn=false startingDisplayed=true startingMoved=false isRelaunching()=false startingWindow=Window{8b12835 u0 SnapshotStartingWindow for taskId=699}
+06-30 15:15:30.357 I/WindowManager( 1575): Checking 0 opening apps (frozen=false timeout=false)...
+06-30 15:15:30.358 D/HwWindowManagerServiceEx( 1575): is app exit to launcher info: transit = 20, app = AppWindowToken{5ceb835 token=Token{e6bfa6c ActivityRecord{409babe u0 com.example.various_vpn/.MainActivity t699}}}, window = Window{6c7f7b6 u0 com.example.various_vpn/com.example.various_vpn.MainActivity}, mClosingApps = {}, topOpeningApp = AppWindowToken{5ceb835 token=Token{e6bfa6c ActivityRecord{409babe u0 com.example.various_vpn/.MainActivity t699}}}, mExitIconBitmap = null, mExitIconHeight = -1, mExitIconWidth = -1
+06-30 15:15:30.358 V/WindowManager( 1575): commitVisibility: AppWindowToken{5ceb835 token=Token{e6bfa6c ActivityRecord{409babe u0 com.example.various_vpn/.MainActivity t699}}}: hidden=false hiddenRequested=false
+06-30 15:15:30.358 I/WindowManager( 1575): Animation done in AppWindowToken{5ceb835 token=Token{e6bfa6c ActivityRecord{409babe u0 com.example.various_vpn/.MainActivity t699}}} isHidden:false hiddenRequested:false
+06-30 15:15:30.375 D/DeviceTelephonyManager( 2381): get sub2 data activ: false
+06-30 15:15:30.377 I/CAWARENESS_AppUsageManager(10780): onEvent, packageName=com.example.various_vpn, activityName=com.example.various_vpn.MainActivity
+06-30 15:15:30.380 I/SmartDualCardConfig( 2696): getAppType,pkgName=com.example.various_vpn,appType=-1
+06-30 15:15:30.381 I/SmartDualCardConfig( 2696): getAppType,pkgName=com.example.various_vpn,appType=-1
+06-30 15:15:30.381 I/SmartDualCardSM( 2696): onUidStateUpdate,uid=10299,appName=com.example.various_vpn,state=FOREGROUND
+06-30 15:15:30.381 I/SmartDualCardConfig( 2696): getAppType,pkgName=com.example.various_vpn,appType=-1
+06-30 15:15:30.381 I/BoosterUtil( 2696): getSlaveCardSubId slotId: 1, subId: 4
+06-30 15:15:30.387 V/ActivityTaskManager( 1575): Activity idle: Token{e6bfa6c ActivityRecord{409babe u0 com.example.various_vpn/.MainActivity t699}}
+06-30 15:15:30.391 I/BoosterUtil( 2696): getSlaveCardSubId slotId: 1, subId: 4
+06-30 15:15:30.399 I/BoosterUtil( 2696): getSlaveCardSubId slotId: 1, subId: 4
+06-30 15:15:30.418 I/BoosterUtil( 2696): getMasterCardSubId slotId: 0, subId: 5
+06-30 15:15:30.418 I/BoosterUtil( 2696): getSlaveCardSubId slotId: 1, subId: 4
+06-30 15:15:30.418 I/BoosterUtil( 2696): getSlaveCardSubId slotId: 1, subId: 4
+06-30 15:15:30.431 I/SmartDualCardConfig( 2696): getAppType,pkgName=com.example.various_vpn,appType=-1
+06-30 15:15:30.461 I/SensorHub( 1068): in Batch, handle = 4, flags = 0, periodNs = 200000000, timeout = 0
+06-30 15:15:30.464 I/WindowManager( 1575): Changing focus from Window{fae35a3 u0 StatusBar} to Window{6c7f7b6 u0 com.example.various_vpn/com.example.various_vpn.MainActivity} displayId=0 Callers=com.android.server.wm.RootWindowContainer.updateFocusedWindowLocked:210 com.android.server.wm.WindowManagerService.updateFocusedWindowLocked:6517 com.android.server.wm.WindowManagerService.relayoutWindow:2813 com.android.server.wm.Session.relayout:197 
+06-30 15:15:30.464 V/HwPhoneWindowManager( 1575): updateSystemUiColorLw window=Window{6c7f7b6 u0 com.example.various_vpn/com.example.various_vpn.MainActivity},EmuiStyle=0,StatusBarColor=0x0,NavigationBarColor=0xff000000, mForceNotchStatusBar=false
+06-30 15:15:30.466 D/StatusBarManagerService( 1575): win:Window{6c7f7b6 u0 com.example.various_vpn/com.example.various_vpn.MainActivity}mIsColorEnable:truelight:false
+06-30 15:15:30.466 I/StatusBarDisable( 1575): setFlags what=0 which=1 pkg=Window{6c7f7b6 u0 com.example.various_vpn/com.example.various_vpn.MainActivity}
+06-30 15:15:30.473 I/ClipboardService( 1575): callingPackage:com.example.various_vpn, uid =10299, isFocusedWindow =true
+06-30 15:15:30.477 I/AGPService( 1037): aps-info: focus pkgName - com.example.various_vpn, with 0 more apps
+06-30 15:15:30.484 D/LibteecGlobal@3.0(  586): SubOpenSession: memory maybe nullptr, status is 0...
+06-30 15:15:30.484 D/LibteecGlobal@3.0(  586): SubOpenSession: opMem maybe nullptr or size maybe 0, status is 0...
+06-30 15:15:30.484 D/LibteecGlobal@3.0(  586): SubInvokeCommand: memory maybe nullptr, status is 0.
+06-30 15:15:30.484 D/LibteecGlobal@3.0(  586): SubInvokeCommand: opMem maybe nullptr or size maybe 0, status is 0.
+06-30 15:15:30.485 D/ITouchService( 1037): itouch stylusCurrentPkgName = com.example.various_vpn lastOneFramePkgName = 
+06-30 15:15:30.485 D/ITouchService( 1037): itouch currentPackageName = com.example.various_vpn
+06-30 15:15:30.486 D/ITouchService( 1037): itouch:app com.example.various_vpn is  not game app
+06-30 15:15:30.486 D/ITouchService( 1037): itouch:app com.example.various_vpn is  not in StylusPenList
+06-30 15:15:30.490 I/WindowManager( 1575): dispatchResized : win = Window{6c7f7b6 u0 com.example.various_vpn/com.example.various_vpn.MainActivity} drawState = HAS_DRAWN
+06-30 15:15:30.501 I/PGServer( 2751): report state:10000 event type:1 pid:0 uid:0 pkg:com.example.various_vpn to pid: 2751
+06-30 15:15:30.501 I/SceneReceiver( 2751): state type: 10000 eventType:1 pid:0 uid:0 pkg:com.example.various_vpn
+06-30 15:15:30.503 I/DE J DES( 1575): [effect] Pg pkg:com.example.various_vpn
+06-30 15:15:30.507 I/WindowManager( 1575): Removing Window{8b12835 u0 SnapshotStartingWindow for taskId=699} from AppWindowToken{5ceb835 token=Token{e6bfa6c ActivityRecord{409babe u0 com.example.various_vpn/.MainActivity t699}}}
+06-30 15:15:31.475 D/NetworkController.MobileSignalController(1_4)( 2381): mSimSubId:4 onDataActivity: direction=0
+06-30 15:15:32.211 I/fwkit_ReleaseNetConnect(19160): [fwkit ReleaseNetConnectSubscriber.java:102] screenOff = false
+06-30 15:15:32.439 I/        ( 1058): HwCamMem mempoolcfg dumpMemInfo Free=2558092, Total=8388608, Pss=34593 mTimeOutCount=1
+06-30 15:15:32.464 I/LosMemPoolThread( 1058): [22db1eec_64I] HwCamMem mempoolcfg DumpMemInfo Free=2557968, Total=8388608, Pss=34593 mTimeOutCount=1
+06-30 15:15:32.836 I/CAWARENESS_AbilityContext(10780): [1782821741410] subscribe list is empty, ignore this publish
+06-30 15:15:37.473 I/PushLog110109302( 4799): [ReceiverDispatcher-202]enter AlarmTools:setExactAlarm(intent action: com.huawei.android.push.intent.HEARTBEAT_RSP_TIMEOUT interval:10000ms
+06-30 15:15:37.483 I/PushLog110109302( 4799): [ReceiverDispatcher-202]next Heartbeat timeout for push server is: 8 min , curHeartBeatInterval: 450000
+06-30 15:15:37.483 I/PushLog110109302( 4799): [ReceiverDispatcher-202]send msg to server:0x46, subCmdId:0xFF
+06-30 15:15:37.528 I/PushLog110109302( 4799): [SocketRead_15:12:37-216]msg received from server:0x47, subCmdId:0xFF
+06-30 15:15:37.528 I/PushLog110109302( 4799): [SocketRead_15:12:37-216]enter cancelAlarm(Action=com.huawei.android.push.intent.HEARTBEAT_RSP_TIMEOUT
+06-30 15:15:37.537 I/PushLog110109302( 4799): [SocketRead_15:12:37-216]enter adjustHeartBeat:(findHeartBeat:true,RspTimeOut:false,beatInterval:450000,bestHBSuccessCount:0,range:[180000,450000])
+06-30 15:15:37.537 I/PushLog110109302( 4799): [SocketRead_15:12:37-216]judgeFindBestHB and isBestHBTimeOut: false, isOffset: false
+06-30 15:15:37.544 I/PushLog110109302( 4799): [ReceiverDispatcher-202]CmdReceivedProcessor: message CmdId from pushSrv:0x47, subCmdId:0xFF
+06-30 15:15:44.901 I/HwPowerManagerService( 1575): UL_Power Screen timeout occured. mStayOn = false, mProximityPositive = false, mWakeLockSummary = 0x0, mUserActivitySummary = 0x2, mScreenBrightnessBoostInProgress = false
+06-30 15:16:06.337 I/MQoS    ( 1575): onSignal: mSubId=1,currDataSubID=0
+06-30 15:16:07.017 I/MQoS    ( 1575): onSignal: mSubId=0,currDataSubID=0
+06-30 15:16:07.822 I/MQoS    ( 1575): onSignal: mSubId=0,currDataSubID=0
+06-30 15:16:09.594 I/MQoS    ( 1575): onSignal: mSubId=1,currDataSubID=0
+06-30 15:16:13.826 I/MQoS    ( 1575): onSignal: mSubId=0,currDataSubID=0
+06-30 15:16:15.604 I/MQoS    ( 1575): onSignal: mSubId=1,currDataSubID=0
+06-30 15:16:17.599 I/MQoS    ( 1575): onSignal: mSubId=1,currDataSubID=0
+06-30 15:16:18.605 I/MQoS    ( 1575): onSignal: mSubId=1,currDataSubID=0
+06-30 15:16:20.617 I/MQoS    ( 1575): onSignal: mSubId=0,currDataSubID=0
+06-30 15:16:21.351 I/MediaSessionService( 1575): dispatchVolumeKeyEvent, pkg=com.example.various_vpn, opPkg=com.example.various_vpn, pid=7828, uid=10299, asSystem=true, event=KeyEvent { action=ACTION_DOWN, keyCode=KEYCODE_VOLUME_DOWN, scanCode=114, metaState=0, flags=0x8, repeatCount=0, eventTime=34358996, downTime=34358996, deviceId=6, source=0x101, displayId=-1 }, stream=-2147483648, musicOnly=false
+06-30 15:16:21.370 D/vol.VolumeDialogImpl( 2381): rescheduleTimeout 2000
+06-30 15:16:21.373 D/vol.VolumeDialogImpl( 2381): rescheduleTimeout 2000
+06-30 15:16:21.387 I/hwvibrator@1.1(  752): on: timeout is 150 ms
+06-30 15:16:21.440 I/MediaSessionService( 1575): dispatchVolumeKeyEvent, pkg=com.example.various_vpn, opPkg=com.example.various_vpn, pid=7828, uid=10299, asSystem=true, event=KeyEvent { action=ACTION_UP, keyCode=KEYCODE_VOLUME_DOWN, scanCode=114, metaState=0, flags=0x8, repeatCount=0, eventTime=34359085, downTime=34358996, deviceId=6, source=0x101, displayId=-1 }, stream=-2147483648, musicOnly=false
+06-30 15:16:22.645 D/vol.VolumeDialogImpl( 2381): rescheduleTimeout 2000
+06-30 15:16:23.011 D/vol.VolumeDialogImpl( 2381): rescheduleTimeout 2000
+06-30 15:16:23.689 I/MQoS    ( 1575): onSignal: mSubId=1,currDataSubID=0
+06-30 15:16:26.624 I/MQoS    ( 1575): onSignal: mSubId=0,currDataSubID=0

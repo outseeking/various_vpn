@@ -1,0 +1,59 @@
+06-30 15:38:49.396 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 15:38:49.396 I/Hicom_Monitor( 2696): handleNetworkQoeReport. foregroundAppTcpRtt: 0, maxRatioChannelId: 2
+06-30 15:38:50.416 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 15:38:50.417 I/Hicom_Monitor( 2696): handleNetworkQoeReport. foregroundAppTcpRtt: 0, maxRatioChannelId: 2
+06-30 15:38:50.887 I/MQoS    ( 1575): rtt=320,tcpTxPkts=1133437,tcpRxPkts=2069930
+06-30 15:38:50.888 I/HuaweiWifiWatchdogStateMachine( 1575): PTcp RTT:320, rtt pkt=4, tcp_rx=0, tcp_tx=0, tcp_reTran=0, rtRate=0
+06-30 15:38:50.888 I/HuaweiWifiWatchdogStateMachine( 1575): start computeQosLevel tcpRtt = 320 ,rssi = -58 ,mBestSpeedInPeriod = 0
+06-30 15:38:51.442 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 15:38:51.443 I/Hicom_Monitor( 2696): handleNetworkQoeReport. foregroundAppTcpRtt: 0, maxRatioChannelId: 2
+06-30 15:38:51.443 I/Hicom_Monitor( 2696): handleNetworkQoeReport. qoeString: 10299,4,0,312,1,2,4,0,312,130000,144400,10,10,0,0,68,0
+06-30 15:38:51.443 I/WiFi_PRO_WifiProStateMachine( 1575): APP_SERVICE_QOE_NOTIFY Qoe info 10299,4,0,312,1,2,4,0,312,130000,144400,10,10,0,0,68,0 CID 2 mMasterWifiRssi -58 mMasterCardAmbr 1048576 mSlaveCardAmbr 1048576
+06-30 15:38:51.443 I/HwWifiProServiceProxy( 1575): ctrlHwWifiNetwork pkgName: WIFIPRO_SERVICE interfaceId: 9
+06-30 15:38:51.443 I/WiFi_PRO_WifiProStateMachine( 1575): isWifi2WifiProcess = false, mIsNeedIgnoreQoeUpdate = false, mIsAppInBlacklist = false, mIsAppInBlacklistFullScreen = false, mIsWiFiNoInternet false, screen on = true, full screen = false, isLandscapeMode = false, mNotifyWifiLinkPoorReason = -1
+06-30 15:38:51.443 I/WiFi_PRO_WifiProStateMachine( 1575): mChannelQoeBadCnt = 0, mAppQoeBadCnt = 0, mNetworkSlowReason = 0, mNetworkSlowChannelBadCnt = 0
+06-30 15:38:52.462 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 15:38:52.463 I/Hicom_Monitor( 2696): handleNetworkQoeReport. foregroundAppTcpRtt: 0, maxRatioChannelId: 2
+06-30 15:38:52.859 D/HwCHRWifiRSSIGroupSummery( 2646): updatArpSummery rssi:-1 HwCHRWifiRSSIGroup [mRssiIndex=4, mRttTcpPackets=0, mRttTcpDuration=0, mRttLanDuration=1537, mRttLanFailures=2, mRttLanSucc=108, mRttLanMax=167, mRttLanMin=3,mSameFrequency=0,mAdjacentFrequency=0]
+06-30 15:38:53.497 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 15:38:53.498 I/Hicom_Monitor( 2696): handleNetworkQoeReport. foregroundAppTcpRtt: 0, maxRatioChannelId: 2
+06-30 15:38:54.512 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 15:38:54.513 I/Hicom_Monitor( 2696): handleNetworkQoeReport. foregroundAppTcpRtt: 0, maxRatioChannelId: 2
+06-30 15:38:54.892 I/MQoS    ( 1575): rtt=344,tcpTxPkts=1133449,tcpRxPkts=2069939
+06-30 15:38:54.893 I/HuaweiWifiWatchdogStateMachine( 1575): PTcp RTT:344, rtt pkt=8, tcp_rx=9, tcp_tx=12, tcp_reTran=0, rtRate=0
+06-30 15:38:54.894 I/HuaweiWifiWatchdogStateMachine( 1575): start computeQosLevel tcpRtt = 344 ,rssi = -61 ,mBestSpeedInPeriod = 4404
+06-30 15:38:54.894 I/WiFi_PRO_WifiProStateMachine( 1575): isSwitching = false, isDialogDisplayed = false, isAllowWiFiHandoverMobile = true, level = 3
+06-30 15:38:55.533 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 15:38:55.534 I/Hicom_Monitor( 2696): handleNetworkQoeReport. foregroundAppTcpRtt: 0, maxRatioChannelId: 2
+06-30 15:38:56.555 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 15:38:56.556 I/Hicom_Monitor( 2696): handleNetworkQoeReport. foregroundAppTcpRtt: 0, maxRatioChannelId: 2
+06-30 15:38:57.583 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 15:38:57.585 I/Hicom_Monitor( 2696): handleNetworkQoeReport. foregroundAppTcpRtt: 0, maxRatioChannelId: 2
+06-30 15:38:58.604 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 15:38:58.606 I/Hicom_Monitor( 2696): handleNetworkQoeReport. foregroundAppTcpRtt: 0, maxRatioChannelId: 2
+06-30 15:38:58.895 I/MQoS    ( 1575): rtt=320,tcpTxPkts=1133462,tcpRxPkts=2069948
+06-30 15:38:58.897 I/HuaweiWifiWatchdogStateMachine( 1575): PTcp RTT:320, rtt pkt=9, tcp_rx=9, tcp_tx=13, tcp_reTran=0, rtRate=0
+06-30 15:38:58.897 I/HuaweiWifiWatchdogStateMachine( 1575): start computeQosLevel tcpRtt = 320 ,rssi = -62 ,mBestSpeedInPeriod = 3875
+06-30 15:38:59.636 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 15:38:59.637 I/Hicom_Monitor( 2696): handleNetworkQoeReport. foregroundAppTcpRtt: 0, maxRatioChannelId: 2
+06-30 15:39:00.652 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 15:39:00.654 I/Hicom_Monitor( 2696): handleNetworkQoeReport. foregroundAppTcpRtt: 0, maxRatioChannelId: 2
+06-30 15:39:01.685 I/Hicom_Monitor( 2696): handleNetworkQoeReport. foregroundAppTcpRtt: 0, maxRatioChannelId: 2
+06-30 15:39:01.685 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 15:39:02.706 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 15:39:02.707 I/Hicom_Monitor( 2696): handleNetworkQoeReport. foregroundAppTcpRtt: 0, maxRatioChannelId: 2
+06-30 15:39:02.901 I/MQoS    ( 1575): rtt=320,tcpTxPkts=1133465,tcpRxPkts=2069948
+06-30 15:39:02.901 I/HuaweiWifiWatchdogStateMachine( 1575): PTcp RTT:320, rtt pkt=9, tcp_rx=0, tcp_tx=3, tcp_reTran=1, rtRate=0,33
+06-30 15:39:02.902 I/HuaweiWifiWatchdogStateMachine( 1575): start computeQosLevel tcpRtt = 320 ,rssi = -61 ,mBestSpeedInPeriod = 0
+06-30 15:39:02.902 I/WiFi_PRO_WifiProStateMachine( 1575): isSwitching = false, isDialogDisplayed = false, isAllowWiFiHandoverMobile = true, level = 3
+06-30 15:39:03.724 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 15:39:03.725 I/Hicom_Monitor( 2696): handleNetworkQoeReport. foregroundAppTcpRtt: 292, maxRatioChannelId: 2
+06-30 15:39:04.752 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 15:39:04.752 I/Hicom_Monitor( 2696): handleNetworkQoeReport. foregroundAppTcpRtt: 116, maxRatioChannelId: 2
+06-30 15:39:05.780 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 15:39:05.781 I/Hicom_Monitor( 2696): handleNetworkQoeReport. foregroundAppTcpRtt: 46, maxRatioChannelId: 2
+06-30 15:39:06.801 E/FourNetCombinationChr( 2696): getNetworkQoeInfo failed, qoeTcpDataOpt is null
+06-30 15:39:06.802 I/Hicom_Monitor( 2696): handleNetworkQoeReport. foregroundAppTcpRtt: 18, maxRatioChannelId: 2
+06-30 15:39:06.902 I/MQoS    ( 1575): rtt=320,tcpTxPkts=1133465,tcpRxPkts=2069948
+06-30 15:39:06.903 I/HuaweiWifiWatchdogStateMachine( 1575): PTcp RTT:0, rtt pkt=0, tcp_rx=0, tcp_tx=0, tcp_reTran=0, rtRate=0,33
+06-30 15:39:06.903 I/HuaweiWifiWatchdogStateMachine( 1575): start computeQosLevel tcpRtt = 0 ,rssi = -59 ,mBestSpeedInPeriod = 27
