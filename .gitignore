@@ -52,3 +52,8 @@ android/app/upload-keystore.jks
 *.apk
 apk_*.txt
 live_log.txt
+# Живые VPN-конфиги (секретные — НЕ коммитить)
+subs*.txt
+sub*_b64.txt
+sub_single.txt
+*.jsonl
