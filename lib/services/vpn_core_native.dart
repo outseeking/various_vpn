@@ -109,6 +109,7 @@ class V2RayVpnService implements VpnService {
 
       // выходной outbound набирается через входной (dialerProxy=entry)
       exitOut['tag'] = 'proxy';
+      exitOut['mux'] = {'enabled': false}; // mux ломает dialerProxy-цепочку
       final ss = (exitOut['streamSettings'] as Map<String, dynamic>?) ??
           <String, dynamic>{};
       final sockopt = (ss['sockopt'] as Map<String, dynamic>?) ??
@@ -118,6 +119,7 @@ class V2RayVpnService implements VpnService {
       exitOut['streamSettings'] = ss;
 
       entryOut['tag'] = 'entry';
+      entryOut['mux'] = {'enabled': false};
 
       exitCfg['outbounds'] = [
         exitOut,

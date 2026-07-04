@@ -246,9 +246,11 @@ class AppState extends ChangeNotifier {
 
   bool _forceFragment = false; // авто-фрагментация на повторной попытке (анти-DPI)
 
-  // ---- мультихоп (двойной VPN: вход → выход) ----
+  // ---- мультихоп (двойной VPN) ----
+  // ВХОД = текущий сервер (тот, к которому ты подключён / выбран на главной).
+  // ВЫХОД = выбирается отдельно в разделе двойного VPN.
   bool multihop = false;
-  String? relayServerId; // входная нода (entry)
+  String? multihopExitId; // выходная нода (exit)
 
   void setMultihop(bool v) {
     multihop = v;
@@ -257,20 +259,30 @@ class AppState extends ChangeNotifier {
     if (isConnected) _reconnectTo();
   }
 
-  void setRelayServer(String? id) {
-    relayServerId = id;
-    _storage.setStr('relay_server', id ?? '');
+  void setMultihopExit(String? id) {
+    multihopExitId = id;
+    _storage.setStr('multihop_exit', id ?? '');
     notifyListeners();
     if (isConnected && multihop) _reconnectTo();
   }
 
-  /// Входная нода для мультихопа при выходе через [exit] (должна отличаться).
+  /// Выходной сервер для мультихопа (если выбран и отличается от входа).
+  VpnServer? get multihopExit {
+    if (!multihop || multihopExitId == null) return null;
+    final entry = activeServer;
+    for (final s in servers) {
+      if (s.id == multihopExitId && s.xraySupported && s.id != entry?.id) return s;
+    }
+    return null;
+  }
+
+  /// Входная нода для цепочки при выходе через [exit] = ТЕКУЩИЙ сервер.
+  /// Мы соединяемся с выходом, но набираем его ЧЕРЕЗ вход (текущий сервер).
   VpnServer? _relayFor(VpnServer exit) {
     if (!multihop) return null;
-    for (final s in servers) {
-      if (s.id == relayServerId && s.id != exit.id && s.xraySupported) return s;
-    }
-    // не выбрана явно — берём любой другой поддерживаемый сервер
+    final entry = activeServer; // «текущий» сервер = вход
+    if (entry != null && entry.id != exit.id && entry.xraySupported) return entry;
+    // запасной вход — любой другой поддерживаемый сервер (цепочка всегда формируется)
     for (final s in servers) {
       if (s.id != exit.id && s.xraySupported) return s;
     }
@@ -371,8 +383,8 @@ class AppState extends ChangeNotifier {
     onDemand = _storage.getBool('on_demand', def: false);
     adBlock = _storage.getBool('ad_block', def: false);
     multihop = _storage.getBool('multihop', def: false);
-    final rid = _storage.getStr('relay_server', def: '');
-    relayServerId = rid.isEmpty ? null : rid;
+    final rid = _storage.getStr('multihop_exit', def: '');
+    multihopExitId = rid.isEmpty ? null : rid;
     _loadCachedRouting();
     // Тумблер анимаций убран из настроек — анимации глобуса всегда включены
     // (иначе у тех, кто раньше выключил, звёзды/падающие звёзды не работали бы).
@@ -1153,6 +1165,10 @@ class AppState extends ChangeNotifier {
   /// Кандидаты для подключения с failover: поддерживаемые серверы по возрастанию
   /// пинга. В ручном режиме выбранный сервер идёт первым.
   List<VpnServer> _connectCandidates() {
+    // Мультихоп: цель туннеля — ВЫХОД (набираем его через вход). Если выход
+    // выбран и валиден — подключаемся именно к нему.
+    final exit = multihopExit;
+    if (exit != null) return [exit];
     var pool = servers.where((s) => s.xraySupported).toList();
     if (pool.isEmpty) pool = List.of(servers);
     // Reality → обычный tcp → httpupgrade (последний падает на Android),
@@ -1207,7 +1223,8 @@ class AppState extends ChangeNotifier {
     notifyListeners();
     try {
       // Нужен ли сервер, на котором работают нейросети (умный доступ к ИИ).
-      final wantAi = smartAi;
+      // В мультихопе выход фиксирован пользователем — не перебираем ради ИИ.
+      final wantAi = smartAi && !multihop;
       // Сервер, где туннель ЖИВОЙ (интернет есть), но ИИ недоступен — запасной
       // вариант на случай, если ИИ не открывается нигде.
       VpnServer? internetOnly;
@@ -1278,8 +1295,12 @@ class AppState extends ChangeNotifier {
   /// Фиксирует успешное подключение к [srv]. Форсирует стадию «connected», даже
   /// если нативный статус на EMUI/MIUI не пришёл — связь уже проверена пробой.
   void _finishConnect(VpnServer srv, {required bool aiOk}) {
-    manualServerId = srv.id; // фиксируем рабочий сервер
-    _storage.manualServerId = srv.id;
+    // В мультихопе srv = ВЫХОД; вход (текущий сервер) не трогаем, иначе выход
+    // «перетёр» бы основной сервер и режимы «воевали» бы между собой.
+    if (!multihop) {
+      manualServerId = srv.id; // фиксируем рабочий сервер
+      _storage.manualServerId = srv.id;
+    }
     if (_stage != VpnStage.connected) {
       _stage = VpnStage.connected;
       _startSession();
@@ -1382,8 +1403,13 @@ class AppState extends ChangeNotifier {
   /// трафик. Возвращает true ТОЛЬКО при подтверждённой связи — это и есть
   /// защита от «показывает подключено, а интернета нет».
   Future<bool> _tryConnect(VpnServer srv) async {
+    final relay = _relayFor(srv);
+    if (relay != null) {
+      _log('Двойной VPN: ${relay.flag} ${relay.displayName} → '
+          '${srv.flag} ${srv.displayName}', LogKind.connect);
+    }
     // бросит на неподдерживаемом протоколе → обрабатывается выше
-    await vpn.connect(srv, rules: rules, net: net, blockedApps: blockedApps, relay: _relayFor(srv));
+    await vpn.connect(srv, rules: rules, net: net, blockedApps: blockedApps, relay: relay);
     return _verifyTunnel();
   }
 
@@ -1396,7 +1422,9 @@ class AppState extends ChangeNotifier {
       'https://cp.cloudflare.com/generate_204',
       'https://www.google.com/generate_204',
     ];
-    final deadline = DateTime.now().add(const Duration(seconds: 14));
+    // двойной хоп поднимается дольше — даём больше времени на проверку связи
+    final deadline = DateTime.now()
+        .add(Duration(seconds: multihop ? 22 : 14));
     var i = 0;
     while (DateTime.now().isBefore(deadline)) {
       try {

@@ -10,6 +10,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
+import '../l10n.dart';
 import '../theme/app_palette.dart';
 
 /// Компактный живой огонёк с числом дней серии.
@@ -204,15 +205,15 @@ class _StreakCelebrationState extends State<StreakCelebration>
                         child: StreakFlame(days: widget.milestone, size: 130),
                       ),
                       const SizedBox(height: 8),
-                      const Text('СЕРИЯ ПРОДОЛЖАЕТСЯ!',
-                          style: TextStyle(
+                      Text(L.t('streak_celebrate'),
+                          style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w800,
                             fontSize: 22,
                             letterSpacing: 1.5,
                           )),
                       const SizedBox(height: 10),
-                      Text('${widget.milestone} дней подряд с Various VPN',
+                      Text(L.t('streak_celebrate_sub', {'n': widget.milestone}),
                           style: const TextStyle(color: P.textDim, fontSize: 15)),
                       const SizedBox(height: 18),
                       Container(
@@ -229,7 +230,8 @@ class _StreakCelebrationState extends State<StreakCelebration>
                                 spreadRadius: 1),
                           ],
                         ),
-                        child: Text('🎁  +${widget.rewardDays} дней подписки',
+                        child: Text(
+                            L.t('streak_reward_days', {'n': widget.rewardDays}),
                             style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w800,
@@ -237,7 +239,7 @@ class _StreakCelebrationState extends State<StreakCelebration>
                             )),
                       ),
                       const SizedBox(height: 14),
-                      Text('Начислено автоматически · тапни, чтобы закрыть',
+                      Text(L.t('streak_close'),
                           style: TextStyle(
                               color: Colors.white.withValues(alpha: 0.5),
                               fontSize: 12)),

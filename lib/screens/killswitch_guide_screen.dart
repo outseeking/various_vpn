@@ -6,6 +6,7 @@ library;
 import 'package:android_intent_plus/android_intent.dart';
 import 'package:flutter/material.dart';
 
+import '../l10n.dart';
 import '../theme/app_palette.dart';
 
 class KillSwitchGuideScreen extends StatelessWidget {
@@ -28,7 +29,7 @@ class KillSwitchGuideScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: P.bg,
-      appBar: AppBar(title: const Text('Kill-switch (защита от утечек)')),
+      appBar: AppBar(title: Text(L.t('ks_title'))),
       body: ListView(
         padding: const EdgeInsets.all(18),
         children: [
@@ -39,33 +40,30 @@ class KillSwitchGuideScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(14),
               border: Border.all(color: P.surfaceHi),
             ),
-            child: const Text(
-              'Настоящий Kill-switch — это системная функция Android. Она блокирует '
-              'весь интернет, если VPN отключился, и работает даже при перезапуске '
-              'или сбое приложения (в отличие от программной защиты внутри приложения).',
-              style: TextStyle(color: P.textDim, fontSize: 14, height: 1.5),
+            child: Text(
+              L.t('ks_intro'),
+              style: const TextStyle(color: P.textDim, fontSize: 14, height: 1.5),
             ),
           ),
           const SizedBox(height: 18),
-          const Text('Как включить:',
-              style: TextStyle(
+          Text(L.t('ks_how'),
+              style: const TextStyle(
                   color: P.text, fontSize: 15, fontWeight: FontWeight.w700)),
           const SizedBox(height: 10),
-          _step(1, 'Нажми кнопку ниже — откроются настройки VPN.'),
-          _step(2, 'Возле «Various VPN» нажми ⚙️ (шестерёнку).'),
-          _step(3, 'Включи «Постоянная VPN» (Always-on VPN).'),
-          _step(4, 'Включи «Блокировать соединения без VPN».'),
+          _step(1, L.t('ks_s1')),
+          _step(2, L.t('ks_s2')),
+          _step(3, L.t('ks_s3')),
+          _step(4, L.t('ks_s4')),
           const SizedBox(height: 20),
           FilledButton.icon(
             onPressed: _openVpnSettings,
             icon: const Icon(Icons.open_in_new),
-            label: const Text('Открыть настройки VPN'),
+            label: Text(L.t('ks_open')),
           ),
           const SizedBox(height: 12),
-          const Text(
-            'Подсказка: для «Постоянной VPN» подключение должно быть настроено — '
-            'сначала хотя бы раз подключись к Various VPN.',
-            style: TextStyle(color: P.textFaint, fontSize: 12, height: 1.5),
+          Text(
+            L.t('ks_hint'),
+            style: const TextStyle(color: P.textFaint, fontSize: 12, height: 1.5),
           ),
         ],
       ),

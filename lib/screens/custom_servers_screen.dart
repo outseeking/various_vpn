@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import '../l10n.dart';
 import '../state/app_state.dart';
 import '../theme/app_palette.dart';
 
@@ -32,7 +33,7 @@ class _CustomServersScreenState extends State<CustomServersScreen> {
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       backgroundColor: P.surface,
-      content: Text(ok ? '✅ Свои серверы добавлены' : (state.lastError ?? 'Ошибка')),
+      content: Text(ok ? L.t('cs_added') : (state.lastError ?? 'Ошибка')),
     ));
     if (ok) Navigator.of(context).pop();
   }
@@ -48,7 +49,7 @@ class _CustomServersScreenState extends State<CustomServersScreen> {
     final connected = context.watch<AppState>().isConnected;
     return Scaffold(
       backgroundColor: P.bg,
-      appBar: AppBar(title: const Text('Свои серверы')),
+      appBar: AppBar(title: Text(L.t('cs_title'))),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         behavior: HitTestBehavior.opaque,
@@ -66,21 +67,19 @@ class _CustomServersScreenState extends State<CustomServersScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(children: const [
-                    Icon(Icons.tune, color: P.limeText, size: 20),
-                    SizedBox(width: 8),
-                    Text('Для продвинутых',
-                        style: TextStyle(
+                  Row(children: [
+                    const Icon(Icons.tune, color: P.limeText, size: 20),
+                    const SizedBox(width: 8),
+                    Text(L.t('cs_advanced'),
+                        style: const TextStyle(
                             color: P.text,
                             fontSize: 14,
                             fontWeight: FontWeight.w700)),
                   ]),
                   const SizedBox(height: 8),
-                  const Text(
-                    'Можно добавить до 5 собственных серверов через JSON — они '
-                    'появятся рядом с нашими. Это личная настройка и доступна '
-                    'только когда ты подключён к Various VPN.',
-                    style: TextStyle(color: P.textDim, fontSize: 13, height: 1.5),
+                  Text(
+                    L.t('cs_body'),
+                    style: const TextStyle(color: P.textDim, fontSize: 13, height: 1.5),
                   ),
                 ],
               ),
@@ -94,13 +93,13 @@ class _CustomServersScreenState extends State<CustomServersScreen> {
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: P.surfaceHi),
                 ),
-                child: const Row(children: [
-                  Icon(Icons.lock_outline, color: P.textFaint, size: 18),
-                  SizedBox(width: 10),
+                child: Row(children: [
+                  const Icon(Icons.lock_outline, color: P.textFaint, size: 18),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      'Сначала подключись к Various VPN — потом добавление откроется.',
-                      style: TextStyle(color: P.textFaint, fontSize: 13),
+                      L.t('cs_locked'),
+                      style: const TextStyle(color: P.textFaint, fontSize: 13),
                     ),
                   ),
                 ]),
@@ -131,8 +130,8 @@ class _CustomServersScreenState extends State<CustomServersScreen> {
                     if (d?.text != null) _ctrl.text = d!.text!;
                   },
                   icon: const Icon(Icons.paste, size: 18, color: P.limeText),
-                  label: const Text('Вставить из буфера',
-                      style: TextStyle(color: P.limeText)),
+                  label: Text(L.t('cs_paste'),
+                      style: const TextStyle(color: P.limeText)),
                 ),
               ),
               const SizedBox(height: 6),
@@ -146,7 +145,7 @@ class _CustomServersScreenState extends State<CustomServersScreen> {
                           height: 18,
                           child: CircularProgressIndicator(
                               strokeWidth: 2, color: Colors.white))
-                      : const Text('Добавить серверы'),
+                      : Text(L.t('cs_add')),
                 ),
               ),
             ],

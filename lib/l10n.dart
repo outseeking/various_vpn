@@ -9,10 +9,13 @@ class L {
   /// Текущий язык: 'ru' или 'en'. Устанавливается AppState при старте/смене.
   static String current = 'ru';
 
-  static String t(String key) {
+  static String t(String key, [Map<String, Object>? params]) {
     final m = _d[key];
-    if (m == null) return key;
-    return m[current] ?? m['ru'] ?? key;
+    var s = m == null ? key : (m[current] ?? m['ru'] ?? key);
+    if (params != null) {
+      params.forEach((k, v) => s = s.replaceAll('{$k}', '$v'));
+    }
+    return s;
   }
 
   static const Map<String, Map<String, String>> _d = {
@@ -197,5 +200,127 @@ class L {
     },
     'url_your': {'ru': 'Ваши сайты', 'en': 'Your sites'},
     'url_popular': {'ru': 'Популярные', 'en': 'Popular'},
+
+    // --- новые тумблеры/разделы настроек ---
+    'adblock': {'ru': 'Блокировка рекламы и трекеров', 'en': 'Ad & tracker blocking'},
+    'adblock_d': {
+      'ru': 'Режет рекламу, аналитику и трекеры прямо в туннеле — страницы легче, трафика меньше, приватность выше.',
+      'en': 'Blocks ads, analytics and trackers right in the tunnel — lighter pages, less traffic, more privacy.'
+    },
+    'smart_ai': {'ru': 'Умный доступ к ИИ', 'en': 'Smart AI access'},
+    'smart_ai_d': {
+      'ru': 'ChatGPT, Gemini, Claude и другие нейросети автоматически идут через сервер, где ИИ работает — даже при включённом обходе РФ-сайтов.',
+      'en': 'ChatGPT, Gemini, Claude and other AI auto-route through a server where they work — even with RU bypass on.'
+    },
+    'ondemand': {'ru': 'Режим «По требованию» (On-Demand)', 'en': 'On-Demand mode'},
+    'ondemand_d': {
+      'ru': 'VPN сам поднимается при запуске приложения и держится наготове — не нужно нажимать «Подключить» каждый раз.',
+      'en': 'VPN comes up on app launch and stays ready — no need to tap Connect every time.'
+    },
+    'mh_nav': {'ru': 'Двойной VPN (мультихоп)', 'en': 'Double VPN (multihop)'},
+    'mh_nav_on': {'ru': 'Включён · вход → выход', 'en': 'On · entry → exit'},
+    'mh_nav_off': {'ru': 'Цепочка из двух серверов', 'en': 'Chain of two servers'},
+    'diag_nav': {'ru': 'Проверить блокировку', 'en': 'Check for blocking'},
+    'diag_nav_d': {'ru': 'Диагностика: почему VPN не подключается', 'en': 'Diagnostics: why VPN won\'t connect'},
+    'ks_nav': {'ru': 'Kill-switch (защита от утечек)', 'en': 'Kill-switch (leak protection)'},
+    'ks_nav_d': {'ru': 'Системная блокировка сети без VPN', 'en': 'System-level block without VPN'},
+    'cs_nav': {'ru': 'Свои серверы (JSON)', 'en': 'Custom servers (JSON)'},
+    'cs_nav_d': {'ru': 'Для продвинутых · при активном подключении', 'en': 'Advanced · while connected'},
+
+    // --- двойной VPN ---
+    'mh_title': {'ru': 'Двойной VPN (мультихоп)', 'en': 'Double VPN (multihop)'},
+    'mh_privacy_title': {'ru': 'Максимум приватности', 'en': 'Maximum privacy'},
+    'mh_privacy_body': {
+      'ru': 'Трафик идёт через две ноды: сначала ВХОД (сервер, к которому ты подключён сейчас), потом ВЫХОД (выбираешь ниже). Входная знает твой IP, но не сайты; выходная видит сайты, но не знает, кто ты.',
+      'en': 'Traffic goes through two nodes: first the ENTRY (the server you\'re connected to now), then the EXIT (pick below). The entry knows your IP but not the sites; the exit sees the sites but not who you are.'
+    },
+    'mh_speed': {
+      'ru': 'Скорость будет ниже — это нормально: данные шифруются дважды и проходят лишнюю страну. Для видео и игр лучше обычный режим; двойной — когда важна максимальная анонимность.',
+      'en': 'Speed will be lower — that\'s expected: data is encrypted twice and crosses an extra country. For video and games use the normal mode; double is for maximum anonymity.'
+    },
+    'mh_enable': {'ru': 'Включить двойной VPN', 'en': 'Enable Double VPN'},
+    'mh_entry_tag': {'ru': 'ВХОД · текущий сервер', 'en': 'ENTRY · current server'},
+    'mh_entry_on': {'ru': 'Подключён — заходишь через эту страну', 'en': 'Connected — you enter via this country'},
+    'mh_entry_off': {'ru': 'Подключись на главном экране', 'en': 'Connect on the home screen'},
+    'mh_no_server': {'ru': 'Сервер не выбран', 'en': 'No server selected'},
+    'mh_exit_label': {'ru': 'Выход (его страну видят сайты):', 'en': 'Exit (sites see its country):'},
+    'mh_need_two': {'ru': 'Нужно минимум два сервера для цепочки.', 'en': 'Need at least two servers for a chain.'},
+    'mh_route': {'ru': 'Маршрут', 'en': 'Route'},
+    'mh_pick_exit': {'ru': 'выбери выход', 'en': 'pick exit'},
+    'mh_footer': {
+      'ru': 'Вход меняется на главном экране (это твой текущий сервер). Здесь выбираешь только выход.',
+      'en': 'The entry is changed on the home screen (it\'s your current server). Here you only pick the exit.'
+    },
+
+    // --- диагностика ---
+    'diag_title': {'ru': 'Проверить блокировку', 'en': 'Check for blocking'},
+    'diag_intro': {
+      'ru': 'Проверяем, почему VPN может не подключаться. Все пробы идут в обход туннеля — так видно реальную картину сети.',
+      'en': 'We check why the VPN may not connect. All probes go outside the tunnel to show the real network picture.'
+    },
+    'diag_s_net': {'ru': 'Интернет доступен', 'en': 'Internet available'},
+    'diag_s_tcp': {'ru': 'Сервер отвечает (TCP)', 'en': 'Server responds (TCP)'},
+    'diag_s_tls': {'ru': 'TLS-рукопожатие проходит', 'en': 'TLS handshake passes'},
+    'diag_s_tun': {'ru': 'Трафик идёт через туннель', 'en': 'Traffic flows via tunnel'},
+    'diag_retry': {'ru': 'Проверить снова', 'en': 'Check again'},
+    'diag_running': {'ru': 'Проверяю…', 'en': 'Checking…'},
+    'diag_v_nonet': {'ru': 'Нет интернета. Проверь Wi-Fi/мобильные данные — VPN тут ни при чём.', 'en': 'No internet. Check Wi-Fi/mobile data — the VPN isn\'t the issue.'},
+    'diag_v_nosrv': {'ru': 'Сначала импортируй подписку — серверов для проверки нет.', 'en': 'Import a subscription first — no servers to test.'},
+    'diag_v_tcp': {'ru': 'Сервер недоступен по сети: либо узел лежит, либо провайдер блокирует его IP. Попробуй другой сервер.', 'en': 'Server unreachable: the node is down or your ISP blocks its IP. Try another server.'},
+    'diag_v_tls': {'ru': 'TCP проходит, но TLS-рукопожатие сбрасывается — признак DPI-блокировки протокола провайдером. Помогают фрагментация и смена сервера.', 'en': 'TCP passes but the TLS handshake is reset — a sign of DPI protocol blocking by your ISP. Fragmentation and switching servers help.'},
+    'diag_v_tun': {'ru': 'Связь с сервером есть, но туннель не пропускает трафик — переподключись; если повторяется, смени сервер.', 'en': 'The server is reachable but the tunnel passes no traffic — reconnect; if it repeats, switch servers.'},
+    'diag_v_ok': {'ru': 'Всё в порядке ✅ Сервер доступен и протокол не блокируется.', 'en': 'All good ✅ The server is reachable and the protocol isn\'t blocked.'},
+    'diag_ok': {'ru': 'есть', 'en': 'ok'},
+    'diag_nonet': {'ru': 'нет соединения с сетью', 'en': 'no network connection'},
+    'diag_port_open': {'ru': 'порт открыт', 'en': 'port open'},
+    'diag_port_closed': {'ru': 'порт не отвечает', 'en': 'port not responding'},
+    'diag_tls_ok': {'ru': 'рукопожатие ок', 'en': 'handshake ok'},
+    'diag_tls_dpi': {'ru': 'TLS сбрасывается (похоже на DPI)', 'en': 'TLS reset (looks like DPI)'},
+    'diag_tun_ok': {'ru': 'работает', 'en': 'works'},
+    'diag_tun_fail': {'ru': 'нет ответа через туннель', 'en': 'no response via tunnel'},
+    'diag_tun_skip': {'ru': 'VPN не подключён — пропущено', 'en': 'VPN not connected — skipped'},
+    'diag_no_srv2': {'ru': 'нет выбранного сервера', 'en': 'no server selected'},
+
+    // --- kill-switch ---
+    'ks_title': {'ru': 'Kill-switch (защита от утечек)', 'en': 'Kill-switch (leak protection)'},
+    'ks_intro': {
+      'ru': 'Настоящий Kill-switch — это системная функция Android. Она блокирует весь интернет, если VPN отключился, и работает даже при перезапуске или сбое приложения.',
+      'en': 'A real kill-switch is an Android system feature. It blocks all internet if the VPN drops and works even if the app restarts or crashes.'
+    },
+    'ks_how': {'ru': 'Как включить:', 'en': 'How to enable:'},
+    'ks_s1': {'ru': 'Нажми кнопку ниже — откроются настройки VPN.', 'en': 'Tap the button below — VPN settings will open.'},
+    'ks_s2': {'ru': 'Возле «Various VPN» нажми ⚙️ (шестерёнку).', 'en': 'Next to “Various VPN” tap ⚙️ (the gear).'},
+    'ks_s3': {'ru': 'Включи «Постоянная VPN» (Always-on VPN).', 'en': 'Turn on “Always-on VPN”.'},
+    'ks_s4': {'ru': 'Включи «Блокировать соединения без VPN».', 'en': 'Turn on “Block connections without VPN”.'},
+    'ks_open': {'ru': 'Открыть настройки VPN', 'en': 'Open VPN settings'},
+    'ks_hint': {
+      'ru': 'Подсказка: для «Постоянной VPN» подключение должно быть настроено — сначала хотя бы раз подключись к Various VPN.',
+      'en': 'Tip: for Always-on VPN a connection must exist — connect to Various VPN at least once first.'
+    },
+
+    // --- свои серверы ---
+    'cs_title': {'ru': 'Свои серверы', 'en': 'Custom servers'},
+    'cs_advanced': {'ru': 'Для продвинутых', 'en': 'For advanced users'},
+    'cs_body': {
+      'ru': 'Можно добавить до 5 собственных серверов через JSON — они появятся рядом с нашими. Это личная настройка и доступна только когда ты подключён к Various VPN.',
+      'en': 'You can add up to 5 of your own servers via JSON — they\'ll appear next to ours. This is a personal setting, available only while connected to Various VPN.'
+    },
+    'cs_locked': {'ru': 'Сначала подключись к Various VPN — потом добавление откроется.', 'en': 'Connect to Various VPN first — then adding unlocks.'},
+    'cs_paste': {'ru': 'Вставить из буфера', 'en': 'Paste from clipboard'},
+    'cs_add': {'ru': 'Добавить серверы', 'en': 'Add servers'},
+    'cs_added': {'ru': '✅ Свои серверы добавлены', 'en': '✅ Custom servers added'},
+
+    // --- стрик / огонёк ---
+    'streak_title_on': {'ru': 'Серия: {n} дней подряд', 'en': 'Streak: {n} days in a row'},
+    'streak_title_off': {'ru': 'Начни серию!', 'en': 'Start a streak!'},
+    'streak_hint_on': {'ru': 'Заходи каждый день — не потеряй огонёк 🔥', 'en': 'Come back daily — don\'t lose the flame 🔥'},
+    'streak_hint_off': {'ru': 'Подключай VPN каждый день и получай бонусные дни', 'en': 'Connect the VPN daily and earn bonus days'},
+    'streak_next': {'ru': 'До награды +{r} дней: осталось {d} дн. (веха {m})', 'en': 'To reward +{r} days: {d} days left (milestone {m})'},
+    'streak_freezes': {'ru': 'Заморозки: {n} · копятся за 25+ ч VPN в неделю и спасают серию при пропуске дня', 'en': 'Freezes: {n} · earned for 25+ h VPN a week, save your streak if you miss a day'},
+    'streak_rewards': {'ru': 'Награды за серию', 'en': 'Streak rewards'},
+    'streak_celebrate': {'ru': 'СЕРИЯ ПРОДОЛЖАЕТСЯ!', 'en': 'STREAK CONTINUES!'},
+    'streak_celebrate_sub': {'ru': '{n} дней подряд с Various VPN', 'en': '{n} days in a row with Various VPN'},
+    'streak_reward_days': {'ru': '🎁  +{n} дней подписки', 'en': '🎁  +{n} subscription days'},
+    'streak_close': {'ru': 'Начислено автоматически · тапни, чтобы закрыть', 'en': 'Credited automatically · tap to close'},
   };
 }

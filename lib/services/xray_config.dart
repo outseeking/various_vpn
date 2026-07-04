@@ -271,15 +271,19 @@ String applyNetOptions(String baseConfig, NetOptions opts) {
         }
       },
     });
-    // основной proxy-outbound (первый, не direct/fragment) направляем через fragment
+    // Фрагментацию вешаем на САМЫЙ ВНУТРЕННИЙ proxy-outbound — тот, у которого
+    // ещё НЕТ dialerProxy. В обычном режиме это единственный proxy; в мультихопе
+    // (exit.dialerProxy='entry') это входная нода — так цепочка не рвётся:
+    // app → fragment → entry → exit.
     for (final o in outbounds) {
       final m = o as Map;
       final tag = m['tag'];
-      if (tag == 'direct' || tag == 'fragment') continue;
+      if (tag == 'direct' || tag == 'fragment' || tag == 'blocked') continue;
       final ss = (m['streamSettings'] as Map<String, dynamic>?) ??
           <String, dynamic>{};
       final sockopt = (ss['sockopt'] as Map<String, dynamic>?) ??
           <String, dynamic>{};
+      if (sockopt['dialerProxy'] != null) continue; // уже звено цепочки — пропускаем
       sockopt['dialerProxy'] = 'fragment';
       ss['sockopt'] = sockopt;
       m['streamSettings'] = ss;

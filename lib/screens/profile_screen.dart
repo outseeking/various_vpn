@@ -274,7 +274,10 @@ class _StreakCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(streak > 0 ? 'Серия: $streak дней подряд' : 'Начни серию!',
+                    Text(
+                        streak > 0
+                            ? L.t('streak_title_on', {'n': streak})
+                            : L.t('streak_title_off'),
                         style: const TextStyle(
                             color: P.text,
                             fontSize: 15,
@@ -282,8 +285,8 @@ class _StreakCard extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                         streak > 0
-                            ? 'Заходи каждый день — не потеряй огонёк 🔥'
-                            : 'Подключай VPN каждый день и получай бонусные дни',
+                            ? L.t('streak_hint_on')
+                            : L.t('streak_hint_off'),
                         style: const TextStyle(color: P.textFaint, fontSize: 12)),
                   ],
                 ),
@@ -303,8 +306,12 @@ class _StreakCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            Text('До награды +$nextReward дней: осталось ${(next - streak).clamp(0, next)} дн. '
-                '(веха $next)',
+            Text(
+                L.t('streak_next', {
+                  'r': nextReward,
+                  'd': (next - streak).clamp(0, next),
+                  'm': next
+                }),
                 style: const TextStyle(color: P.textDim, fontSize: 12)),
           ],
           const SizedBox(height: 12),
@@ -315,8 +322,7 @@ class _StreakCard extends StatelessWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                    'Заморозки: ${state.streakFreezes} '
-                    '· копятся за 25+ ч VPN в неделю и спасают серию при пропуске дня',
+                    L.t('streak_freezes', {'n': state.streakFreezes}),
                     style: const TextStyle(color: P.textFaint, fontSize: 11.5)),
               ),
             ],
@@ -325,8 +331,8 @@ class _StreakCard extends StatelessWidget {
             const SizedBox(height: 12),
             const Divider(color: P.surfaceHi, height: 1),
             const SizedBox(height: 10),
-            const Text('Награды за серию',
-                style: TextStyle(
+            Text(L.t('streak_rewards'),
+                style: const TextStyle(
                     color: P.text, fontSize: 13, fontWeight: FontWeight.w700)),
             const SizedBox(height: 8),
             Wrap(

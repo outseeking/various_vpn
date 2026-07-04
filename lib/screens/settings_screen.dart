@@ -65,9 +65,8 @@ class SettingsScreen extends StatelessWidget {
             onChanged: state.setAutoConnect,
           ),
           _SwitchRow(
-            title: 'Режим «По требованию» (On-Demand)',
-            subtitle: 'VPN сам поднимается при запуске приложения и держится '
-                'наготове — не нужно нажимать «Подключить» каждый раз.',
+            title: L.t('ondemand'),
+            subtitle: L.t('ondemand_d'),
             value: state.onDemand,
             onChanged: state.setOnDemand,
           ),
@@ -84,18 +83,14 @@ class SettingsScreen extends StatelessWidget {
             onChanged: state.setBypassRu,
           ),
           _SwitchRow(
-            title: 'Блокировка рекламы и трекеров',
-            subtitle: 'Режет рекламу, аналитику и трекеры прямо в туннеле — '
-                'страницы легче, трафика меньше, приватность выше.',
+            title: L.t('adblock'),
+            subtitle: L.t('adblock_d'),
             value: state.adBlock,
             onChanged: state.setAdBlock,
           ),
           _SwitchRow(
-            title: 'Умный доступ к ИИ',
-            subtitle: 'При подключении приложение само находит сервер, на '
-                'котором открываются нейросети (ChatGPT, Gemini, Claude), и '
-                'направляет их через него. Если на ближайшем сервере ИИ '
-                'заблокирован — переключится на рабочий автоматически.',
+            title: L.t('smart_ai'),
+            subtitle: L.t('smart_ai_d'),
             value: state.smartAi,
             onChanged: state.setSmartAi,
           ),
@@ -124,34 +119,33 @@ class SettingsScreen extends StatelessWidget {
             ),
           ),
           _NavRow(
-            title: 'Двойной VPN (мультихоп)',
+            title: L.t('mh_nav'),
             icon: Icons.swap_calls,
-            subtitle: state.multihop ? 'Включён · вход → выход' : 'Цепочка из двух серверов',
+            subtitle: state.multihop ? L.t('mh_nav_on') : L.t('mh_nav_off'),
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const MultihopScreen()),
             ),
           ),
           _NavRow(
-            title: 'Проверить блокировку',
+            title: L.t('diag_nav'),
             icon: Icons.wifi_find,
-            subtitle: 'Диагностика: почему VPN не подключается',
+            subtitle: L.t('diag_nav_d'),
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const DiagnosticsScreen()),
             ),
           ),
           _NavRow(
-            title: 'Kill-switch (защита от утечек)',
+            title: L.t('ks_nav'),
             icon: Icons.gpp_maybe_outlined,
-            subtitle: 'Системная блокировка сети без VPN',
+            subtitle: L.t('ks_nav_d'),
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const KillSwitchGuideScreen()),
             ),
           ),
-          // Ненавязчивая запись для продвинутых: свои серверы через JSON.
           _NavRow(
-            title: 'Свои серверы (JSON)',
+            title: L.t('cs_nav'),
             icon: Icons.tune,
-            subtitle: 'Для продвинутых · доступно при активном подключении',
+            subtitle: L.t('cs_nav_d'),
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const CustomServersScreen()),
             ),

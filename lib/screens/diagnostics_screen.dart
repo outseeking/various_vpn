@@ -9,6 +9,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../l10n.dart';
 import '../state/app_state.dart';
 import '../theme/app_palette.dart';
 
@@ -30,10 +31,10 @@ class DiagnosticsScreen extends StatefulWidget {
 
 class _DiagnosticsScreenState extends State<DiagnosticsScreen> {
   late final List<_Step> _steps = [
-    _Step('Интернет доступен'),
-    _Step('Сервер отвечает (TCP)'),
-    _Step('TLS-рукопожатие проходит'),
-    _Step('Трафик идёт через туннель'),
+    _Step(L.t('diag_s_net')),
+    _Step(L.t('diag_s_tcp')),
+    _Step(L.t('diag_s_tls')),
+    _Step(L.t('diag_s_tun')),
   ];
   bool _running = false;
   String _verdict = '';
@@ -100,51 +101,49 @@ class _DiagnosticsScreenState extends State<DiagnosticsScreen> {
     // 1) интернет (прямая проба до публичного DNS)
     _set(0, _St.running, '');
     final net = await _tcp('1.1.1.1', 443);
-    _set(0, net ? _St.ok : _St.fail, net ? 'есть' : 'нет соединения с сетью');
+    _set(0, net ? _St.ok : _St.fail, net ? L.t('diag_ok') : L.t('diag_nonet'));
     if (!net) {
-      _finish('Нет интернета. Проверь Wi-Fi/мобильные данные — VPN тут ни при чём.');
+      _finish(L.t('diag_v_nonet'));
       return;
     }
 
     if (srv == null) {
-      _set(1, _St.warn, 'нет выбранного сервера');
-      _finish('Сначала импортируй подписку — серверов для проверки нет.');
+      _set(1, _St.warn, L.t('diag_no_srv2'));
+      _finish(L.t('diag_v_nosrv'));
       return;
     }
 
     // 2) TCP до сервера в обход туннеля
     _set(1, _St.running, '${srv.address}:${srv.port}');
     final tcp = await _tcp(srv.address, srv.port);
-    _set(1, tcp ? _St.ok : _St.fail, tcp ? 'порт открыт' : 'порт не отвечает');
+    _set(1, tcp ? _St.ok : _St.fail,
+        tcp ? L.t('diag_port_open') : L.t('diag_port_closed'));
 
     // 3) TLS-рукопожатие (Reality маскируется под TLS; сброс = DPI режет)
     _set(2, _St.running, '');
     final tls = await _tls(srv.address, srv.port);
     _set(2, tls ? _St.ok : _St.warn,
-        tls ? 'рукопожатие ок' : 'TLS сбрасывается (похоже на DPI)');
+        tls ? L.t('diag_tls_ok') : L.t('diag_tls_dpi'));
 
     // 4) реальный трафик через туннель (если подключены)
     if (state.isConnected) {
       _set(3, _St.running, '');
       final tun = await _tunnel();
-      _set(3, tun ? _St.ok : _St.fail, tun ? 'работает' : 'нет ответа через туннель');
+      _set(3, tun ? _St.ok : _St.fail,
+          tun ? L.t('diag_tun_ok') : L.t('diag_tun_fail'));
     } else {
-      _set(3, _St.warn, 'VPN не подключён — пропущено');
+      _set(3, _St.warn, L.t('diag_tun_skip'));
     }
 
     // вердикт
     if (!tcp) {
-      _finish('Сервер недоступен по сети: либо узел лежит, либо твой провайдер '
-          'блокирует его IP. Попробуй другой сервер в списке.');
+      _finish(L.t('diag_v_tcp'));
     } else if (!tls) {
-      _finish('TCP проходит, но TLS-рукопожатие сбрасывается — характерный признак '
-          'DPI-блокировки протокола провайдером. Помогают фрагментация (в сетевых '
-          'настройках) и смена сервера/протокола.');
+      _finish(L.t('diag_v_tls'));
     } else if (state.isConnected && _steps[3].state == _St.fail) {
-      _finish('Соединение с сервером есть, но туннель не пропускает трафик — '
-          'переподключись; если повторяется, смени сервер.');
+      _finish(L.t('diag_v_tun'));
     } else {
-      _finish('Всё в порядке ✅ Сервер доступен и протокол не блокируется.');
+      _finish(L.t('diag_v_ok'));
     }
   }
 
@@ -160,14 +159,13 @@ class _DiagnosticsScreenState extends State<DiagnosticsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: P.bg,
-      appBar: AppBar(title: const Text('Проверить блокировку')),
+      appBar: AppBar(title: Text(L.t('diag_title'))),
       body: ListView(
         padding: const EdgeInsets.all(18),
         children: [
-          const Text(
-            'Проверяем, почему VPN может не подключаться. Все пробы идут в обход '
-            'туннеля — так видно реальную картину сети.',
-            style: TextStyle(color: P.textDim, fontSize: 13, height: 1.5),
+          Text(
+            L.t('diag_intro'),
+            style: const TextStyle(color: P.textDim, fontSize: 13, height: 1.5),
           ),
           const SizedBox(height: 18),
           for (final s in _steps) _row(s),
@@ -190,7 +188,7 @@ class _DiagnosticsScreenState extends State<DiagnosticsScreen> {
           FilledButton.icon(
             onPressed: _running ? null : _run,
             icon: const Icon(Icons.refresh),
-            label: Text(_running ? 'Проверяю…' : 'Проверить снова'),
+            label: Text(_running ? L.t('diag_running') : L.t('diag_retry')),
           ),
         ],
       ),
