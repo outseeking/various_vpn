@@ -38,11 +38,14 @@ abstract class VpnService {
   Future<bool> requestPermission();
 
   /// Поднять туннель к [server]. [rules] — per-app маршрутизация (для нативного
-  /// ядра; заглушка их игнорирует).
+  /// ядра; заглушка их игнорирует). Если задан [relay] — строится ЦЕПОЧКА
+  /// (мультихоп): трафик идёт relay → server → интернет (сервер-выход виден как
+  /// исходящий, реальный IP скрыт за входной нодой).
   Future<void> connect(VpnServer server,
       {List<AppRule> rules = const [],
       NetOptions net = NetOptions.defaults,
-      List<String> blockedApps = const []});
+      List<String> blockedApps = const [],
+      VpnServer? relay});
 
   Future<void> disconnect();
 
@@ -80,7 +83,8 @@ class StubVpnService implements VpnService {
   Future<void> connect(VpnServer server,
       {List<AppRule> rules = const [],
       NetOptions net = NetOptions.defaults,
-      List<String> blockedApps = const []}) async {
+      List<String> blockedApps = const [],
+      VpnServer? relay}) async {
     _set(VpnStage.connecting);
     await Future.delayed(const Duration(milliseconds: 900));
     _set(VpnStage.connected);

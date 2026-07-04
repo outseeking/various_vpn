@@ -26,6 +26,7 @@ import 'profile_screen.dart';
 import 'servers_screen.dart';
 import 'settings_screen.dart';
 import 'support_screen.dart';
+import '../widgets/streak_flame.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -197,6 +198,15 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
+          // празднование награды за серию (огонёк) — поверх всего
+          if (state.celebrateMilestone > 0)
+            Positioned.fill(
+              child: StreakCelebration(
+                milestone: state.celebrateMilestone,
+                rewardDays: state.celebrateRewardDays,
+                onClose: state.clearCelebration,
+              ),
+            ),
         ],
       ),
     );

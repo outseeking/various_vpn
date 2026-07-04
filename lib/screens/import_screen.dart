@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../state/app_state.dart';
 import 'home_screen.dart';
+import 'qr_import_screen.dart';
 
 class ImportScreen extends StatefulWidget {
   /// true — открыт в потоке первого входа (после успеха идём на главный экран).
@@ -83,6 +84,26 @@ class _ImportScreenState extends State<ImportScreen> {
               onPressed: _busy ? null : _import,
               icon: const Icon(Icons.download),
               label: const Text('Импортировать'),
+            ),
+            const SizedBox(height: 10),
+            OutlinedButton.icon(
+              onPressed: _busy
+                  ? null
+                  : () async {
+                      final ok = await Navigator.of(context).push<bool>(
+                        MaterialPageRoute(builder: (_) => const QrImportScreen()),
+                      );
+                      if (ok == true && mounted) {
+                        if (widget.firstRun) {
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(
+                              builder: (_) => const HomeScreen()));
+                        } else {
+                          Navigator.of(context).pop(true);
+                        }
+                      }
+                    },
+              icon: const Icon(Icons.qr_code_scanner),
+              label: const Text('Добавить по QR-коду'),
             ),
             if (_busy) ...[
               const SizedBox(height: 24),

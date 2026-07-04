@@ -33,7 +33,13 @@ class _SpaceBackgroundState extends State<SpaceBackground>
     _ticker = createTicker(_tick)..start();
   }
 
+  Duration _lastPaint = Duration.zero;
+
   void _tick(Duration now) {
+    if (_lastPaint != Duration.zero && (now - _lastPaint).inMilliseconds < 33) {
+      return; // ~30 fps троттлинг
+    }
+    _lastPaint = now;
     final dt =
         _last == Duration.zero ? 0.016 : (now - _last).inMicroseconds / 1e6;
     _last = now;
@@ -106,17 +112,21 @@ class _SpacePainter extends CustomPainter {
       [4.5, 1.6, 0.58, 0.35, 0.34],
       [6.0, 3.4, 0.30, 0.60, 0.30],
     ];
+    const travel = 2.4; // с — дольше летит → плавнее (было 1.2)
     for (final c in channels) {
       final local = (time + c[1]) % c[0];
-      if (local > 1.2) continue;
-      final p = (local / 1.2).clamp(0.0, 1.0);
+      if (local > travel) continue;
+      final lin = (local / travel).clamp(0.0, 1.0);
+      // smoothstep-разгон/торможение — движение мягкое, без рывков на старте/финише
+      final p = lin * lin * (3 - 2 * lin);
       final sx = size.width * c[2];
       final sy = minY + band * c[3];
       final dx = size.width * c[4], dy = size.width * c[4] * 0.5;
       final hx = sx + dx * p, hy = sy + dy * p;
-      final tp = (p - 0.18).clamp(0.0, 1.0);
+      final tp = (p - 0.14).clamp(0.0, 1.0);
       final tx = sx + dx * tp, ty = sy + dy * tp;
-      final fade = 1 - p;
+      // мягкое появление и угасание синусом — не мигает на концах трека
+      final fade = math.sin(p * math.pi).clamp(0.0, 1.0);
       // хвост
       canvas.drawLine(
         Offset(tx, ty),

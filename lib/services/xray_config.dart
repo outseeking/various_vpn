@@ -38,6 +38,12 @@ class NetOptions {
   final IpStrategy ipStrategy;
   final bool fragment; // фрагментация TLS против DPI
   final List<String> directDomains; // пользовательские сайты в обход VPN (URL-split)
+  final bool smartAi; // умный доступ к ИИ: домены ИИ всегда через туннель
+  final bool adBlock; // блокировка рекламы/трекеров на уровне туннеля
+  // Динамические списки из панели (если пусто — берём встроенные дефолты).
+  final List<String> aiDomains;
+  final List<String> ruDomains;
+  final List<String> adDomains;
 
   const NetOptions({
     this.dns = const [],
@@ -45,6 +51,11 @@ class NetOptions {
     this.ipStrategy = IpStrategy.auto,
     this.fragment = false,
     this.directDomains = const [],
+    this.smartAi = true,
+    this.adBlock = false,
+    this.aiDomains = const [],
+    this.ruDomains = const [],
+    this.adDomains = const [],
   });
 
   static const defaults = NetOptions();
@@ -93,6 +104,38 @@ const _aiDomains = <String>[
   'domain:copilot.microsoft.com',
 ];
 
+/// Нормализует запись домена для Xray: голый домен → domain:X, а записи с
+/// префиксом (domain:/regexp:/geosite:/full:) оставляет как есть.
+List<String> _norm(List<String> items) => [
+      for (final e in items)
+        (e.contains(':') ? e : 'domain:$e'),
+    ];
+
+/// Базовый список рекламных/трекинговых доменов (когда панель не отдала свой).
+/// Короткий, но покрывает крупные рекламные/аналитические сети.
+const _defaultAdDomains = <String>[
+  'domain:doubleclick.net',
+  'domain:googlesyndication.com',
+  'domain:googleadservices.com',
+  'domain:google-analytics.com',
+  'domain:adservice.google.com',
+  'domain:ads.yahoo.com',
+  'domain:adnxs.com',
+  'domain:advertising.com',
+  'domain:scorecardresearch.com',
+  'domain:mc.yandex.ru',
+  'domain:an.yandex.ru',
+  'domain:ads.vk.com',
+  'domain:criteo.com',
+  'domain:taboola.com',
+  'domain:outbrain.com',
+  'domain:appsflyer.com',
+  'domain:adjust.com',
+  'domain:branch.io',
+  'domain:amplitude.com',
+  'domain:app-measurement.com',
+];
+
 /// Возвращает изменённый JSON-конфиг (строку) с применёнными [opts].
 String applyNetOptions(String baseConfig, NetOptions opts) {
   final Map<String, dynamic> cfg;
@@ -101,6 +144,11 @@ String applyNetOptions(String baseConfig, NetOptions opts) {
   } catch (_) {
     return baseConfig; // не смогли распарсить — отдаём как есть
   }
+  // Динамические списки из панели (если пусты — встроенные дефолты).
+  final aiList = opts.aiDomains.isNotEmpty ? _norm(opts.aiDomains) : _aiDomains;
+  final ruList =
+      opts.ruDomains.isNotEmpty ? _norm(opts.ruDomains) : _ruDirectDomains;
+  final adList = _norm(opts.adDomains.isNotEmpty ? opts.adDomains : _defaultAdDomains);
 
   // --- DNS ---
   if (opts.dns.isNotEmpty) {
@@ -111,46 +159,53 @@ String applyNetOptions(String baseConfig, NetOptions opts) {
     };
   }
 
-  // --- routing / обход RU ---
+  // --- routing / обход RU + умный ИИ ---
   final outbounds = (cfg['outbounds'] as List?)?.cast<dynamic>() ?? [];
-  final hasDirect =
-      outbounds.any((o) => (o as Map)['tag'] == 'direct');
+  // тег основного proxy-outbound (через него гоним ИИ-домены)
+  String? proxyTag;
+  for (final o in outbounds) {
+    final tag = (o as Map)['tag'];
+    if (tag != null && tag != 'direct' && tag != 'fragment') {
+      proxyTag = tag as String;
+      break;
+    }
+  }
+
   if (opts.bypassRu) {
-    if (!hasDirect) {
+    if (!outbounds.any((o) => (o as Map)['tag'] == 'direct')) {
       outbounds.add({'protocol': 'freedom', 'tag': 'direct'});
     }
     final routing = (cfg['routing'] as Map<String, dynamic>?) ??
         <String, dynamic>{};
     routing['domainStrategy'] = 'IPIfNonMatch';
     final rules = (routing['rules'] as List?)?.cast<dynamic>() ?? [];
-    // ИИ-домены ВСЕГДА через туннель (иностранный сервер), даже при обходе RU —
-    // иначе ChatGPT/Gemini/Claude не открываются с российского IP. Правило идёт
-    // ПЕРВЫМ, чтобы перебить возможный .ru-суффикс.
-    String? proxyTag;
-    for (final o in outbounds) {
-      final tag = (o as Map)['tag'];
-      if (tag != null && tag != 'direct' && tag != 'fragment') {
-        proxyTag = tag as String;
-        break;
-      }
-    }
-    if (proxyTag != null) {
-      rules.insert(0, {
-        'type': 'field',
-        'outboundTag': proxyTag,
-        'domain': _aiDomains,
-      });
-    }
-    rules.insert(1, {
+    rules.insert(0, {
       'type': 'field',
       'outboundTag': 'direct',
-      'domain': _ruDirectDomains,
+      'domain': ruList,
     });
     // Российские IP-подсети — если ядро без geoip, правило просто не сматчит.
-    rules.insert(1, {
+    rules.insert(0, {
       'type': 'field',
       'outboundTag': 'direct',
       'ip': ['geoip:ru'],
+    });
+    routing['rules'] = rules;
+    cfg['routing'] = routing;
+  }
+
+  // --- умный доступ к ИИ: домены ChatGPT/Gemini/Claude и т.п. ВСЕГДА через
+  // туннель (иностранный сервер), перебивая .ru-суффикс и обход RU. Правило
+  // вставляется ПЕРВЫМ, поэтому имеет наивысший приоритет. Работает независимо
+  // от «обхода RU» — иначе ИИ не открывается с российского IP. ---
+  if (opts.smartAi && proxyTag != null) {
+    final routing = (cfg['routing'] as Map<String, dynamic>?) ??
+        <String, dynamic>{};
+    final rules = (routing['rules'] as List?)?.cast<dynamic>() ?? [];
+    rules.insert(0, {
+      'type': 'field',
+      'outboundTag': proxyTag,
+      'domain': aiList,
     });
     routing['rules'] = rules;
     cfg['routing'] = routing;
@@ -169,6 +224,25 @@ String applyNetOptions(String baseConfig, NetOptions opts) {
       'type': 'field',
       'outboundTag': 'direct',
       'domain': opts.directDomains.map((d) => 'domain:$d').toList(),
+    });
+    routing['rules'] = rules;
+    cfg['routing'] = routing;
+  }
+
+  // --- AdBlock: реклама/трекеры → blackhole (режутся прямо на устройстве) ---
+  if (opts.adBlock && adList.isNotEmpty) {
+    if (!outbounds.any((o) => (o as Map)['tag'] == 'blocked')) {
+      outbounds.add({'protocol': 'blackhole', 'tag': 'blocked'});
+    }
+    final routing = (cfg['routing'] as Map<String, dynamic>?) ??
+        <String, dynamic>{};
+    routing['domainStrategy'] ??= 'IPIfNonMatch';
+    final rules = (routing['rules'] as List?)?.cast<dynamic>() ?? [];
+    // после ИИ-правила, но раньше общих: рекламу глушим всегда
+    rules.add({
+      'type': 'field',
+      'outboundTag': 'blocked',
+      'domain': adList,
     });
     routing['rules'] = rules;
     cfg['routing'] = routing;

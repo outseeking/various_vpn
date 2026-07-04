@@ -19,6 +19,10 @@ import 'logs_screen.dart';
 import 'onboarding_screen.dart';
 import 'network_settings_screen.dart';
 import 'per_app_screen.dart';
+import 'custom_servers_screen.dart';
+import 'diagnostics_screen.dart';
+import 'killswitch_guide_screen.dart';
+import 'multihop_screen.dart';
 import 'ping_settings_screen.dart';
 import 'speedtest_screen.dart';
 import 'stats_screen.dart';
@@ -61,6 +65,13 @@ class SettingsScreen extends StatelessWidget {
             onChanged: state.setAutoConnect,
           ),
           _SwitchRow(
+            title: 'Режим «По требованию» (On-Demand)',
+            subtitle: 'VPN сам поднимается при запуске приложения и держится '
+                'наготове — не нужно нажимать «Подключить» каждый раз.',
+            value: state.onDemand,
+            onChanged: state.setOnDemand,
+          ),
+          _SwitchRow(
             title: L.t('killswitch'),
             subtitle: L.t('killswitch_d'),
             value: state.killSwitch,
@@ -71,6 +82,22 @@ class SettingsScreen extends StatelessWidget {
             subtitle: L.t('bypass_ru_d'),
             value: state.bypassRu,
             onChanged: state.setBypassRu,
+          ),
+          _SwitchRow(
+            title: 'Блокировка рекламы и трекеров',
+            subtitle: 'Режет рекламу, аналитику и трекеры прямо в туннеле — '
+                'страницы легче, трафика меньше, приватность выше.',
+            value: state.adBlock,
+            onChanged: state.setAdBlock,
+          ),
+          _SwitchRow(
+            title: 'Умный доступ к ИИ',
+            subtitle: 'При подключении приложение само находит сервер, на '
+                'котором открываются нейросети (ChatGPT, Gemini, Claude), и '
+                'направляет их через него. Если на ближайшем сервере ИИ '
+                'заблокирован — переключится на рабочий автоматически.',
+            value: state.smartAi,
+            onChanged: state.setSmartAi,
           ),
           _NavRow(
             title: L.t('per_app'),
@@ -96,6 +123,39 @@ class SettingsScreen extends StatelessWidget {
               MaterialPageRoute(builder: (_) => const NetworkSettingsScreen()),
             ),
           ),
+          _NavRow(
+            title: 'Двойной VPN (мультихоп)',
+            icon: Icons.swap_calls,
+            subtitle: state.multihop ? 'Включён · вход → выход' : 'Цепочка из двух серверов',
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const MultihopScreen()),
+            ),
+          ),
+          _NavRow(
+            title: 'Проверить блокировку',
+            icon: Icons.wifi_find,
+            subtitle: 'Диагностика: почему VPN не подключается',
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const DiagnosticsScreen()),
+            ),
+          ),
+          _NavRow(
+            title: 'Kill-switch (защита от утечек)',
+            icon: Icons.gpp_maybe_outlined,
+            subtitle: 'Системная блокировка сети без VPN',
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const KillSwitchGuideScreen()),
+            ),
+          ),
+          // Ненавязчивая запись для продвинутых: свои серверы через JSON.
+          _NavRow(
+            title: 'Свои серверы (JSON)',
+            icon: Icons.tune,
+            subtitle: 'Для продвинутых · доступно при активном подключении',
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const CustomServersScreen()),
+            ),
+          ),
 
           _Section(L.t('sec_interface')),
           // Язык — настоящий переключатель RU/EN.
@@ -107,6 +167,19 @@ class SettingsScreen extends StatelessWidget {
                 Text(L.t('language'),
                     style: const TextStyle(color: P.text, fontSize: 14)),
                 SegmentedButton<String>(
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.resolveWith((st) =>
+                        st.contains(WidgetState.selected)
+                            ? P.lime
+                            : P.surfaceLo),
+                    foregroundColor: WidgetStateProperty.resolveWith((st) =>
+                        st.contains(WidgetState.selected)
+                            ? const Color(0xFF0C1206)
+                            : P.textDim),
+                    side: WidgetStateProperty.all(
+                        const BorderSide(color: P.surfaceHi)),
+                  ),
+                  showSelectedIcon: false,
                   segments: const [
                     ButtonSegment(value: 'ru', label: Text('Русский')),
                     ButtonSegment(value: 'en', label: Text('English')),

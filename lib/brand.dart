@@ -13,4 +13,9 @@ class Brand {
   /// Базовый адрес админ-панели (для /vsub, поддержки и т.п.).
   static const panelBase = 'https://panel.ug-connect.site:9443';
   static const panelSub = '$panelBase/vsub';
+
+  /// Единый домен нашей инфраструктуры. Все наши серверы и ссылки-подписки
+  /// оканчиваются на него (nl1.ug-connect.site, panel.ug-connect.site, …).
+  /// Используется, чтобы в приложение нельзя было добавить подписку чужого VPN.
+  static const rootDomain = 'ug-connect.site';
 }

@@ -132,6 +132,7 @@ class AppState extends ChangeNotifier {
   ThemeMode themeMode = ThemeMode.system;
   bool notificationsEnabled = true;
   bool autoConnect = false;
+  bool onDemand = false; // режим «по требованию»: авто-подключение при запуске
   bool globeAnimations = true;
   bool killSwitch = false;
   bool bypassRu = true;
@@ -216,6 +217,7 @@ class AppState extends ChangeNotifier {
   IpStrategy ipStrategy = IpStrategy.auto;
   String customDns = ''; // пусто = дефолтный DNS сервера
   bool fragment = false; // фрагментация TLS против DPI
+  bool smartAi = true; // умный доступ к ИИ (ChatGPT/Gemini/Claude через туннель)
 
   /// Собранные сетевые опции для передачи в ядро при connect.
   NetOptions get net => NetOptions(
@@ -224,9 +226,105 @@ class AppState extends ChangeNotifier {
             : customDns.split(',').map((e) => e.trim()).where((e) => e.isNotEmpty).toList(),
         bypassRu: bypassRu,
         ipStrategy: ipStrategy,
-        fragment: fragment,
+        // авто-фрагментация на повторных попытках — обходит DPI, режущий TLS-hello
+        fragment: fragment || _forceFragment,
         directDomains: splitUrls.toList(),
+        smartAi: smartAi,
+        adBlock: adBlock,
+        aiDomains: _aiDomains,
+        ruDomains: _ruDomains,
+        adDomains: _adDomains,
       );
+
+  bool adBlock = false; // блокировка рекламы/трекеров в туннеле
+  void setAdBlock(bool v) {
+    adBlock = v;
+    _storage.setBool('ad_block', v);
+    notifyListeners();
+    if (isConnected) _reconnectTo();
+  }
+
+  bool _forceFragment = false; // авто-фрагментация на повторной попытке (анти-DPI)
+
+  // ---- мультихоп (двойной VPN: вход → выход) ----
+  bool multihop = false;
+  String? relayServerId; // входная нода (entry)
+
+  void setMultihop(bool v) {
+    multihop = v;
+    _storage.setBool('multihop', v);
+    notifyListeners();
+    if (isConnected) _reconnectTo();
+  }
+
+  void setRelayServer(String? id) {
+    relayServerId = id;
+    _storage.setStr('relay_server', id ?? '');
+    notifyListeners();
+    if (isConnected && multihop) _reconnectTo();
+  }
+
+  /// Входная нода для мультихопа при выходе через [exit] (должна отличаться).
+  VpnServer? _relayFor(VpnServer exit) {
+    if (!multihop) return null;
+    for (final s in servers) {
+      if (s.id == relayServerId && s.id != exit.id && s.xraySupported) return s;
+    }
+    // не выбрана явно — берём любой другой поддерживаемый сервер
+    for (final s in servers) {
+      if (s.id != exit.id && s.xraySupported) return s;
+    }
+    return null;
+  }
+
+  // Динамические списки маршрутизации (тянутся из панели, кэшируются локально).
+  List<String> _aiDomains = const [];
+  List<String> _ruDomains = const [];
+  List<String> _adDomains = const [];
+
+  void _loadCachedRouting() {
+    final ai = _storage.getStr('routing_ai', def: '');
+    final ru = _storage.getStr('routing_ru', def: '');
+    final ad = _storage.getStr('routing_ad', def: '');
+    if (ai.isNotEmpty) _aiDomains = ai.split('\n').where((e) => e.isNotEmpty).toList();
+    if (ru.isNotEmpty) _ruDomains = ru.split('\n').where((e) => e.isNotEmpty).toList();
+    if (ad.isNotEmpty) _adDomains = ad.split('\n').where((e) => e.isNotEmpty).toList();
+  }
+
+  /// Тянет актуальные списки маршрутизации из панели (ИИ + РФ-домены). При смене
+  /// CDN у OpenAI/Anthropic достаточно поправить список в панели — приложение
+  /// подхватит без обновления. Кэшируется, чтобы работать оффлайн.
+  Future<void> loadRouting() async {
+    try {
+      final r = await http
+          .get(Uri.parse('${Brand.panelBase}/api/app/routing'))
+          .timeout(const Duration(seconds: 10));
+      if (r.statusCode != 200) return;
+      final d = jsonDecode(r.body) as Map<String, dynamic>;
+      final ai = (d['ai_domains'] as List?)?.map((e) => e.toString()).toList() ?? [];
+      final ru = (d['ru_direct_domains'] as List?)?.map((e) => e.toString()).toList() ?? [];
+      final ad = (d['ad_domains'] as List?)?.map((e) => e.toString()).toList() ?? [];
+      if (ai.isNotEmpty) {
+        _aiDomains = ai;
+        _storage.setStr('routing_ai', ai.join('\n'));
+      }
+      if (ru.isNotEmpty) {
+        _ruDomains = ru;
+        _storage.setStr('routing_ru', ru.join('\n'));
+      }
+      if (ad.isNotEmpty) {
+        _adDomains = ad;
+        _storage.setStr('routing_ad', ad.join('\n'));
+      }
+    } catch (_) {}
+  }
+
+  void setSmartAi(bool v) {
+    smartAi = v;
+    _storage.setBool('smart_ai', v);
+    notifyListeners();
+    if (isConnected) _reconnectTo(); // применяем маршрутизацию сразу
+  }
 
   void setIpStrategy(IpStrategy v) {
     ipStrategy = v;
@@ -270,6 +368,12 @@ class AppState extends ChangeNotifier {
     themeMode = _themeFromStr(_storage.getStr('theme_mode', def: 'system'));
     notificationsEnabled = _storage.getBool('notifications', def: true);
     autoConnect = _storage.getBool('auto_connect', def: false);
+    onDemand = _storage.getBool('on_demand', def: false);
+    adBlock = _storage.getBool('ad_block', def: false);
+    multihop = _storage.getBool('multihop', def: false);
+    final rid = _storage.getStr('relay_server', def: '');
+    relayServerId = rid.isEmpty ? null : rid;
+    _loadCachedRouting();
     // Тумблер анимаций убран из настроек — анимации глобуса всегда включены
     // (иначе у тех, кто раньше выключил, звёзды/падающие звёзды не работали бы).
     globeAnimations = true;
@@ -284,6 +388,7 @@ class AppState extends ChangeNotifier {
     );
     customDns = _storage.getStr('custom_dns', def: '');
     fragment = _storage.getBool('fragment', def: false);
+    smartAi = _storage.getBool('smart_ai', def: true);
     splitEnabled = _storage.getBool('split_enabled', def: false);
     splitThroughVpn = _storage.getBool('split_through', def: false);
     final splitRaw = _storage.getStr('split_apps', def: '');
@@ -345,6 +450,8 @@ class AppState extends ChangeNotifier {
     } catch (_) {
       // панель недоступна — работаем на сохранённых серверах
     }
+    loadRouting(); // свежие списки маршрутизации (ИИ/РФ) из панели
+    maybeAutoConnectOnLaunch(); // режим «по требованию» — авто-подключение
   }
 
   // ---- логи/уведомления ----
@@ -407,38 +514,61 @@ class AppState extends ChangeNotifier {
   // (restartCoreInPlace), не рвя сервис и уведомление.
   Timer? _watchdogTimer;
   int _healthFails = 0;
+  int _wdLastBytes = 0; // сколько скачано на момент прошлой проверки
+  DateTime? _lastAutoReconnect; // кулдаун авто-переподключений
 
   void _startWatchdog() {
     _watchdogTimer?.cancel();
     _healthFails = 0;
-    _watchdogTimer = Timer.periodic(const Duration(seconds: 25), (_) async {
+    _wdLastBytes = bytesDown;
+    _watchdogTimer = Timer.periodic(const Duration(seconds: 30), (_) async {
       if (!isConnected || _switching) return;
-      // HTTP-проба ЧЕРЕЗ туннель (наш трафик идёт через VPN). Живой туннель —
-      // быстрый ответ; мёртвый (сервис усыплён на EMUI) — таймаут.
+
+      // 1) Если трафик ИДЁТ (байты растут) — туннель точно жив, ничего не делаем.
+      //    Это главная защита: пока пользователь чем-то пользуется, не трогаем.
+      if (bytesDown > _wdLastBytes) {
+        _wdLastBytes = bytesDown;
+        _healthFails = 0;
+        return;
+      }
+
+      // 2) Трафика нет — это может быть просто простой. Делаем лёгкую пробу
+      //    через туннель (с одним ретраем), чтобы не спутать простой со сбоем.
       final ok = await _tunnelAlive();
+      _wdLastBytes = bytesDown;
       if (ok) {
         _healthFails = 0;
         return;
       }
       _healthFails++;
-      if (_healthFails >= 2) {
-        // ~50 с подряд без связи через туннель → туннель мёртв, оживляем.
+
+      // 3) Реконнект — только после 3 провалов подряд (~90 с без связи) И не
+      //    чаще раза в 3 минуты. Так живой туннель не рвётся из-за ложной пробы.
+      final now = DateTime.now();
+      final cooled = _lastAutoReconnect == null ||
+          now.difference(_lastAutoReconnect!).inSeconds > 180;
+      if (_healthFails >= 3 && cooled) {
         _healthFails = 0;
-        _log('VPN не отвечает — переподключаюсь автоматически', LogKind.notice);
+        _lastAutoReconnect = now;
+        _log('VPN долго не отвечает — переподключаюсь автоматически',
+            LogKind.notice);
         await _reconnectTo();
       }
     });
   }
 
+  /// Лёгкая проба живости туннеля с одним повтором (меньше ложных срабатываний).
   Future<bool> _tunnelAlive() async {
-    try {
-      final r = await http
-          .get(Uri.parse('https://www.gstatic.com/generate_204'))
-          .timeout(const Duration(seconds: 6));
-      return r.statusCode == 204 || r.statusCode == 200;
-    } catch (_) {
-      return false;
+    for (var i = 0; i < 2; i++) {
+      try {
+        final r = await http
+            .get(Uri.parse('https://www.gstatic.com/generate_204'))
+            .timeout(const Duration(seconds: 8));
+        if (r.statusCode == 204 || r.statusCode == 200) return true;
+      } catch (_) {}
+      if (i == 0) await Future.delayed(const Duration(seconds: 2));
     }
+    return false;
   }
 
   void _stopWatchdog() {
@@ -450,6 +580,8 @@ class AppState extends ChangeNotifier {
   void _stopSession() {
     // Уведомление: страна + сколько времени пользовались сервером.
     final dur = sessionDuration;
+    // копим минуты сессии — из них сервер начисляет «заморозки» серии (≥25 ч/нед)
+    _lastSessionMinutes += dur.inMinutes;
     if (_sessionCountry.isNotEmpty) {
       final h = dur.inHours, m = dur.inMinutes % 60, s = dur.inSeconds % 60;
       final t = h > 0 ? '$h ч $m мин' : (m > 0 ? '$m мин $s с' : '$s с');
@@ -550,12 +682,51 @@ class AppState extends ChangeNotifier {
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'tg_id': tg, 'text': t}),
       ).timeout(const Duration(seconds: 12));
+      supportChat.add(SupportMessage(
+        '✅ Обращение принято! Обычно отвечаем за 5–15 минут. '
+        'Ответ придёт прямо сюда 💬',
+        fromUser: false,
+      ));
+      notifyListeners();
     } catch (_) {
       supportChat.add(SupportMessage(
         'Не удалось отправить сейчас — проверь интернет и попробуй ещё раз.',
         fromUser: false,
       ));
       notifyListeners();
+    }
+  }
+
+  /// Отправляет файл/фото в поддержку (multipart → панель → админам в Telegram).
+  Future<bool> sendSupportFile(String path, String filename) async {
+    final tg = _storage.tgId;
+    if (tg == null || tg.isEmpty) {
+      supportChat.add(SupportMessage(
+        'Чтобы отправлять файлы, привяжи Telegram в профиле.',
+        fromUser: false));
+      notifyListeners();
+      return false;
+    }
+    supportChat.add(SupportMessage('📎 $filename', fromUser: true));
+    notifyListeners();
+    try {
+      final req = http.MultipartRequest(
+          'POST', Uri.parse('${Brand.panelBase}/api/app/support/file'))
+        ..fields['tg_id'] = tg
+        ..files.add(await http.MultipartFile.fromPath('file', path));
+      final resp = await req.send().timeout(const Duration(seconds: 40));
+      final ok = resp.statusCode == 200;
+      supportChat.add(SupportMessage(
+        ok ? '✅ Файл отправлен — мы его получили 💙'
+           : 'Не удалось отправить файл. Попробуй ещё раз.',
+        fromUser: false));
+      notifyListeners();
+      return ok;
+    } catch (_) {
+      supportChat.add(SupportMessage(
+        'Не удалось отправить файл — проверь интернет.', fromUser: false));
+      notifyListeners();
+      return false;
     }
   }
 
@@ -569,12 +740,25 @@ class AppState extends ChangeNotifier {
           .timeout(const Duration(seconds: 12));
       if (r.statusCode != 200) return;
       final list = (jsonDecode(r.body)['messages'] as List?) ?? [];
+      // Защита от «пропадания»: если панель на миг вернула пусто (сообщение
+      // ещё синхронизируется на сервере), а у нас уже есть локальная переписка —
+      // НЕ затираем её. Перерисовываем из панели только когда там реально данные.
+      if (list.isEmpty && supportChat.isNotEmpty) return;
       supportChat
         ..clear()
         ..addAll(list.map((m) => SupportMessage(
               (m['body'] ?? '').toString(),
               fromUser: m['from_admin'] != true,
             )));
+      // если есть обращение, но ответа админа ещё нет — показываем ожидание
+      final hasUserMsg = list.any((m) => m['from_admin'] != true);
+      final hasAdminMsg = list.any((m) => m['from_admin'] == true);
+      if (hasUserMsg && !hasAdminMsg) {
+        supportChat.add(SupportMessage(
+          '⏳ Мы получили ваше обращение и скоро ответим прямо здесь 💬',
+          fromUser: false,
+        ));
+      }
       notifyListeners();
     } catch (_) {}
   }
@@ -640,10 +824,34 @@ class AppState extends ChangeNotifier {
     return isUrl ? importFromUrl(t) : importFromContent(t);
   }
 
+  /// Проверяет, что сервер/подписка принадлежит НАШЕМУ VPN (хост оканчивается
+  /// на Brand.rootDomain). Так пользователь не сможет добавить в приложение
+  /// подписку стороннего сервиса.
+  bool _isOurHost(String? host) {
+    if (host == null || host.isEmpty) return false;
+    final h = host.toLowerCase();
+    if (h == Brand.rootDomain || h.endsWith('.${Brand.rootDomain}')) return true;
+    // наши серверы часто заданы по IP, а не по домену
+    return knownServerIps.contains(h);
+  }
+
+  /// true, если ВСЕ серверы из подписки — наши.
+  bool _allOurs(List<VpnServer> list) =>
+      list.isNotEmpty && list.every((s) => _isOurHost(s.address));
+
   /// Импорт по subscription-ссылке (грузим с бэкенда, парсим, сохраняем).
   Future<bool> importFromUrl(String url) async {
     _setBusy(true);
     try {
+      final u = Uri.tryParse(url.trim());
+      if (!_isOurHost(u?.host)) {
+        lastError =
+            'Можно добавлять только подписки Various VPN (ссылка должна вести '
+            'на ${Brand.rootDomain} — получи её в нашем боте).';
+        return false;
+      }
+      // URL уже проверен — ведёт на нашу панель, значит подписка наша (даже с
+      // новыми серверами, которых ещё нет в списке известных IP).
       final raw = await _api.fetchSubscription(url.trim());
       final parsed = SubscriptionParser.parseContent(raw);
       if (parsed.isEmpty) {
@@ -687,6 +895,11 @@ class AppState extends ChangeNotifier {
         lastError = 'Не удалось распознать ни одного сервера';
         return false;
       }
+      if (!_allOurs(parsed)) {
+        lastError = 'Можно добавлять только конфиги Various VPN '
+            '(сервер должен быть на ${Brand.rootDomain}).';
+        return false;
+      }
       servers = parsed;
       _assignDisplayNames();
       await _storage.saveConfigsBlob(content);
@@ -696,6 +909,48 @@ class AppState extends ChangeNotifier {
     } finally {
       _setBusy(false);
     }
+  }
+
+  /// Добавляет СВОИ серверы из JSON (до 5). Доступно только при активном
+  /// подключении к Various VPN — это привилегия для наших пользователей.
+  /// Принимает JSON-массив share-ссылок ["vless://…", …] или объектов
+  /// [{"link":"vless://…"}, …]. В отличие от подписок, наши-проверки не
+  /// применяются (это личные серверы пользователя).
+  Future<bool> importCustomServers(String jsonText) async {
+    if (!isConnected) {
+      lastError = 'Добавление своих серверов доступно только при активном '
+          'подключении к Various VPN.';
+      return false;
+    }
+    List<dynamic> arr;
+    try {
+      final decoded = jsonDecode(jsonText.trim());
+      arr = decoded is List ? decoded : [decoded];
+    } catch (_) {
+      lastError = 'Неверный JSON. Нужен массив ссылок или объектов с "link".';
+      return false;
+    }
+    final parsed = <VpnServer>[];
+    for (final item in arr.take(5)) {
+      final link = item is String
+          ? item
+          : (item is Map ? (item['link'] ?? item['url'] ?? '').toString() : '');
+      if (link.isEmpty) continue;
+      final s = SubscriptionParser.parseLink(link.trim());
+      if (s != null) parsed.add(s);
+    }
+    if (parsed.isEmpty) {
+      lastError = 'Не удалось распознать ни одного сервера в JSON.';
+      return false;
+    }
+    // добавляем к текущим (наши подписочные остаются), помечаем как кастомные
+    final existing = servers.map((e) => e.id).toSet();
+    servers = [...servers, ...parsed.where((s) => !existing.contains(s.id))];
+    _assignDisplayNames();
+    lastError = null;
+    _log('Добавлено своих серверов: ${parsed.length}', LogKind.info);
+    notifyListeners();
+    return true;
   }
 
   /// Проставляет человекочитаемые имена-страны. Если в одной стране несколько
@@ -761,7 +1016,27 @@ class AppState extends ChangeNotifier {
     lang = v;
     L.current = v;
     _storage.setStr('lang', v);
+    _assignDisplayNames(); // перевести названия стран/серверов на новый язык
     notifyListeners();
+  }
+
+  void setOnDemand(bool v) {
+    onDemand = v;
+    _storage.setBool('on_demand', v);
+    notifyListeners();
+    // включили и ещё не подключены — сразу поднимаем туннель
+    if (v && !isConnected && !_connecting && servers.isNotEmpty) connect();
+  }
+
+  /// Вызывается при старте приложения: если включён режим «по требованию» —
+  /// автоматически подключаемся, чтобы VPN был готов без лишних действий.
+  void maybeAutoConnectOnLaunch() {
+    if ((onDemand || autoConnect) &&
+        !isConnected &&
+        !_connecting &&
+        servers.isNotEmpty) {
+      connect();
+    }
   }
 
   void setKillSwitch(bool v) {
@@ -837,7 +1112,7 @@ class AppState extends ChangeNotifier {
       // тот на EMUI не переподнимается). Так туннель реально меняет сервер.
       _log('Переключение на ${srv.flag} ${srv.title}…', LogKind.connect);
       try {
-        await vpn.connect(srv, rules: rules, net: net, blockedApps: blockedApps);
+        await vpn.connect(srv, rules: rules, net: net, blockedApps: blockedApps, relay: _relayFor(srv));
         _notify('Сервер: ${srv.flag} ${srv.countryName}');
       } catch (e) {
         _log('Ошибка переключения: $e', LogKind.error);
@@ -928,58 +1203,230 @@ class AppState extends ChangeNotifier {
       return;
     }
     _connecting = true;
+    _stage = VpnStage.connecting;
+    notifyListeners();
     try {
-      // Перебираем серверы, пока какой-нибудь реально не подключится (failover —
-      // часть серверов может быть нерабочей).
-      for (final srv in candidates) {
-        _log('Подключение к ${srv.flag} ${srv.title} (${srv.protocol.label})…',
-            LogKind.connect);
-        try {
-          final success = await _tryConnect(srv);
-          if (success) {
-            manualServerId = srv.id; // фиксируем рабочий сервер
-            _storage.manualServerId = srv.id;
-            _notify('Подключено: ${srv.flag} ${srv.countryName}'
-                '${mode == GlobalMode.ai ? ' · выбран ИИ' : ''}');
-            return;
+      // Нужен ли сервер, на котором работают нейросети (умный доступ к ИИ).
+      final wantAi = smartAi;
+      // Сервер, где туннель ЖИВОЙ (интернет есть), но ИИ недоступен — запасной
+      // вариант на случай, если ИИ не открывается нигде.
+      VpnServer? internetOnly;
+
+      // ДВА прохода по серверам: после долгого простоя/холодного старта первая
+      // попытка ядра нередко срывается (сеть/DNS ещё не готовы). Мы НЕ доверяем
+      // факту «startV2Ray не упал» — а РЕАЛЬНО проверяем связь через туннель и
+      // при неудаче сами перебираем серверы и повторяем. Пользователь жмёт один
+      // раз — остальное делаем прозрачно.
+      for (var round = 1; round <= 2; round++) {
+        // на 2-м проходе включаем фрагментацию TLS — если первый провал был из-за
+        // DPI, режущего ClientHello, это часто помогает пробиться.
+        _forceFragment = round >= 2;
+        if (round >= 2) _log('Повтор с обходом DPI (фрагментация)…', LogKind.notice);
+        for (final srv in candidates) {
+          _log('Подключение к ${srv.flag} ${srv.title} '
+              '(${srv.protocol.label})…', LogKind.connect);
+          bool alive;
+          try {
+            alive = await _tryConnect(srv);
+          } catch (e) {
+            _log('${srv.title}: $e', LogKind.error);
+            await _safeDisconnect();
+            continue;
           }
-          _log('${srv.title}: не ответил, пробую следующий', LogKind.notice);
-        } catch (e) {
-          _log('${srv.title}: $e', LogKind.error);
+          if (!alive) {
+            _log('${srv.title}: туннель не отвечает, пробую следующий',
+                LogKind.notice);
+            await _safeDisconnect();
+            continue;
+          }
+          // Туннель РЕАЛЬНО работает (проверено запросом через него).
+          if (wantAi && !await _aiReachable()) {
+            internetOnly ??= srv; // интернет есть — запомним на крайний случай
+            _log('${srv.title}: нейросети недоступны здесь, ищу другой сервер',
+                LogKind.notice);
+            await _safeDisconnect();
+            continue;
+          }
+          _finishConnect(srv, aiOk: wantAi);
+          return;
         }
       }
-      lastError = 'Не удалось подключиться ни к одному серверу';
-      _notify('Не удалось подключиться — проверь подписку');
+
+      // Сервер с ИИ не нашёлся, но есть рабочий интернет — подключаемся к нему
+      // (доступ в сеть важнее, чем открытие нейросетей).
+      if (internetOnly != null) {
+        try {
+          if (await _tryConnect(internetOnly)) {
+            _finishConnect(internetOnly, aiOk: false);
+            _notify('Подключено. Нейросети на этом сервере могут не открываться');
+            return;
+          }
+        } catch (_) {}
+      }
+
+      _stage = VpnStage.disconnected;
+      lastError = 'Не удалось подключиться — проверь интернет и подписку';
+      _notify(lastError!);
+      await _safeDisconnect();
     } finally {
       _connecting = false;
+      _forceFragment = false; // сбрасываем анти-DPI флаг до следующего connect
       notifyListeners();
     }
   }
 
-  /// Пытается поднять туннель к [srv]. Возвращает true, если connect не выбросил
-  /// ошибку (туннель запущен). НЕ рвёт соединение по таймауту статуса — на
-  /// EMUI/MIUI статус «CONNECTED» может не дойти, хотя туннель работает; рвать
-  /// его и перебирать дальше = бесконечное переподключение. Поэтому failover
-  /// срабатывает только на реальную ошибку connect() (брошенное исключение).
-  Future<bool> _tryConnect(VpnServer srv) async {
-    final completer = Completer<bool>();
-    final sub = vpn.stageStream.listen((s) {
-      if (s == VpnStage.connected && !completer.isCompleted) {
-        completer.complete(true);
-      }
-    });
-    try {
-      await vpn.connect(srv, rules: rules, net: net, blockedApps: blockedApps); // бросит на неподдерживаемом протоколе
-    } catch (e) {
-      await sub.cancel();
-      rethrow; // → следующий кандидат
+  /// Фиксирует успешное подключение к [srv]. Форсирует стадию «connected», даже
+  /// если нативный статус на EMUI/MIUI не пришёл — связь уже проверена пробой.
+  void _finishConnect(VpnServer srv, {required bool aiOk}) {
+    manualServerId = srv.id; // фиксируем рабочий сервер
+    _storage.manualServerId = srv.id;
+    if (_stage != VpnStage.connected) {
+      _stage = VpnStage.connected;
+      _startSession();
     }
-    // ждём подтверждения статуса, но даже без него считаем успехом (туннель
-    // запущен; ядро через 2.5 с само выставит connected оптимистично).
-    await completer.future
-        .timeout(const Duration(seconds: 6), onTimeout: () => true);
-    await sub.cancel();
-    return true;
+    _notify('Подключено: ${srv.flag} ${srv.countryName}'
+        '${aiOk ? ' · нейросети работают' : ''}');
+    notifyListeners();
+    _reportStreak(); // отмечаем день серии (огонёк) на сервере
+  }
+
+  // ---------------- Стрик использования («огонёк», как в TikTok) ----------------
+  int streak = 0; // текущая серия дней подряд
+  int streakBest = 0; // рекорд
+  int streakFreezes = 0; // заморозки в запасе
+  int streakNextMilestone = 0; // до какой вехи тянемся
+  Map<int, int> streakRewards = const {}; // веха → бонус-дни (для экрана наград)
+  int _lastSessionMinutes = 0; // длительность прошлой сессии (для заработка заморозок)
+
+  // всплывающее празднование награды (огонёк) — читает главный экран
+  int celebrateMilestone = 0; // веха, которую только что взяли (0 = нет)
+  int celebrateRewardDays = 0; // сколько дней начислено
+
+  void clearCelebration() {
+    celebrateMilestone = 0;
+    celebrateRewardDays = 0;
+    notifyListeners();
+  }
+
+  /// Отмечает день использования VPN на сервере (панель — источник правды,
+  /// накрутку сменой даты не пройти). Награда начисляется к подписке сервером
+  /// и прилетает уведомлением из бота. Здесь — обновляем счётчики и, если взяли
+  /// веху, показываем красивую анимацию огонька.
+  Future<void> _reportStreak() async {
+    final tg = _storage.tgId;
+    if (tg == null || tg.isEmpty) return;
+    try {
+      final r = await http
+          .post(Uri.parse('${Brand.panelBase}/api/app/streak'),
+              headers: {'Content-Type': 'application/json'},
+              body: jsonEncode({'tg_id': tg, 'minutes': _lastSessionMinutes}))
+          .timeout(const Duration(seconds: 10));
+      _lastSessionMinutes = 0; // учли — обнуляем
+      if (r.statusCode != 200) return;
+      _applyStreak(jsonDecode(r.body) as Map<String, dynamic>);
+      final awarded = (streakData['awarded_days'] as int?) ?? 0;
+      if (awarded > 0) {
+        celebrateMilestone = (streakData['milestone'] as int?) ?? streak;
+        celebrateRewardDays = awarded;
+        if (vibrationEnabled) HapticFeedback.heavyImpact();
+      }
+      notifyListeners();
+    } catch (_) {}
+  }
+
+  Map<String, dynamic> streakData = const {};
+
+  void _applyStreak(Map<String, dynamic> d) {
+    streakData = d;
+    streak = (d['streak'] as int?) ?? streak;
+    streakBest = (d['best'] as int?) ?? streakBest;
+    streakFreezes = (d['freezes'] as int?) ?? streakFreezes;
+    streakNextMilestone = (d['next_milestone'] as int?) ?? 0;
+    final rw = d['rewards'];
+    if (rw is Map) {
+      streakRewards = {
+        for (final e in rw.entries)
+          int.tryParse(e.key.toString()) ?? 0: (e.value as num).toInt()
+      }..removeWhere((k, _) => k == 0);
+    }
+  }
+
+  String profileUsername = ''; // ник из Telegram (подтягивается к профилю)
+
+  /// Тянет профиль (ник + стрик) для экрана профиля (без отметки дня).
+  Future<void> loadStreak() async {
+    final tg = _storage.tgId;
+    if (tg == null || tg.isEmpty) return;
+    try {
+      final r = await http
+          .get(Uri.parse('${Brand.panelBase}/api/app/profile?tg_id=$tg'))
+          .timeout(const Duration(seconds: 10));
+      if (r.statusCode != 200) return;
+      final d = jsonDecode(r.body) as Map<String, dynamic>;
+      profileUsername = (d['username'] ?? '').toString();
+      _applyStreak(d);
+      notifyListeners();
+    } catch (_) {}
+  }
+
+  /// Аккуратно опускает туннель между попытками и даёт ОС время снять
+  /// VPN-интерфейс (иначе следующий startV2Ray стартует поверх недоснятого).
+  Future<void> _safeDisconnect() async {
+    try {
+      await vpn.disconnect();
+    } catch (_) {}
+    await Future.delayed(const Duration(milliseconds: 500));
+  }
+
+  /// Пытается поднять туннель к [srv] И проверяет, что через него реально идёт
+  /// трафик. Возвращает true ТОЛЬКО при подтверждённой связи — это и есть
+  /// защита от «показывает подключено, а интернета нет».
+  Future<bool> _tryConnect(VpnServer srv) async {
+    // бросит на неподдерживаемом протоколе → обрабатывается выше
+    await vpn.connect(srv, rules: rules, net: net, blockedApps: blockedApps, relay: _relayFor(srv));
+    return _verifyTunnel();
+  }
+
+  /// Активно проверяет живость туннеля: короткие запросы к captive-portal
+  /// адресам (204) в течение ~14 с. true — как только что-то ответило. Так мы
+  /// ловим момент, когда ОС реально подняла VPN-интерфейс после холодного старта.
+  Future<bool> _verifyTunnel() async {
+    const endpoints = [
+      'https://www.gstatic.com/generate_204',
+      'https://cp.cloudflare.com/generate_204',
+      'https://www.google.com/generate_204',
+    ];
+    final deadline = DateTime.now().add(const Duration(seconds: 14));
+    var i = 0;
+    while (DateTime.now().isBefore(deadline)) {
+      try {
+        final r = await http
+            .get(Uri.parse(endpoints[i++ % endpoints.length]))
+            .timeout(const Duration(seconds: 4));
+        if (r.statusCode == 204 || r.statusCode == 200) return true;
+      } catch (_) {}
+      await Future.delayed(const Duration(milliseconds: 500));
+    }
+    return false;
+  }
+
+  /// Проверяет, открываются ли нейросети через текущий туннель. В некоторых
+  /// странах (напр. IP Нидерландов) Gemini/OpenAI недоступны, тогда «умный
+  /// доступ к ИИ» перебирает серверы, пока не найдёт тот, где ИИ работает.
+  /// Любой HTTP-ответ (даже 403/404) = TLS прошёл = сервис ДОСТУПЕН.
+  Future<bool> _aiReachable() async {
+    const endpoints = [
+      'https://generativelanguage.googleapis.com/',
+      'https://api.openai.com/',
+    ];
+    for (final e in endpoints) {
+      try {
+        final r =
+            await http.get(Uri.parse(e)).timeout(const Duration(seconds: 5));
+        if (r.statusCode > 0) return true;
+      } catch (_) {}
+    }
+    return false;
   }
 
   /// Бесплатный режим: туннелируем ТОЛЬКО Telegram, остальное — напрямую.
@@ -1009,7 +1456,7 @@ class AppState extends ChangeNotifier {
     }
     _log('Бесплатный режим: только Telegram → ${srv.flag} ${srv.title}',
         LogKind.connect);
-    await vpn.connect(srv, rules: rules, net: net, blockedApps: blockedApps);
+    await vpn.connect(srv, rules: rules, net: net, blockedApps: blockedApps, relay: _relayFor(srv));
     _notify('🆓 Бесплатный VPN включён — работает только для Telegram');
   }
 

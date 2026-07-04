@@ -4,6 +4,7 @@ library;
 
 import 'dart:async';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -42,6 +43,15 @@ class _SupportScreenState extends State<SupportScreen> {
     _ctrl.clear();
   }
 
+  Future<void> _attach() async {
+    final res = await FilePicker.platform.pickFiles(withData: false);
+    if (res == null || res.files.isEmpty) return;
+    final f = res.files.first;
+    if (f.path == null) return;
+    if (!mounted) return;
+    await context.read<AppState>().sendSupportFile(f.path!, f.name);
+  }
+
   @override
   Widget build(BuildContext context) {
     final chat = context.watch<AppState>().supportChat;
@@ -58,7 +68,10 @@ class _SupportScreenState extends State<SupportScreen> {
           ),
         ],
       ),
-      body: Column(
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(), // тап по пустому — скрыть клавиатуру
+        behavior: HitTestBehavior.opaque,
+        child: Column(
         children: [
           Expanded(
             child: chat.isEmpty
@@ -111,6 +124,11 @@ class _SupportScreenState extends State<SupportScreen> {
               padding: const EdgeInsets.all(8),
               child: Row(
                 children: [
+                  IconButton(
+                    icon: const Icon(Icons.attach_file),
+                    tooltip: 'Прикрепить файл или фото',
+                    onPressed: _attach,
+                  ),
                   Expanded(
                     child: TextField(
                       controller: _ctrl,
@@ -134,6 +152,7 @@ class _SupportScreenState extends State<SupportScreen> {
             ),
           ),
         ],
+        ),
       ),
     );
   }

@@ -27,10 +27,57 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       AnimationController(vsync: this, duration: const Duration(seconds: 12))
         ..repeat();
 
+  // Премиальная вводная инструкция по всему сервису (первый запуск).
   static const _slides = [
-    (icon: Icons.alt_route, titleKey: 'ob1_title', bodyKey: 'ob1_body'),
-    (icon: Icons.bolt, titleKey: 'ob2_title', bodyKey: 'ob2_body'),
-    (icon: Icons.shield_outlined, titleKey: 'ob3_title', bodyKey: 'ob3_body'),
+    (
+      icon: Icons.public,
+      title: 'Добро пожаловать в Various VPN',
+      body: 'Твой личный премиум-VPN: быстрый, умный и без блокировок. '
+          'За пару секунд покажем всё, что он умеет — это займёт полминуты.'
+    ),
+    (
+      icon: Icons.bolt,
+      title: 'Подключение в один тап',
+      body: 'Нажми большую кнопку на главном экране — приложение само выберет '
+          'самый быстрый рабочий сервер и проверит связь. Если сеть «спит» после '
+          'простоя — переподключит незаметно, ждать не нужно.'
+    ),
+    (
+      icon: Icons.smart_toy_outlined,
+      title: 'Умный доступ к нейросетям',
+      body: 'ChatGPT, Gemini, Claude открываются всегда: приложение само находит '
+          'сервер, где ИИ работает, даже если на ближайшем он заблокирован. '
+          'Включается тумблером в настройках.'
+    ),
+    (
+      icon: Icons.alt_route,
+      title: 'Раздельное туннелирование',
+      body: 'Российские сайты и банки идут напрямую (быстро, без VPN), а всё '
+          'остальное — через защищённый туннель. Можно выбрать, какие приложения '
+          'пускать через VPN, а какие — мимо.'
+    ),
+    (
+      icon: Icons.local_fire_department,
+      title: 'Огонёк серии 🔥 — награды за верность',
+      body: 'Пользуйся VPN каждый день — растёт серия (стрик). За вехи 7, 30, 90, '
+          '180 и 365 дней начисляем бонусные дни подписки автоматически. '
+          'Активность 25+ ч в неделю даёт «заморозки», которые спасают серию, '
+          'если пропустишь день.'
+    ),
+    (
+      icon: Icons.flash_on,
+      title: 'Режим «По требованию»',
+      body: 'Включи On-Demand в настройках — и VPN будет подниматься сам при '
+          'запуске приложения. А ещё: обход блокировок по современным протоколам '
+          'Reality/Hysteria2 и защита от DPI.'
+    ),
+    (
+      icon: Icons.card_giftcard,
+      title: 'Бонусы и поддержка',
+      body: 'Приглашай друзей и получай дни + процент с их оплат. Есть вопрос — '
+          'пиши прямо в приложении, ответим быстро. Следи за новостями в нашем '
+          'Telegram-канале. Погнали! 🚀'
+    ),
   ];
 
   void _finish() {
@@ -87,14 +134,14 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                           children: [
                             _Hero(icon: s.icon, anim: _anim),
                             const SizedBox(height: 36),
-                            Text(L.t(s.titleKey),
+                            Text(s.title,
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleLarge
                                     ?.copyWith(color: P.text, fontSize: 22),
                                 textAlign: TextAlign.center),
                             const SizedBox(height: 14),
-                            Text(L.t(s.bodyKey),
+                            Text(s.body,
                                 style: const TextStyle(
                                     color: P.textDim,
                                     fontSize: 15,

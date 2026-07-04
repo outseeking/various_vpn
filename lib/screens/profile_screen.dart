@@ -14,6 +14,7 @@ import '../services/storage.dart';
 import '../state/app_state.dart';
 import '../theme/app_palette.dart';
 import '../widgets/brand_logo.dart';
+import '../widgets/streak_flame.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -30,6 +31,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     final tgId = Storage.instance.tgId;
+    // подтягиваем актуальный стрик для карточки серии
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) context.read<AppState>().loadStreak();
+    });
     if (tgId != null && tgId.isNotEmpty) {
       _loading = true;
       BackendApi().subStatus(tgId).then((s) {
@@ -86,6 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       final state = context.read<AppState>();
       state.setTgId(id);
       await state.refreshSubStatus();
+      await state.loadStreak(); // подтянуть ник и стрик к профилю
       final s = await BackendApi().subStatus(id);
       if (mounted) setState(() => _status = s);
     }
@@ -112,9 +118,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
           const Center(child: BrandLogo(size: 76)),
           const SizedBox(height: 14),
           Center(
-            child: Text(
-              tgId != null ? 'Telegram ID: $tgId' : L.t('account_not_linked'),
-              style: const TextStyle(color: P.text, fontSize: 15),
+            child: Column(
+              children: [
+                if (tgId != null && state.profileUsername.isNotEmpty)
+                  Text('@${state.profileUsername}',
+                      style: const TextStyle(
+                          color: P.text,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700)),
+                Text(
+                  tgId != null ? 'ID: $tgId' : L.t('account_not_linked'),
+                  style: TextStyle(
+                      color: tgId != null &&
+                              state.profileUsername.isNotEmpty
+                          ? P.textFaint
+                          : P.text,
+                      fontSize: tgId != null &&
+                              state.profileUsername.isNotEmpty
+                          ? 12
+                          : 15),
+                ),
+              ],
             ),
           ),
           if (_loading)
@@ -170,6 +194,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             ),
           ),
+          const SizedBox(height: 14),
+
+          // карточка серии («огонёк») — награда за ежедневное пользование
+          _StreakCard(state: state),
           const SizedBox(height: 18),
 
           if (tgId == null)
@@ -182,13 +210,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
           _Tile(
             icon: Icons.workspace_premium,
             title: hasSub ? L.t('renew') : L.t('subscribe'),
-            onTap: () => _open(Brand.bot),
+            onTap: () => _open('${Brand.bot}?start=renew'),
           ),
           _Tile(
             icon: Icons.card_giftcard,
             title: L.t('invite'),
             subtitle: L.t('invite_d'),
-            onTap: () => _open(Brand.bot),
+            onTap: () => _open('${Brand.bot}?start=invite'),
           ),
           _Tile(
             icon: Icons.campaign,
@@ -208,6 +236,122 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ));
               },
             ),
+        ],
+      ),
+    );
+  }
+}
+
+class _StreakCard extends StatelessWidget {
+  final AppState state;
+  const _StreakCard({required this.state});
+
+  @override
+  Widget build(BuildContext context) {
+    final streak = state.streak;
+    final next = state.streakNextMilestone;
+    final rewards = state.streakRewards;
+    final nextReward = rewards[next] ?? 0;
+    final progress = (next > 0 && streak >= 0)
+        ? (streak / next).clamp(0.0, 1.0)
+        : (streak > 0 ? 1.0 : 0.0);
+
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: P.surfaceLo,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: P.surfaceHi),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              StreakFlame(days: streak, size: 56),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(streak > 0 ? 'Серия: $streak дней подряд' : 'Начни серию!',
+                        style: const TextStyle(
+                            color: P.text,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700)),
+                    const SizedBox(height: 2),
+                    Text(
+                        streak > 0
+                            ? 'Заходи каждый день — не потеряй огонёк 🔥'
+                            : 'Подключай VPN каждый день и получай бонусные дни',
+                        style: const TextStyle(color: P.textFaint, fontSize: 12)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          // прогресс до следующей награды
+          if (next > 0) ...[
+            ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: LinearProgressIndicator(
+                value: progress,
+                minHeight: 8,
+                backgroundColor: P.surfaceHi,
+                valueColor: const AlwaysStoppedAnimation(P.limeText),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text('До награды +$nextReward дней: осталось ${(next - streak).clamp(0, next)} дн. '
+                '(веха $next)',
+                style: const TextStyle(color: P.textDim, fontSize: 12)),
+          ],
+          const SizedBox(height: 12),
+          // заморозки
+          Row(
+            children: [
+              const Icon(Icons.ac_unit, color: P.limeText, size: 18),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                    'Заморозки: ${state.streakFreezes} '
+                    '· копятся за 25+ ч VPN в неделю и спасают серию при пропуске дня',
+                    style: const TextStyle(color: P.textFaint, fontSize: 11.5)),
+              ),
+            ],
+          ),
+          if (rewards.isNotEmpty) ...[
+            const SizedBox(height: 12),
+            const Divider(color: P.surfaceHi, height: 1),
+            const SizedBox(height: 10),
+            const Text('Награды за серию',
+                style: TextStyle(
+                    color: P.text, fontSize: 13, fontWeight: FontWeight.w700)),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                for (final m in (rewards.keys.toList()..sort()))
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: streak >= m ? P.violet.withValues(alpha: 0.35) : P.surfaceHi,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                          color: streak >= m ? P.limeText : P.surfaceHi),
+                    ),
+                    child: Text('$m дн → +${rewards[m]}',
+                        style: TextStyle(
+                            color: streak >= m ? P.limeText : P.textDim,
+                            fontSize: 11.5,
+                            fontWeight: FontWeight.w600)),
+                  ),
+              ],
+            ),
+          ],
         ],
       ),
     );

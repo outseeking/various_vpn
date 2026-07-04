@@ -8,6 +8,7 @@
 library;
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_v2ray/flutter_v2ray.dart';
@@ -84,6 +85,52 @@ class V2RayVpnService implements VpnService {
     }
   }
 
+  /// Строит конфиг-ЦЕПОЧКУ (мультихоп): трафик идёт [entry] → [exitServer] →
+  /// интернет. Достигается через Xray `dialerProxy`: outbound выходной ноды
+  /// набирается ЧЕРЕЗ outbound входной. Оба — наши серверы, серверная настройка
+  /// не нужна. [exitBaseConfig] — полный конфиг выходного сервера (за основу).
+  String _buildChainConfig(
+      VpnServer entry, VpnServer exitServer, String exitBaseConfig) {
+    try {
+      final exitCfg = jsonDecode(exitBaseConfig) as Map<String, dynamic>;
+      final entryCfg = jsonDecode(
+          FlutterV2ray.parseFromURL(entry.raw).getFullConfiguration())
+          as Map<String, dynamic>;
+
+      bool isProxy(dynamic o) {
+        final p = (o as Map)['protocol'];
+        return p != 'freedom' && p != 'blackhole' && p != 'dns';
+      }
+
+      final exitOut = (exitCfg['outbounds'] as List).firstWhere(isProxy)
+          as Map<String, dynamic>;
+      final entryOut = (entryCfg['outbounds'] as List).firstWhere(isProxy)
+          as Map<String, dynamic>;
+
+      // выходной outbound набирается через входной (dialerProxy=entry)
+      exitOut['tag'] = 'proxy';
+      final ss = (exitOut['streamSettings'] as Map<String, dynamic>?) ??
+          <String, dynamic>{};
+      final sockopt = (ss['sockopt'] as Map<String, dynamic>?) ??
+          <String, dynamic>{};
+      sockopt['dialerProxy'] = 'entry';
+      ss['sockopt'] = sockopt;
+      exitOut['streamSettings'] = ss;
+
+      entryOut['tag'] = 'entry';
+
+      exitCfg['outbounds'] = [
+        exitOut,
+        entryOut,
+        {'protocol': 'freedom', 'tag': 'direct'},
+      ];
+      return jsonEncode(exitCfg);
+    } catch (_) {
+      // не смогли собрать цепочку — откатываемся на обычный конфиг выхода
+      return exitBaseConfig;
+    }
+  }
+
   Future<void> _ensureInit() async {
     if (_inited) return;
     await _v2ray.initializeV2Ray();
@@ -100,7 +147,8 @@ class V2RayVpnService implements VpnService {
   Future<void> connect(VpnServer server,
       {List<AppRule> rules = const [],
       NetOptions net = NetOptions.defaults,
-      List<String> blockedApps = const []}) async {
+      List<String> blockedApps = const [],
+      VpnServer? relay}) async {
     if (!_xraySupported.contains(server.protocol)) {
       _set(VpnStage.error);
       throw UnsupportedError(
@@ -111,7 +159,12 @@ class V2RayVpnService implements VpnService {
     await _ensureInit();
     _set(VpnStage.connecting);
     final parser = FlutterV2ray.parseFromURL(server.raw);
-    final fullConfig = applyNetOptions(parser.getFullConfiguration(), net);
+    // Мультихоп: если задан relay — строим цепочку relay→server, иначе обычный.
+    final String rawConfig = (relay != null &&
+            _xraySupported.contains(relay.protocol))
+        ? _buildChainConfig(relay, server, parser.getFullConfiguration())
+        : parser.getFullConfiguration();
+    final fullConfig = applyNetOptions(rawConfig, net);
 
     // Заголовок уведомления = флаг + страна + пинг (обновляется при смене
     // сервера, т.к. connect вызывается заново). Пинг добавляем, если измерен.

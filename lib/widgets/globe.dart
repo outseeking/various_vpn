@@ -176,7 +176,18 @@ class _GlobeViewState extends State<GlobeView>
     }
   }
 
+  Duration _lastPaint = Duration.zero;
+
   void _onTick(Duration now) {
+    // Троттлинг до ~30 fps: перерисовка всей карты мира каждый кадр (60/120 Гц)
+    // грузит слабые устройства. 30 fps для глобуса визуально плавно.
+    if (_lastPaint != Duration.zero &&
+        (now - _lastPaint).inMilliseconds < 33 &&
+        !_userInteracting) {
+      return;
+    }
+    _lastPaint = now;
+
     final dt = _last == Duration.zero
         ? 0.016
         : (now - _last).inMicroseconds / 1e6;

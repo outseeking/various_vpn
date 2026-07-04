@@ -42,7 +42,13 @@ class _AmbientBarsState extends State<AmbientBars>
     if (widget.connected && !old.connected) _flash = 1.0;
   }
 
+  Duration _lastPaint = Duration.zero;
+
   void _tick(Duration now) {
+    if (_lastPaint != Duration.zero && (now - _lastPaint).inMilliseconds < 40) {
+      return; // ~25 fps — размытие полосок дорогое, чаще не нужно
+    }
+    _lastPaint = now;
     final dt =
         _last == Duration.zero ? 0.016 : (now - _last).inMicroseconds / 1e6;
     _last = now;

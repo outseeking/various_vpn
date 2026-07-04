@@ -42,7 +42,14 @@ dependencies:
   # в стиле Quattro. Только Android; на web — не тянется (conditional по Platform).
   installed_apps: ^1.6.0
 
-  # ВНИМАНИЕ: сканер QR (mobile_scanner) добавим на мобильной сборке.
+  # Сканер QR — импорт подписки наведением камеры на QR из бота.
+  mobile_scanner: ^5.2.3
+
+  # Выбор файлов/фото для вложений в поддержку.
+  file_picker: ^8.1.2
+
+  # Открытие системных настроек Android (Always-on VPN для kill-switch).
+  android_intent_plus: ^5.2.0
 
 dev_dependencies:
   flutter_test:
