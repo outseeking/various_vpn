@@ -79,6 +79,12 @@ class GlobeView extends StatefulWidget {
   /// Откуда летят пакеты (Россия). null → без пакетов.
   final List<double>? packetFrom;
 
+  /// Промежуточная нода (вход) для двойного VPN: [lon,lat]. При наличии —
+  /// путь строится через неё (from → relay → exit) с доп. пакетом, а её страна
+  /// тоже подсвечивается.
+  final List<double>? relay;
+  final String? relayLabel;
+
   final bool animationsEnabled;
   final double size;
 
@@ -88,6 +94,8 @@ class GlobeView extends StatefulWidget {
     this.focus,
     this.connected = false,
     this.packetFrom,
+    this.relay,
+    this.relayLabel,
     this.animationsEnabled = true,
     this.size = 240,
   });
@@ -364,17 +372,17 @@ class _GlobePainter extends CustomPainter {
         ..strokeWidth = 1.0
         ..color = P.gold;
 
-      // имя выбранной страны (для подсветки)
-      String? selName;
+      // имена подсвечиваемых стран: выбранный сервер + вход (при мультихопе)
+      final highlight = <String>{};
       for (final m in state.widget.markers) {
-        if (m.selected) {
-          selName = _ru2world(m.label);
-          break;
-        }
+        if (m.selected) highlight.add(_ru2world(m.label));
+      }
+      if (state.widget.relayLabel != null) {
+        highlight.add(_ru2world(state.widget.relayLabel!));
       }
 
       for (final c in world.countries) {
-        final isSel = selName != null && c.name == selName;
+        final isSel = highlight.contains(c.name);
         for (final ring in c.rings) {
           final path = _ringPath(ring, project);
           if (path == null) continue;
@@ -394,7 +402,14 @@ class _GlobePainter extends CustomPainter {
       }
     }
     if (from != null && sel != null && state.widget.connected) {
-      _drawArc(canvas, project, from, [sel.lon, sel.lat]);
+      final relay = state.widget.relay;
+      if (relay != null) {
+        // двойной VPN: путь Россия → вход → выход, с пакетом на каждом участке
+        _drawArc(canvas, project, from, relay);
+        _drawArc(canvas, project, relay, [sel.lon, sel.lat]);
+      } else {
+        _drawArc(canvas, project, from, [sel.lon, sel.lat]);
+      }
     }
 
     // --- 3D-затенение сферы (пока клип ещё активен) ---

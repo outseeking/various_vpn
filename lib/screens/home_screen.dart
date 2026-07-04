@@ -64,7 +64,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Маркеры серверов на глобусе — по одному на страну.
   List<GlobeMarker> _markers(AppState s) {
-    final active = s.activeServer;
+    // В двойном VPN «выбранная» точка глобуса = выход (конечная страна пути).
+    final target = s.multihopExit ?? s.activeServer;
     final seen = <String>{};
     final out = <GlobeMarker>[];
     for (final srv in s.servers) {
@@ -75,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
         lon: ll[0],
         lat: ll[1],
         label: srv.countryName,
-        selected: active != null && active.countryCode == cc,
+        selected: target != null && target.countryCode == cc,
       ));
     }
     return out;
@@ -87,7 +88,13 @@ class _HomeScreenState extends State<HomeScreen> {
     final connected = state.isConnected;
     final connecting = state.stage == VpnStage.connecting;
     final active = state.activeServer;
-    final focus = active != null ? Geo.of(active.countryCode) : null;
+    // В двойном VPN глобус смотрит на выход, а вход подсвечивается как relay.
+    final exit = state.multihopExit;
+    final target = exit ?? active;
+    final focus = target != null ? Geo.of(target.countryCode) : null;
+    final relayLoc = (exit != null && active != null)
+        ? Geo.of(active.countryCode)
+        : null;
 
     return Scaffold(
       backgroundColor: P.bg,
@@ -144,6 +151,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     focus: focus,
                     connected: connected,
                     packetFrom: connected ? Geo.origin : null,
+                    relay: connected ? relayLoc : null,
+                    relayLabel: (connected && exit != null && active != null)
+                        ? active.countryName
+                        : null,
                     animationsEnabled: state.globeAnimations,
                   ),
                 ),

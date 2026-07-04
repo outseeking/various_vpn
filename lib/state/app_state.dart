@@ -276,15 +276,16 @@ class AppState extends ChangeNotifier {
     return null;
   }
 
-  /// Входная нода для цепочки при выходе через [exit] = ТЕКУЩИЙ сервер.
-  /// Мы соединяемся с выходом, но набираем его ЧЕРЕЗ вход (текущий сервер).
-  VpnServer? _relayFor(VpnServer exit) {
-    if (!multihop) return null;
+  /// Входная нода для цепочки. Relay применяется ТОЛЬКО к выбранному выходу —
+  /// так запасные кандидаты подключаются обычным одиночным туннелем, и интернет
+  /// есть всегда, даже если цепочка не поднялась.
+  VpnServer? _relayFor(VpnServer target) {
+    if (!multihop || multihopExitId == null) return null;
+    if (target.id != multihopExitId) return null; // не выход — без цепочки
     final entry = activeServer; // «текущий» сервер = вход
-    if (entry != null && entry.id != exit.id && entry.xraySupported) return entry;
-    // запасной вход — любой другой поддерживаемый сервер (цепочка всегда формируется)
+    if (entry != null && entry.id != target.id && entry.xraySupported) return entry;
     for (final s in servers) {
-      if (s.id != exit.id && s.xraySupported) return s;
+      if (s.id != target.id && s.xraySupported) return s;
     }
     return null;
   }
@@ -1165,12 +1166,16 @@ class AppState extends ChangeNotifier {
   /// Кандидаты для подключения с failover: поддерживаемые серверы по возрастанию
   /// пинга. В ручном режиме выбранный сервер идёт первым.
   List<VpnServer> _connectCandidates() {
-    // Мультихоп: цель туннеля — ВЫХОД (набираем его через вход). Если выход
-    // выбран и валиден — подключаемся именно к нему.
-    final exit = multihopExit;
-    if (exit != null) return [exit];
     var pool = servers.where((s) => s.xraySupported).toList();
     if (pool.isEmpty) pool = List.of(servers);
+    // Мультихоп: пробуем ВЫХОД первым (через него строится цепочка), но
+    // оставляем остальные как fallback — если цепочка не поднимется, подключимся
+    // обычным одиночным туннелем и интернет всё равно будет.
+    final exit = multihopExit;
+    if (exit != null) {
+      pool = [exit, ...pool.where((s) => s.id != exit.id)];
+      return pool;
+    }
     // Reality → обычный tcp → httpupgrade (последний падает на Android),
     // внутри группы — по возрастанию пинга.
     pool.sort((a, b) {

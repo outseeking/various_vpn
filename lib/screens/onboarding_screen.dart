@@ -27,8 +27,11 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       AnimationController(vsync: this, duration: const Duration(seconds: 12))
         ..repeat();
 
-  // Премиальная вводная инструкция по всему сервису (первый запуск).
-  static const _slides = [
+  // Премиальная вводная инструкция по всему сервису (первый запуск), двуязычная.
+  List<({IconData icon, String title, String body})> get _slides =>
+      L.current == 'en' ? _slidesEn : _slidesRu;
+
+  static const _slidesRu = [
     (
       icon: Icons.public,
       title: 'Добро пожаловать в Various VPN',
@@ -77,6 +80,53 @@ class _OnboardingScreenState extends State<OnboardingScreen>
       body: 'Приглашай друзей и получай дни + процент с их оплат. Есть вопрос — '
           'пиши прямо в приложении, ответим быстро. Следи за новостями в нашем '
           'Telegram-канале. Погнали! 🚀'
+    ),
+  ];
+
+  static const _slidesEn = [
+    (
+      icon: Icons.public,
+      title: 'Welcome to Various VPN',
+      body: 'Your personal premium VPN: fast, smart and unblockable. '
+          'In a few seconds we\'ll show everything it can do — takes half a minute.'
+    ),
+    (
+      icon: Icons.bolt,
+      title: 'One-tap connection',
+      body: 'Tap the big button on the home screen — the app picks the fastest '
+          'working server and verifies the link. If the network was asleep after '
+          'idle, it reconnects invisibly — no waiting.'
+    ),
+    (
+      icon: Icons.smart_toy_outlined,
+      title: 'Smart access to AI',
+      body: 'ChatGPT, Gemini, Claude always open: the app finds a server where AI '
+          'works, even if it\'s blocked on the nearest one. Toggle it in settings.'
+    ),
+    (
+      icon: Icons.alt_route,
+      title: 'Split tunneling',
+      body: 'Local sites and banks go direct (fast, no VPN), everything else '
+          'through the secure tunnel. You choose which apps go through the VPN.'
+    ),
+    (
+      icon: Icons.local_fire_department,
+      title: 'Streak flame 🔥 — loyalty rewards',
+      body: 'Use the VPN daily — your streak grows. At 7, 30, 90, 180 and 365 days '
+          'we credit bonus subscription days automatically. 25+ h a week earns '
+          '“freezes” that save your streak if you miss a day.'
+    ),
+    (
+      icon: Icons.flash_on,
+      title: 'On-Demand mode',
+      body: 'Enable On-Demand in settings and the VPN comes up on app launch. '
+          'Plus: anti-block via modern Reality/Hysteria2 protocols and DPI defense.'
+    ),
+    (
+      icon: Icons.card_giftcard,
+      title: 'Bonuses & support',
+      body: 'Invite friends and earn days + a share of their payments. Questions? '
+          'Message us right in the app. Follow news in our Telegram channel. Let\'s go! 🚀'
     ),
   ];
 
