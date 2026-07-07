@@ -6,6 +6,7 @@ library;
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer' as developer;
 import 'dart:ui' show PlatformDispatcher;
 
 import 'package:flutter/material.dart';
@@ -478,6 +479,8 @@ class AppState extends ChangeNotifier {
   void _log(String text, [LogKind kind = LogKind.info]) {
     logs.insert(0, LogEntry(text, kind));
     if (logs.length > 300) logs.removeRange(300, logs.length);
+    // дублируем в системный лог (logcat) — для диагностики через adb
+    developer.log(text, name: 'VaVPN');
   }
 
   /// Записать в лог и (если включены уведомления) показать всплывашку.

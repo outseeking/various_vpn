@@ -108,7 +108,8 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Positioned.fill(
               child: AmbientBars(connected: connected, animate: state.animationsOn)),
-          Positioned.fill(child: ConnectGlow(connected: connected)),
+          if (state.animationsOn)
+            Positioned.fill(child: ConnectGlow(connected: connected)),
           SafeArea(
         bottom: false,
         child: ListView(
