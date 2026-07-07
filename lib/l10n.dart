@@ -238,10 +238,10 @@ class L {
 
     // --- двойной VPN ---
     'mh_title': {'ru': 'Двойной VPN (мультихоп)', 'en': 'Double VPN (multihop)'},
-    'mh_privacy_title': {'ru': 'Страна выхода', 'en': 'Exit country'},
+    'mh_privacy_title': {'ru': 'Двойной хоп', 'en': 'Double hop'},
     'mh_privacy_body': {
-      'ru': 'Выбери страну ВЫХОДА — трафик пойдёт через этот сервер, и сайты будут видеть его страну. Полноценная цепочка из двух стран (двойной хоп) — в разработке, скоро добавим.',
-      'en': 'Pick the EXIT country — traffic goes through that server and sites see its country. A full two-country chain (double hop) is in development and coming soon.'
+      'ru': 'Выбери готовый маршрут ниже — трафик реально пройдёт через ДВЕ страны (вход → выход). Даже если выходной сервер захотят вычислить, увидят только IP входного, а не твой. Ниже можно выбрать и одиночный выход.',
+      'en': 'Pick a ready route below — traffic really goes through TWO countries (entry → exit). Even if the exit server is compromised, only the entry\'s IP is seen, not yours. You can also pick a single exit below.'
     },
     'mh_speed': {
       'ru': 'Выбирай выход по стране, которая нужна сайтам и сервисам. Чем дальше сервер — тем выше пинг.',

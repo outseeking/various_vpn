@@ -269,6 +269,44 @@ class AppState extends ChangeNotifier {
     if (isConnected && multihop) _reconnectTo();
   }
 
+  // ---- готовые маршруты двойного VPN (серверный relay: вход→выход) ----
+  List<Map<String, dynamic>> multihopRoutes = const [];
+  String? activeRouteLink; // ссылка активного маршрута (для подсветки в UI)
+
+  Future<void> loadMultihopRoutes() async {
+    try {
+      final r = await http
+          .get(Uri.parse('${Brand.panelBase}/api/app/multihop-routes'))
+          .timeout(const Duration(seconds: 10));
+      if (r.statusCode != 200) return;
+      final list = (jsonDecode(r.body)['routes'] as List?) ?? [];
+      multihopRoutes = list.cast<Map<String, dynamic>>();
+      notifyListeners();
+    } catch (_) {}
+  }
+
+  /// Подключение по готовому маршруту двойного VPN. Это одна vless-ссылка на
+  /// relay-ноду, но трафик реально идёт через две страны (relay настроен на
+  /// сервере). Двойной хоп получается без Reality-в-Reality на клиенте.
+  Future<void> connectRoute(Map<String, dynamic> route) async {
+    final link = (route['link'] ?? '').toString();
+    final label = (route['label'] ?? 'Двойной VPN').toString();
+    final s = SubscriptionParser.parseLink(link);
+    if (s == null) {
+      lastError = 'Маршрут повреждён';
+      _notify(lastError!);
+      return;
+    }
+    s.displayName = label;
+    activeRouteLink = link;
+    multihop = false; // клиентская цепочка не нужна — хоп на сервере
+    _storage.setBool('multihop', false);
+    if (!servers.any((x) => x.id == s.id)) {
+      servers = [...servers, s];
+    }
+    setManualServer(s.id); // фиксируем и подключаемся к relay
+  }
+
   /// gRPC-вариант той же ноды (без xtls-flow) — именно он работает в цепочке
   /// через dialerProxy (XTLS Vision ломает chaining и требуется серверу).
   VpnServer _grpcVariant(VpnServer s) {
@@ -495,6 +533,7 @@ class AppState extends ChangeNotifier {
       // панель недоступна — работаем на сохранённых серверах
     }
     loadRouting(); // свежие списки маршрутизации (ИИ/РФ) из панели
+    loadMultihopRoutes(); // готовые маршруты двойного VPN
     maybeAutoConnectOnLaunch(); // режим «по требованию» — авто-подключение
   }
 

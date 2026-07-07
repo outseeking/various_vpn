@@ -50,6 +50,32 @@ class MultihopScreen extends StatelessWidget {
           ),
           const SizedBox(height: 14),
 
+          // РЕАЛЬНЫЕ маршруты двойного VPN (серверный relay: вход→выход).
+          if (state.multihopRoutes.isNotEmpty) ...[
+            const Text('Готовые маршруты (настоящий двойной хоп)',
+                style: TextStyle(
+                    color: P.text, fontSize: 14, fontWeight: FontWeight.w700)),
+            const SizedBox(height: 8),
+            for (final route in state.multihopRoutes)
+              _RouteTile(
+                route: route,
+                active: state.activeRouteLink == route['link'] && state.isConnected,
+                onTap: () {
+                  state.connectRoute(route);
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    backgroundColor: P.surface,
+                    content: Text('Подключаю двойной VPN: ${route['label']}'),
+                  ));
+                },
+              ),
+            const SizedBox(height: 18),
+            const Divider(color: P.surfaceHi, height: 1),
+            const SizedBox(height: 14),
+            const Text('Или выбери страну выхода (одиночный туннель)',
+                style: TextStyle(color: P.textFaint, fontSize: 12.5)),
+            const SizedBox(height: 10),
+          ],
+
           // Живая карточка «вход» — какой сервер сейчас активен.
           _EntryCard(
             flag: entry?.flag ?? '🌐',
@@ -152,6 +178,59 @@ class MultihopScreen extends StatelessWidget {
       if (s.id == id) return '${s.flag} ${s.displayName}';
     }
     return L.t('mh_pick_exit');
+  }
+}
+
+/// Плитка готового маршрута двойного VPN.
+class _RouteTile extends StatelessWidget {
+  final Map<String, dynamic> route;
+  final bool active;
+  final VoidCallback onTap;
+  const _RouteTile({required this.route, required this.active, required this.onTap});
+
+  String _flag(String cc) {
+    if (cc.length != 2) return '🌐';
+    const base = 0x1F1E6;
+    return String.fromCharCodes([
+      cc.toUpperCase().codeUnitAt(0) - 0x41 + base,
+      cc.toUpperCase().codeUnitAt(1) - 0x41 + base,
+    ]);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final from = _flag((route['from_cc'] ?? '').toString());
+    final to = _flag((route['to_cc'] ?? '').toString());
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+        decoration: BoxDecoration(
+          gradient: active ? P.grad : null,
+          color: active ? null : P.surfaceLo,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: active ? P.limeText : P.surfaceHi),
+        ),
+        child: Row(
+          children: [
+            Text('$from → $to', style: const TextStyle(fontSize: 22)),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                (route['label'] ?? 'Двойной VPN').toString(),
+                style: TextStyle(
+                    color: active ? const Color(0xFF0C1206) : P.text,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700),
+              ),
+            ),
+            Icon(active ? Icons.check_circle : Icons.chevron_right,
+                color: active ? const Color(0xFF0C1206) : P.textFaint),
+          ],
+        ),
+      ),
+    );
   }
 }
 
