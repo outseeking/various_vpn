@@ -13,6 +13,8 @@ library;
 
 import 'dart:convert';
 
+import '../l10n.dart';
+
 /// Стратегия выбора типа адреса.
 enum IpStrategy {
   auto, // как отдаёт сервер (AsIs)
@@ -26,7 +28,7 @@ enum IpStrategy {
       };
 
   String get label => switch (this) {
-        IpStrategy.auto => 'Авто',
+        IpStrategy.auto => L.t('ip_auto'),
         IpStrategy.ipv4 => 'IPv4',
         IpStrategy.ipv6 => 'IPv6',
       };

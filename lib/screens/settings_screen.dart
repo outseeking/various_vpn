@@ -185,6 +185,12 @@ class SettingsScreen extends StatelessWidget {
             ),
           ),
           _SwitchRow(
+            title: L.t('lite_mode'),
+            subtitle: L.t('lite_mode_d'),
+            value: state.liteMode,
+            onChanged: state.setLiteMode,
+          ),
+          _SwitchRow(
             title: L.t('sound'),
             subtitle: L.t('sound_d'),
             value: state.soundEnabled,

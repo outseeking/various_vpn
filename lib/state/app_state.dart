@@ -134,6 +134,8 @@ class AppState extends ChangeNotifier {
   bool autoConnect = false;
   bool onDemand = false; // режим «по требованию»: авто-подключение при запуске
   bool globeAnimations = true;
+  bool liteMode = false; // режим экономии для слабых устройств
+  bool get animationsOn => globeAnimations && !liteMode;
   bool killSwitch = false;
   bool bypassRu = true;
   bool soundEnabled = true;
@@ -386,6 +388,9 @@ class AppState extends ChangeNotifier {
     multihop = _storage.getBool('multihop', def: false);
     final rid = _storage.getStr('multihop_exit', def: '');
     multihopExitId = rid.isEmpty ? null : rid;
+    liteMode = _storage.getBool('lite_mode', def: false);
+    final cr = _storage.getStr('custom_raws', def: '');
+    _customRaws = cr.isEmpty ? const [] : cr.split('\n').where((e) => e.isNotEmpty).toList();
     _loadCachedRouting();
     // Тумблер анимаций убран из настроек — анимации глобуса всегда включены
     // (иначе у тех, кто раньше выключил, звёзды/падающие звёзды не работали бы).
@@ -456,6 +461,7 @@ class AppState extends ChangeNotifier {
       if (parsed.isNotEmpty) {
         servers = parsed;
         _assignDisplayNames();
+        _appendCustomServers(); // не теряем свои серверы после синка
         await _storage.saveConfigsBlob(raw);
         notifyListeners();
         _pingAllSilent(background: true);
@@ -509,7 +515,10 @@ class AppState extends ChangeNotifier {
     _lastTrafficAt = null;
     _sessionCountry = activeServer?.countryName ?? '';
     speedHistory.clear();
-    if (vibrationEnabled) HapticFeedback.mediumImpact();
+    if (vibrationEnabled) {
+      HapticFeedback.heavyImpact();
+      HapticFeedback.vibrate(); // реальная вибрация — заметнее, чем haptic
+    }
     if (soundEnabled) Sound.connect();
     _sessionTimer?.cancel();
     // Таймер только для обновления времени сессии. Трафик/скорость — реальные,
@@ -607,7 +616,10 @@ class AppState extends ChangeNotifier {
     _sessionStart = null;
     speedDownKbps = 0;
     speedUpKbps = 0;
-    if (vibrationEnabled) HapticFeedback.lightImpact();
+    if (vibrationEnabled) {
+      HapticFeedback.mediumImpact();
+      HapticFeedback.vibrate();
+    }
     if (soundEnabled) Sound.disconnect();
     notifyListeners();
   }
@@ -929,41 +941,68 @@ class AppState extends ChangeNotifier {
   /// Принимает JSON-массив share-ссылок ["vless://…", …] или объектов
   /// [{"link":"vless://…"}, …]. В отличие от подписок, наши-проверки не
   /// применяются (это личные серверы пользователя).
-  Future<bool> importCustomServers(String jsonText) async {
+  Future<bool> importCustomServers(String input) async {
     if (!isConnected) {
       lastError = 'Добавление своих серверов доступно только при активном '
           'подключении к Various VPN.';
       return false;
     }
-    List<dynamic> arr;
+    // Достаём ссылки: поддерживаем JSON-массив ["vless://…"], объекты
+    // [{"link":"…"}] И простой список ссылок построчно (без JSON).
+    final links = <String>[];
+    final text = input.trim();
     try {
-      final decoded = jsonDecode(jsonText.trim());
-      arr = decoded is List ? decoded : [decoded];
+      final decoded = jsonDecode(text);
+      final arr = decoded is List ? decoded : [decoded];
+      for (final item in arr) {
+        final l = item is String
+            ? item
+            : (item is Map ? (item['link'] ?? item['url'] ?? '').toString() : '');
+        if (l.trim().isNotEmpty) links.add(l.trim());
+      }
     } catch (_) {
-      lastError = 'Неверный JSON. Нужен массив ссылок или объектов с "link".';
-      return false;
+      // не JSON — берём построчно
+      for (final line in text.split(RegExp(r'[\r\n,]+'))) {
+        final l = line.trim();
+        if (l.contains('://')) links.add(l);
+      }
     }
     final parsed = <VpnServer>[];
-    for (final item in arr.take(5)) {
-      final link = item is String
-          ? item
-          : (item is Map ? (item['link'] ?? item['url'] ?? '').toString() : '');
-      if (link.isEmpty) continue;
-      final s = SubscriptionParser.parseLink(link.trim());
-      if (s != null) parsed.add(s);
+    final raws = <String>[];
+    for (final link in links.take(5)) {
+      final s = SubscriptionParser.parseLink(link);
+      if (s != null) {
+        parsed.add(s);
+        raws.add(link);
+      }
     }
     if (parsed.isEmpty) {
-      lastError = 'Не удалось распознать ни одного сервера в JSON.';
+      lastError = 'Не удалось распознать ни одного сервера. Вставь vless://… '
+          '(JSON-массивом или по одной ссылке на строку).';
       return false;
     }
-    // добавляем к текущим (наши подписочные остаются), помечаем как кастомные
-    final existing = servers.map((e) => e.id).toSet();
-    servers = [...servers, ...parsed.where((s) => !existing.contains(s.id))];
-    _assignDisplayNames();
+    // сохраняем, чтобы пережили перезапуск и синк с панелью
+    _customRaws = raws;
+    _storage.setStr('custom_raws', raws.join('\n'));
+    _appendCustomServers();
     lastError = null;
     _log('Добавлено своих серверов: ${parsed.length}', LogKind.info);
     notifyListeners();
     return true;
+  }
+
+  List<String> _customRaws = const [];
+
+  /// Добавляет сохранённые кастомные серверы к текущему списку (после синка
+  /// с панелью, чтобы они не пропадали). Дубликаты по id отбрасываются.
+  void _appendCustomServers() {
+    if (_customRaws.isEmpty) return;
+    final existing = servers.map((e) => e.id).toSet();
+    for (final raw in _customRaws) {
+      final s = SubscriptionParser.parseLink(raw);
+      if (s != null && existing.add(s.id)) servers = [...servers, s];
+    }
+    _assignDisplayNames();
   }
 
   /// Проставляет человекочитаемые имена-страны. Если в одной стране несколько
@@ -1022,6 +1061,12 @@ class AppState extends ChangeNotifier {
   void setGlobeAnimations(bool v) {
     globeAnimations = v;
     _storage.setBool('globe_anim', v);
+    notifyListeners();
+  }
+
+  void setLiteMode(bool v) {
+    liteMode = v;
+    _storage.setBool('lite_mode', v);
     notifyListeners();
   }
 

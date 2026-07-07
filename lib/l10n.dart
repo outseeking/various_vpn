@@ -55,7 +55,16 @@ class L {
     },
     'ping': {'ru': 'пинг', 'en': 'ping'},
     'servers': {'ru': 'Серверы', 'en': 'Servers'},
-    'ping_btn': {'ru': 'Пинговать', 'en': 'Ping'},
+    'ping_btn': {'ru': 'Пинг', 'en': 'Ping'},
+    'ip_auto': {'ru': 'Авто', 'en': 'Auto'},
+    'lite_mode': {'ru': 'Режим экономии (слабые устройства)', 'en': 'Lite mode (weak devices)'},
+    'lite_mode_d': {
+      'ru': 'Отключает падающие звёзды, вращение глобуса и тяжёлые анимации — приложение работает легче и быстрее.',
+      'en': 'Disables shooting stars, globe rotation and heavy animations — the app runs lighter and faster.'
+    },
+    'net_good': {'ru': 'Отличный интернет', 'en': 'Great connection'},
+    'net_ok': {'ru': 'Нормальный интернет', 'en': 'Decent connection'},
+    'net_slow': {'ru': 'Медленный интернет', 'en': 'Slow connection'},
     'no_server': {'ru': 'Нет сервера', 'en': 'No server'},
     'free_tg': {'ru': 'Бесплатно · Telegram', 'en': 'Free · Telegram'},
     'free_tg_sub': {'ru': 'Только трафик Telegram', 'en': 'Telegram traffic only'},

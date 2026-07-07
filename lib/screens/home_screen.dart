@@ -106,7 +106,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Stack(
         children: [
-          Positioned.fill(child: AmbientBars(connected: connected)),
+          Positioned.fill(
+              child: AmbientBars(connected: connected, animate: state.animationsOn)),
           Positioned.fill(child: ConnectGlow(connected: connected)),
           SafeArea(
         bottom: false,
@@ -155,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     relayLabel: (connected && exit != null && active != null)
                         ? active.countryName
                         : null,
-                    animationsEnabled: state.globeAnimations,
+                    animationsEnabled: state.animationsOn,
                   ),
                 ),
               ),

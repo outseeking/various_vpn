@@ -1,7 +1,7 @@
 name: various_vpn
 description: "Various VPN — умный VPN с раздельным туннелированием (per-app роутинг)."
 publish_to: 'none'
-version: 0.6.0+31
+version: 1.0.0+1
 
 environment:
   sdk: '>=3.4.0 <4.0.0'

@@ -8,6 +8,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../l10n.dart';
 import '../theme/app_palette.dart';
 
 class SpeedtestScreen extends StatefulWidget {
@@ -111,6 +112,28 @@ class _SpeedtestScreenState extends State<SpeedtestScreen> {
               const SizedBox(height: 8),
               Text('Средняя: ${_result.toStringAsFixed(1)} Мбит/с',
                   style: const TextStyle(color: P.limeText, fontSize: 14)),
+              const SizedBox(height: 10),
+              Builder(builder: (_) {
+                // Вердикт по скорости: >30 отлично, 8–30 нормально, <8 медленно.
+                final (label, color, icon) = _result >= 30
+                    ? (L.t('net_good'), P.limeText, Icons.check_circle)
+                    : _result >= 8
+                        ? (L.t('net_ok'), P.gold, Icons.thumb_up_alt_outlined)
+                        : (L.t('net_slow'), const Color(0xFFE0574A),
+                            Icons.warning_amber_rounded);
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(icon, color: color, size: 20),
+                    const SizedBox(width: 8),
+                    Text(label,
+                        style: TextStyle(
+                            color: color,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700)),
+                  ],
+                );
+              }),
             ],
             const Spacer(),
             Padding(
