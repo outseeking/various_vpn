@@ -269,27 +269,51 @@ class AppState extends ChangeNotifier {
     if (isConnected && multihop) _reconnectTo();
   }
 
-  /// Выходной сервер для мультихопа (если выбран и отличается от входа).
-  VpnServer? get multihopExit {
+  /// gRPC-вариант той же ноды (без xtls-flow) — именно он работает в цепочке
+  /// через dialerProxy (XTLS Vision ломает chaining и требуется серверу).
+  VpnServer _grpcVariant(VpnServer s) {
+    for (final c in servers) {
+      if (c.address == s.address &&
+          c.xraySupported &&
+          c.raw.contains('type=grpc')) {
+        return c;
+      }
+    }
+    return s; // нет gRPC-варианта — возвращаем как есть
+  }
+
+  /// Сырой (выбранный пользователем) выход, без подмены варианта.
+  VpnServer? get _rawMultihopExit {
     if (!multihop || multihopExitId == null) return null;
     final entry = activeServer;
     for (final s in servers) {
-      if (s.id == multihopExitId && s.xraySupported && s.id != entry?.id) return s;
+      if (s.id == multihopExitId && s.xraySupported && s.address != entry?.address) {
+        return s;
+      }
     }
     return null;
   }
 
-  /// Входная нода для цепочки. Relay применяется ТОЛЬКО к выбранному выходу —
-  /// так запасные кандидаты подключаются обычным одиночным туннелем, и интернет
-  /// есть всегда, даже если цепочка не поднялась.
+  /// Выходной сервер для мультихопа — gRPC-вариант (для цепочки).
+  VpnServer? get multihopExit {
+    final e = _rawMultihopExit;
+    return e == null ? null : _grpcVariant(e);
+  }
+
+  /// Входная нода для клиентской цепочки.
+  ///
+  /// ВАЖНО: клиентский двойной хоп из ДВУХ Reality-нод НЕВОЗМОЖЕН — Reality
+  /// манипулирует TLS-рукопожатием, и вложение одного Reality в другое ломает
+  /// ClientHello, сервер выхода отклоняет соединение («REALITY: processed
+  /// invalid connection»). Проверено на ядре. Поэтому цепочка отключена: при
+  /// включённом «двойном VPN» идёт одиночный туннель к выходу (страна выхода
+  /// честно соблюдается). Настоящий двойной хоп требует серверной связки
+  /// (relay-outbound на входной ноде). Код цепочки ниже сохранён на случай
+  /// добавления не-Reality нод.
   VpnServer? _relayFor(VpnServer target) {
-    if (!multihop || multihopExitId == null) return null;
-    if (target.id != multihopExitId) return null; // не выход — без цепочки
-    final entry = activeServer; // «текущий» сервер = вход
-    if (entry != null && entry.id != target.id && entry.xraySupported) return entry;
-    for (final s in servers) {
-      if (s.id != target.id && s.xraySupported) return s;
-    }
+    // chain отключён (Reality-в-Reality невозможен). При «двойном VPN» идём
+    // одиночным туннелем к выходу. Для оживления цепочки нужны не-Reality ноды
+    // и вернуть здесь _grpcVariant(входной ноды).
     return null;
   }
 

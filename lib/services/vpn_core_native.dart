@@ -107,13 +107,12 @@ class V2RayVpnService implements VpnService {
       final entryOut = (entryCfg['outbounds'] as List).firstWhere(isProxy)
           as Map<String, dynamic>;
 
-      // выходной outbound набирается через входной (dialerProxy=entry)
+      // выходной outbound набирается через входной (dialerProxy=entry).
+      // ВАЖНО: сюда должны приходить gRPC-варианты нод (без xtls-flow) — их
+      // сервер принимает, и dialerProxy с ними работает. XTLS Vision (flow) НЕ
+      // работает через dialerProxy И сервер требует flow — поэтому берём gRPC.
       exitOut['tag'] = 'proxy';
       exitOut['mux'] = {'enabled': false}; // mux ломает dialerProxy-цепочку
-      // КЛЮЧЕВОЕ: XTLS Vision (flow=xtls-rprx-vision) НЕ работает через
-      // dialerProxy — splice ломается на туннелированном соединении. Убираем
-      // flow у выхода, тогда идёт обычный Reality-TLS-in-TLS (работает в цепочке).
-      _stripFlow(exitOut);
       final ss = (exitOut['streamSettings'] as Map<String, dynamic>?) ??
           <String, dynamic>{};
       final sockopt = (ss['sockopt'] as Map<String, dynamic>?) ??
@@ -134,22 +133,6 @@ class V2RayVpnService implements VpnService {
     } catch (_) {
       return exitBaseConfig; // не собралась цепочка — обычный конфиг выхода
     }
-  }
-
-  /// Убирает XTLS-flow (xtls-rprx-vision) у пользователей vless-outbound —
-  /// нужно для цепочки: через dialerProxy flow ломается.
-  void _stripFlow(Map<String, dynamic> outbound) {
-    try {
-      final vnext = ((outbound['settings'] as Map?)?['vnext']) as List?;
-      if (vnext == null) return;
-      for (final v in vnext) {
-        final users = (v as Map)['users'] as List?;
-        if (users == null) continue;
-        for (final u in users) {
-          (u as Map)['flow'] = '';
-        }
-      }
-    } catch (_) {}
   }
 
   Future<void> _ensureInit() async {

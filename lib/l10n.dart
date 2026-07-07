@@ -238,14 +238,14 @@ class L {
 
     // --- двойной VPN ---
     'mh_title': {'ru': 'Двойной VPN (мультихоп)', 'en': 'Double VPN (multihop)'},
-    'mh_privacy_title': {'ru': 'Максимум приватности', 'en': 'Maximum privacy'},
+    'mh_privacy_title': {'ru': 'Страна выхода', 'en': 'Exit country'},
     'mh_privacy_body': {
-      'ru': 'Трафик идёт через две ноды: сначала ВХОД (сервер, к которому ты подключён сейчас), потом ВЫХОД (выбираешь ниже). Входная знает твой IP, но не сайты; выходная видит сайты, но не знает, кто ты.',
-      'en': 'Traffic goes through two nodes: first the ENTRY (the server you\'re connected to now), then the EXIT (pick below). The entry knows your IP but not the sites; the exit sees the sites but not who you are.'
+      'ru': 'Выбери страну ВЫХОДА — трафик пойдёт через этот сервер, и сайты будут видеть его страну. Полноценная цепочка из двух стран (двойной хоп) — в разработке, скоро добавим.',
+      'en': 'Pick the EXIT country — traffic goes through that server and sites see its country. A full two-country chain (double hop) is in development and coming soon.'
     },
     'mh_speed': {
-      'ru': 'Скорость будет ниже — это нормально: данные шифруются дважды и проходят лишнюю страну. Для видео и игр лучше обычный режим; двойной — когда важна максимальная анонимность.',
-      'en': 'Speed will be lower — that\'s expected: data is encrypted twice and crosses an extra country. For video and games use the normal mode; double is for maximum anonymity.'
+      'ru': 'Выбирай выход по стране, которая нужна сайтам и сервисам. Чем дальше сервер — тем выше пинг.',
+      'en': 'Pick the exit by the country you need for sites and services. The farther the server, the higher the ping.'
     },
     'mh_enable': {'ru': 'Включить двойной VPN', 'en': 'Enable Double VPN'},
     'mh_entry_tag': {'ru': 'ВХОД · текущий сервер', 'en': 'ENTRY · current server'},
