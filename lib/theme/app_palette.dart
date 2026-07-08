@@ -38,10 +38,14 @@ class P {
   );
 
   /// Цвет качества по пингу (зелёный/жёлтый/красный). -1 = не измерян (серый).
-  static Color pingColor(int ms) {
+  /// Цвет кружка по пингу. TCP и TLS («via Proxy») меряют по-разному: TLS
+  /// включает рукопожатие и в ~2 раза выше, поэтому у него свои диапазоны.
+  static Color pingColor(int ms, {bool proxy = false}) {
     if (ms < 0) return const Color(0xFF4B5563);
-    if (ms < 80) return const Color(0xFF4ED16B); // отлично
-    if (ms < 160) return gold; // средне
+    final good = proxy ? 200 : 80;
+    final mid = proxy ? 380 : 160;
+    if (ms < good) return const Color(0xFF4ED16B); // отлично
+    if (ms < mid) return gold; // средне
     return const Color(0xFFE2504A); // плохо
   }
 

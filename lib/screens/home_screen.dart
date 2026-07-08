@@ -472,7 +472,9 @@ class _ServerRow extends StatelessWidget {
               height: 8,
               margin: const EdgeInsets.only(right: 7),
               decoration: BoxDecoration(
-                  shape: BoxShape.circle, color: P.pingColor(server.pingMs)),
+                  shape: BoxShape.circle,
+                  color: P.pingColor(server.pingMs,
+                      proxy: context.read<AppState>().pingType == 'proxy')),
             ),
             Text(
               server.pingMs > 0 ? '${server.pingMs} ms' : '—',

@@ -6,6 +6,7 @@ library;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../l10n.dart';
 import '../state/app_state.dart';
 import '../theme/app_palette.dart';
 import '../widgets/flag.dart';
@@ -30,7 +31,7 @@ class StatsScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: P.bg,
-      appBar: AppBar(title: const Text('Статистика')),
+      appBar: AppBar(title: Text(L.t('stats'))),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [

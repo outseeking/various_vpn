@@ -5,6 +5,7 @@ library;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../l10n.dart';
 import '../state/app_state.dart';
 
 class LogsScreen extends StatelessWidget {
@@ -15,7 +16,7 @@ class LogsScreen extends StatelessWidget {
     final state = context.watch<AppState>();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Логи'),
+        title: Text(L.t('logs_title2')),
         actions: [
           IconButton(
             tooltip: 'Очистить',

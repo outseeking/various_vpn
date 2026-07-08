@@ -304,8 +304,20 @@ class AppState extends ChangeNotifier {
     if (!servers.any((x) => x.id == s.id)) {
       servers = [...servers, s];
     }
-    setManualServer(s.id); // фиксируем и подключаемся к relay
+    // Подключаемся ТОЛЬКО к relay (без fallback на обычные серверы) и с бОльшим
+    // окном проверки — relay поднимает двойной хоп ~10 с, обычная проверка не
+    // дожидалась и падала на одиночный DE (поэтому и показывало Германию).
+    manualServerId = s.id;
+    _storage.manualServerId = s.id;
+    mode = GlobalMode.manual;
+    _storage.globalMode = 'manual';
+    _routeServerId = s.id;
+    notifyListeners();
+    await _safeDisconnect();
+    await connect();
   }
+
+  String? _routeServerId; // активный маршрут двойного VPN (relay), null = обычный
 
   /// gRPC-вариант той же ноды (без xtls-flow) — именно он работает в цепочке
   /// через dialerProxy (XTLS Vision ломает chaining и требуется серверу).
@@ -1207,6 +1219,8 @@ class AppState extends ChangeNotifier {
   }
 
   void setManualServer(String serverId) {
+    _routeServerId = null; // ручной выбор обычного сервера — выходим из маршрута
+    activeRouteLink = null;
     manualServerId = serverId;
     _storage.manualServerId = serverId;
     // Ручной выбор = ручной режим.
@@ -1282,6 +1296,12 @@ class AppState extends ChangeNotifier {
     // Мультихоп: пробуем ВЫХОД первым (через него строится цепочка), но
     // оставляем остальные как fallback — если цепочка не поднимется, подключимся
     // обычным одиночным туннелем и интернет всё равно будет.
+    // Маршрут двойного VPN (relay): подключаемся ТОЛЬКО к нему, без fallback —
+    // иначе при медленном подъёме цепочки садились бы на одиночный DE.
+    if (_routeServerId != null) {
+      final r = servers.where((s) => s.id == _routeServerId).toList();
+      if (r.isNotEmpty) return r;
+    }
     final exit = multihopExit;
     if (exit != null) {
       pool = [exit, ...pool.where((s) => s.id != exit.id)];
@@ -1539,8 +1559,9 @@ class AppState extends ChangeNotifier {
       'https://www.google.com/generate_204',
     ];
     // двойной хоп поднимается дольше — даём больше времени на проверку связи
+    // Маршрут (relay, двойной хоп) поднимается дольше → 28 с; обычный — 14 с.
     final deadline = DateTime.now()
-        .add(Duration(seconds: multihop ? 22 : 14));
+        .add(Duration(seconds: _routeServerId != null ? 28 : (multihop ? 22 : 14)));
     var i = 0;
     while (DateTime.now().isBefore(deadline)) {
       try {

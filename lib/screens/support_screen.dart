@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../l10n.dart';
 import '../state/app_state.dart';
 
 const _supportUrl = 'https://t.me/variousvpnsupport';
@@ -58,7 +59,7 @@ class _SupportScreenState extends State<SupportScreen> {
     final cs = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Поддержка'),
+        title: Text(L.t('sup_title')),
         actions: [
           IconButton(
             tooltip: 'Открыть в Telegram',
@@ -126,7 +127,7 @@ class _SupportScreenState extends State<SupportScreen> {
                 children: [
                   IconButton(
                     icon: const Icon(Icons.attach_file),
-                    tooltip: 'Прикрепить файл или фото',
+                    tooltip: L.t('sup_attach'),
                     onPressed: _attach,
                   ),
                   Expanded(
@@ -134,8 +135,8 @@ class _SupportScreenState extends State<SupportScreen> {
                       controller: _ctrl,
                       minLines: 1,
                       maxLines: 4,
-                      decoration: const InputDecoration(
-                        hintText: 'Сообщение…',
+                      decoration: InputDecoration(
+                        hintText: L.t('sup_hint'),
                         border: OutlineInputBorder(),
                         isDense: true,
                       ),

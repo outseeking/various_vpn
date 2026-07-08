@@ -6,6 +6,7 @@ library;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../l10n.dart';
 import '../state/app_state.dart';
 import 'home_screen.dart';
 import 'qr_import_screen.dart';
@@ -33,7 +34,7 @@ class _ImportScreenState extends State<ImportScreen> {
     setState(() => _busy = false);
     if (ok) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Импортировано серверов: ${state.servers.length}')),
+        SnackBar(content: Text('${L.t('imp_ok')}: ${state.servers.length}')),
       );
       if (widget.firstRun) {
         Navigator.of(context).pushReplacement(
@@ -52,16 +53,13 @@ class _ImportScreenState extends State<ImportScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Импорт подписки')),
+      appBar: AppBar(title: Text(L.t('imp_title'))),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              'Вставь ссылку подписки из бота (начинается с https://) — '
-              'или сам текст конфигов (vless://…, base64-подписку).',
-            ),
+            Text(L.t('imp_hint2')),
             const SizedBox(height: 16),
             TextField(
               controller: _ctrl,
@@ -83,7 +81,7 @@ class _ImportScreenState extends State<ImportScreen> {
             FilledButton.icon(
               onPressed: _busy ? null : _import,
               icon: const Icon(Icons.download),
-              label: const Text('Импортировать'),
+              label: Text(L.t('imp_btn')),
             ),
             const SizedBox(height: 10),
             OutlinedButton.icon(
@@ -103,7 +101,7 @@ class _ImportScreenState extends State<ImportScreen> {
                       }
                     },
               icon: const Icon(Icons.qr_code_scanner),
-              label: const Text('Добавить по QR-коду'),
+              label: Text(L.t('imp_qr')),
             ),
             if (_busy) ...[
               const SizedBox(height: 24),

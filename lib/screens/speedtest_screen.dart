@@ -79,7 +79,7 @@ class _SpeedtestScreenState extends State<SpeedtestScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: P.bg,
-      appBar: AppBar(title: const Text('Тест скорости')),
+      appBar: AppBar(title: Text(L.t('st_title'))),
       body: SafeArea(
         child: Column(
           children: [
@@ -99,8 +99,8 @@ class _SpeedtestScreenState extends State<SpeedtestScreen> {
                               .textTheme
                               .titleLarge
                               ?.copyWith(color: P.text, fontSize: 40)),
-                      const Text('Мбит/с',
-                          style: TextStyle(color: P.textFaint, fontSize: 13)),
+                      Text(L.t('st_mbps'),
+                          style: const TextStyle(color: P.textFaint, fontSize: 13)),
                     ],
                   ),
                 ),
@@ -110,7 +110,7 @@ class _SpeedtestScreenState extends State<SpeedtestScreen> {
             Text(_status, style: const TextStyle(color: P.textDim, fontSize: 14)),
             if (_result > 0) ...[
               const SizedBox(height: 8),
-              Text('Средняя: ${_result.toStringAsFixed(1)} Мбит/с',
+              Text('${L.t('st_avg')}: ${_result.toStringAsFixed(1)} ${L.t('st_mbps')}',
                   style: const TextStyle(color: P.limeText, fontSize: 14)),
               const SizedBox(height: 10),
               Builder(builder: (_) {
@@ -148,7 +148,7 @@ class _SpeedtestScreenState extends State<SpeedtestScreen> {
                     color: _running ? P.surfaceLo : null,
                     borderRadius: BorderRadius.circular(14),
                   ),
-                  child: Text(_running ? 'Идёт тест…' : 'Начать тест',
+                  child: Text(_running ? L.t('st_running') : L.t('st_run'),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: _running ? P.textFaint : const Color(0xFF0C1206),

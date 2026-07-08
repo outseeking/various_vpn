@@ -65,6 +65,29 @@ class L {
     'net_good': {'ru': 'Отличный интернет', 'en': 'Great connection'},
     'net_ok': {'ru': 'Нормальный интернет', 'en': 'Decent connection'},
     'net_slow': {'ru': 'Медленный интернет', 'en': 'Slow connection'},
+    // экраны раздела «Ещё»
+    'st_title': {'ru': 'Тест скорости', 'en': 'Speed test'},
+    'st_mbps': {'ru': 'Мбит/с', 'en': 'Mbps'},
+    'st_avg': {'ru': 'Средняя', 'en': 'Average'},
+    'st_run': {'ru': 'Начать тест', 'en': 'Start test'},
+    'st_running': {'ru': 'Идёт тест…', 'en': 'Testing…'},
+    'imp_title': {'ru': 'Импорт подписки', 'en': 'Import subscription'},
+    'imp_hint2': {
+      'ru': 'Вставь ссылку подписки из бота (начинается с https://) — или сам текст конфигов (vless://…, base64-подписку).',
+      'en': 'Paste the subscription link from the bot (starts with https://) — or the config text itself (vless://…, base64 subscription).'
+    },
+    'imp_btn': {'ru': 'Импортировать', 'en': 'Import'},
+    'imp_qr': {'ru': 'Добавить по QR-коду', 'en': 'Add by QR code'},
+    'imp_ok': {'ru': 'Импортировано серверов', 'en': 'Servers imported'},
+    'sup_title': {'ru': 'Поддержка', 'en': 'Support'},
+    'sup_hint': {'ru': 'Сообщение…', 'en': 'Message…'},
+    'sup_empty': {
+      'ru': 'Напиши нам прямо здесь — ответим в приложении.\nИли нажми значок Telegram вверху, чтобы написать в чат.',
+      'en': 'Write to us right here — we\'ll reply in the app.\nOr tap the Telegram icon above to chat there.'
+    },
+    'sup_attach': {'ru': 'Прикрепить файл или фото', 'en': 'Attach a file or photo'},
+    'logs_title2': {'ru': 'Логи', 'en': 'Logs'},
+    'guide_title': {'ru': 'Как подключиться', 'en': 'How to connect'},
     'no_server': {'ru': 'Нет сервера', 'en': 'No server'},
     'free_tg': {'ru': 'Бесплатно · Telegram', 'en': 'Free · Telegram'},
     'free_tg_sub': {'ru': 'Только трафик Telegram', 'en': 'Telegram traffic only'},

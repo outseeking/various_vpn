@@ -6,6 +6,7 @@ library;
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../l10n.dart';
 import '../theme/app_palette.dart';
 import 'home_screen.dart';
 import 'import_screen.dart';
@@ -22,7 +23,7 @@ class ConnectGuideScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: P.bg,
       appBar: AppBar(
-        title: const Text('Как подключиться'),
+        title: Text(L.t('guide_title')),
         automaticallyImplyLeading: !afterFreeEnable,
       ),
       body: SafeArea(
