@@ -9,3 +9,5 @@ Future<int> tcpPing(String host, int port) async {
   await Future.delayed(Duration(milliseconds: 150 + _rng.nextInt(250)));
   return 40 + _rng.nextInt(140);
 }
+
+Future<int> tlsPing(String host, int port) => tcpPing(host, port);

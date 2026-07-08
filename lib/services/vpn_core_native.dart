@@ -205,7 +205,13 @@ class V2RayVpnService implements VpnService {
     try {
       await _ensureInit();
       final parser = FlutterV2ray.parseFromURL(server.raw);
-      final delay = await _v2ray.getServerDelay(config: parser.getFullConfiguration());
+      // Быстрый и надёжный тест-URL (204, глобальный CDN Cloudflare) вместо
+      // дефолтного google.com/generate_204 — как в Hiddify/Quattro. Меряется
+      // быстро и точно, не зависает на редиректах.
+      final delay = await _v2ray.getServerDelay(
+        config: parser.getFullConfiguration(),
+        url: 'https://www.gstatic.com/generate_204',
+      );
       return delay < 0 ? -1 : delay;
     } catch (_) {
       return -1;

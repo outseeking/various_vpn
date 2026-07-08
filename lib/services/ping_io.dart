@@ -17,3 +17,25 @@ Future<int> tcpPing(String host, int port) async {
     return -1;
   }
 }
+
+/// Быстрый «прокси»-пинг: время TCP+TLS-хендшейка к Reality-порту сервера.
+/// Reality маскируется под TLS www.cloudflare.com, поэтому рукопожатие проходит
+/// и мы получаем реальную задержку соединения (RTT+TLS) за ~100-300 мс — быстро
+/// и точно, как в Quattro, без медленного полного запроса через ядро.
+Future<int> tlsPing(String host, int port) async {
+  final sw = Stopwatch()..start();
+  SecureSocket? s;
+  try {
+    s = await SecureSocket.connect(host, port,
+        timeout: const Duration(milliseconds: 2500),
+        onBadCertificate: (_) => true);
+    sw.stop();
+    return sw.elapsedMilliseconds;
+  } catch (_) {
+    // TLS не завершился (напр. Reality отбил как «невалидный клиент») — но TCP
+    // мог пройти; откатываемся на TCP-замер, чтобы значение всё же было.
+    return tcpPing(host, port);
+  } finally {
+    s?.destroy();
+  }
+}

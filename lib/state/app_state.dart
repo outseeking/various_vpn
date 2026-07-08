@@ -1651,13 +1651,15 @@ class AppState extends ChangeNotifier {
     await Future.wait(servers.map((s) async {
       int v;
       if (viaProxy) {
-        v = await vpn
-            .ping(s)
+        // «Прокси»-пинг = TCP+TLS-хендшейк к Reality-порту: быстро (~100-300 мс)
+        // и точнее чистого TCP (учитывает TLS). Медленный getServerDelay ядра
+        // (~10 с) не используем — плагин грузит geoip на каждый замер.
+        v = await tlsPing(s.address, s.port)
             .timeout(const Duration(seconds: 3), onTimeout: () => -1);
       } else {
         v = await tcpPing(s.address, s.port);
-        if (isConnected && v > 0 && v < 10) v = -1; // артефакт туннеля
       }
+      if (isConnected && v > 0 && v < 10) v = -1; // артефакт локального сокета туннеля
       if (v > 0) s.pingMs = v; // не затираем прошлое валидное значение
     }));
     notifyListeners();
