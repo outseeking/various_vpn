@@ -41,8 +41,17 @@ end
 # (libXray + hev-socks5-tunnel) подключается как xcframework в Xcode вручную
 # (см. ios/README_iOS.md). Если ядро распространяется через CocoaPods — добавь
 # сюда его pod.
-target 'PacketTunnelProvider' do
-  use_frameworks!
+#
+# ВАЖНО: таргет расширения появляется в проекте только после запуска
+# `ruby setup_ios_extension.rb` на Mac. На чистом клоне и в облачном CI его ещё
+# нет — тогда этот блок нужно пропустить, иначе `pod install` падает с ошибкой
+# «Unable to find a target named PacketTunnelProvider». Проверяем наличие таргета
+# прямо в project.pbxproj.
+_pbxproj = File.join(__dir__, 'Runner.xcodeproj', 'project.pbxproj')
+if File.exist?(_pbxproj) && File.read(_pbxproj).include?('PacketTunnelProvider')
+  target 'PacketTunnelProvider' do
+    use_frameworks!
+  end
 end
 
 post_install do |installer|
