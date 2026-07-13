@@ -33,6 +33,15 @@ dependencies:
   # Звуки подключения/отключения (брендовые wav-ассеты).
   audioplayers: ^6.1.0
 
+  # Домашний виджет Android (статус подключения + кнопка) в стиле приложения.
+  home_widget: ^0.7.0
+
+  # Авто-VPN в незнакомых сетях: слежение за сменой сети + чтение SSID Wi-Fi.
+  connectivity_plus: ^6.1.0
+  network_info_plus: ^6.1.0
+  # Запрос доступа к геолокации (Android требует его для чтения имени Wi-Fi).
+  permission_handler: ^11.3.1
+
   # VPN-ядро (Xray внутри) для VLESS+Reality на Android/iOS. На web не работает —
   # выбор реализации идёт через conditional import (см. services/vpn_core.dart),
   # поэтому web-сборка тянет только заглушку. Hysteria2/TUIC — позже через sing-box.

@@ -1,5 +1,5 @@
-/// Добавление своих серверов через JSON (до 5). Доступно только когда активно
-/// подключение к Various VPN — небольшая привилегия для наших пользователей.
+/// Добавление своих серверов через JSON (до 5). Доступно только при активной
+/// подписке Various VPN — небольшая привилегия для наших пользователей.
 library;
 
 import 'package:flutter/material.dart';
@@ -29,13 +29,20 @@ class _CustomServersScreenState extends State<CustomServersScreen> {
     setState(() => _busy = true);
     final state = context.read<AppState>();
     final ok = await state.importCustomServers(_ctrl.text);
-    setState(() => _busy = false);
     if (!mounted) return;
+    setState(() => _busy = false);
+    if (ok) {
+      // Успех — просто возвращаемся, серверы уже видны на главном. Без синей плашки.
+      Navigator.of(context).pop();
+      return;
+    }
+    // Ошибка — короткое сообщение в фирменном цвете (не навязчивая синяя плашка).
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: P.surface,
-      content: Text(ok ? L.t('cs_added') : (state.lastError ?? 'Ошибка')),
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: const Color(0xFFE2504A),
+      content: Text(state.lastError ?? L.t('error'),
+          style: const TextStyle(color: Colors.white)),
     ));
-    if (ok) Navigator.of(context).pop();
   }
 
   @override
@@ -46,7 +53,6 @@ class _CustomServersScreenState extends State<CustomServersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final connected = context.watch<AppState>().isConnected;
     return Scaffold(
       backgroundColor: P.bg,
       appBar: AppBar(title: Text(L.t('cs_title'))),
@@ -85,26 +91,7 @@ class _CustomServersScreenState extends State<CustomServersScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            if (!connected)
-              Container(
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: P.surfaceLo,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: P.surfaceHi),
-                ),
-                child: Row(children: [
-                  const Icon(Icons.lock_outline, color: P.textFaint, size: 18),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      L.t('cs_locked'),
-                      style: const TextStyle(color: P.textFaint, fontSize: 13),
-                    ),
-                  ),
-                ]),
-              )
-            else ...[
+            ...[
               TextField(
                 controller: _ctrl,
                 minLines: 6,

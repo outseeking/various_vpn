@@ -206,8 +206,15 @@ class _GlobeViewState extends State<GlobeView>
     // радар-пульс и падающие звёзды замирают (флаг реально выключает всё).
     if (anim) _time += dt;
 
-    // докрутка
-    if (_rotting) {
+    // докрутка. В энергосбережении (anim=false) НЕ анимируем поворот — сразу
+    // ставим глобус на нужную страну, без вращения (по просьбе: в Lite глобус
+    // полностью статичен, крутится только по жесту пользователя).
+    if (_rotting && !anim && !_userInteracting) {
+      _rotLon = _toLon;
+      _rotLat = _toLat;
+      _rotT = 1;
+      _rotting = false;
+    } else if (_rotting) {
       _rotT += dt / _rotDur;
       if (_rotT >= 1) {
         _rotT = 1;
@@ -242,7 +249,12 @@ class _GlobeViewState extends State<GlobeView>
       _packT = (_packT + dt * 0.45) % 1.0;
     }
 
-    _repaint.value++;
+    // В Lite-режиме (anim выключен), когда нет переходов и жеста — НЕ
+    // перерисовываем: глобус реально замирает и не грузит CPU.
+    final settled = (_scaleMul - restScale).abs() < 0.002;
+    if (anim || _rotting || _zoomActive || _userInteracting || !settled) {
+      _repaint.value++;
+    }
   }
 
   double _easeInOut(double t) =>
@@ -446,15 +458,19 @@ class _GlobePainter extends CustomPainter {
 
     canvas.restore(); // снимаем клип для маркеров/подписей (они поверх края ок)
 
-    // маркеры серверов + подписи стран
+    // маркеры серверов: НЕвыбранные — только аккуратные точки (без подписей,
+    // иначе близкие страны наслаиваются друг на друга). Подпись показываем
+    // ТОЛЬКО у выбранной страны — чисто и читаемо.
     for (final m in state.widget.markers) {
+      // пропускаем «нулевой остров» (0,0) — артефакт неопознанной страны
+      if (m.lon.abs() < 0.5 && m.lat.abs() < 0.5) continue;
       final p = project(m.lon, m.lat);
       if (p == null) continue;
       if (!m.selected) {
-        canvas.drawCircle(
-            p, 2.6, Paint()..color = const Color(0xB3CFE0FF));
+        canvas.drawCircle(p, 2.6, Paint()..color = const Color(0xB3CFE0FF));
+      } else {
+        _label(canvas, p, m.label, true);
       }
-      _label(canvas, p, m.label, m.selected);
     }
 
     // выбранная локация: мягкий оранжевый ореол (без галочки — страна уже

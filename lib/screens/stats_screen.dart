@@ -15,11 +15,11 @@ class StatsScreen extends StatelessWidget {
   const StatsScreen({super.key});
 
   static String _bytes(int b) {
-    if (b < 1024 * 1024) return '${(b / 1024).toStringAsFixed(0)} КБ';
+    if (b < 1024 * 1024) return '${(b / 1024).toStringAsFixed(0)} ${L.t('unit_kb')}';
     if (b < 1024 * 1024 * 1024) {
-      return '${(b / 1024 / 1024).toStringAsFixed(1)} МБ';
+      return '${(b / 1024 / 1024).toStringAsFixed(1)} ${L.t('unit_mb')}';
     }
-    return '${(b / 1024 / 1024 / 1024).toStringAsFixed(2)} ГБ';
+    return '${(b / 1024 / 1024 / 1024).toStringAsFixed(2)} ${L.t('unit_gb')}';
   }
 
   @override
@@ -38,19 +38,19 @@ class StatsScreen extends StatelessWidget {
           Row(children: [
             Expanded(
                 child: _Big(
-                    label: 'Всего скачано',
+                    label: L.t('st_total_down'),
                     value: _bytes(state.allTimeDown),
                     color: P.limeText)),
             const SizedBox(width: 12),
             Expanded(
                 child: _Big(
-                    label: 'Всего отдано',
+                    label: L.t('st_total_up'),
                     value: _bytes(state.allTimeUp),
                     color: const Color(0xFFB48CE6))),
           ]),
           const SizedBox(height: 20),
 
-          const Text('За последние 7 дней',
+          Text(L.t('st_last7'),
               style: TextStyle(
                   color: P.text, fontSize: 14, fontWeight: FontWeight.w600)),
           const SizedBox(height: 12),
@@ -94,68 +94,244 @@ class StatsScreen extends StatelessWidget {
           ),
           const SizedBox(height: 20),
 
-          const Text('Любимые страны',
+          Text(L.t('st_fav'),
               style: TextStyle(
                   color: P.text, fontSize: 14, fontWeight: FontWeight.w600)),
           const SizedBox(height: 12),
           if (top.isEmpty)
-            const Text('Пока нет данных — подключись, и здесь появится статистика.',
+            Text(L.t('st_nodata'),
                 style: TextStyle(color: P.textFaint, fontSize: 13))
           else
             ...top.map((e) {
               final frac = e.value / top.first.value;
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Row(children: [
-                  CountryFlag(_ccOf(e.key)),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(e.key,
-                                style: const TextStyle(
-                                    color: P.text, fontSize: 13)),
-                            Text(_bytes(e.value),
-                                style: const TextStyle(
-                                    color: P.textFaint, fontSize: 12)),
-                          ],
-                        ),
-                        const SizedBox(height: 4),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(3),
-                          child: LinearProgressIndicator(
-                            value: frac.clamp(0.02, 1.0),
-                            minHeight: 5,
-                            backgroundColor: P.surfaceHi,
-                            valueColor:
-                                const AlwaysStoppedAnimation(P.lime),
-                          ),
-                        ),
-                      ],
-                    ),
+              final name = state.countryNameOf(e.key);
+              final servers = state.serverStatsForCountry(e.key);
+              return _CountryRow(
+                cc: e.key,
+                name: name,
+                bytes: e.value,
+                frac: frac.clamp(0.02, 1.0),
+                serverCount: servers.length,
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) =>
+                        CountryDetailScreen(cc: e.key, name: name),
                   ),
-                ]),
+                ),
               );
             }),
         ],
       ),
     );
   }
+}
 
-  // Обратное сопоставление страны → код (для флага).
-  static String _ccOf(String country) => switch (country) {
-        'Германия' => 'DE',
-        'Нидерланды' => 'NL',
-        'Финляндия' => 'FI',
-        'Россия' => 'RU',
-        'США' => 'US',
-        'Великобритания' => 'GB',
-        _ => '??',
-      };
+/// Строка страны в списке любимых — тапабельная, ведёт в разбивку по серверам.
+class _CountryRow extends StatelessWidget {
+  final String cc;
+  final String name;
+  final int bytes;
+  final double frac;
+  final int serverCount;
+  final VoidCallback onTap;
+  const _CountryRow({
+    required this.cc,
+    required this.name,
+    required this.bytes,
+    required this.frac,
+    required this.serverCount,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+        child: Row(children: [
+          CountryFlag(cc),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(name,
+                        style: const TextStyle(color: P.text, fontSize: 13)),
+                    Text(StatsScreen._bytes(bytes),
+                        style: const TextStyle(
+                            color: P.textFaint, fontSize: 12)),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(3),
+                  child: LinearProgressIndicator(
+                    value: frac,
+                    minHeight: 5,
+                    backgroundColor: P.surfaceHi,
+                    valueColor: const AlwaysStoppedAnimation(P.lime),
+                  ),
+                ),
+                if (serverCount > 0) ...[
+                  const SizedBox(height: 3),
+                  Text(
+                    L.t('st_servers_n', {'n': serverCount}),
+                    style: const TextStyle(color: P.textFaint, fontSize: 10.5),
+                  ),
+                ],
+              ],
+            ),
+          ),
+          const SizedBox(width: 4),
+          const Icon(Icons.chevron_right, color: P.textFaint, size: 20),
+        ]),
+      ),
+    );
+  }
+}
+
+/// Разбивка трафика по конкретным серверам одной страны.
+class CountryDetailScreen extends StatelessWidget {
+  final String cc;
+  final String name;
+  const CountryDetailScreen({super.key, required this.cc, required this.name});
+
+  @override
+  Widget build(BuildContext context) {
+    final state = context.watch<AppState>();
+    final servers = state.serverStatsForCountry(cc);
+    final total = servers.fold<int>(0, (s, e) => s + e.value);
+    final max = servers.isEmpty ? 1 : servers.first.value;
+
+    return Scaffold(
+      backgroundColor: P.bg,
+      appBar: AppBar(
+        title: Row(children: [
+          CountryFlag(cc),
+          const SizedBox(width: 10),
+          Text(name),
+        ]),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          // сводка по стране
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              gradient: P.grad,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Row(children: [
+              const Icon(Icons.public, color: Color(0xFF0C1206)),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(L.t('st_country_total'),
+                        style: const TextStyle(
+                            color: Color(0xCC0C1206), fontSize: 12)),
+                    Text(StatsScreen._bytes(total),
+                        style: const TextStyle(
+                            color: Color(0xFF0C1206),
+                            fontSize: 22,
+                            fontWeight: FontWeight.w800)),
+                  ],
+                ),
+              ),
+              Text(L.t('st_servers_n', {'n': servers.length}),
+                  style: const TextStyle(
+                      color: Color(0xCC0C1206),
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600)),
+            ]),
+          ),
+          const SizedBox(height: 20),
+          Text(L.t('st_by_server'),
+              style: const TextStyle(
+                  color: P.text, fontSize: 14, fontWeight: FontWeight.w600)),
+          const SizedBox(height: 12),
+          if (servers.isEmpty)
+            Text(L.t('st_nodata'),
+                style: const TextStyle(color: P.textFaint, fontSize: 13))
+          else
+            ...servers.asMap().entries.map((entry) {
+              final i = entry.key;
+              final e = entry.value;
+              final up = state.serverUpForCountry(cc, e.key);
+              return Container(
+                margin: const EdgeInsets.only(bottom: 10),
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: P.surfaceLo,
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: P.surfaceHi),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(children: [
+                      Container(
+                        width: 26,
+                        height: 26,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: P.lime.withValues(alpha: 0.14),
+                        ),
+                        child: Text('${i + 1}',
+                            style: const TextStyle(
+                                color: P.limeText,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700)),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(e.key,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                color: P.text,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600)),
+                      ),
+                    ]),
+                    const SizedBox(height: 10),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(3),
+                      child: LinearProgressIndicator(
+                        value: (e.value / max).clamp(0.02, 1.0),
+                        minHeight: 6,
+                        backgroundColor: P.surfaceHi,
+                        valueColor: const AlwaysStoppedAnimation(P.lime),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('↓ ${StatsScreen._bytes(e.value)}',
+                            style: const TextStyle(
+                                color: P.limeText, fontSize: 12.5)),
+                        Text('↑ ${StatsScreen._bytes(up)}',
+                            style: const TextStyle(
+                                color: Color(0xFFB48CE6), fontSize: 12.5)),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            }),
+        ],
+      ),
+    );
+  }
 }
 
 class _Big extends StatelessWidget {

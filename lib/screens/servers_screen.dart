@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/vpn_server.dart';
+import '../l10n.dart';
 import '../state/app_state.dart';
 import '../theme/app_palette.dart';
 import '../widgets/flag.dart';
@@ -61,10 +62,10 @@ class _ServersScreenState extends State<ServersScreen> {
     return Scaffold(
       backgroundColor: P.bg,
       appBar: AppBar(
-        title: const Text('Серверы'),
+        title: Text(L.t('servers')),
         actions: [
           IconButton(
-            tooltip: 'Пинговать все',
+            tooltip: L.t('srv_ping_all'),
             icon: state.busy
                 ? const SizedBox(
                     width: 18,
@@ -77,9 +78,9 @@ class _ServersScreenState extends State<ServersScreen> {
         ],
       ),
       body: state.servers.isEmpty
-          ? const Center(
-              child: Text('Нет серверов — импортируй подписку',
-                  style: TextStyle(color: P.textFaint)))
+          ? Center(
+              child: Text(L.t('srv_none'),
+                  style: const TextStyle(color: P.textFaint)))
           : Column(
               children: [
                 // поиск
@@ -89,7 +90,7 @@ class _ServersScreenState extends State<ServersScreen> {
                     onChanged: (v) => setState(() => _query = v),
                     style: const TextStyle(color: P.text),
                     decoration: InputDecoration(
-                      hintText: 'Поиск страны или сервера',
+                      hintText: L.t('srv_search'),
                       hintStyle: const TextStyle(color: P.textFaint),
                       prefixIcon: const Icon(Icons.search, color: P.textFaint),
                       filled: true,
@@ -106,14 +107,14 @@ class _ServersScreenState extends State<ServersScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 14),
                   child: Row(children: [
-                    const Text('Сортировка:',
+                    Text('${L.t('srv_sort')}:',
                         style: TextStyle(color: P.textFaint, fontSize: 12)),
                     const SizedBox(width: 8),
-                    _sortChip('Пинг', _Sort.ping),
+                    _sortChip(L.t('srv_sort_ping'), _Sort.ping),
                     const SizedBox(width: 6),
-                    _sortChip('Страна', _Sort.country),
+                    _sortChip(L.t('srv_sort_country'), _Sort.country),
                     const SizedBox(width: 6),
-                    _sortChip('Избранное', _Sort.favorite),
+                    _sortChip(L.t('srv_sort_fav'), _Sort.favorite),
                   ]),
                 ),
                 const SizedBox(height: 4),

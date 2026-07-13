@@ -9,6 +9,11 @@
     <!-- Камера — сканирование QR-кода подписки из бота. -->
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <!-- Авто-VPN в незнакомых сетях: чтение имени Wi-Fi (SSID) требует доступа
+         к геолокации; состояние сети — для отслеживания смены Wi-Fi. -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-feature android:name="android.hardware.camera" android:required="false"/>
     <!-- Список установленных приложений для раздельного туннелирования (per-app). -->
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
@@ -41,6 +46,29 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <!-- Домашний виджет Various VPN -->
+        <receiver
+            android:name=".VariousWidgetProvider"
+            android:exported="true"
+            android:label="Various VPN">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/vv_widget_info" />
+        </receiver>
+
+        <!-- Обработчик кнопок виджета (вкл/выкл + пинг) без открытия приложения -->
+        <receiver
+            android:name=".VariousWidgetActionReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.example.various_vpn.WIDGET_TOGGLE" />
+                <action android:name="com.example.various_vpn.WIDGET_PING" />
+            </intent-filter>
+        </receiver>
+
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

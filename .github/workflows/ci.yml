@@ -1,0 +1,82 @@
+name: CI — Android + iOS
+
+# Собирает обе платформы в облаке:
+#  • Android — на Ubuntu (полноценный APK, как локально на Windows).
+#  • iOS     — на облачном macOS (раз своего Mac нет): компилирует Flutter-iOS
+#              приложение без подписи (--no-codesign). Это ПРОВЕРЯЕТ, что весь
+#              Dart-мост к NetworkExtension и iOS-проект собираются.
+#
+# Нативное VPN-расширение (PacketTunnelProvider) в CI не собирается: ему нужны
+# бинарники ядра (libXray/hev-socks5-tunnel) и аккаунт Apple Developer для
+# подписи — это делается один раз на Mac по ios/README_iOS.md.
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+  workflow_dispatch:   # можно запускать вручную из вкладки Actions
+
+env:
+  FLUTTER_VERSION: "3.44.2"
+
+jobs:
+  # ---------- Общие проверки Dart (быстро, на Ubuntu) ----------
+  analyze-test:
+    name: Analyze + Test (Dart)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
+
+  # ---------- Android APK (Ubuntu) ----------
+  android:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+    needs: analyze-test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter build apk --release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: VariousVPN-android-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+  # ---------- iOS (облачный macOS, без подписи) ----------
+  ios:
+    name: Build iOS (no codesign)
+    runs-on: macos-14
+    needs: analyze-test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      # Компилирует Flutter-приложение под iOS без подписи. Проверяет, что весь
+      # Dart + iOS-Runner собираются на реальном toolchain'е Apple.
+      - run: flutter build ios --release --no-codesign
+      - name: Upload iOS build (unsigned .app)
+        uses: actions/upload-artifact@v4
+        with:
+          name: VariousVPN-ios-app-unsigned
+          path: build/ios/iphoneos/Runner.app
+          if-no-files-found: warn

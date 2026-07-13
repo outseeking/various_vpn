@@ -46,6 +46,10 @@ class NetOptions {
   final List<String> aiDomains;
   final List<String> ruDomains;
   final List<String> adDomains;
+  // Бесплатный режим: через туннель идёт ТОЛЬКО Telegram, всё остальное —
+  // напрямую (мимо VPN). Реализовано роутингом Xray (не зависит от списка
+  // установленных приложений — раньше при пустом списке туннелировалось всё).
+  final bool telegramOnly;
 
   const NetOptions({
     this.dns = const [],
@@ -58,6 +62,7 @@ class NetOptions {
     this.aiDomains = const [],
     this.ruDomains = const [],
     this.adDomains = const [],
+    this.telegramOnly = false,
   });
 
   static const defaults = NetOptions();
@@ -138,6 +143,48 @@ const _defaultAdDomains = <String>[
   'domain:app-measurement.com',
 ];
 
+/// Домены Telegram (для бесплатного режима «только Telegram»).
+const _telegramDomains = <String>[
+  'domain:telegram.org',
+  'domain:t.me',
+  'domain:telegram.me',
+  'domain:telegram.dog',
+  'domain:telegra.ph',
+  'domain:telesco.pe',
+  'domain:tdesktop.com',
+  'domain:cdn-telegram.org',
+  'domain:comments.app',
+];
+
+/// Домены/IP нашей инфраструктуры подписки (панель + субсервер /vsub). В
+/// бесплатном режиме их тоже пускаем через туннель — иначе запрос подписки
+/// уходит в blackhole вместе с остальным не-Telegram трафиком и подписку
+/// невозможно активировать, не выключив бесплатный VPN.
+const _subDomains = <String>[
+  'domain:ug-connect.site', // nl1.ug-connect.site:8088/vsub и др. поддомены
+];
+const _subIps = <String>[
+  '91.236.186.75/32', // админ-панель (прямой IP, http://91.236.186.75:8080/vsub)
+];
+
+/// IP-подсети дата-центров Telegram (MTProto ходит прямо на IP, поэтому одних
+/// доменов мало — маршрутизируем и по CIDR). Список публичный (AS62041/62014).
+const _telegramCidrs = <String>[
+  '91.108.4.0/22',
+  '91.108.8.0/22',
+  '91.108.12.0/22',
+  '91.108.16.0/22',
+  '91.108.20.0/22',
+  '91.108.56.0/22',
+  '91.105.192.0/23',
+  '149.154.160.0/20',
+  '185.76.151.0/24',
+  '2001:b28:f23d::/48',
+  '2001:b28:f23f::/48',
+  '2001:67c:4e8::/48',
+  '2a0a:f280::/32',
+];
+
 /// Возвращает изменённый JSON-конфиг (строку) с применёнными [opts].
 String applyNetOptions(String baseConfig, NetOptions opts) {
   final Map<String, dynamic> cfg;
@@ -145,6 +192,46 @@ String applyNetOptions(String baseConfig, NetOptions opts) {
     cfg = jsonDecode(baseConfig) as Map<String, dynamic>;
   } catch (_) {
     return baseConfig; // не смогли распарсить — отдаём как есть
+  }
+
+  // --- БЕСПЛАТНЫЙ РЕЖИМ: РАБОТАЕТ ТОЛЬКО Telegram ---
+  // Реализовано роутингом Xray (надёжно, не зависит от списка приложений):
+  //   • DNS (порт 53) → proxy — чтобы имена Telegram резолвились через туннель;
+  //   • домены/IP Telegram → proxy;
+  //   • ВСЁ остальное → blackhole (blocked) — у других приложений интернета НЕТ.
+  // Так на бесплатной версии реально работает только Telegram (сайты/Яндекс и
+  // прочее не грузятся), что и мотивирует купить полную подписку.
+  if (opts.telegramOnly) {
+    final outs = (cfg['outbounds'] as List?)?.cast<dynamic>() ?? [];
+    if (!outs.any((o) => (o as Map)['tag'] == 'blocked')) {
+      outs.add({'protocol': 'blackhole', 'tag': 'blocked'});
+    }
+    String? pTag;
+    for (final o in outs) {
+      final tag = (o as Map)['tag'];
+      if (tag != null && tag != 'direct' && tag != 'fragment' && tag != 'blocked') {
+        pTag = tag as String;
+        break;
+      }
+    }
+    final proxy = pTag ?? 'proxy';
+    cfg['outbounds'] = outs;
+    final routing = (cfg['routing'] as Map<String, dynamic>?) ?? <String, dynamic>{};
+    routing['domainStrategy'] = 'IPIfNonMatch';
+    routing['rules'] = [
+      // DNS через туннель — иначе домены Telegram не резолвятся
+      {'type': 'field', 'outboundTag': proxy, 'port': '53'},
+      // Наша подписка (панель + субсервер /vsub) — через туннель, чтобы её
+      // можно было активировать, не выключая бесплатный VPN.
+      {'type': 'field', 'outboundTag': proxy, 'domain': _subDomains},
+      {'type': 'field', 'outboundTag': proxy, 'ip': _subIps},
+      {'type': 'field', 'outboundTag': proxy, 'domain': _telegramDomains},
+      {'type': 'field', 'outboundTag': proxy, 'ip': _telegramCidrs},
+      // всё остальное — в никуда (у других приложений интернета нет)
+      {'type': 'field', 'outboundTag': 'blocked', 'network': 'tcp,udp'},
+    ];
+    cfg['routing'] = routing;
+    return jsonEncode(cfg); // прочие опции в бесплатном режиме не применяем
   }
   // Динамические списки из панели (если пусты — встроенные дефолты).
   final aiList = opts.aiDomains.isNotEmpty ? _norm(opts.aiDomains) : _aiDomains;

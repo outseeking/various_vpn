@@ -5,6 +5,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../l10n.dart';
 import '../theme/app_palette.dart';
 import '../widgets/brand_logo.dart';
 
@@ -64,8 +65,8 @@ class _SplashScreenState extends State<SplashScreen>
                         )),
               ),
               const SizedBox(height: 8),
-              const Text('Умный VPN с авто-роутингом',
-                  style: TextStyle(color: P.textFaint, fontSize: 13)),
+              Text(L.t('splash_tagline'),
+                  style: const TextStyle(color: P.textFaint, fontSize: 13)),
             ],
           ),
         ),

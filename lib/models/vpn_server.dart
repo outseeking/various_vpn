@@ -117,18 +117,13 @@ class VpnServer {
   /// Имя для показа: страна (или ремарка, если страну не определили).
   String get title => displayName.isNotEmpty ? displayName : countryName;
 
-  /// Название страны на языке интерфейса (или исходная ремарка, если не определили).
+  /// Название страны на языке интерфейса (или очищенная ремарка, если страну
+  /// не определили). Из ремарки убираем флаг-эмодзи/лишние значки.
   String get countryName {
     final en = L.current == 'en';
-    return switch (countryCode) {
-      'DE' => en ? 'Germany' : 'Германия',
-      'NL' => en ? 'Netherlands' : 'Нидерланды',
-      'FI' => en ? 'Finland' : 'Финляндия',
-      'RU' => en ? 'Russia' : 'Россия',
-      'US' => en ? 'USA' : 'США',
-      'GB' => en ? 'United Kingdom' : 'Великобритания',
-      _ => name,
-    };
+    final n = _countryNames[countryCode];
+    if (n != null) return en ? n[1] : n[0];
+    return _cleanRemark(name);
   }
 
   /// Двухбуквенный код страны, выведенный из имени/домена. Пустая строка, если
@@ -167,9 +162,69 @@ const knownServerIps = <String>{
   '87.58.204.230',
 };
 
+/// Локализованные названия стран [ru, en] по ISO-коду.
+const _countryNames = <String, List<String>>{
+  'DE': ['Германия', 'Germany'], 'NL': ['Нидерланды', 'Netherlands'],
+  'FI': ['Финляндия', 'Finland'], 'RU': ['Россия', 'Russia'],
+  'US': ['США', 'USA'], 'GB': ['Великобритания', 'United Kingdom'],
+  'PL': ['Польша', 'Poland'], 'FR': ['Франция', 'France'],
+  'IT': ['Италия', 'Italy'],
+  'ES': ['Испания', 'Spain'], 'SE': ['Швеция', 'Sweden'],
+  'NO': ['Норвегия', 'Norway'], 'CH': ['Швейцария', 'Switzerland'],
+  'AT': ['Австрия', 'Austria'], 'TR': ['Турция', 'Turkey'],
+  'UA': ['Украина', 'Ukraine'], 'JP': ['Япония', 'Japan'],
+  'SG': ['Сингапур', 'Singapore'], 'HK': ['Гонконг', 'Hong Kong'],
+  'KZ': ['Казахстан', 'Kazakhstan'], 'AE': ['ОАЭ', 'UAE'],
+  'CA': ['Канада', 'Canada'], 'IN': ['Индия', 'India'],
+  'CZ': ['Чехия', 'Czechia'], 'RO': ['Румыния', 'Romania'],
+  'LT': ['Литва', 'Lithuania'], 'LV': ['Латвия', 'Latvia'],
+  'EE': ['Эстония', 'Estonia'], 'BG': ['Болгария', 'Bulgaria'],
+  'MD': ['Молдова', 'Moldova'], 'BE': ['Бельгия', 'Belgium'],
+  'DK': ['Дания', 'Denmark'], 'IE': ['Ирландия', 'Ireland'],
+  'PT': ['Португалия', 'Portugal'], 'IL': ['Израиль', 'Israel'],
+  'AU': ['Австралия', 'Australia'], 'BR': ['Бразилия', 'Brazil'],
+  'CN': ['Китай', 'China'], 'KR': ['Корея', 'Korea'],
+  'AM': ['Армения', 'Armenia'], 'GE': ['Грузия', 'Georgia'],
+};
+
+/// Чистит ремарку от флаг-эмодзи и служебных значков (⚡️⭐️🎮 и т.п.),
+/// оставляя читаемое имя. Если после чистки пусто — возвращает исходную.
+String _cleanRemark(String s) {
+  final buf = StringBuffer();
+  for (final r in s.runes) {
+    // пропускаем региональные индикаторы (флаги) и большинство эмодзи-пиктограмм
+    if (r >= 0x1F1E6 && r <= 0x1F1FF) continue; // флаги
+    if (r >= 0x1F300 && r <= 0x1FAFF) continue; // разные эмодзи
+    if (r >= 0x2600 && r <= 0x27BF) continue; // символы/дингбаты (⚡⭐ и т.п.)
+    if (r == 0xFE0F || r == 0x200D) continue; // variation selector / ZWJ
+    buf.writeCharCode(r);
+  }
+  final cleaned = buf.toString().trim();
+  return cleaned.isEmpty ? s.trim() : cleaned;
+}
+
+/// Извлекает ISO-код страны из флаг-эмодзи в тексте (две региональные буквы
+/// U+1F1E6..U+1F1FF идут подряд). Напр. «🇩🇪 Германия» → 'DE'. null, если нет.
+String? _countryFromFlagEmoji(String s) {
+  final runes = s.runes.toList();
+  const base = 0x1F1E6; // regional indicator 'A'
+  for (var i = 0; i < runes.length - 1; i++) {
+    final a = runes[i], b = runes[i + 1];
+    if (a >= base && a <= base + 25 && b >= base && b <= base + 25) {
+      return String.fromCharCodes(
+          [a - base + 0x41, b - base + 0x41]); // → 'DE'
+    }
+  }
+  return null;
+}
+
 /// Грубое определение страны по хосту/ремарке (для UI до реального гео).
 /// Сначала пробуем точный IP сервера, затем ключевые слова в хосте и имени.
 String _guessCountry(String name, String host) {
+  // 0) флаг-эмодзи прямо в имени (напр. «🇩🇪 Германия») — самый явный признак.
+  final fromFlag = _countryFromFlagEmoji(name);
+  if (fromFlag != null) return fromFlag;
+
   // 1) точный IP сервера.
   final ip = _knownServerIps[host.trim()];
   if (ip != null) return ip;

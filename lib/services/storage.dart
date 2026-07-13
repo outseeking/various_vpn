@@ -42,6 +42,8 @@ class Storage {
   void setBool(String key, bool v) => _prefs.setBool(key, v);
   String getStr(String key, {String def = ''}) => _prefs.getString(key) ?? def;
   void setStr(String key, String v) => _prefs.setString(key, v);
+  int getInt(String key, {int def = 0}) => _prefs.getInt(key) ?? def;
+  void setInt(String key, int v) => _prefs.setInt(key, v);
 
   // ---- простые флаги/строки ----
   bool get onboardingDone => _prefs.getBool(_kOnboardingDone) ?? false;

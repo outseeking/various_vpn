@@ -20,7 +20,7 @@ class VariousVpnApp extends StatelessWidget {
     if (!storage.onboardingDone) {
       home = const OnboardingScreen();
     } else if (storage.subUrl != null || storage.tgId != null) {
-      home = const HomeScreen();
+      home = const MainShell();
     } else {
       // онбординг пройден, но аккаунт не привязан — начнём с онбординга-входа
       home = const OnboardingScreen();

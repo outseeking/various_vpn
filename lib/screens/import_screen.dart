@@ -4,8 +4,11 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../brand.dart';
 import '../l10n.dart';
 import '../state/app_state.dart';
 import 'home_screen.dart';
@@ -38,7 +41,7 @@ class _ImportScreenState extends State<ImportScreen> {
       );
       if (widget.firstRun) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const HomeScreen()),
+          MaterialPageRoute(builder: (_) => const MainShell()),
         );
       } else {
         Navigator.of(context).pop(true);
@@ -48,6 +51,20 @@ class _ImportScreenState extends State<ImportScreen> {
         SnackBar(content: Text(state.lastError ?? 'Ошибка импорта')),
       );
     }
+  }
+
+  Future<void> _pasteAndImport() async {
+    final data = await Clipboard.getData(Clipboard.kTextPlain);
+    final txt = data?.text?.trim() ?? '';
+    if (txt.isEmpty) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(L.t('imp_clip_empty'))),
+      );
+      return;
+    }
+    _ctrl.text = txt;
+    await _import();
   }
 
   @override
@@ -94,7 +111,7 @@ class _ImportScreenState extends State<ImportScreen> {
                       if (ok == true && mounted) {
                         if (widget.firstRun) {
                           Navigator.of(context).pushReplacement(MaterialPageRoute(
-                              builder: (_) => const HomeScreen()));
+                              builder: (_) => const MainShell()));
                         } else {
                           Navigator.of(context).pop(true);
                         }
@@ -102,6 +119,24 @@ class _ImportScreenState extends State<ImportScreen> {
                     },
               icon: const Icon(Icons.qr_code_scanner),
               label: Text(L.t('imp_qr')),
+            ),
+            const SizedBox(height: 10),
+            OutlinedButton.icon(
+              onPressed: _busy ? null : _pasteAndImport,
+              icon: const Icon(Icons.content_paste),
+              label: Text(L.t('imp_paste')),
+            ),
+            const SizedBox(height: 22),
+            // Где взять подписку — сразу ведём в бота, чтобы новичок не терялся.
+            Text(L.t('imp_where'),
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 12.5)),
+            const SizedBox(height: 8),
+            FilledButton.tonalIcon(
+              onPressed: () => launchUrl(Uri.parse(Brand.bot),
+                  mode: LaunchMode.externalApplication),
+              icon: const Icon(Icons.smart_toy_outlined),
+              label: Text(L.t('imp_get_in_bot')),
             ),
             if (_busy) ...[
               const SizedBox(height: 24),

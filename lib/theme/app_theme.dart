@@ -45,6 +45,12 @@ class AppTheme {
       ),
       dividerColor: P.surfaceHi,
       splashFactory: InkRipple.splashFactory,
+      // Плавные переходы между экранами (мягкий fade+slide вместо резкого
+      // дефолта) — единый премиальный ритм навигации.
+      pageTransitionsTheme: const PageTransitionsTheme(builders: {
+        TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+        TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),
+      }),
     );
   }
 

@@ -4,12 +4,15 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../l10n.dart';
+import '../state/app_state.dart';
 import '../theme/app_palette.dart';
 import 'home_screen.dart';
 import 'import_screen.dart';
+import 'profile_screen.dart';
 
 const _botUrl = 'https://t.me/variousvpnbot';
 
@@ -20,6 +23,11 @@ class ConnectGuideScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Экран-инструкция МЕНЯЕТ контекст в зависимости от того, есть ли подписка:
+    //  • подписка активна → «всё работает, вот как пользоваться»;
+    //  • бесплатный режим  → «сейчас только Telegram, вот как открыть весь интернет».
+    final state = context.watch<AppState>();
+    final sub = state.subActive;
     return Scaffold(
       backgroundColor: P.bg,
       appBar: AppBar(
@@ -30,79 +38,92 @@ class ConnectGuideScreen extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
           children: [
-            if (afterFreeEnable)
-              Container(
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: P.lime.withValues(alpha: 0.10),
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: P.lime.withValues(alpha: 0.4)),
-                ),
-                child: const Row(children: [
-                  Icon(Icons.check_circle, color: P.lime),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      'Бесплатный VPN для Telegram включён. Telegram работает '
-                      'через VPN, остальные приложения — напрямую.',
-                      style: TextStyle(color: P.text, fontSize: 13.5),
-                    ),
-                  ),
-                ]),
+            // --- баннер состояния ---
+            if (sub)
+              _banner(
+                icon: Icons.verified,
+                text: L.t('guide_sub_active'),
+                srvLine: state.activeServer != null
+                    ? '${L.t('free_server_label')}: ${state.activeServer!.countryName}'
+                    : null,
+              )
+            else if (afterFreeEnable)
+              _banner(
+                icon: state.isConnected ? Icons.check_circle : Icons.sync,
+                text: state.isConnected
+                    ? L.t('guide_free_connected')
+                    : L.t('guide_free_on'),
+                srvLine: state.activeServer != null
+                    ? '${L.t('free_server_label')}: ${state.activeServer!.countryName} · ${L.t('free_only_tg')}'
+                    : null,
               ),
             const SizedBox(height: 18),
-            Text('Что дальше',
+            Text(L.t('guide_next'),
                 style: Theme.of(context)
                     .textTheme
                     .titleLarge
                     ?.copyWith(color: P.text, fontSize: 20)),
             const SizedBox(height: 16),
 
-            const _Step(
+            // --- шаги под текущий контекст ---
+            _Step(
               n: 1,
               icon: Icons.vpn_key,
-              title: 'Разреши VPN-профиль',
-              body: 'При первом включении система спросит разрешение на VPN — '
-                  'нажми «Разрешить». Это нужно, чтобы трафик шёл через туннель.',
+              title: L.t('guide_s1_t'),
+              body: L.t('guide_s1_b'),
             ),
-            const _Step(
+            _Step(
               n: 2,
-              icon: Icons.telegram,
-              title: 'Сейчас работает только Telegram',
-              body: 'В бесплатном режиме через VPN идёт лишь Telegram. Открой '
-                  'Telegram — он будет работать даже при блокировках.',
+              icon: sub ? Icons.public : Icons.telegram,
+              title: sub ? L.t('guide_sub_s2_t') : L.t('guide_s2_t'),
+              body: sub ? L.t('guide_sub_s2_b') : L.t('guide_s2_b'),
             ),
-            const _Step(
+            _Step(
               n: 3,
               icon: Icons.workspace_premium,
-              title: 'Хочешь весь интернет?',
-              body: 'Возьми подписку в нашем Telegram-боте и вставь ссылку — '
-                  'тогда VPN заработает для всех приложений с авто-выбором '
-                  'лучшего сервера.',
+              title: sub ? L.t('guide_sub_s3_t') : L.t('guide_s3_t'),
+              body: sub ? L.t('guide_sub_s3_b') : L.t('guide_s3_b'),
             ),
 
             const SizedBox(height: 20),
-            _PrimaryButton(
-              label: 'Открыть бота и взять подписку',
-              icon: Icons.open_in_new,
-              onTap: () => launchUrl(Uri.parse(_botUrl),
-                  mode: LaunchMode.externalApplication),
-            ),
-            const SizedBox(height: 10),
-            _OutlineButton(
-              label: 'У меня есть ссылка подписки',
-              icon: Icons.link,
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                    builder: (_) => const ImportScreen(firstRun: true)),
+            if (sub)
+              _PrimaryButton(
+                label: L.t('guide_ok_home'),
+                icon: Icons.home_outlined,
+                onTap: () => Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (_) => const MainShell()),
+                ),
+              )
+            else ...[
+              _PrimaryButton(
+                label: L.t('guide_open_bot'),
+                icon: Icons.open_in_new,
+                onTap: () => launchUrl(Uri.parse(_botUrl),
+                    mode: LaunchMode.externalApplication),
               ),
-            ),
+              const SizedBox(height: 10),
+              _OutlineButton(
+                label: L.t('guide_have_link'),
+                icon: Icons.link,
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (_) => const ImportScreen(firstRun: true)),
+                ),
+              ),
+              const SizedBox(height: 10),
+              // Привязка подписки по Telegram ID — прямо из инструкции.
+              _OutlineButton(
+                label: L.t('guide_link_tg'),
+                icon: Icons.telegram,
+                onTap: () => showLinkTelegramDialog(context),
+              ),
+            ],
 
-            if (afterFreeEnable) ...[
+            if (afterFreeEnable && !sub) ...[
               const SizedBox(height: 22),
               GestureDetector(
                 onTap: () => Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (_) => const HomeScreen()),
+                  MaterialPageRoute(builder: (_) => const MainShell()),
                 ),
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 15),
@@ -110,9 +131,9 @@ class ConnectGuideScreen extends StatelessWidget {
                     color: P.lime,
                     borderRadius: BorderRadius.circular(14),
                   ),
-                  child: const Text('Понятно, на главный',
+                  child: Text(L.t('guide_ok_home'),
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Color(0xFF0C1206),
                           fontSize: 16,
                           fontWeight: FontWeight.w700)),
@@ -121,6 +142,43 @@ class ConnectGuideScreen extends StatelessWidget {
             ],
           ],
         ),
+      ),
+    );
+  }
+
+  /// Верхний баннер-статус экрана-инструкции.
+  Widget _banner(
+      {required IconData icon, required String text, String? srvLine}) {
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: P.lime.withValues(alpha: 0.10),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: P.lime.withValues(alpha: 0.4)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(children: [
+            Icon(icon, color: P.lime),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(text,
+                  style: const TextStyle(color: P.text, fontSize: 13.5)),
+            ),
+          ]),
+          if (srvLine != null) ...[
+            const SizedBox(height: 8),
+            Row(children: [
+              const Icon(Icons.dns_outlined, size: 15, color: P.limeText),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Text(srvLine,
+                    style: const TextStyle(color: P.limeText, fontSize: 12)),
+              ),
+            ]),
+          ],
+        ],
       ),
     );
   }
@@ -189,21 +247,28 @@ class _PrimaryButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 14),
+        padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
           gradient: P.grad,
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+                color: P.lime.withValues(alpha: 0.38),
+                blurRadius: 22,
+                spreadRadius: -4,
+                offset: const Offset(0, 6)),
+          ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: const Color(0xFF0C1206), size: 18),
+            Icon(icon, color: const Color(0xFF0C1206), size: 20),
             const SizedBox(width: 8),
             Text(label,
                 style: const TextStyle(
                     color: Color(0xFF0C1206),
-                    fontSize: 14.5,
-                    fontWeight: FontWeight.w700)),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w800)),
           ],
         ),
       ),

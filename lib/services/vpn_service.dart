@@ -52,6 +52,12 @@ abstract class VpnService {
   /// Замер задержки до сервера, мс. -1 = недоступен.
   Future<int> ping(VpnServer server);
 
+  /// Задержка ЧЕРЕЗ уже поднятый туннель, мс. -1 = туннель не несёт трафик.
+  /// В отличие от app-side HTTP (которая может пройти напрямую, пока ОС ещё не
+  /// применила VPN-маршрут → ложный «подключено»), этот замер идёт через само
+  /// ядро Xray и подтверждает, что туннель РЕАЛЬНО работает.
+  Future<int> connectedDelay();
+
   void dispose();
 }
 
@@ -102,6 +108,10 @@ class StubVpnService implements VpnService {
     final base = server.address.hashCode.abs() % 180;
     return 25 + base + _rng.nextInt(20);
   }
+
+  @override
+  Future<int> connectedDelay() async =>
+      _stage == VpnStage.connected ? 40 + _rng.nextInt(60) : -1;
 
   @override
   void dispose() {

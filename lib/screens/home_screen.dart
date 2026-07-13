@@ -5,8 +5,11 @@ library;
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../brand.dart';
 import '../l10n.dart';
 import '../models/connection_status.dart';
 import '../models/vpn_server.dart';
@@ -27,6 +30,66 @@ import 'servers_screen.dart';
 import 'settings_screen.dart';
 import 'support_screen.dart';
 import '../widgets/streak_flame.dart';
+
+/// Корневая оболочка приложения: 4 вкладки в PageView, между которыми можно
+/// переключаться свайпом (Apps / Чат / Настройки) и тапом по нижней панели.
+/// На вкладке-глобусе свайп страниц отключён — там горизонтальное движение
+/// вращает сам глобус, поэтому уходим с неё только тапом по панели.
+class MainShell extends StatefulWidget {
+  const MainShell({super.key});
+
+  @override
+  State<MainShell> createState() => _MainShellState();
+}
+
+class _MainShellState extends State<MainShell> {
+  final PageController _pc = PageController();
+  int _index = 0;
+
+  void _go(int i) {
+    if (i == _index) return;
+    _pc.animateToPage(i,
+        duration: const Duration(milliseconds: 320), curve: Curves.easeOutCubic);
+  }
+
+  @override
+  void dispose() {
+    _pc.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = context.watch<AppState>();
+    final connected = state.isConnected;
+    return Scaffold(
+      backgroundColor: P.bg,
+      bottomNavigationBar: _BottomBar(
+        trafficLines: connected ? state.trafficLines : const [],
+        showTraffic: connected,
+        upKbps: state.speedUpKbps,
+        downKbps: state.speedDownKbps,
+        animate: state.animationsOn,
+        currentIndex: _index,
+        onSelect: _go,
+      ),
+      body: PageView(
+        controller: _pc,
+        // На глобусе (0) свайп страниц выключен — жест отдан вращению глобуса.
+        physics: _index == 0
+            ? const NeverScrollableScrollPhysics()
+            : const PageScrollPhysics(),
+        onPageChanged: (i) => setState(() => _index = i),
+        children: const [
+          HomeScreen(),
+          PerAppScreen(inShell: true),
+          SupportScreen(inShell: true),
+          SettingsScreen(inShell: true),
+        ],
+      ),
+    );
+  }
+}
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -64,14 +127,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Маркеры серверов на глобусе — по одному на страну.
   List<GlobeMarker> _markers(AppState s) {
-    // В двойном VPN «выбранная» точка глобуса = выход (конечная страна пути).
-    final target = s.multihopExit ?? s.activeServer;
+    final target = s.activeServer;
     final seen = <String>{};
     final out = <GlobeMarker>[];
     for (final srv in s.servers) {
       final cc = srv.countryCode;
       final ll = Geo.of(cc);
-      if (ll == null || !seen.add(cc)) continue;
+      // только распознанные страны с валидными координатами (не «нулевой остров»)
+      if (cc.length != 2 || ll == null || !seen.add(cc)) continue;
+      if (ll[0].abs() < 0.5 && ll[1].abs() < 0.5) continue;
       out.add(GlobeMarker(
         lon: ll[0],
         lat: ll[1],
@@ -88,22 +152,10 @@ class _HomeScreenState extends State<HomeScreen> {
     final connected = state.isConnected;
     final connecting = state.stage == VpnStage.connecting;
     final active = state.activeServer;
-    // В двойном VPN глобус смотрит на выход, а вход подсвечивается как relay.
-    final exit = state.multihopExit;
-    final target = exit ?? active;
-    final focus = target != null ? Geo.of(target.countryCode) : null;
-    final relayLoc = (exit != null && active != null)
-        ? Geo.of(active.countryCode)
-        : null;
+    final focus = active != null ? Geo.of(active.countryCode) : null;
 
     return Scaffold(
       backgroundColor: P.bg,
-      bottomNavigationBar: _BottomBar(
-        trafficLines: connected ? state.trafficLines : const [],
-        showTraffic: connected,
-        upKbps: state.speedUpKbps,
-        downKbps: state.speedDownKbps,
-      ),
       body: Stack(
         children: [
           Positioned.fill(
@@ -116,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
           physics: _globeTouch
               ? const NeverScrollableScrollPhysics()
               : const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(18, 8, 18, 24),
+          padding: const EdgeInsets.fromLTRB(18, 8, 18, 48),
           children: [
             GestureDetector(
               onTap: () => Navigator.of(context).push(
@@ -153,10 +205,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     focus: focus,
                     connected: connected,
                     packetFrom: connected ? Geo.origin : null,
-                    relay: connected ? relayLoc : null,
-                    relayLabel: (connected && exit != null && active != null)
-                        ? active.countryName
-                        : null,
                     animationsEnabled: state.animationsOn,
                   ),
                 ),
@@ -168,6 +216,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Center(
               child: ConnectButton(
                 connected: connected,
+                animate: state.animationsOn,
                 busy: connecting || state.busy,
                 label: connecting
                     ? L.t('connecting')
@@ -176,25 +225,62 @@ class _HomeScreenState extends State<HomeScreen> {
                         : L.t('disconnected'),
                 onTap: () {
                   if (connecting) return;
-                  connected ? state.disconnect() : state.connect();
+                  // Мгновенный виброотклик на нажатие (не ждём исход коннекта).
+                  if (state.vibrationEnabled) {
+                    HapticFeedback.mediumImpact();
+                    HapticFeedback.vibrate();
+                  }
+                  if (connected) {
+                    state.disconnect();
+                  } else if (state.telegramOnly) {
+                    // Бесплатный режим: поднимаем именно Telegram-only туннель,
+                    // а не полный (иначе через VPN пойдёт весь трафик).
+                    state.connectTelegramOnly();
+                  } else {
+                    state.connect();
+                  }
                 },
               ),
             ),
             const SizedBox(height: 6),
 
-            if (connected) ...[
-              SessionCard(
-                duration: state.sessionDuration,
-                bytesDown: state.bytesDown,
-                bytesUp: state.bytesUp,
-                speedDownKbps: state.speedDownKbps,
-                speedUpKbps: state.speedUpKbps,
-                history: state.speedHistory,
+            // Карточка сессии плавно раскрывается при подключении (fade + size),
+            // а не появляется рывком.
+            AnimatedSize(
+              duration: const Duration(milliseconds: 340),
+              curve: Curves.easeOutCubic,
+              alignment: Alignment.topCenter,
+              child: AnimatedOpacity(
+                opacity: connected ? 1 : 0,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeOut,
+                child: connected
+                    ? Padding(
+                        padding: const EdgeInsets.only(bottom: 14),
+                        child: SessionCard(
+                          duration: state.sessionDuration,
+                          bytesDown: state.bytesDown,
+                          bytesUp: state.bytesUp,
+                          speedDownKbps: state.speedDownKbps,
+                          speedUpKbps: state.speedUpKbps,
+                          history: state.speedHistory,
+                        ),
+                      )
+                    : const SizedBox(width: double.infinity),
               ),
-              const SizedBox(height: 14),
-            ],
+            ),
 
-            if (state.subLoaded && (state.subActive || state.subUntil != null)) ...[
+            // В бесплатном режиме — карточка «пробный доступ · только Telegram»
+            // в нашем стиле (с ∞ трафика и статусом подключения), вместо обычной.
+            if (state.telegramOnly) ...[
+              _FreeStatusCard(
+                connected: connected,
+                connecting: connecting,
+                server: active,
+              ),
+              const SizedBox(height: 10),
+            ] else if (state.subLoaded &&
+                (state.subActive || state.subUntil != null)) ...[
               _SubscriptionCard(
                 active: state.subActive,
                 until: state.subUntil,
@@ -203,8 +289,13 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 10),
             ],
 
-            if (!state.hasServers && !state.telegramOnly)
-              _ImportCard(),
+            // Быстрый доступ к подписке прямо с главного — не надо лезть в
+            // настройки: вставить ссылку ИЛИ привязать Telegram (подписка
+            // подтянется сама). Показываем, пока подписка не активна.
+            if (!state.subActive) ...[
+              const _SubActionsCard(),
+              const SizedBox(height: 10),
+            ],
 
             const SizedBox(height: 4),
             _ServersSection(state: state),
@@ -308,17 +399,28 @@ class _ModeToggle extends StatelessWidget {
 
     return Column(
       children: [
-        Container(
-          padding: const EdgeInsets.all(3),
-          decoration: BoxDecoration(
-            color: P.surfaceLo,
-            borderRadius: BorderRadius.circular(11),
-            border: Border.all(color: P.surfaceHi),
+        // Свайп влево/вправо переключает режим (как сегменты в Telegram/iOS).
+        GestureDetector(
+          onHorizontalDragEnd: (d) {
+            final v = d.primaryVelocity ?? 0;
+            if (v < -120 && mode != GlobalMode.manual) {
+              onChanged(GlobalMode.manual);
+            } else if (v > 120 && mode != GlobalMode.ai) {
+              onChanged(GlobalMode.ai);
+            }
+          },
+          child: Container(
+            padding: const EdgeInsets.all(3),
+            decoration: BoxDecoration(
+              color: P.surfaceLo,
+              borderRadius: BorderRadius.circular(11),
+              border: Border.all(color: P.surfaceHi),
+            ),
+            child: Row(children: [
+              seg(GlobalMode.ai, L.t('ai_auto')),
+              seg(GlobalMode.manual, L.t('manual')),
+            ]),
           ),
-          child: Row(children: [
-            seg(GlobalMode.ai, L.t('ai_auto')),
-            seg(GlobalMode.manual, L.t('manual')),
-          ]),
         ),
         const SizedBox(height: 4),
         Text(
@@ -359,6 +461,24 @@ class _ServersSection extends StatelessWidget {
               ]),
             ),
             Row(mainAxisSize: MainAxisSize.min, children: [
+              // Компактная сетка (2 в ряд) ↔ полный список (можно двигать).
+              TapScale(
+                onTap: () => state.setCompactServers(!state.compactServers),
+                child: Container(
+                  padding: const EdgeInsets.all(6),
+                  margin: const EdgeInsets.only(right: 8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(9),
+                    border: Border.all(color: P.textFaint.withValues(alpha: 0.4)),
+                  ),
+                  child: Icon(
+                      state.compactServers
+                          ? Icons.view_agenda_outlined
+                          : Icons.grid_view_rounded,
+                      size: 16,
+                      color: P.textFaint),
+                ),
+              ),
               TapScale(
                 onTap: state.busy
                     ? null
@@ -367,13 +487,18 @@ class _ServersSection extends StatelessWidget {
                       },
                 child: Container(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   margin: const EdgeInsets.only(right: 8),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(9),
                     border: Border.all(color: P.textFaint.withValues(alpha: 0.4)),
                   ),
-                  child: const Icon(Icons.refresh, size: 16, color: P.textFaint),
+                  child: Row(mainAxisSize: MainAxisSize.min, children: [
+                    const Icon(Icons.refresh, size: 15, color: P.textFaint),
+                    const SizedBox(width: 5),
+                    Text(L.t('update_short'),
+                        style: const TextStyle(color: P.textFaint, fontSize: 12)),
+                  ]),
                 ),
               ),
               TapScale(
@@ -402,29 +527,612 @@ class _ServersSection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 8),
-        // Перетаскиваемый список: пользователь сам задаёт порядок серверов
-        // (удерживай и тащи). Порядок сохраняется.
-        ReorderableListView(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          buildDefaultDragHandles: true,
-          onReorder: state.reorderServers,
+        // Папки серверов (Все / WiFi / Мобильный интернет …) — фильтр списка.
+        if (!state.telegramOnly) _FolderChips(state: state),
+        // Внутри конкретной папки — кнопка «Добавить серверы» (отметить, какие
+        // конфиги входят в папку).
+        if (!state.telegramOnly && state.activeFolder.isNotEmpty) ...[
+          _AddToFolderButton(
+            onTap: () => _showAddServersToFolder(context, state),
+          ),
+          const SizedBox(height: 8),
+        ],
+        // Бесплатный режим: активен ТОЛЬКО авто-конфиг для Telegram (сам подбирает
+        // рабочий сервер). Остальные конфиги показываем тускло и некликабельно —
+        // чтобы было видно: они появятся с подпиской, но сейчас не работают.
+        if (state.telegramOnly)
+          Column(
+            children: [
+              _AutoTelegramRow(server: state.activeServer),
+              const SizedBox(height: 8),
+              for (final s in state.servers)
+                _ServerRow(
+                  key: ValueKey(s.id),
+                  server: s,
+                  active: false,
+                  locked: true,
+                  onTap: () => showFreeLockedDialog(context),
+                ),
+            ],
+          )
+        else if (state.visibleServers.isEmpty)
+          // Пустая папка — подсказка вместо голого места.
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 18),
+            child: Center(
+              child: Text(L.t('folder_empty'),
+                  style: const TextStyle(color: P.textFaint, fontSize: 12.5)),
+            ),
+          )
+        else
+          // Свайп влево/вправо по области списка — переключение папок по кругу.
+          _FolderSwipe(
+            state: state,
+            child: state.compactServers
+                ? _CompactGrid(state: state)
+                : _FullList(state: state),
+          ),
+      ],
+    );
+  }
+
+  /// Лист выбора серверов для текущей папки: галочками отмечаем, какие конфиги
+  /// входят в [state.activeFolder]. Тап по строке — вкл/выкл членство.
+  static void _showAddServersToFolder(BuildContext context, AppState state) {
+    final folder = state.activeFolder;
+    if (folder.isEmpty) return;
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: P.surface,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
+      ),
+      builder: (_) => StatefulBuilder(
+        builder: (ctx, setSheet) => SafeArea(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(ctx).size.height * 0.7,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 16, 20, 6),
+                  child: Row(children: [
+                    const Icon(Icons.folder_open, color: P.limeText, size: 20),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text('${L.t('folder_pick_servers')} · $folder',
+                          style: const TextStyle(
+                              color: P.text,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600)),
+                    ),
+                  ]),
+                ),
+                Flexible(
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: [
+                      for (final s in state.servers)
+                        CheckboxListTile(
+                          value: state.folderOf(s.id) == folder,
+                          activeColor: P.lime,
+                          checkColor: const Color(0xFF0C1206),
+                          controlAffinity: ListTileControlAffinity.trailing,
+                          title: Row(children: [
+                            CountryFlag(
+                                s.countryCode.isEmpty ? '??' : s.countryCode,
+                                width: 20),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(s.title,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(color: P.text)),
+                            ),
+                          ]),
+                          onChanged: (v) {
+                            state.setServerFolder(
+                                s.id, v == true ? folder : null);
+                            setSheet(() {});
+                          },
+                        ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: FilledButton(
+                      onPressed: () => Navigator.pop(ctx),
+                      child: Text(L.t('save')),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  static void _showFolderPicker(
+      BuildContext context, AppState state, VpnServer s) {
+    final current = state.folderOf(s.id) ?? '';
+    showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: P.surface,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
+      ),
+      builder: (_) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            for (final s in state.servers)
-              _ServerRow(
-                key: ValueKey(s.id),
-                server: s,
-                active: state.activeServer?.id == s.id,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 16, 20, 6),
+              child: Row(children: [
+                Text(L.t('srv_move_folder'),
+                    style: const TextStyle(
+                        color: P.text,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600)),
+              ]),
+            ),
+            ListTile(
+              leading: const Icon(Icons.layers_clear_outlined, color: P.textFaint),
+              title: Text(L.t('folder_none'),
+                  style: const TextStyle(color: P.text)),
+              trailing: current.isEmpty
+                  ? const Icon(Icons.check, color: P.lime)
+                  : null,
+              onTap: () {
+                state.setServerFolder(s.id, null);
+                Navigator.pop(context);
+              },
+            ),
+            for (final f in state.folders)
+              ListTile(
+                leading: const Icon(Icons.folder_outlined, color: P.limeText),
+                title: Text(f, style: const TextStyle(color: P.text)),
+                trailing: current == f
+                    ? const Icon(Icons.check, color: P.lime)
+                    : null,
                 onTap: () {
-                  state.setManualServer(s.id);
-                  if (state.mode != GlobalMode.manual) {
-                    state.setMode(GlobalMode.manual);
-                  }
+                  state.setServerFolder(s.id, f);
+                  Navigator.pop(context);
                 },
               ),
+            const SizedBox(height: 8),
           ],
         ),
+      ),
+    );
+  }
+
+  static void _showRenameDialog(
+      BuildContext context, AppState state, VpnServer s) {
+    final ctrl = TextEditingController(text: s.title);
+    showDialog<void>(
+      context: context,
+      builder: (_) => AlertDialog(
+        backgroundColor: P.surface,
+        title: Text(L.t('srv_rename'), style: const TextStyle(color: P.text)),
+        content: TextField(
+          controller: ctrl,
+          autofocus: true,
+          style: const TextStyle(color: P.text),
+          decoration: InputDecoration(
+            hintText: s.countryName,
+            hintStyle: const TextStyle(color: P.textFaint),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(L.t('cancel')),
+          ),
+          FilledButton(
+            onPressed: () {
+              state.renameServer(s.id, ctrl.text);
+              Navigator.pop(context);
+            },
+            child: Text(L.t('save')),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static void _confirmDelete(
+      BuildContext context, AppState state, VpnServer s) {
+    showDialog<void>(
+      context: context,
+      builder: (_) => AlertDialog(
+        backgroundColor: P.surface,
+        title: Text(L.t('srv_delete_q'), style: const TextStyle(color: P.text)),
+        content: Text('${s.flag} ${s.title}',
+            style: const TextStyle(color: P.textDim)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(L.t('cancel')),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(
+                backgroundColor: const Color(0xFFE2504A)),
+            onPressed: () {
+              state.removeServer(s.id);
+              Navigator.pop(context);
+            },
+            child: Text(L.t('delete')),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Свайп влево/вправо по области серверов — переключение папок по кругу.
+class _FolderSwipe extends StatelessWidget {
+  final AppState state;
+  final Widget child;
+  const _FolderSwipe({required this.state, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    if (state.folders.isEmpty) return child; // некуда переключаться
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onHorizontalDragEnd: (d) {
+        final v = d.primaryVelocity ?? 0;
+        if (v < -150) {
+          state.cycleFolder(1);
+        } else if (v > 150) {
+          state.cycleFolder(-1);
+        }
+      },
+      child: child,
+    );
+  }
+}
+
+/// Компактная сетка серверов (2 в ряд). В папке «Все» — перетаскивание
+/// долгим нажатием (порядок сохраняется).
+class _CompactGrid extends StatelessWidget {
+  final AppState state;
+  const _CompactGrid({required this.state});
+
+  @override
+  Widget build(BuildContext context) {
+    final list = state.visibleServers;
+    final canDrag = state.activeFolder.isEmpty; // порядок меняем только в «Все»
+    final w = (MediaQuery.of(context).size.width - 18 * 2 - 8) / 2;
+
+    Widget cellFor(VpnServer s) => _CompactServerCell(
+          server: s,
+          active: state.activeServer?.id == s.id,
+          onTap: () {
+            state.setManualServer(s.id);
+            if (state.mode != GlobalMode.manual) {
+              state.setMode(GlobalMode.manual);
+            }
+          },
+          onRename: () => _ServersSection._showRenameDialog(context, state, s),
+          onDelete: () => _ServersSection._confirmDelete(context, state, s),
+          onFolder: () => _ServersSection._showFolderPicker(context, state, s),
+        );
+
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        for (final s in list)
+          if (!canDrag)
+            cellFor(s)
+          else
+            DragTarget<String>(
+              onWillAcceptWithDetails: (d) => d.data != s.id,
+              onAcceptWithDetails: (d) => state.moveServer(d.data, s.id),
+              builder: (context, cand, rej) {
+                final hovering = cand.isNotEmpty;
+                return LongPressDraggable<String>(
+                  data: s.id,
+                  // Короче стандартных 500 мс — перетаскивание начинается легче.
+                  delay: const Duration(milliseconds: 180),
+                  onDragStarted: () => HapticFeedback.mediumImpact(),
+                  // Тащим «поднятую» карточку с тенью — понятно, что схватили.
+                  feedback: Material(
+                    color: Colors.transparent,
+                    child: SizedBox(
+                      width: w,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.45),
+                                blurRadius: 18,
+                                spreadRadius: 1),
+                          ],
+                        ),
+                        child: cellFor(s),
+                      ),
+                    ),
+                  ),
+                  childWhenDragging:
+                      Opacity(opacity: 0.25, child: cellFor(s)),
+                  // foregroundDecoration рисует рамку-подсветку ПОВЕРХ ячейки,
+                  // не меняя её размер — иначе 2 в ряд «съезжают» в 1.
+                  child: Container(
+                    foregroundDecoration: hovering
+                        ? BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: P.lime, width: 2),
+                          )
+                        : null,
+                    child: cellFor(s),
+                  ),
+                );
+              },
+            ),
       ],
+    );
+  }
+}
+
+/// Полный список серверов (по одному в ряд). В папке «Все» — перетаскивание
+/// долгим нажатием через ReorderableListView.
+class _FullList extends StatelessWidget {
+  final AppState state;
+  const _FullList({required this.state});
+
+  @override
+  Widget build(BuildContext context) {
+    final list = state.visibleServers;
+    Widget rowFor(VpnServer s) => _ServerRow(
+          key: ValueKey(s.id),
+          server: s,
+          active: state.activeServer?.id == s.id,
+          onTap: () {
+            state.setManualServer(s.id);
+            if (state.mode != GlobalMode.manual) {
+              state.setMode(GlobalMode.manual);
+            }
+          },
+          onRename: () => _ServersSection._showRenameDialog(context, state, s),
+          onDelete: () => _ServersSection._confirmDelete(context, state, s),
+          onFolder: () => _ServersSection._showFolderPicker(context, state, s),
+        );
+
+    if (state.activeFolder.isNotEmpty) {
+      // Внутри папки порядок общий — просто список без перетаскивания.
+      return Column(children: [for (final s in list) rowFor(s)]);
+    }
+    return ReorderableListView(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      buildDefaultDragHandles: false,
+      onReorder: state.reorderServers,
+      children: [
+        for (var i = 0; i < list.length; i++)
+          ReorderableDelayedDragStartListener(
+            key: ValueKey(list[i].id),
+            index: i,
+            child: rowFor(list[i]),
+          ),
+      ],
+    );
+  }
+}
+
+/// Ряд папок серверов: «Все» + пользовательские (WiFi / Мобильный интернет …) + ＋.
+class _FolderChips extends StatelessWidget {
+  final AppState state;
+  const _FolderChips({required this.state});
+
+  Widget _chip(String label, bool active, VoidCallback onTap,
+      {VoidCallback? onLong, IconData? icon}) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 8),
+      child: GestureDetector(
+        onLongPress: onLong,
+        child: TapScale(
+          onTap: onTap,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 180),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: active ? P.lime.withValues(alpha: 0.16) : P.surfaceLo,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                  color: active ? P.lime : P.surfaceHi, width: active ? 1 : 0.5),
+            ),
+            child: Row(mainAxisSize: MainAxisSize.min, children: [
+              if (icon != null) ...[
+                Icon(icon, size: 14, color: active ? P.limeText : P.textFaint),
+                const SizedBox(width: 5),
+              ],
+              Text(label,
+                  style: TextStyle(
+                      color: active ? P.limeText : P.textDim,
+                      fontSize: 12.5,
+                      fontWeight: active ? FontWeight.w600 : FontWeight.w500)),
+            ]),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _addFolder(BuildContext context) async {
+    final ctrl = TextEditingController();
+    final name = await showDialog<String>(
+      context: context,
+      builder: (_) => AlertDialog(
+        backgroundColor: P.surface,
+        title: Text(L.t('folder_new'), style: const TextStyle(color: P.text)),
+        content: TextField(
+          controller: ctrl,
+          autofocus: true,
+          style: const TextStyle(color: P.text),
+          decoration: InputDecoration(
+            hintText: L.t('folder_hint'),
+            hintStyle: const TextStyle(color: P.textFaint),
+          ),
+        ),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(L.t('cancel'))),
+          FilledButton(
+              onPressed: () => Navigator.pop(context, ctrl.text.trim()),
+              child: Text(L.t('save'))),
+        ],
+      ),
+    );
+    if (name != null && name.isNotEmpty) {
+      state.addFolder(name);
+      state.setActiveFolder(name);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(children: [
+          _chip(L.t('folder_all'), state.activeFolder.isEmpty,
+              () => state.setActiveFolder(''),
+              icon: Icons.dns_outlined),
+          for (final f in state.folders)
+            _chip(f, state.activeFolder == f, () => state.setActiveFolder(f),
+                onLong: () => _confirmRemoveFolder(context, f)),
+          _chip(L.t('folder_add'), false, () => _addFolder(context),
+              icon: Icons.add),
+        ]),
+      ),
+    );
+  }
+
+  void _confirmRemoveFolder(BuildContext context, String name) {
+    showDialog<void>(
+      context: context,
+      builder: (_) => AlertDialog(
+        backgroundColor: P.surface,
+        title: Text(L.t('folder_delete_q'), style: const TextStyle(color: P.text)),
+        content: Text(name, style: const TextStyle(color: P.textDim)),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(L.t('cancel'))),
+          FilledButton(
+            style: FilledButton.styleFrom(
+                backgroundColor: const Color(0xFFE2504A)),
+            onPressed: () {
+              state.removeFolder(name);
+              Navigator.pop(context);
+            },
+            child: Text(L.t('delete')),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Кнопка «Добавить серверы» внутри папки.
+class _AddToFolderButton extends StatelessWidget {
+  final VoidCallback onTap;
+  const _AddToFolderButton({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return TapScale(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(vertical: 11),
+        decoration: BoxDecoration(
+          color: P.lime.withValues(alpha: 0.10),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+              color: P.lime.withValues(alpha: 0.5),
+              width: 1,
+              style: BorderStyle.solid),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.add_rounded, size: 18, color: P.limeText),
+            const SizedBox(width: 8),
+            Text(L.t('folder_add_servers'),
+                style: const TextStyle(
+                    color: P.limeText,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Активный авто-конфиг Telegram (в бесплатном режиме) — единственный рабочий.
+class _AutoTelegramRow extends StatelessWidget {
+  final VpnServer? server;
+  const _AutoTelegramRow({required this.server});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 10),
+      decoration: BoxDecoration(
+        color: P.lime.withValues(alpha: 0.10),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: P.lime, width: 1),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 34,
+            height: 34,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: P.lime.withValues(alpha: 0.16),
+              borderRadius: BorderRadius.circular(9),
+            ),
+            child: const Icon(Icons.auto_awesome, color: P.limeText, size: 18),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(L.t('free_auto_title'),
+                    style: const TextStyle(
+                        color: P.text,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600)),
+                Text(
+                  server != null
+                      ? '${L.t('free_auto_sub')} · ${server!.countryName}'
+                      : L.t('free_auto_sub'),
+                  style: const TextStyle(color: P.limeText, fontSize: 10),
+                ),
+              ],
+            ),
+          ),
+          const Icon(Icons.check_circle, color: P.lime, size: 18),
+        ],
+      ),
     );
   }
 }
@@ -432,18 +1140,24 @@ class _ServersSection extends StatelessWidget {
 class _ServerRow extends StatelessWidget {
   final VpnServer server;
   final bool active;
+  final bool locked; // бесплатный режим: сервер недоступен (тусклый, по тапу — апселл)
   final VoidCallback onTap;
+  final VoidCallback? onRename;
+  final VoidCallback? onDelete;
+  final VoidCallback? onFolder;
   const _ServerRow(
       {super.key,
       required this.server,
       required this.active,
-      required this.onTap});
+      this.locked = false,
+      required this.onTap,
+      this.onRename,
+      this.onDelete,
+      this.onFolder});
 
   @override
   Widget build(BuildContext context) {
-    return TapScale(
-      onTap: onTap,
-      child: Container(
+    final row = Container(
         margin: const EdgeInsets.only(bottom: 8),
         padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 9),
         decoration: BoxDecoration(
@@ -485,14 +1199,292 @@ class _ServerRow extends StatelessWidget {
               const SizedBox(width: 6),
               const Icon(Icons.check_circle, color: P.lime, size: 18),
             ],
+            if (locked) ...[
+              const SizedBox(width: 6),
+              const Icon(Icons.lock_outline, color: P.textFaint, size: 15),
+            ],
+            // ⋮ — переименовать / удалить (не в бесплатном режиме).
+            if (!locked && (onRename != null || onDelete != null))
+              PopupMenuButton<String>(
+                icon: const Icon(Icons.more_vert, color: P.textFaint, size: 20),
+                color: P.surface,
+                padding: EdgeInsets.zero,
+                onSelected: (v) {
+                  if (v == 'rename') onRename?.call();
+                  if (v == 'folder') onFolder?.call();
+                  if (v == 'delete') onDelete?.call();
+                },
+                itemBuilder: (_) => [
+                  PopupMenuItem(
+                    value: 'rename',
+                    child: Row(children: [
+                      const Icon(Icons.edit_outlined, size: 18, color: P.text),
+                      const SizedBox(width: 10),
+                      Text(L.t('srv_rename'),
+                          style: const TextStyle(color: P.text)),
+                    ]),
+                  ),
+                  if (onFolder != null)
+                    PopupMenuItem(
+                      value: 'folder',
+                      child: Row(children: [
+                        const Icon(Icons.folder_outlined,
+                            size: 18, color: P.text),
+                        const SizedBox(width: 10),
+                        Text(L.t('srv_move_folder'),
+                            style: const TextStyle(color: P.text)),
+                      ]),
+                    ),
+                  PopupMenuItem(
+                    value: 'delete',
+                    child: Row(children: [
+                      const Icon(Icons.delete_outline,
+                          size: 18, color: Color(0xFFE2504A)),
+                      const SizedBox(width: 10),
+                      Text(L.t('delete'),
+                          style: const TextStyle(color: Color(0xFFE2504A))),
+                    ]),
+                  ),
+                ],
+              ),
           ],
+        ),
+      );
+    // В заблокированном виде — тусклый и «как будто не работает», по тапу апселл.
+    if (locked) {
+      return Opacity(
+        opacity: 0.38,
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: onTap,
+          child: row,
+        ),
+      );
+    }
+    return TapScale(onTap: onTap, child: row);
+  }
+}
+
+/// Компактная ячейка сервера (2 в ряд): флаг + страна + пинг + ⋮.
+class _CompactServerCell extends StatelessWidget {
+  final VpnServer server;
+  final bool active;
+  final VoidCallback onTap;
+  final VoidCallback onRename;
+  final VoidCallback onDelete;
+  final VoidCallback onFolder;
+  const _CompactServerCell({
+    required this.server,
+    required this.active,
+    required this.onTap,
+    required this.onRename,
+    required this.onDelete,
+    required this.onFolder,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // 2 ячейки в ряд: (ширина контента − отступ) / 2. Отступы ListView = 18.
+    final w = (MediaQuery.of(context).size.width - 18 * 2 - 8) / 2;
+    final proxy = context.read<AppState>().pingType == 'proxy';
+    return SizedBox(
+      width: w,
+      child: TapScale(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(9, 8, 2, 8),
+          decoration: BoxDecoration(
+            color: active ? P.lime.withValues(alpha: 0.08) : P.surfaceLo,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+                color: active ? P.lime : P.surfaceHi, width: active ? 1 : 0.5),
+          ),
+          child: Row(children: [
+            CountryFlag(server.countryCode.isEmpty ? '??' : server.countryCode,
+                width: 20),
+            const SizedBox(width: 7),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(server.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(color: P.text, fontSize: 12.5)),
+                  Row(children: [
+                    Container(
+                      width: 6,
+                      height: 6,
+                      margin: const EdgeInsets.only(right: 4),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: P.pingColor(server.pingMs, proxy: proxy)),
+                    ),
+                    Text(server.pingMs > 0 ? '${server.pingMs} ms' : '—',
+                        style: TextStyle(
+                            color: active ? P.limeText : P.textFaint,
+                            fontSize: 11)),
+                  ]),
+                ],
+              ),
+            ),
+            SizedBox(
+              width: 26,
+              child: PopupMenuButton<String>(
+                icon: const Icon(Icons.more_vert, color: P.textFaint, size: 18),
+                color: P.surface,
+                padding: EdgeInsets.zero,
+                onSelected: (v) {
+                  if (v == 'rename') onRename();
+                  if (v == 'folder') onFolder();
+                  if (v == 'delete') onDelete();
+                },
+                itemBuilder: (_) => [
+                  PopupMenuItem(
+                      value: 'rename',
+                      child: Row(children: [
+                        const Icon(Icons.edit_outlined, size: 18, color: P.text),
+                        const SizedBox(width: 10),
+                        Text(L.t('srv_rename'),
+                            style: const TextStyle(color: P.text)),
+                      ])),
+                  PopupMenuItem(
+                      value: 'folder',
+                      child: Row(children: [
+                        const Icon(Icons.folder_outlined, size: 18, color: P.text),
+                        const SizedBox(width: 10),
+                        Text(L.t('srv_move_folder'),
+                            style: const TextStyle(color: P.text)),
+                      ])),
+                  PopupMenuItem(
+                      value: 'delete',
+                      child: Row(children: [
+                        const Icon(Icons.delete_outline,
+                            size: 18, color: Color(0xFFE2504A)),
+                        const SizedBox(width: 10),
+                        Text(L.t('delete'),
+                            style: const TextStyle(color: Color(0xFFE2504A))),
+                      ])),
+                ],
+              ),
+            ),
+          ]),
         ),
       ),
     );
   }
 }
 
-// ---------- карточка подписки (как в Quattro) ----------
+// ---------- карточка бесплатного (пробного) доступа · только Telegram ----------
+
+class _FreeStatusCard extends StatelessWidget {
+  final bool connected;
+  final bool connecting;
+  final VpnServer? server;
+  const _FreeStatusCard({
+    required this.connected,
+    required this.connecting,
+    required this.server,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final accent = connected ? P.lime : (connecting ? P.gold : P.textFaint);
+    final statusText = connected
+        ? L.t('free_connected')
+        : (connecting ? L.t('connecting') : L.t('free_off'));
+    final srvName = server?.countryName ?? '—';
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            P.lime.withValues(alpha: 0.10),
+            P.violet.withValues(alpha: 0.10),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: accent.withValues(alpha: 0.4)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(children: [
+            Icon(connected ? Icons.verified : Icons.telegram,
+                size: 18, color: accent),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(statusText,
+                  style: TextStyle(
+                      color: accent,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700)),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+              decoration: BoxDecoration(
+                color: P.lime.withValues(alpha: 0.14),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(L.t('free_only_tg'),
+                  style: const TextStyle(color: P.limeText, fontSize: 11)),
+            ),
+          ]),
+          const SizedBox(height: 12),
+          Row(children: [
+            Expanded(
+              child: _SubMetric(
+                icon: Icons.dns_outlined,
+                label: L.t('free_server_label'),
+                value: srvName,
+              ),
+            ),
+            Container(width: 0.5, height: 30, color: P.surfaceHi),
+            const Expanded(
+              child: _SubMetric(
+                icon: Icons.all_inclusive,
+                label: 'Трафик / Traffic',
+                value: '∞',
+              ),
+            ),
+          ]),
+          const SizedBox(height: 12),
+          // Апселл: перейти на полную подписку (весь интернет) через бота.
+          GestureDetector(
+            onTap: () => launchUrl(Uri.parse(Brand.bot),
+                mode: LaunchMode.externalApplication),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              decoration: BoxDecoration(
+                gradient: P.grad,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.workspace_premium,
+                      color: Color(0xFF0C1206), size: 18),
+                  const SizedBox(width: 8),
+                  Text(L.t('free_buy_full'),
+                      style: const TextStyle(
+                          color: Color(0xFF0C1206),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w800)),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ---------- карточка подписки ----------
 
 class _SubscriptionCard extends StatelessWidget {
   final bool active;
@@ -504,12 +1496,19 @@ class _SubscriptionCard extends StatelessWidget {
     required this.serverCount,
   });
 
-  static const _months = [
+  static const _monthsRu = [
     '', 'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
     'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
   ];
+  static const _monthsEn = [
+    '', 'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
 
-  String _fmtDate(DateTime d) => '${d.day} ${_months[d.month]} ${d.year}';
+  String _fmtDate(DateTime d) {
+    final m = L.current == 'en' ? _monthsEn[d.month] : _monthsRu[d.month];
+    return L.current == 'en' ? '$m ${d.day}, ${d.year}' : '${d.day} $m ${d.year}';
+  }
 
   int? get _daysLeft => until?.difference(DateTime.now()).inDays;
 
@@ -533,7 +1532,7 @@ class _SubscriptionCard extends StatelessWidget {
               Icon(ok ? Icons.verified : Icons.error_outline,
                   size: 18, color: accent),
               const SizedBox(width: 8),
-              Text(ok ? 'Подписка активна' : 'Подписка неактивна',
+              Text(ok ? L.t('sub_active') : L.t('sub_inactive'),
                   style: TextStyle(
                       color: accent,
                       fontSize: 14,
@@ -547,7 +1546,7 @@ class _SubscriptionCard extends StatelessWidget {
                     color: accent.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Text('$days дн.',
+                  child: Text('$days ${L.t('days_short')}',
                       style: TextStyle(color: accent, fontSize: 12)),
                 ),
             ],
@@ -558,7 +1557,7 @@ class _SubscriptionCard extends StatelessWidget {
               Expanded(
                 child: _SubMetric(
                   icon: Icons.event,
-                  label: 'Действует до',
+                  label: L.t('valid_until'),
                   value: until != null ? _fmtDate(until!) : '—',
                 ),
               ),
@@ -566,7 +1565,7 @@ class _SubscriptionCard extends StatelessWidget {
               Expanded(
                 child: _SubMetric(
                   icon: Icons.dns_outlined,
-                  label: 'Серверов',
+                  label: L.t('servers_label'),
                   value: '$serverCount',
                 ),
               ),
@@ -604,25 +1603,77 @@ class _SubMetric extends StatelessWidget {
   }
 }
 
-class _ImportCard extends StatelessWidget {
+/// Быстрые действия с подпиской на главном экране (вставить ссылку / привязать TG).
+class _SubActionsCard extends StatelessWidget {
+  const _SubActionsCard();
+
   @override
   Widget build(BuildContext context) {
+    Widget btn(IconData icon, String label, VoidCallback onTap,
+        {bool primary = false}) {
+      return Expanded(
+        child: TapScale(
+          onTap: onTap,
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            decoration: BoxDecoration(
+              gradient: primary ? P.grad : null,
+              color: primary ? null : P.surfaceLo,
+              borderRadius: BorderRadius.circular(12),
+              border: primary ? null : Border.all(color: P.surfaceHi),
+            ),
+            child: Column(
+              children: [
+                Icon(icon,
+                    size: 20,
+                    color: primary ? const Color(0xFF0C1206) : P.limeText),
+                const SizedBox(height: 5),
+                Text(label,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: primary ? const Color(0xFF0C1206) : P.text,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600)),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
     return Container(
-      margin: const EdgeInsets.only(top: 8, bottom: 8),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: P.surfaceLo,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: P.surfaceHi),
       ),
-      child: ListTile(
-        leading: const Icon(Icons.link, color: P.limeText),
-        title: Text(L.t('no_servers'), style: const TextStyle(color: P.text)),
-        subtitle: Text(L.t('no_servers_sub'),
-            style: const TextStyle(color: P.textFaint)),
-        trailing: const Icon(Icons.chevron_right, color: P.textFaint),
-        onTap: () => Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => const ImportScreen()),
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(children: [
+            const Icon(Icons.workspace_premium, size: 18, color: P.limeText),
+            const SizedBox(width: 8),
+            Text(L.t('sub_actions_title'),
+                style: const TextStyle(
+                    color: P.text, fontSize: 14, fontWeight: FontWeight.w700)),
+          ]),
+          const SizedBox(height: 4),
+          Text(L.t('sub_actions_sub'),
+              style: const TextStyle(color: P.textFaint, fontSize: 12)),
+          const SizedBox(height: 12),
+          Row(children: [
+            btn(Icons.link, L.t('sub_actions_import'), () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const ImportScreen()),
+              );
+            }),
+            const SizedBox(width: 10),
+            btn(Icons.telegram, L.t('sub_actions_link_tg'),
+                () => showLinkTelegramDialog(context),
+                primary: true),
+          ]),
+        ],
       ),
     );
   }
@@ -635,56 +1686,69 @@ class _BottomBar extends StatelessWidget {
   final bool showTraffic;
   final double upKbps;
   final double downKbps;
+  final bool animate;
+  final int currentIndex;
+  final ValueChanged<int> onSelect;
   const _BottomBar({
     required this.trafficLines,
     required this.showTraffic,
     required this.upKbps,
     required this.downKbps,
+    required this.currentIndex,
+    required this.onSelect,
+    this.animate = true,
   });
 
   @override
   Widget build(BuildContext context) {
+    final navInner = SafeArea(
+      top: false,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+        child: _navRow(context),
+      ),
+    );
+    final nav = Container(
+      decoration: const BoxDecoration(
+        color: P.surface,
+        border: Border(top: BorderSide(color: P.surfaceHi)),
+      ),
+      child: navInner,
+    );
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         if (showTraffic)
           _TrafficBar(lines: trafficLines, upKbps: upKbps, downKbps: downKbps),
-        Container(
-          decoration: const BoxDecoration(
-            color: P.surface,
-            border: Border(top: BorderSide(color: P.surfaceHi)),
-          ),
-          child: SafeArea(
-            top: false,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  const _Tab(icon: Icons.public, active: true),
-              _Tab(
-                icon: Icons.apps,
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const PerAppScreen()),
-                ),
-              ),
-              _Tab(
-                icon: Icons.chat_bubble_outline,
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const SupportScreen()),
-                ),
-              ),
-                  _Tab(
-                    icon: Icons.settings_outlined,
-                    onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const SettingsScreen()),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
+        nav,
+      ],
+    );
+  }
+
+  Widget _navRow(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        _Tab(
+            icon: Icons.public,
+            active: currentIndex == 0,
+            animate: animate,
+            onTap: () => onSelect(0)),
+        _Tab(
+            icon: Icons.apps,
+            active: currentIndex == 1,
+            animate: animate,
+            onTap: () => onSelect(1)),
+        _Tab(
+            icon: Icons.chat_bubble_outline,
+            active: currentIndex == 2,
+            animate: animate,
+            onTap: () => onSelect(2)),
+        _Tab(
+            icon: Icons.settings_outlined,
+            active: currentIndex == 3,
+            animate: animate,
+            onTap: () => onSelect(3)),
       ],
     );
   }
@@ -693,14 +1757,67 @@ class _BottomBar extends StatelessWidget {
 class _Tab extends StatelessWidget {
   final IconData icon;
   final bool active;
+  final bool animate;
   final VoidCallback? onTap;
-  const _Tab({required this.icon, this.active = false, this.onTap});
+  const _Tab(
+      {required this.icon,
+      this.active = false,
+      this.animate = true,
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: onTap,
-      icon: Icon(icon, color: active ? P.limeText : P.textFaint, size: 24),
+    // В Lite-режиме (animate=false) — простая статичная вкладка без подложки,
+    // свечения, вжатия и плавных переходов.
+    if (!animate) {
+      return GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
+          child: Icon(icon, color: active ? P.limeText : P.textFaint, size: 24),
+        ),
+      );
+    }
+    // Премиальная вкладка: нажатие «вжимается» (TapScale), активная — на мягкой
+    // лаймовой подложке со свечением, иконка плавно подрастает и меняет цвет.
+    return TapScale(
+      onTap: onTap,
+      scale: 0.88,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 320),
+        curve: Curves.easeOutCubic,
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          gradient: active
+              ? LinearGradient(colors: [
+                  P.lime.withValues(alpha: 0.20),
+                  P.violet.withValues(alpha: 0.18),
+                ])
+              : null,
+          boxShadow: active
+              ? [
+                  BoxShadow(
+                      color: P.lime.withValues(alpha: 0.28),
+                      blurRadius: 16,
+                      spreadRadius: -2),
+                ]
+              : null,
+        ),
+        child: TweenAnimationBuilder<double>(
+          duration: const Duration(milliseconds: 320),
+          curve: Curves.easeOutBack,
+          tween: Tween(begin: 1, end: active ? 1.18 : 1.0),
+          builder: (_, s, child) =>
+              Transform.scale(scale: s, child: child),
+          child: TweenAnimationBuilder<Color?>(
+            duration: const Duration(milliseconds: 300),
+            tween: ColorTween(end: active ? P.limeText : P.textFaint),
+            builder: (_, color, __) => Icon(icon, color: color, size: 24),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -739,8 +1856,8 @@ class _TrafficBarState extends State<_TrafficBar> {
   }
 
   String _fmt(double kbps) {
-    if (kbps >= 1024) return '${(kbps / 1024).toStringAsFixed(1)} МБ/с';
-    return '${kbps.toStringAsFixed(0)} КБ/с';
+    if (kbps >= 1024) return '${(kbps / 1024).toStringAsFixed(1)} ${L.t('unit_mbps')}';
+    return '${kbps.toStringAsFixed(0)} ${L.t('unit_kbps')}';
   }
 
   @override

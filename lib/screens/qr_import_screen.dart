@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:provider/provider.dart';
 
+import '../l10n.dart';
 import '../state/app_state.dart';
 import '../theme/app_palette.dart';
 
@@ -32,8 +33,8 @@ class _QrImportScreenState extends State<QrImportScreen> {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       backgroundColor: P.surface,
       content: Text(ok
-          ? '✅ Подписка добавлена: ${state.servers.length} серверов'
-          : (state.lastError ?? 'Не удалось распознать подписку')),
+          ? '${L.t('qr_added')}: ${state.servers.length}'
+          : (state.lastError ?? L.t('qr_fail'))),
     ));
     if (ok) {
       Navigator.of(context).pop(true);
@@ -53,7 +54,7 @@ class _QrImportScreenState extends State<QrImportScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: P.bg,
-      appBar: AppBar(title: const Text('Добавить по QR')),
+      appBar: AppBar(title: Text(L.t('qr_title'))),
       body: Stack(
         alignment: Alignment.center,
         children: [
@@ -77,9 +78,8 @@ class _QrImportScreenState extends State<QrImportScreen> {
                 color: Colors.black.withValues(alpha: 0.6),
                 borderRadius: BorderRadius.circular(14),
               ),
-              child: const Text(
-                'Наведи камеру на QR-код подписки из нашего бота — '
-                'подключение добавится автоматически.',
+              child: Text(
+                L.t('qr_hint'),
                 textAlign: TextAlign.center,
                 style: TextStyle(color: P.text, fontSize: 13),
               ),

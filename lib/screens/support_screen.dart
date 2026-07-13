@@ -15,7 +15,9 @@ import '../state/app_state.dart';
 const _supportUrl = 'https://t.me/variousvpnsupport';
 
 class SupportScreen extends StatefulWidget {
-  const SupportScreen({super.key});
+  /// true — экран показан как вкладка в общей оболочке (без стрелки «назад»).
+  final bool inShell;
+  const SupportScreen({super.key, this.inShell = false});
 
   @override
   State<SupportScreen> createState() => _SupportScreenState();
@@ -59,6 +61,7 @@ class _SupportScreenState extends State<SupportScreen> {
     final cs = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: !widget.inShell,
         title: Text(L.t('sup_title')),
         actions: [
           IconButton(

@@ -16,6 +16,78 @@ import '../theme/app_palette.dart';
 import '../widgets/brand_logo.dart';
 import '../widgets/streak_flame.dart';
 
+/// Диалог привязки Telegram-ID. Возвращает true, если ID введён и подписка
+/// (и серверы) подтянуты. Используется и в профиле, и на главном экране, и в
+/// экране-инструкции — чтобы подписку можно было привязать откуда угодно.
+Future<bool> showLinkTelegramDialog(BuildContext context) async {
+  final ctrl = TextEditingController();
+  final id = await showDialog<String>(
+    context: context,
+    builder: (_) => AlertDialog(
+      backgroundColor: P.surface,
+      title: Text(L.t('link_tg')),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(L.t('link_tg_hint'),
+              style: const TextStyle(color: P.textFaint, fontSize: 12)),
+          const SizedBox(height: 12),
+          TextField(
+            controller: ctrl,
+            keyboardType: TextInputType.number,
+            autofocus: true,
+            style: const TextStyle(color: P.text),
+            decoration: InputDecoration(
+              hintText: '123456789',
+              hintStyle: const TextStyle(color: P.textFaint),
+              // Вставить ID из буфера обмена одним тапом.
+              suffixIcon: IconButton(
+                icon: const Icon(Icons.content_paste_rounded,
+                    size: 18, color: P.limeText),
+                tooltip: L.t('paste'),
+                onPressed: () async {
+                  final data = await Clipboard.getData(Clipboard.kTextPlain);
+                  final t = data?.text?.trim();
+                  if (t != null && t.isNotEmpty) ctrl.text = t;
+                },
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton.icon(
+              onPressed: () => launchUrl(Uri.parse(Brand.bot),
+                  mode: LaunchMode.externalApplication),
+              icon: const Icon(Icons.smart_toy_outlined, size: 18),
+              label: Text(L.t('link_tg_openbot')),
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(L.t('cancel')),
+        ),
+        FilledButton(
+          onPressed: () => Navigator.pop(context, ctrl.text.trim()),
+          child: Text(L.t('save')),
+        ),
+      ],
+    ),
+  );
+  if (id != null && id.isNotEmpty && context.mounted) {
+    final state = context.read<AppState>();
+    state.setTgId(id);
+    // refreshSubStatus сам подтянет подписку/серверы и выйдет из free-режима.
+    await state.refreshSubStatus();
+    await state.loadStreak();
+    return true;
+  }
+  return false;
+}
+
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -37,14 +109,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
     if (tgId != null && tgId.isNotEmpty) {
       _loading = true;
-      BackendApi().subStatus(tgId).then((s) {
-        if (mounted) {
-          setState(() {
-            _status = s;
-            _loading = false;
-          });
-        }
-      });
+      // Владелец (админ) видит активную подписку на месяц на своём устройстве.
+      final state = context.read<AppState>();
+      if (state.isAdmin) {
+        _status = (active: true, until: DateTime.now().add(const Duration(days: 30)));
+        _loading = false;
+      } else {
+        BackendApi().subStatus(tgId).then((s) {
+          if (mounted) {
+            setState(() {
+              _status = s;
+              _loading = false;
+            });
+          }
+        });
+      }
     }
   }
 
@@ -52,47 +131,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
 
   Future<void> _linkTelegram() async {
-    final ctrl = TextEditingController();
-    final id = await showDialog<String>(
-      context: context,
-      builder: (_) => AlertDialog(
-        backgroundColor: P.surface,
-        title: Text(L.t('link_tg')),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(L.t('link_tg_hint'),
-                style: const TextStyle(color: P.textFaint, fontSize: 12)),
-            const SizedBox(height: 12),
-            TextField(
-              controller: ctrl,
-              keyboardType: TextInputType.number,
-              style: const TextStyle(color: P.text),
-              decoration: const InputDecoration(
-                hintText: '123456789',
-                hintStyle: TextStyle(color: P.textFaint),
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(L.t('cancel')),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(context, ctrl.text.trim()),
-            child: Text(L.t('save')),
-          ),
-        ],
-      ),
-    );
-    if (id != null && id.isNotEmpty && mounted) {
-      final state = context.read<AppState>();
-      state.setTgId(id);
-      await state.refreshSubStatus();
-      await state.loadStreak(); // подтянуть ник и стрик к профилю
-      final s = await BackendApi().subStatus(id);
+    final ok = await showLinkTelegramDialog(context);
+    if (ok && mounted) {
+      final tg = Storage.instance.tgId;
+      final s = tg != null ? await BackendApi().subStatus(tg) : null;
       if (mounted) setState(() => _status = s);
     }
   }
@@ -230,8 +272,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               title: L.t('copy_id'),
               onTap: () {
                 Clipboard.setData(ClipboardData(text: tgId));
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text('ID скопирован'),
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(L.t('id_copied')),
                   backgroundColor: P.surface,
                 ));
               },
@@ -349,7 +391,7 @@ class _StreakCard extends StatelessWidget {
                       border: Border.all(
                           color: streak >= m ? P.limeText : P.surfaceHi),
                     ),
-                    child: Text('$m дн → +${rewards[m]}',
+                    child: Text('$m ${L.t('streak_day_short')} → +${rewards[m]}',
                         style: TextStyle(
                             color: streak >= m ? P.limeText : P.textDim,
                             fontSize: 11.5,

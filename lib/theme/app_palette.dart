@@ -54,6 +54,7 @@ class P {
   static List<Color> flagStripes(String cc) => switch (cc) {
         'DE' => const [Color(0xFF111111), Color(0xFFC8102E), Color(0xFFE0B300)],
         'NL' => const [Color(0xFF9A2030), Color(0xFFE9E9E9), Color(0xFF1E3A6E)],
+        'RU' => const [Color(0xFFE9E9E9), Color(0xFF1E3A6E), Color(0xFF9A2030)],
         'US' => const [Color(0xFFB22234), Color(0xFFE9E9E9), Color(0xFF3C3B6E)],
         'GB' => const [Color(0xFF1E3A6E), Color(0xFFE9E9E9), Color(0xFF9A2030)],
         _ => const [Color(0xFF334155), Color(0xFF475569), Color(0xFF334155)],

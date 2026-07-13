@@ -1,4 +1,4 @@
-/// Раздельное туннелирование (split tunneling) в стиле Quattro, в нашем тёмном
+/// Раздельное туннелирование (split tunneling) в нашем тёмном
 /// раскрасе. Мастер-переключатель + режим «Через VPN / В обход VPN» + список
 /// установленных приложений с тумблерами. Выбор реально влияет на маршрут:
 /// AppState.blockedApps → flutter_v2ray blockedApps.
@@ -11,14 +11,45 @@ import 'package:flutter/material.dart';
 import 'package:installed_apps/app_info.dart';
 import 'package:installed_apps/installed_apps.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../brand.dart';
 import '../l10n.dart';
 import '../state/app_state.dart';
 import '../theme/app_palette.dart';
 import '../widgets/tap_scale.dart';
 
+/// Диалог «в бесплатном режиме правила зафиксированы — купи подписку».
+void showFreeLockedDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (_) => AlertDialog(
+      backgroundColor: P.surface,
+      title: Text(L.t('free_locked_title'), style: const TextStyle(color: P.text)),
+      content: Text(L.t('free_locked_body'),
+          style: const TextStyle(color: P.textDim)),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(L.t('cancel')),
+        ),
+        FilledButton(
+          onPressed: () {
+            Navigator.pop(context);
+            launchUrl(Uri.parse(Brand.bot),
+                mode: LaunchMode.externalApplication);
+          },
+          child: Text(L.t('free_locked_buy')),
+        ),
+      ],
+    ),
+  );
+}
+
 class PerAppScreen extends StatefulWidget {
-  const PerAppScreen({super.key});
+  /// true — экран показан как вкладка в общей оболочке (без стрелки «назад»).
+  final bool inShell;
+  const PerAppScreen({super.key, this.inShell = false});
 
   @override
   State<PerAppScreen> createState() => _PerAppScreenState();
@@ -63,6 +94,7 @@ class _PerAppScreenState extends State<PerAppScreen> {
       child: Scaffold(
         backgroundColor: P.bg,
         appBar: AppBar(
+          automaticallyImplyLeading: !widget.inShell,
           title: Text(L.t('tunneling')),
           bottom: TabBar(
             indicatorColor: P.lime,
@@ -92,14 +124,40 @@ class _PerAppScreenState extends State<PerAppScreen> {
             .where((a) => a.name.toLowerCase().contains(_query.toLowerCase()))
             .toList();
 
+    final free = state.telegramOnly;
     return Column(
         children: [
+          // В бесплатном режиме VPN идёт ТОЛЬКО для Telegram — правила зафиксированы.
+          if (free)
+            Container(
+              margin: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: P.lime.withValues(alpha: 0.10),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: P.lime.withValues(alpha: 0.4)),
+              ),
+              child: Row(children: [
+                const Icon(Icons.telegram, color: P.limeText),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(L.t('free_rules_banner'),
+                      style: const TextStyle(color: P.text, fontSize: 13)),
+                ),
+                TextButton(
+                  onPressed: () => showFreeLockedDialog(context),
+                  child: Text(L.t('free_locked_buy')),
+                ),
+              ]),
+            ),
           // режим списка: Через VPN / В обход VPN
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
             child: _ModeSelector(
               throughVpn: state.splitThroughVpn,
-              onChanged: state.setSplitThroughVpn,
+              onChanged: free
+                  ? (_) => showFreeLockedDialog(context)
+                  : state.setSplitThroughVpn,
             ),
           ),
           // мастер-переключатель
@@ -108,12 +166,18 @@ class _PerAppScreenState extends State<PerAppScreen> {
             title: Text(L.t('split_enable'),
                 style: const TextStyle(color: P.text, fontSize: 15)),
             subtitle: Text(
-              state.splitThroughVpn ? L.t('split_hint_through') : L.t('split_hint_bypass'),
+              free
+                  ? L.t('free_rules_locked')
+                  : (state.splitThroughVpn
+                      ? L.t('split_hint_through')
+                      : L.t('split_hint_bypass')),
               style: const TextStyle(color: P.textFaint, fontSize: 12),
             ),
-            value: state.splitEnabled,
+            value: free ? true : state.splitEnabled,
             activeThumbColor: P.lime,
-            onChanged: state.setSplitEnabled,
+            onChanged: free
+                ? (_) => showFreeLockedDialog(context)
+                : state.setSplitEnabled,
           ),
           // поиск
           Padding(
@@ -157,8 +221,9 @@ class _PerAppScreenState extends State<PerAppScreen> {
                             app: app,
                             selected: on,
                             enabled: true,
-                            onToggle: (v) =>
-                                state.toggleSplitApp(app.packageName, v),
+                            onToggle: (v) => free
+                                ? showFreeLockedDialog(context)
+                                : state.toggleSplitApp(app.packageName, v),
                           );
                         },
                       ),
@@ -242,6 +307,35 @@ class _UrlsTabState extends State<_UrlsTab> {
   Widget build(BuildContext context) {
     final state = context.watch<AppState>();
     final custom = state.splitUrls.where((u) => !_popular.contains(u)).toList();
+    // В бесплатном режиме раздельное туннелирование сайтов недоступно (работает
+    // только Telegram) — показываем баннер и блокируем управление.
+    if (state.telegramOnly) {
+      return ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          Container(
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: P.lime.withValues(alpha: 0.10),
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: P.lime.withValues(alpha: 0.4)),
+            ),
+            child: Row(children: [
+              const Icon(Icons.telegram, color: P.limeText),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(L.t('free_rules_banner'),
+                    style: const TextStyle(color: P.text, fontSize: 13)),
+              ),
+              TextButton(
+                onPressed: () => showFreeLockedDialog(context),
+                child: Text(L.t('free_locked_buy')),
+              ),
+            ]),
+          ),
+        ],
+      );
+    }
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [

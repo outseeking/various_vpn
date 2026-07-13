@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Превью виджета в списке выбора (упрощённое). -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <gradient android:type="linear" android:angle="115"
+        android:startColor="#0B1120" android:endColor="#05070C" />
+    <corners android:radius="26dp" />
+    <stroke android:width="1dp" android:color="#339BCB3C" />
+</shape>

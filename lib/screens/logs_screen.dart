@@ -19,14 +19,14 @@ class LogsScreen extends StatelessWidget {
         title: Text(L.t('logs_title2')),
         actions: [
           IconButton(
-            tooltip: 'Очистить',
+            tooltip: L.t('clear'),
             icon: const Icon(Icons.delete_sweep),
             onPressed: state.logs.isEmpty ? null : state.clearLogs,
           ),
         ],
       ),
       body: state.logs.isEmpty
-          ? const Center(child: Text('Пока пусто — события появятся здесь'))
+          ? Center(child: Text(L.t('logs_empty')))
           : ListView.separated(
               itemCount: state.logs.length,
               separatorBuilder: (_, __) => const Divider(height: 1),

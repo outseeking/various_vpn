@@ -10,15 +10,46 @@ class CountryFlag extends StatelessWidget {
   final double width;
   const CountryFlag(this.countryCode, {super.key, this.width = 22});
 
+  static const _vector = {'DE', 'NL', 'FI', 'US', 'GB', 'RU'};
+
+  bool get _valid2 =>
+      countryCode.length == 2 &&
+      RegExp(r'^[A-Za-z]{2}$').hasMatch(countryCode);
+
   @override
   Widget build(BuildContext context) {
     final h = width * 16 / 22;
+    final cc = countryCode.toUpperCase();
+    // Для наших основных стран — красивый векторный флаг. Для любой другой
+    // распознанной страны — аккуратный бейдж с кодом (эмодзи-флаги на части
+    // прошивок не отображаются, поэтому надёжнее код). Иначе — глобус.
+    if (!_vector.contains(cc)) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(3),
+        child: SizedBox(
+          width: width,
+          height: h,
+          child: _valid2
+              ? Container(
+                  alignment: Alignment.center,
+                  color: const Color(0xFF223049),
+                  child: Text(cc,
+                      style: TextStyle(
+                          color: const Color(0xFFCFE0FF),
+                          fontSize: h * 0.62,
+                          fontWeight: FontWeight.w700,
+                          height: 1)),
+                )
+              : const Icon(Icons.public, size: 14, color: Color(0x73FFFFFF)),
+        ),
+      );
+    }
     return ClipRRect(
       borderRadius: BorderRadius.circular(3),
       child: SizedBox(
         width: width,
         height: h,
-        child: CustomPaint(painter: _FlagPainter(countryCode)),
+        child: CustomPaint(painter: _FlagPainter(cc)),
       ),
     );
   }

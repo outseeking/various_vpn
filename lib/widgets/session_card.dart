@@ -36,15 +36,15 @@ class SessionCard extends StatelessWidget {
   }
 
   static String _bytes(int b) {
-    if (b < 1024) return '$b Б';
-    if (b < 1024 * 1024) return '${(b / 1024).toStringAsFixed(0)} КБ';
-    if (b < 1024 * 1024 * 1024) return '${(b / 1024 / 1024).toStringAsFixed(1)} МБ';
-    return '${(b / 1024 / 1024 / 1024).toStringAsFixed(2) } ГБ';
+    if (b < 1024) return '$b ${L.t('unit_b')}';
+    if (b < 1024 * 1024) return '${(b / 1024).toStringAsFixed(0)} ${L.t('unit_kb')}';
+    if (b < 1024 * 1024 * 1024) return '${(b / 1024 / 1024).toStringAsFixed(1)} ${L.t('unit_mb')}';
+    return '${(b / 1024 / 1024 / 1024).toStringAsFixed(2)} ${L.t('unit_gb')}';
   }
 
   static String _speed(double kbps) {
-    if (kbps < 1024) return '${kbps.toStringAsFixed(0)} КБ/с';
-    return '${(kbps / 1024).toStringAsFixed(1)} МБ/с';
+    if (kbps < 1024) return '${kbps.toStringAsFixed(0)} ${L.t('unit_kbps')}';
+    return '${(kbps / 1024).toStringAsFixed(1)} ${L.t('unit_mbps')}';
   }
 
   @override
