@@ -11,6 +11,13 @@ import 'dart:convert';
 import '../models/vpn_server.dart';
 
 class SubscriptionParser {
+  /// Хосты выведенных из эксплуатации нод — их конфиги отфильтровываем, чтобы
+  /// клиент не видел заведомо нерабочий сервер (напр. сервер с истёкшей арендой).
+  /// Серверный список подписки почистим отдельно; это защита на стороне клиента.
+  static const deadHosts = <String>{
+    '132.243.224.220', // DE2 / resale-host — аренда истекла
+  };
+
   /// Разбирает сырое тело подписки (base64 ИЛИ plain-text) в список серверов.
   /// Мусорные/непонятные строки пропускаются молча.
   static List<VpnServer> parseContent(String content) {
@@ -21,7 +28,9 @@ class SubscriptionParser {
       final s = line.trim();
       if (s.isEmpty) continue;
       final server = parseLink(s);
-      if (server != null) servers.add(server);
+      if (server == null) continue;
+      if (deadHosts.contains(server.address)) continue; // мёртвая нода — скрываем
+      servers.add(server);
     }
     return servers;
   }
