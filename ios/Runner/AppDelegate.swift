@@ -15,7 +15,12 @@ import UIKit
 
   func didInitializeImplicitFlutterEngine(_ engineBridge: FlutterImplicitEngineBridge) {
     GeneratedPluginRegistrant.register(with: engineBridge.pluginRegistry)
-    setupVpnChannels(engineBridge.binaryMessenger)
+    // Бинарный мессенджер берём через registrar плагин-реестра (стабильный API,
+    // в отличие от прямого .binaryMessenger, которого у bridge нет).
+    if let messenger = engineBridge.pluginRegistry
+      .registrar(forPlugin: "VariousVpnChannels")?.messenger() {
+      setupVpnChannels(messenger)
+    }
   }
 
   // Мост Flutter ↔ NetworkExtension (см. VPNManager.swift).
