@@ -264,6 +264,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           speedDownKbps: state.speedDownKbps,
                           speedUpKbps: state.speedUpKbps,
                           history: state.speedHistory,
+                          historyUp: state.speedHistoryUp,
                         ),
                       )
                     : const SizedBox(width: double.infinity),
@@ -918,6 +919,24 @@ class _FullList extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       buildDefaultDragHandles: false,
       onReorder: state.reorderServers,
+      // Убираем дефолтную синеватую Material-тень при перетаскивании — вместо неё
+      // мягкий подъём карточки (scale) без постороннего свечения.
+      proxyDecorator: (child, index, animation) => AnimatedBuilder(
+        animation: animation,
+        builder: (context, ch) {
+          final t = Curves.easeOut.transform(animation.value);
+          return Transform.scale(
+            scale: 1 + 0.03 * t,
+            child: Material(
+              color: Colors.transparent,
+              elevation: 0,
+              shadowColor: Colors.transparent,
+              child: ch,
+            ),
+          );
+        },
+        child: child,
+      ),
       children: [
         for (var i = 0; i < list.length; i++)
           ReorderableDelayedDragStartListener(
@@ -1725,32 +1744,66 @@ class _BottomBar extends StatelessWidget {
     );
   }
 
+  static const _icons = [
+    Icons.public,
+    Icons.apps,
+    Icons.chat_bubble_outline,
+    Icons.settings_outlined,
+  ];
+
   Widget _navRow(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        _Tab(
-            icon: Icons.public,
-            active: currentIndex == 0,
-            animate: animate,
-            onTap: () => onSelect(0)),
-        _Tab(
-            icon: Icons.apps,
-            active: currentIndex == 1,
-            animate: animate,
-            onTap: () => onSelect(1)),
-        _Tab(
-            icon: Icons.chat_bubble_outline,
-            active: currentIndex == 2,
-            animate: animate,
-            onTap: () => onSelect(2)),
-        _Tab(
-            icon: Icons.settings_outlined,
-            active: currentIndex == 3,
-            animate: animate,
-            onTap: () => onSelect(3)),
-      ],
-    );
+    const n = 4;
+    return LayoutBuilder(builder: (context, c) {
+      final slot = c.maxWidth / n;
+      final pillW = slot * 0.66;
+      return SizedBox(
+        height: 48,
+        child: Stack(
+          children: [
+            // Плавно «переезжающий» индикатор под активной вкладкой (мягкая
+            // лаймово-фиолетовая капсула со свечением). В Lite — без свечения.
+            AnimatedPositioned(
+              duration: const Duration(milliseconds: 380),
+              curve: Curves.easeOutCubic,
+              left: slot * currentIndex + (slot - pillW) / 2,
+              top: 3,
+              width: pillW,
+              height: 42,
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [
+                    P.lime.withValues(alpha: 0.20),
+                    P.violet.withValues(alpha: 0.18),
+                  ]),
+                  borderRadius: BorderRadius.circular(21),
+                  boxShadow: animate
+                      ? [
+                          BoxShadow(
+                              color: P.lime.withValues(alpha: 0.26),
+                              blurRadius: 16,
+                              spreadRadius: -3),
+                        ]
+                      : null,
+                ),
+              ),
+            ),
+            Row(
+              children: [
+                for (var i = 0; i < n; i++)
+                  Expanded(
+                    child: _Tab(
+                      icon: _icons[i],
+                      active: currentIndex == i,
+                      animate: animate,
+                      onTap: () => onSelect(i),
+                    ),
+                  ),
+              ],
+            ),
+          ],
+        ),
+      );
+    });
   }
 }
 
@@ -1767,54 +1820,38 @@ class _Tab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // В Lite-режиме (animate=false) — простая статичная вкладка без подложки,
-    // свечения, вжатия и плавных переходов.
+    // Иконка плавно меняет цвет (активная — лайм). Индикатор-капсула едет
+    // отдельно (в _navRow), поэтому у самой вкладки фона нет.
+    final glyph = TweenAnimationBuilder<Color?>(
+      duration: const Duration(milliseconds: 280),
+      tween: ColorTween(end: active ? P.limeText : P.textFaint),
+      builder: (_, color, __) => Icon(icon, color: color, size: 24),
+    );
     if (!animate) {
       return GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
-          child: Icon(icon, color: active ? P.limeText : P.textFaint, size: 24),
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          child: Center(
+            child: Icon(icon, color: active ? P.limeText : P.textFaint, size: 24),
+          ),
         ),
       );
     }
-    // Премиальная вкладка: нажатие «вжимается» (TapScale), активная — на мягкой
-    // лаймовой подложке со свечением, иконка плавно подрастает и меняет цвет.
+    // Активная иконка чуть подрастает (пружиной) — вместе с едущей капсулой.
     return TapScale(
       onTap: onTap,
-      scale: 0.88,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 320),
-        curve: Curves.easeOutCubic,
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          gradient: active
-              ? LinearGradient(colors: [
-                  P.lime.withValues(alpha: 0.20),
-                  P.violet.withValues(alpha: 0.18),
-                ])
-              : null,
-          boxShadow: active
-              ? [
-                  BoxShadow(
-                      color: P.lime.withValues(alpha: 0.28),
-                      blurRadius: 16,
-                      spreadRadius: -2),
-                ]
-              : null,
-        ),
-        child: TweenAnimationBuilder<double>(
-          duration: const Duration(milliseconds: 320),
-          curve: Curves.easeOutBack,
-          tween: Tween(begin: 1, end: active ? 1.18 : 1.0),
-          builder: (_, s, child) =>
-              Transform.scale(scale: s, child: child),
-          child: TweenAnimationBuilder<Color?>(
-            duration: const Duration(milliseconds: 300),
-            tween: ColorTween(end: active ? P.limeText : P.textFaint),
-            builder: (_, color, __) => Icon(icon, color: color, size: 24),
+      scale: 0.85,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        child: Center(
+          child: TweenAnimationBuilder<double>(
+            duration: const Duration(milliseconds: 340),
+            curve: Curves.easeOutBack,
+            tween: Tween(begin: 1, end: active ? 1.15 : 1.0),
+            builder: (_, s, child) => Transform.scale(scale: s, child: child),
+            child: glyph,
           ),
         ),
       ),

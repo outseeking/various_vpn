@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
 import 'screens/onboarding_screen.dart';
 import 'screens/splash_screen.dart';
+import 'screens/terms_screen.dart';
 import 'services/storage.dart';
 import 'theme/app_theme.dart';
 
@@ -34,7 +35,8 @@ class VariousVpnApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.dark,
       themeMode: ThemeMode.dark,
-      home: SplashScreen(next: home),
+      // Гейт согласия (пользовательское соглашение) — до входа в приложение.
+      home: SplashScreen(next: ConsentGate(child: home)),
     );
   }
 }

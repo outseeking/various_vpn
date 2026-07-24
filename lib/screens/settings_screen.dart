@@ -22,6 +22,7 @@ import 'per_app_screen.dart';
 import 'custom_servers_screen.dart';
 import 'auto_wifi_screen.dart';
 import 'diagnostics_screen.dart';
+import 'terms_screen.dart';
 import 'killswitch_guide_screen.dart';
 import 'ping_settings_screen.dart';
 import 'speedtest_screen.dart';
@@ -291,6 +292,14 @@ class SettingsScreen extends StatelessWidget {
             subtitle: L.t('support_d'),
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const SupportScreen()),
+            ),
+          ),
+          _NavRow(
+            title: L.t('terms'),
+            icon: Icons.description_outlined,
+            subtitle: L.t('terms_d'),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const TermsScreen()),
             ),
           ),
 

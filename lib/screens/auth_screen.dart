@@ -100,7 +100,21 @@ class _AuthScreenState extends State<AuthScreen>
                 Text(L.t('gs_tagline'),
                     textAlign: TextAlign.center,
                     style: const TextStyle(color: P.textDim, fontSize: 14)),
-                const SizedBox(height: 34),
+                const SizedBox(height: 16),
+                // Плашки доверия (как у топовых VPN) — коротко про главное.
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    _TrustBadge(icon: Icons.public, text: L.t('gs_badge_ru')),
+                    _TrustBadge(
+                        icon: Icons.devices, text: L.t('gs_badge_dev')),
+                    _TrustBadge(
+                        icon: Icons.lock_outline, text: L.t('gs_badge_nolog')),
+                  ],
+                ),
+                const SizedBox(height: 28),
 
                 // 1) Главный CTA — получить подписку в боте (с бегущим блеском).
                 _ShineButton(
@@ -148,6 +162,32 @@ class _AuthScreenState extends State<AuthScreen>
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Компактная плашка доверия (иконка + короткий текст).
+class _TrustBadge extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  const _TrustBadge({required this.icon, required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+      decoration: BoxDecoration(
+        color: P.surfaceLo,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: P.surfaceHi),
+      ),
+      child: Row(mainAxisSize: MainAxisSize.min, children: [
+        Icon(icon, size: 14, color: P.limeText),
+        const SizedBox(width: 6),
+        Text(text,
+            style: const TextStyle(
+                color: P.textDim, fontSize: 12, fontWeight: FontWeight.w600)),
+      ]),
     );
   }
 }
@@ -248,16 +288,32 @@ class _ShinePainter extends CustomPainter {
   _ShinePainter(this.t);
   @override
   void paint(Canvas canvas, Size size) {
-    final x = t * size.width * 1.6 - size.width * 0.3;
-    final rect = Rect.fromLTWH(x, 0, size.width * 0.28, size.height);
-    canvas.drawRect(
-        rect,
+    final w = size.width, h = size.height;
+    // Диагональный блик во всю карточку (а не узкая полоса по центру): широкая
+    // мягкая полоса едет слева направо под наклоном, поэтому «переливается» весь
+    // прямоугольник целиком.
+    final band = w * 0.5;
+    final cx = t * (w + h * 2 + band) - h - band;
+    final path = Path()
+      ..moveTo(cx, 0)
+      ..lineTo(cx + band, 0)
+      ..lineTo(cx + band - h, h)
+      ..lineTo(cx - h, h)
+      ..close();
+    final rect = Rect.fromLTWH(cx - h, 0, band + h, h);
+    canvas.drawPath(
+        path,
         Paint()
-          ..shader = const LinearGradient(colors: [
-            Color(0x00FFFFFF),
-            Color(0x3DFFFFFF),
-            Color(0x00FFFFFF),
-          ]).createShader(rect));
+          ..shader = const LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: [
+              Color(0x00FFFFFF),
+              Color(0x4DFFFFFF),
+              Color(0x00FFFFFF),
+            ],
+            stops: [0.0, 0.5, 1.0],
+          ).createShader(rect));
   }
 
   @override

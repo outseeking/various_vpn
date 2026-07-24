@@ -89,8 +89,8 @@ class _ImportScreenState extends State<ImportScreen> {
               autocorrect: false,
               enableSuggestions: false,
               decoration: const InputDecoration(
-                hintText: 'https://nl1.ug-connect.site:8088/sub/…\n'
-                    'или vless://…',
+                hintText: 'ID из бота (напр. 1658245753)\n'
+                    'или https://…  ·  vless://…',
                 border: OutlineInputBorder(),
               ),
             ),

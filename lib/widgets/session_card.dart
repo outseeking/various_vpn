@@ -14,7 +14,8 @@ class SessionCard extends StatelessWidget {
   final int bytesUp;
   final double speedDownKbps;
   final double speedUpKbps;
-  final List<double> history;
+  final List<double> history; // принято (down)
+  final List<double> historyUp; // отдано (up)
 
   const SessionCard({
     super.key,
@@ -24,6 +25,7 @@ class SessionCard extends StatelessWidget {
     required this.speedDownKbps,
     required this.speedUpKbps,
     required this.history,
+    this.historyUp = const [],
   });
 
   static String _dur(Duration d) {
@@ -81,20 +83,36 @@ class SessionCard extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           SizedBox(
-            height: 38,
+            height: 44,
             child: CustomPaint(
               size: Size.infinite,
-              painter: _SparkPainter(history),
+              painter: _SparkPainter(history, historyUp),
             ),
           ),
           const SizedBox(height: 6),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('↓ ${_speed(speedDownKbps)}',
-                  style: const TextStyle(color: P.limeText, fontSize: 12)),
-              Text('↑ ${_speed(speedUpKbps)}',
-                  style: const TextStyle(color: Color(0xFFB48CE6), fontSize: 12)),
+              Row(children: [
+                Container(
+                    width: 8,
+                    height: 8,
+                    decoration: const BoxDecoration(
+                        color: P.lime, shape: BoxShape.circle)),
+                const SizedBox(width: 5),
+                Text('${L.t('received')} ↓ ${_speed(speedDownKbps)}',
+                    style: const TextStyle(color: P.limeText, fontSize: 12)),
+              ]),
+              Row(children: [
+                Container(
+                    width: 8,
+                    height: 8,
+                    decoration: const BoxDecoration(
+                        color: Color(0xFFB48CE6), shape: BoxShape.circle)),
+                const SizedBox(width: 5),
+                Text('${L.t('sent')} ↑ ${_speed(speedUpKbps)}',
+                    style: const TextStyle(color: Color(0xFFB48CE6), fontSize: 12)),
+              ]),
             ],
           ),
         ],
@@ -134,20 +152,11 @@ class _Metric extends StatelessWidget {
 }
 
 class _SparkPainter extends CustomPainter {
-  final List<double> data;
-  _SparkPainter(this.data);
+  final List<double> down;
+  final List<double> up;
+  _SparkPainter(this.down, this.up);
 
-  @override
-  void paint(Canvas canvas, Size size) {
-    if (data.length < 2) return;
-    final maxV = data.reduce((a, b) => a > b ? a : b).clamp(1, double.infinity);
-    final dx = size.width / (data.length - 1);
-    // точки
-    final pts = <Offset>[
-      for (var i = 0; i < data.length; i++)
-        Offset(dx * i, size.height - (data[i] / maxV) * size.height * 0.9 - 2),
-    ];
-    // сглаживание Catmull-Rom → кубические Безье (плавная линия без ступенек)
+  Path _smooth(List<Offset> pts) {
     final path = Path()..moveTo(pts.first.dx, pts.first.dy);
     for (var i = 0; i < pts.length - 1; i++) {
       final p0 = pts[i == 0 ? 0 : i - 1];
@@ -158,31 +167,43 @@ class _SparkPainter extends CustomPainter {
       final c2 = Offset(p2.dx - (p3.dx - p1.dx) / 6, p2.dy - (p3.dy - p1.dy) / 6);
       path.cubicTo(c1.dx, c1.dy, c2.dx, c2.dy, p2.dx, p2.dy);
     }
-    final fill = Path.from(path)
-      ..lineTo(size.width, size.height)
-      ..lineTo(0, size.height)
-      ..close();
-    canvas.drawPath(
-        fill,
-        Paint()
-          ..shader = const LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0x557CB10F), Color(0x00000000)],
-          ).createShader(Offset.zero & size));
+    return path;
+  }
 
-    // мягкое свечение под линией
+  void _series(Canvas canvas, Size size, List<double> data, double maxV,
+      Color color, {required bool fill}) {
+    if (data.length < 2) return;
+    final dx = size.width / (data.length - 1);
+    final pts = <Offset>[
+      for (var i = 0; i < data.length; i++)
+        Offset(dx * i, size.height - (data[i] / maxV) * size.height * 0.86 - 2),
+    ];
+    final path = _smooth(pts);
+    if (fill) {
+      final area = Path.from(path)
+        ..lineTo(size.width, size.height)
+        ..lineTo(0, size.height)
+        ..close();
+      canvas.drawPath(
+          area,
+          Paint()
+            ..shader = LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [color.withValues(alpha: 0.30), const Color(0x00000000)],
+            ).createShader(Offset.zero & size));
+    }
+    // мягкое свечение
     canvas.drawPath(
         path,
         Paint()
           ..style = PaintingStyle.stroke
-          ..strokeWidth = 3.4
+          ..strokeWidth = 3.2
           ..strokeCap = StrokeCap.round
           ..strokeJoin = StrokeJoin.round
-          ..color = P.lime.withValues(alpha: 0.35)
+          ..color = color.withValues(alpha: 0.30)
           ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4));
-
-    // основная линия с градиентом лайм→фиолет
+    // основная линия
     canvas.drawPath(
         path,
         Paint()
@@ -190,19 +211,22 @@ class _SparkPainter extends CustomPainter {
           ..strokeWidth = 2.0
           ..strokeCap = StrokeCap.round
           ..strokeJoin = StrokeJoin.round
-          ..shader = const LinearGradient(
-            colors: [P.violet, P.lime],
-          ).createShader(Offset.zero & size));
-
+          ..color = color);
     // точка текущего значения
-    final last = pts.last;
-    canvas.drawCircle(last, 3.2, Paint()..color = P.lime);
-    canvas.drawCircle(
-        last,
-        5.5,
-        Paint()
-          ..color = P.lime.withValues(alpha: 0.3)
-          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3));
+    canvas.drawCircle(pts.last, 3.0, Paint()..color = color);
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (down.length < 2) return;
+    // Общий масштаб для обеих линий, чтобы они были сопоставимы.
+    double mx = 1;
+    for (final v in down) if (v > mx) mx = v;
+    for (final v in up) if (v > mx) mx = v;
+    _series(canvas, size, down, mx, P.lime, fill: true); // принято
+    if (up.length >= 2) {
+      _series(canvas, size, up, mx, const Color(0xFFB48CE6), fill: false); // отдано
+    }
   }
 
   @override

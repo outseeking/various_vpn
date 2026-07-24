@@ -79,8 +79,8 @@ class L {
       'en': 'Frosted-glass effect on cards. Can be turned off.'
     },
     'lite_mode_d': {
-      'ru': 'Отключает падающие звёзды, вращение глобуса и тяжёлые анимации — приложение работает легче и быстрее.',
-      'en': 'Disables shooting stars, globe rotation and heavy animations — the app runs lighter and faster.'
+      'ru': 'Убирает тяжёлые эффекты — свечение, падающие звёзды и блики. Приложение работает плавнее и меньше расходует батарею.',
+      'en': 'Removes heavy effects — glow, shooting stars and highlights. The app runs smoother and saves battery.'
     },
     'net_good': {'ru': 'Отличный интернет', 'en': 'Great connection'},
     'net_ok': {'ru': 'Нормальный интернет', 'en': 'Decent connection'},
@@ -197,13 +197,16 @@ class L {
     'wdg_connect': {'ru': 'Подключить', 'en': 'Connect'},
     'wdg_disconnect': {'ru': 'Отключить', 'en': 'Disconnect'},
     // экран «начало работы» (после онбординга / для новичка)
-    'gs_tagline': {'ru': 'Премиум-VPN: быстрый, умный, без блокировок', 'en': 'Premium VPN: fast, smart, unblockable'},
-    'gs_get_sub': {'ru': 'Получить подписку', 'en': 'Get subscription'},
-    'gs_get_sub_d': {'ru': 'Полный VPN для всех приложений. Оформление за минуту в нашем Telegram-боте.', 'en': 'Full VPN for all apps. Set up in a minute in our Telegram bot.'},
-    'gs_free': {'ru': 'Попробовать бесплатно', 'en': 'Try for free'},
-    'gs_free_d': {'ru': 'VPN только для Telegram — работает сразу, без входа и оплаты.', 'en': 'VPN for Telegram only — works instantly, no login or payment.'},
-    'gs_have_link': {'ru': 'У меня есть ссылка', 'en': 'I have a link'},
-    'gs_have_link_d': {'ru': 'Вставь ссылку подписки из бота.', 'en': 'Paste the subscription link from the bot.'},
+    'gs_tagline': {'ru': 'Быстрый VPN без блокировок — сайты и приложения снова работают', 'en': 'A fast VPN without blocks — your sites and apps work again'},
+    'gs_badge_ru': {'ru': 'Работает в России', 'en': 'Works everywhere'},
+    'gs_badge_dev': {'ru': 'До 3 устройств', 'en': 'Up to 3 devices'},
+    'gs_badge_nolog': {'ru': 'Без логов', 'en': 'No logs'},
+    'gs_get_sub': {'ru': 'Попробовать 3 дня бесплатно', 'en': 'Try 3 days free'},
+    'gs_get_sub_d': {'ru': 'Полный доступ ко всем сайтам и приложениям. Настройка за минуту в Telegram.', 'en': 'Full access to every site and app. Set up in a minute via Telegram.'},
+    'gs_free': {'ru': 'Бесплатно для Telegram', 'en': 'Free for Telegram'},
+    'gs_free_d': {'ru': 'Telegram заработает прямо сейчас — без регистрации и оплаты.', 'en': 'Telegram works right now — no signup, no payment.'},
+    'gs_have_link': {'ru': 'У меня есть ссылка или ID', 'en': 'I have a link or ID'},
+    'gs_have_link_d': {'ru': 'Вставь ссылку подписки или ID из бота.', 'en': 'Paste your subscription link or ID from the bot.'},
     'gs_no_tg': {'ru': 'Нет Telegram? Бот откроется в браузере — подписка придёт ссылкой.', 'en': 'No Telegram? The bot opens in a browser — the subscription arrives as a link.'},
     'gs_step': {'ru': 'Шаг {n}', 'en': 'Step {n}'},
     'gs_bot_manual': {'ru': 'Открой бота вручную: @variousvpnbot', 'en': 'Open the bot manually: @variousvpnbot'},
@@ -274,6 +277,8 @@ class L {
     'time': {'ru': 'Время', 'en': 'Time'},
     'downloaded': {'ru': 'Скачано', 'en': 'Downloaded'},
     'uploaded': {'ru': 'Отдано', 'en': 'Uploaded'},
+    'received': {'ru': 'Приём', 'en': 'Down'},
+    'sent': {'ru': 'Отдача', 'en': 'Up'},
 
     // --- настройки ---
     'settings': {'ru': 'Настройки', 'en': 'Settings'},
@@ -318,6 +323,8 @@ class L {
     'update_sub': {'ru': 'Обновить / импортировать подписку', 'en': 'Update / import subscription'},
     'support': {'ru': 'Поддержка', 'en': 'Support'},
     'support_d': {'ru': 'Чат в приложении или Telegram', 'en': 'In-app chat or Telegram'},
+    'terms': {'ru': 'Пользовательское соглашение', 'en': 'Terms of Service'},
+    'terms_d': {'ru': 'Условия использования и приватность', 'en': 'Terms of use and privacy'},
     'admin_panel': {'ru': 'Админ-панель', 'en': 'Admin panel'},
     'admin_panel_d': {'ru': 'Метрики, ошибки, ИИ-агент', 'en': 'Metrics, errors, AI agent'},
     'logout': {'ru': 'Выйти из аккаунта', 'en': 'Log out'},

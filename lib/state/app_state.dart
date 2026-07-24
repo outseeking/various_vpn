@@ -88,11 +88,8 @@ class AppState extends ChangeNotifier {
       bytesDown = tr.down;
       bytesUp = tr.up;
       _lastTrafficAt = now;
-      // Экспоненциальное сглаживание (EMA) — линия графика плавная, без рывков.
-      final prev = speedHistory.isEmpty ? speedDownKbps : speedHistory.last;
-      final smoothed = prev * 0.55 + speedDownKbps * 0.45;
-      speedHistory.add(smoothed);
-      if (speedHistory.length > 40) speedHistory.removeAt(0);
+      // График сэмплит ровный 1-секундный таймер (_startSession) — здесь только
+      // обновляем мгновенные значения, чтобы цифры скорости были живыми.
       notifyListeners();
     });
     _startAiAutoPing();
@@ -671,7 +668,8 @@ class AppState extends ChangeNotifier {
   double speedDownKbps = 0;
   double speedUpKbps = 0;
   DateTime? _lastTrafficAt; // для расчёта скорости из прироста байтов
-  final List<double> speedHistory = []; // последние ~30 точек (КБ/с, down)
+  final List<double> speedHistory = []; // последние ~40 точек (КБ/с, принято)
+  final List<double> speedHistoryUp = []; // последние ~40 точек (КБ/с, отдано)
 
   Duration get sessionDuration =>
       _sessionStart == null ? Duration.zero : DateTime.now().difference(_sessionStart!);
@@ -694,15 +692,34 @@ class AppState extends ChangeNotifier {
     speedHistory
       ..clear()
       ..addAll(List<double>.filled(16, 0.0));
+    speedHistoryUp
+      ..clear()
+      ..addAll(List<double>.filled(16, 0.0));
     if (vibrationEnabled) {
       HapticFeedback.heavyImpact();
       HapticFeedback.vibrate(); // реальная вибрация — заметнее, чем haptic
     }
     if (soundEnabled) Sound.connect();
     _sessionTimer?.cancel();
-    // Таймер только для обновления времени сессии. Трафик/скорость — реальные,
-    // приходят из vpn.trafficStream (на web их нет, поэтому график пустой).
+    // Тик раз в секунду: обновляем время И РОВНО СЭМПЛИРУЕМ график (даже если
+    // ядро шлёт трафик рывками — линия всегда двигается, не «залипает»). Если
+    // трафика не было >2.5 c — плавно роняем скорость к нулю (график честный).
     _sessionTimer = Timer.periodic(const Duration(seconds: 1), (_) {
+      final stale = _lastTrafficAt == null ||
+          DateTime.now().difference(_lastTrafficAt!).inMilliseconds > 2500;
+      if (stale) {
+        speedDownKbps *= 0.4;
+        speedUpKbps *= 0.4;
+        if (speedDownKbps < 1) speedDownKbps = 0;
+        if (speedUpKbps < 1) speedUpKbps = 0;
+      }
+      void push(List<double> h, double v) {
+        final prev = h.isEmpty ? v : h.last;
+        h.add(prev * 0.5 + v * 0.5); // лёгкое сглаживание
+        if (h.length > 40) h.removeAt(0);
+      }
+      push(speedHistory, speedDownKbps);
+      push(speedHistoryUp, speedUpKbps);
       notifyListeners();
     });
     _startWatchdog();
@@ -1155,11 +1172,32 @@ class AppState extends ChangeNotifier {
   /// пользователю не нужно гадать, какую кнопку нажать.
   Future<bool> importSmart(String input) {
     final t = input.trim();
+    // Голый числовой код — это Telegram-ID из бота: привязываем аккаунт и тянем
+    // его персональную подписку (/vsub/{id}). Так «У меня есть ссылка или ID»
+    // принимает и ID.
+    if (RegExp(r'^\d{4,15}$').hasMatch(t)) {
+      return importFromTgId(t);
+    }
     final lower = t.toLowerCase(); // схема URL регистронезависима (Https:// тоже)
     final isUrl =
         (lower.startsWith('http://') || lower.startsWith('https://')) &&
             !t.contains('\n');
     return isUrl ? importFromUrl(t) : importFromContent(t);
+  }
+
+  /// Привязка по Telegram-ID из бота: сохраняем ID, тянем персональную подписку
+  /// и статус. Успех, если подтянулись серверы ИЛИ подписка активна.
+  Future<bool> importFromTgId(String id) async {
+    setTgId(id);
+    bool ok = false;
+    try {
+      ok = await importFromUrl(Brand.subForId(id));
+    } catch (_) {
+      ok = false;
+    }
+    await refreshSubStatus();
+    await loadStreak();
+    return ok || subActive || hasServers;
   }
 
   /// Проверяет, что сервер/подписка принадлежит НАШЕМУ VPN (хост оканчивается

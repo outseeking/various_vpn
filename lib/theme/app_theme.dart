@@ -45,6 +45,45 @@ class AppTheme {
       ),
       dividerColor: P.surfaceHi,
       splashFactory: InkRipple.splashFactory,
+      // Единый премиальный стиль всех «всплывашек»: скруглённые углы, мягкая
+      // тень, фирменная поверхность и тонкая рамка.
+      popupMenuTheme: PopupMenuThemeData(
+        color: P.surface,
+        elevation: 14,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18),
+          side: const BorderSide(color: P.surfaceHi),
+        ),
+        textStyle: const TextStyle(color: P.text, fontSize: 14),
+      ),
+      dialogTheme: DialogThemeData(
+        backgroundColor: P.surface,
+        elevation: 18,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      ),
+      bottomSheetTheme: const BottomSheetThemeData(
+        backgroundColor: P.surface,
+        showDragHandle: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(26)),
+        ),
+      ),
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: P.surface,
+        contentTextStyle: const TextStyle(color: P.text),
+        behavior: SnackBarBehavior.floating,
+        insetPadding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      ),
+      menuTheme: MenuThemeData(
+        style: MenuStyle(
+          backgroundColor: const WidgetStatePropertyAll(P.surface),
+          shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+            side: const BorderSide(color: P.surfaceHi),
+          )),
+        ),
+      ),
       // Плавные переходы между экранами (мягкий fade+slide вместо резкого
       // дефолта) — единый премиальный ритм навигации.
       pageTransitionsTheme: const PageTransitionsTheme(builders: {
