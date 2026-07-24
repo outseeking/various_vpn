@@ -1118,8 +1118,14 @@ class AppState extends ChangeNotifier {
     // подписку выдаёт бот/панель.
     final idNum = int.tryParse(tg);
     if (idNum != null && _adminIds.contains(idNum)) {
+      // Админ всегда имеет доступ, но дату показываем РЕАЛЬНУЮ из бэкенда
+      // (иначе в приложении и в боте расходятся даты). Фолбэк +30 дней — только
+      // если бэкенд не ответил.
+      final st = await _api.subStatus(tg);
       subActive = true;
-      subUntil = DateTime.now().add(const Duration(days: 30));
+      subUntil = (st != null && st.until != null)
+          ? st.until
+          : DateTime.now().add(const Duration(days: 30));
       subLoaded = true;
       await _onSubActivated();
       notifyListeners();

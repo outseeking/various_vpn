@@ -281,19 +281,23 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 10),
             ] else if (state.subLoaded &&
-                (state.subActive || state.subUntil != null)) ...[
+                (state.subActive ||
+                    state.subUntil != null ||
+                    state.hasServers)) ...[
+              // Есть серверы (импорт по ссылке/ID) = доступ уже есть, даже если
+              // бэкенд не вернул статус — считаем подписку активной, не пугаем
+              // «подписки нет».
               _SubscriptionCard(
-                active: state.subActive,
+                active: state.subActive || state.hasServers,
                 until: state.subUntil,
                 serverCount: state.servers.length,
               ),
               const SizedBox(height: 10),
             ],
 
-            // Быстрый доступ к подписке прямо с главного — не надо лезть в
-            // настройки: вставить ссылку ИЛИ привязать Telegram (подписка
-            // подтянется сама). Показываем, пока подписка не активна.
-            if (!state.subActive) ...[
+            // «Уже есть подписка?» — только когда доступа реально НЕТ (нет ни
+            // активной подписки, ни импортированных серверов).
+            if (!state.subActive && !state.hasServers) ...[
               const _SubActionsCard(),
               const SizedBox(height: 10),
             ],

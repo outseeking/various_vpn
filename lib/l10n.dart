@@ -198,7 +198,7 @@ class L {
     'wdg_disconnect': {'ru': 'Отключить', 'en': 'Disconnect'},
     // экран «начало работы» (после онбординга / для новичка)
     'gs_tagline': {'ru': 'Быстрый VPN без блокировок — сайты и приложения снова работают', 'en': 'A fast VPN without blocks — your sites and apps work again'},
-    'gs_badge_ru': {'ru': 'Работает в России', 'en': 'Works everywhere'},
+    'gs_badge_ru': {'ru': 'ИИ подбирает сервер', 'en': 'AI picks your server'},
     'gs_badge_dev': {'ru': 'До 3 устройств', 'en': 'Up to 3 devices'},
     'gs_badge_nolog': {'ru': 'Без логов', 'en': 'No logs'},
     'gs_get_sub': {'ru': 'Попробовать 3 дня бесплатно', 'en': 'Try 3 days free'},

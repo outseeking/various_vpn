@@ -107,7 +107,8 @@ class _AuthScreenState extends State<AuthScreen>
                   spacing: 8,
                   runSpacing: 8,
                   children: [
-                    _TrustBadge(icon: Icons.public, text: L.t('gs_badge_ru')),
+                    _TrustBadge(
+                        icon: Icons.auto_awesome, text: L.t('gs_badge_ru')),
                     _TrustBadge(
                         icon: Icons.devices, text: L.t('gs_badge_dev')),
                     _TrustBadge(
