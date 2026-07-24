@@ -1113,29 +1113,16 @@ class AppState extends ChangeNotifier {
       notifyListeners();
       return;
     }
-    // Владелец (админ): активная подписка на месяц на своём устройстве — чтобы
-    // видеть премиум-опыт без ручной выдачи на сервере. Реальным клиентам
-    // подписку выдаёт бот/панель.
-    final idNum = int.tryParse(tg);
-    if (idNum != null && _adminIds.contains(idNum)) {
-      // Админ всегда имеет доступ, но дату показываем РЕАЛЬНУЮ из бэкенда
-      // (иначе в приложении и в боте расходятся даты). Фолбэк +30 дней — только
-      // если бэкенд не ответил.
-      final st = await _api.subStatus(tg);
-      subActive = true;
-      subUntil = (st != null && st.until != null)
-          ? st.until
-          : DateTime.now().add(const Duration(days: 30));
-      subLoaded = true;
-      await _onSubActivated();
-      notifyListeners();
-      return;
-    }
+    // Показываем РЕАЛЬНЫЙ статус с бэкенда для всех, включая владельца, — иначе
+    // дата в приложении расходится с ботом (раньше админу хардкодилось «+30»).
     final st = await _api.subStatus(tg);
     if (st != null) {
       subActive = st.active;
       subUntil = st.until;
     }
+    // Владелец всё равно имеет доступ к премиум-UI, даже если бэкенд не ответил.
+    final idNum = int.tryParse(tg);
+    if (idNum != null && _adminIds.contains(idNum)) subActive = true;
     subLoaded = true;
     if (subActive) await _onSubActivated();
     notifyListeners();
