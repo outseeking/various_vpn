@@ -24,6 +24,7 @@ import '../widgets/tap_scale.dart';
 import '../widgets/globe.dart';
 import '../widgets/session_card.dart';
 import 'import_screen.dart';
+import 'qr_import_screen.dart';
 import 'per_app_screen.dart';
 import 'profile_screen.dart';
 import 'servers_screen.dart';
@@ -1401,6 +1402,137 @@ class _CompactServerCell extends StatelessWidget {
 
 // ---------- карточка бесплатного (пробного) доступа · только Telegram ----------
 
+/// Меню активации полного доступа — единая точка «как купить/подключить».
+/// Открывается по кнопке в карточке бесплатного режима и из быстрых действий.
+void showActivateSheet(BuildContext context) {
+  Future<void> pasteImport() async {
+    final data = await Clipboard.getData(Clipboard.kTextPlain);
+    final txt = data?.text?.trim() ?? '';
+    if (!context.mounted) return;
+    if (txt.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(L.t('act_paste_empty'))));
+      return;
+    }
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(L.t('act_paste_ok'))));
+    final ok = await context.read<AppState>().importSmart(txt);
+    if (context.mounted && !ok) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(context.read<AppState>().lastError ?? 'Ошибка')));
+    }
+  }
+
+  showModalBottomSheet<void>(
+    context: context,
+    backgroundColor: P.surface,
+    isScrollControlled: true,
+    shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+    builder: (ctx) {
+      Widget row(IconData icon, String title, String sub, VoidCallback onTap,
+          {bool primary = false}) {
+        return TapScale(
+          onTap: () {
+            Navigator.pop(ctx);
+            onTap();
+          },
+          child: Container(
+            margin: const EdgeInsets.only(bottom: 10),
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              gradient: primary ? P.grad : null,
+              color: primary ? null : P.surfaceLo,
+              borderRadius: BorderRadius.circular(16),
+              border: primary ? null : Border.all(color: P.surfaceHi),
+            ),
+            child: Row(children: [
+              Container(
+                width: 42,
+                height: 42,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: primary
+                      ? const Color(0x260C1206)
+                      : P.lime.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(icon,
+                    color: primary ? const Color(0xFF0C1206) : P.limeText,
+                    size: 22),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title,
+                        style: TextStyle(
+                            color: primary ? const Color(0xFF0C1206) : P.text,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700)),
+                    const SizedBox(height: 2),
+                    Text(sub,
+                        style: TextStyle(
+                            color: primary
+                                ? const Color(0xCC0C1206)
+                                : P.textFaint,
+                            fontSize: 12,
+                            height: 1.3)),
+                  ],
+                ),
+              ),
+              Icon(Icons.chevron_right,
+                  color: primary ? const Color(0xFF0C1206) : P.textFaint),
+            ]),
+          ),
+        );
+      }
+
+      return SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(18, 6, 18, 12),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 4),
+              Row(children: [
+                const Icon(Icons.workspace_premium, color: P.limeText, size: 22),
+                const SizedBox(width: 8),
+                Text(L.t('act_title'),
+                    style: const TextStyle(
+                        color: P.text, fontSize: 18, fontWeight: FontWeight.w800)),
+              ]),
+              const SizedBox(height: 4),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(L.t('act_sub'),
+                    style: const TextStyle(color: P.textFaint, fontSize: 12.5)),
+              ),
+              const SizedBox(height: 14),
+              row(Icons.workspace_premium, L.t('act_get_bot'),
+                  L.t('act_get_bot_d'),
+                  () => launchUrl(Uri.parse(Brand.bot),
+                      mode: LaunchMode.externalApplication),
+                  primary: true),
+              row(Icons.telegram, L.t('act_link_tg'), L.t('act_link_tg_d'),
+                  () => showLinkTelegramDialog(context)),
+              row(Icons.link, L.t('act_link'), L.t('act_link_d'),
+                  () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => const ImportScreen()))),
+              row(Icons.qr_code_scanner, L.t('act_qr'), L.t('act_qr_d'),
+                  () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => const QrImportScreen()))),
+              row(Icons.content_paste_rounded, L.t('act_paste'),
+                  L.t('act_paste_d'), pasteImport),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
 class _FreeStatusCard extends StatelessWidget {
   final bool connected;
   final bool connecting;
@@ -1475,10 +1607,10 @@ class _FreeStatusCard extends StatelessWidget {
             ),
           ]),
           const SizedBox(height: 12),
-          // Апселл: перейти на полную подписку (весь интернет) через бота.
+          // Апселл: по тапу — меню активации полного доступа (QR / Telegram /
+          // ссылка-ID / буфер / бот). Понятно, как купить и подключить.
           GestureDetector(
-            onTap: () => launchUrl(Uri.parse(Brand.bot),
-                mode: LaunchMode.externalApplication),
+            onTap: () => showActivateSheet(context),
             child: Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 12),
