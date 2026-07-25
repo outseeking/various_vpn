@@ -585,7 +585,8 @@ class AppState extends ChangeNotifier {
     // сеть прямо сейчас. Если да — сразу показываем «подключено», не дожидаясь
     // плагина. Реальный статус потом подтвердит/поправит через stageStream.
     _restoreVpnStateOnLaunch();
-    // Статус подписки — в фоне (не блокируем старт UI).
+    // Мгновенно показываем дату подписки из кэша, затем обновляем в фоне.
+    _loadSubCache();
     refreshSubStatus();
     // Сразу измерим пинги (в фоне, TCP) — чтобы значения были видны при входе,
     // а не появлялись только через 30 сек на первом авто-тике.
@@ -1113,19 +1114,37 @@ class AppState extends ChangeNotifier {
       notifyListeners();
       return;
     }
-    // Показываем РЕАЛЬНЫЙ статус с бэкенда для всех, включая владельца, — иначе
-    // дата в приложении расходится с ботом (раньше админу хардкодилось «+30»).
-    final st = await _api.subStatus(tg);
+    // Показываем РЕАЛЬНЫЙ статус с бэкенда для всех, включая владельца. Запрос
+    // делаем с парой повторов (в момент подключения VPN он мог не дойти —
+    // раньше из-за этого дата обнулялась в «—»).
+    ({bool active, DateTime? until})? st;
+    for (var i = 0; i < 3 && st == null; i++) {
+      st = await _api.subStatus(tg);
+      if (st == null) await Future.delayed(const Duration(seconds: 1));
+    }
     if (st != null) {
       subActive = st.active;
       subUntil = st.until;
+      // Кэшируем — чтобы дата показывалась мгновенно и не пропадала при сбое.
+      _storage.setBool('sub_active_cache', st.active);
+      _storage.setStr('sub_until_cache',
+          st.until?.toIso8601String() ?? '');
     }
-    // Владелец всё равно имеет доступ к премиум-UI, даже если бэкенд не ответил.
+    // Если бэкенд не ответил — оставляем последнее известное значение (не «—»).
     final idNum = int.tryParse(tg);
     if (idNum != null && _adminIds.contains(idNum)) subActive = true;
     subLoaded = true;
     if (subActive) await _onSubActivated();
     notifyListeners();
+  }
+
+  /// Загружает кэш статуса подписки (для мгновенного показа даты на старте).
+  void _loadSubCache() {
+    if ((_storage.tgId ?? '').isEmpty) return;
+    subActive = _storage.getBool('sub_active_cache', def: false);
+    final iso = _storage.getStr('sub_until_cache', def: '');
+    if (iso.isNotEmpty) subUntil = DateTime.tryParse(iso);
+    if (subUntil != null || subActive) subLoaded = true;
   }
 
   /// Вызывается, когда подписка стала активной (привязали TG / купили): выходим
@@ -1826,6 +1845,18 @@ class AppState extends ChangeNotifier {
       _log('Подключение отклонено: нет серверов', LogKind.error);
       notifyListeners();
       return;
+    }
+    // Подписка кончилась — полный VPN недоступен, ведём на продление. Проверяем
+    // актуальный статус (после оплаты и «Обновить» — сразу разблокируется).
+    if (subLoaded && !subActive && subUntil != null) {
+      await refreshSubStatus();
+      if (!subActive) {
+        lastError = 'Подписка закончилась. Продли её, чтобы подключиться.';
+        _log('Подключение отклонено: подписка истекла', LogKind.error);
+        _notify(lastError!);
+        notifyListeners();
+        return;
+      }
     }
     final ok = await vpn.requestPermission();
     if (!ok) {
