@@ -182,11 +182,15 @@ const List<(String, String)> _ru = [
   ),
   (
     '6. Возврат средств',
-    'Если Сервис не работает по нашей технической вине и проблему не удалось решить в разумный срок, вы вправе запросить возврат за неиспользованный период. Возврат не предоставляется при нарушении вами правил использования или при блокировках со стороны сторонних сетей, на которые мы не влияем.'
+    'У нас лояльная политика возврата. Если качество Сервиса вас не устроило или он не работает по нашей технической вине и проблему не удалось решить, вы вправе запросить возврат за неиспользованный период. Заявки обрабатываются в течение 10 рабочих дней. Возврат не предоставляется при нарушении правил использования или при блокировках со стороны сторонних сетей, на которые мы не влияем.'
   ),
   (
     '7. Правила использования',
-    'Запрещено использовать Сервис для незаконных действий: рассылки спама, вредоносного ПО, атак на чужие системы, мошенничества, распространения запрещённого контента и любых действий, нарушающих закон вашей юрисдикции. Вы несёте полную ответственность за свои действия. При нарушении доступ может быть ограничен без возврата средств.'
+    'Запрещено использовать Сервис для незаконных действий: рассылки спама, DDoS-атак, фишинга, распространения вредоносного ПО, мошенничества, запрещённого контента и любых действий, нарушающих закон вашей юрисдикции. Автоматическая система анализа трафика может приостановить доступ при подозрительной активности без предупреждения; такое решение можно обжаловать в поддержке. Вы несёте полную ответственность за свои действия.'
+  ),
+  (
+    '7a. Реферальная программа',
+    'За приглашение новых пользователей могут начисляться бонусы. Оператор вправе в одностороннем порядке изменить или прекратить программу, а также аннулировать бонусы при злоупотреблениях или мошенничестве.'
   ),
   (
     '8. Возраст',
@@ -229,11 +233,15 @@ const List<(String, String)> _en = [
   ),
   (
     '6. Refunds',
-    'If the Service fails due to our technical fault and cannot be fixed within a reasonable time, you may request a refund for the unused period. No refund applies if you violate the usage rules or when blocking is caused by third-party networks beyond our control.'
+    'We offer a fair refund policy. If you are not satisfied with the quality, or the Service fails due to our technical fault and cannot be fixed, you may request a refund for the unused period. Requests are processed within 10 business days. No refund applies if you break the usage rules or when blocking is caused by third-party networks beyond our control.'
   ),
   (
     '7. Acceptable use',
-    'You must not use the Service for illegal activity: spam, malware, attacks on other systems, fraud, distributing prohibited content, or anything breaking the law of your jurisdiction. You are fully responsible for your actions. Violations may restrict access without a refund.'
+    'You must not use the Service for illegal activity: spam, DDoS attacks, phishing, malware, fraud, prohibited content, or anything breaking the law of your jurisdiction. An automated traffic-anomaly system may suspend access without notice for suspicious activity; such decisions can be appealed via support. You are fully responsible for your actions.'
+  ),
+  (
+    '7a. Referral program',
+    'Bonuses may be granted for inviting new users. The operator may unilaterally change or end the program and may cancel bonuses for abuse or fraud.'
   ),
   (
     '8. Age',
