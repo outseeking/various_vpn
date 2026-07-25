@@ -10,6 +10,7 @@ import '../l10n.dart';
 import '../services/storage.dart';
 import '../theme/app_palette.dart';
 import 'auth_screen.dart';
+import 'terms_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -132,8 +133,10 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
   void _finish() {
     Storage.instance.onboardingDone = true;
+    // После слайдов о плюсах — оферта (ConsentGate), затем экран входа.
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => const AuthScreen()),
+      MaterialPageRoute(
+          builder: (_) => const ConsentGate(child: AuthScreen())),
     );
   }
 

@@ -161,70 +161,94 @@ class _Block extends StatelessWidget {
 
 const List<(String, String)> _ru = [
   (
-    '1. О сервисе',
-    'Various VPN — сервис для защищённого и приватного доступа в интернет. Мы шифруем ваш трафик и помогаем открывать сайты и приложения, которые могут быть недоступны в вашей сети.'
+    '1. Общие положения',
+    'Настоящее Пользовательское соглашение (публичная оферта) регулирует использование сервиса Various VPN («Сервис»). Устанавливая приложение, активируя пробный доступ или оформляя подписку, вы подтверждаете, что прочитали и приняли эти условия. Если вы не согласны — не используйте Сервис.'
   ),
   (
-    '2. Приватность и логи',
-    'Мы НЕ ведём журналы вашей активности: не храним историю посещённых сайтов, содержимое трафика и DNS-запросы. Для работы подписки храним только технические данные: ваш идентификатор, срок подписки и количество устройств.'
+    '2. Что такое Сервис',
+    'Various VPN — сервис шифрования интернет-трафика и защищённого доступа к сайтам и приложениям. Соединение шифруется по современным протоколам (VLESS + Reality, TLS 1.3), а умный роутинг подбирает быстрый рабочий сервер. Сервис предназначен для законной защиты приватности и обхода технических ограничений сети.'
   ),
   (
-    '3. Правила использования',
-    'Сервис нельзя использовать для незаконных действий, рассылки спама, атак на чужие системы, а также любых действий, нарушающих законы вашей страны. При нарушении доступ может быть ограничен без возврата средств.'
+    '3. Приватность и отсутствие логов',
+    'Мы придерживаемся политики «нет логов»: НЕ храним историю посещённых сайтов, содержимое трафика, DNS-запросы и списки приложений. Для работы подписки хранится необходимый минимум: ваш числовой идентификатор, срок действия подписки, число устройств и технические события оплаты. Мы не продаём и не передаём эти данные третьим лицам, кроме случаев, прямо предусмотренных законом.'
   ),
   (
-    '4. Устройства и подписка',
-    'Одна подписка рассчитана на ограниченное число устройств (по умолчанию — 3). Подписка личная; не передавайте ссылку и ID подписки третьим лицам.'
+    '4. Пробный доступ',
+    'Бесплатный режим («только Telegram») и пробные дни предоставляются для ознакомления и могут быть изменены или прекращены в любой момент. Пробный доступ — одноразовое предложение на аккаунт.'
   ),
   (
-    '5. Оплата и возврат',
-    'Оплата подписки производится через бота. Пробный период предоставляется бесплатно. Возврат возможен, если сервис не работает по нашей вине и проблему не удалось решить.'
+    '5. Подписка, устройства и оплата',
+    'Полный доступ предоставляется по платной подписке. Одна подписка рассчитана на ограниченное число устройств (по умолчанию — 3) и является личной: не передавайте ссылку и ID подписки третьим лицам. Оплата производится через бота выбранным способом. Цена и сроки указываются в момент покупки.'
   ),
   (
-    '6. Ответственность',
-    'Мы стремимся к бесперебойной работе, но не гарантируем 100% доступность (профилактика, сбои у провайдеров и т. п.). Сервис предоставляется «как есть».'
+    '6. Возврат средств',
+    'Если Сервис не работает по нашей технической вине и проблему не удалось решить в разумный срок, вы вправе запросить возврат за неиспользованный период. Возврат не предоставляется при нарушении вами правил использования или при блокировках со стороны сторонних сетей, на которые мы не влияем.'
   ),
   (
-    '7. Изменения',
-    'Условия могут обновляться. Продолжая пользоваться приложением после изменений, вы принимаете новую версию соглашения.'
+    '7. Правила использования',
+    'Запрещено использовать Сервис для незаконных действий: рассылки спама, вредоносного ПО, атак на чужие системы, мошенничества, распространения запрещённого контента и любых действий, нарушающих закон вашей юрисдикции. Вы несёте полную ответственность за свои действия. При нарушении доступ может быть ограничен без возврата средств.'
   ),
   (
-    '8. Контакты',
-    'Вопросы и поддержка — в нашем Telegram-боте @variousvpnbot.'
+    '8. Возраст',
+    'Сервис предназначен для пользователей, достигших возраста, с которого по закону их страны допускается самостоятельное заключение подобных соглашений.'
+  ),
+  (
+    '9. Доступность и ответственность',
+    'Мы стремимся к бесперебойной работе, но не гарантируем 100% доступность: возможны профилактика, сбои у провайдеров и блокировки со стороны сетей. Сервис предоставляется «как есть»; наша ответственность ограничена стоимостью оплаченного и неиспользованного периода подписки.'
+  ),
+  (
+    '10. Изменения условий',
+    'Мы можем обновлять эти условия и цены. Актуальная версия всегда доступна в приложении. Продолжая пользоваться Сервисом после изменений, вы принимаете новую версию.'
+  ),
+  (
+    '11. Контакты и поддержка',
+    'Все вопросы, возвраты и техническая поддержка — в Telegram-боте @variousvpnbot. Мы отвечаем быстро и помогаем с подключением.'
   ),
 ];
 
 const List<(String, String)> _en = [
   (
-    '1. About the service',
-    'Various VPN provides secure and private internet access. We encrypt your traffic and help you reach sites and apps that may be unavailable on your network.'
+    '1. General',
+    'This User Agreement (public offer) governs the use of the Various VPN service (the “Service”). By installing the app, activating trial access or purchasing a subscription, you confirm that you have read and accepted these terms. If you disagree, do not use the Service.'
   ),
   (
-    '2. Privacy & logs',
-    'We do NOT keep activity logs: no browsing history, traffic contents or DNS queries. To run your subscription we store only technical data: your identifier, subscription expiry and device count.'
+    '2. What the Service is',
+    'Various VPN encrypts your internet traffic and provides secure access to sites and apps. Connections use modern protocols (VLESS + Reality, TLS 1.3), and smart routing picks a fast working server. The Service is intended for lawful privacy protection and bypassing technical network restrictions.'
   ),
   (
-    '3. Acceptable use',
-    'The service must not be used for illegal activity, spam, attacks on other systems, or anything breaking the laws of your country. Violations may lead to access being restricted without a refund.'
+    '3. Privacy & no-logs',
+    'We follow a no-logs policy: we do NOT store your browsing history, traffic contents, DNS queries or app lists. To run your subscription we keep only the minimum needed: your numeric identifier, subscription expiry, device count and technical payment events. We do not sell or share this data except as required by law.'
   ),
   (
-    '4. Devices & subscription',
-    'One subscription covers a limited number of devices (3 by default). The subscription is personal — do not share your subscription link or ID with others.'
+    '4. Trial access',
+    'The free mode (“Telegram only”) and trial days are provided for evaluation and may be changed or discontinued at any time. Trial access is a one-time offer per account.'
   ),
   (
-    '5. Payment & refunds',
-    'Subscriptions are purchased via the bot. A free trial is available. Refunds are possible if the service fails through our fault and the issue cannot be resolved.'
+    '5. Subscription, devices & payment',
+    'Full access requires a paid subscription. One subscription covers a limited number of devices (3 by default) and is personal: do not share your link or ID. Payment is made via the bot. Price and terms are shown at purchase.'
   ),
   (
-    '6. Liability',
-    'We aim for uninterrupted service but do not guarantee 100% uptime (maintenance, upstream outages, etc.). The service is provided “as is”.'
+    '6. Refunds',
+    'If the Service fails due to our technical fault and cannot be fixed within a reasonable time, you may request a refund for the unused period. No refund applies if you violate the usage rules or when blocking is caused by third-party networks beyond our control.'
   ),
   (
-    '7. Changes',
-    'These terms may be updated. By continuing to use the app after changes, you accept the new version.'
+    '7. Acceptable use',
+    'You must not use the Service for illegal activity: spam, malware, attacks on other systems, fraud, distributing prohibited content, or anything breaking the law of your jurisdiction. You are fully responsible for your actions. Violations may restrict access without a refund.'
   ),
   (
-    '8. Contact',
-    'Questions and support — in our Telegram bot @variousvpnbot.'
+    '8. Age',
+    'The Service is intended for users who have reached the age at which their country’s law allows them to enter into such agreements.'
+  ),
+  (
+    '9. Availability & liability',
+    'We aim for uninterrupted service but do not guarantee 100% uptime (maintenance, upstream outages, network blocking). The Service is provided “as is”; our liability is limited to the cost of the paid, unused subscription period.'
+  ),
+  (
+    '10. Changes',
+    'We may update these terms and prices. The current version is always available in the app. Continuing to use the Service after changes means you accept the new version.'
+  ),
+  (
+    '11. Contact & support',
+    'All questions, refunds and technical support — in our Telegram bot @variousvpnbot. We reply fast and help you get connected.'
   ),
 ];

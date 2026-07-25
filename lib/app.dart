@@ -17,14 +17,17 @@ class VariousVpnApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final storage = Storage.instance;
+    // Порядок первого запуска: сплеш → онбординг (слайды про плюсы) → оферта
+    // (ConsentGate внутри онбординга перед входом) → вход. Поэтому онбординг
+    // НЕ оборачиваем гейтом; уже прошедших — оборачиваем (гейт прозрачен, если
+    // соглашение принято, и показывается, если ещё нет).
     final Widget home;
     if (!storage.onboardingDone) {
       home = const OnboardingScreen();
     } else if (storage.subUrl != null || storage.tgId != null) {
-      home = const MainShell();
+      home = const ConsentGate(child: MainShell());
     } else {
-      // онбординг пройден, но аккаунт не привязан — начнём с онбординга-входа
-      home = const OnboardingScreen();
+      home = const ConsentGate(child: OnboardingScreen());
     }
 
     // Приложение фирменно тёмное: глобус, неон-акценты и переливание
@@ -35,8 +38,7 @@ class VariousVpnApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.dark,
       themeMode: ThemeMode.dark,
-      // Гейт согласия (пользовательское соглашение) — до входа в приложение.
-      home: SplashScreen(next: ConsentGate(child: home)),
+      home: SplashScreen(next: home),
     );
   }
 }

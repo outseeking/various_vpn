@@ -2181,8 +2181,12 @@ class AppState extends ChangeNotifier {
 
   String get pingType => _storage.getStr(_kPingType, def: 'tcp');
   set pingType(String v) {
+    if (v == _storage.getStr(_kPingType, def: 'tcp')) return;
     _storage.setStr(_kPingType, v);
     notifyListeners();
+    // Смена типа пинга должна СРАЗУ пере-замерить ВСЕ конфиги новым методом —
+    // иначе висят старые значения (казалось, что применилось не ко всем).
+    pingAll();
   }
 
   String get pingTestUrl =>
