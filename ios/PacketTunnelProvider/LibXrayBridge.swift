@@ -17,6 +17,15 @@
 import Foundation
 import os.log
 
+// Проверки `canImport` ниже сами по себе ничего не подключают — они лишь
+// сообщают, есть ли модуль. Без этой строки ветки внутри них компилировались,
+// но CGoInvoke и CGoFree оставались неизвестными именами: «Cannot find in
+// scope». Ошибка обманчивая — выглядит как «библиотека не подключена», хотя
+// подключена она была правильно.
+#if canImport(LibXray)
+import LibXray
+#endif
+
 private let bridgeLog = OSLog(subsystem: "site.ugconnect.variousvpn",
                               category: "libxray")
 

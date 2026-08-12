@@ -275,4 +275,5 @@ unless plist.include?('NSSupportsLiveActivities')
 end
 
 project.save
-puts "OK. Открой Runner.xcworkspace, добавь libXray.xcframework и hev-socks5-tunnel в таргет #{EXT_NAME}, выставь Team/bundle id."
+puts 'OK. Ядро и перекачка пакетов подключаются сами: xcframework линкуется'
+puts 'выше, Tun2SocksKit приходит подом. Руками остаётся только Team в Xcode.'
