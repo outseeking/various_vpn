@@ -199,14 +199,6 @@ void main() {
     });
   });
 
-  group('свои сайты мимо VPN', () {
-    test('перечисленные домены идут напрямую', () {
-      final cfg = _apply(const NetOptions(
-          directDomains: ['gosuslugi.ru', 'mail.ru'], smartAi: false));
-      expect(_routes(cfg, 'direct', 'gosuslugi.ru'), isTrue);
-      expect(_routes(cfg, 'direct', 'mail.ru'), isTrue);
-    });
-  });
 
   group('бесплатный режим — только Telegram', () {
     test('Telegram в туннель, всё остальное блокируется', () {
@@ -239,7 +231,6 @@ void main() {
         bypassRu: true,
         ipStrategy: IpStrategy.ipv4,
         fragment: true,
-        directDomains: ['example.com'],
         smartAi: true,
         adBlock: true,
         mux: true,

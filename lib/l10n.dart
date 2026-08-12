@@ -1056,11 +1056,6 @@ class L {
       'en': 'App list is available only on an Android device.'
     },
     'tab_apps': {'ru': 'Приложения', 'en': 'Apps'},
-    'tab_urls': {'ru': 'Сайты (URL)', 'en': 'Sites (URL)'},
-    'url_hint': {
-      'ru': 'Эти сайты будут открываться напрямую, минуя VPN.',
-      'en': 'These sites open directly, bypassing the VPN.'
-    },
     'url_your': {'ru': 'Ваши сайты', 'en': 'Your sites'},
     'url_popular': {'ru': 'Популярные', 'en': 'Popular'},
 

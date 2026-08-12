@@ -367,6 +367,14 @@ class AppState extends ChangeNotifier {
 
   // ---- сплит-туннелирование (per-app) ----
   bool splitEnabled = false; // «Включить туннелирование трафика»
+
+  void setSplitEnabled(bool v) {
+    splitEnabled = v;
+    _storage.setBool('split_enabled', v);
+    notifyListeners();
+    _reconnectIfActive();
+  }
+
   bool splitThroughVpn =
       false; // true=«Через VPN» (выбранные→VPN, остальные напрямую)
   //                                false=«В обход VPN» (выбранные напрямую, остальные→VPN)
@@ -385,43 +393,7 @@ class AppState extends ChangeNotifier {
     allPackages = packages;
     _storage.setStr('all_packages', packages.join('\n'));
   }
-  Set<String> splitUrls = {}; // домены в обход VPN (URL-split, идут напрямую)
 
-  void addSplitUrl(String raw) {
-    final d = _normalizeDomain(raw);
-    if (d.isEmpty) return;
-    splitUrls.add(d);
-    _storage.setStr('split_urls', splitUrls.join('\n'));
-    notifyListeners();
-    _reconnectIfActive();
-  }
-
-  void removeSplitUrl(String d) {
-    splitUrls.remove(d);
-    _storage.setStr('split_urls', splitUrls.join('\n'));
-    notifyListeners();
-    _reconnectIfActive();
-  }
-
-  void toggleSplitUrl(String d, bool on) =>
-      on ? addSplitUrl(d) : removeSplitUrl(d);
-
-  /// Приводит ввод (https://site.com/path) к домену (site.com).
-  String _normalizeDomain(String raw) {
-    var s = raw.trim().toLowerCase();
-    if (s.isEmpty) return '';
-    s = s.replaceFirst(RegExp(r'^https?://'), '');
-    s = s.replaceFirst(RegExp(r'^www\.'), '');
-    s = s.split('/').first.split('?').first.split(':').first;
-    return s;
-  }
-
-  void setSplitEnabled(bool v) {
-    splitEnabled = v;
-    _storage.setBool('split_enabled', v);
-    notifyListeners();
-    _reconnectIfActive();
-  }
 
   void setSplitThroughVpn(bool v) {
     splitThroughVpn = v;
@@ -488,7 +460,6 @@ class AppState extends ChangeNotifier {
         ipStrategy: ipStrategy,
         // авто-фрагментация на повторных попытках — обходит DPI, режущий TLS-hello
         fragment: fragment || _forceFragment,
-        directDomains: splitUrls.toList(),
         smartAi: smartAi,
         adBlock: adBlock,
         aiDomains: _aiDomains,
@@ -725,8 +696,6 @@ class AppState extends ChangeNotifier {
             .map((k, v) => MapEntry(k.toString(), v.toString()));
       } catch (_) {}
     }
-    final urlsRaw = _storage.getStr('split_urls', def: '');
-    splitUrls = urlsRaw.isEmpty ? {} : urlsRaw.split('\n').toSet();
     // Язык: сохранённый или по локали устройства (en → en, иначе ru).
     final savedLang = _storage.getStr('lang', def: '');
     lang = savedLang.isNotEmpty

@@ -13,7 +13,6 @@ import 'package:installed_apps/installed_apps.dart';
 import 'package:provider/provider.dart';
 
 import '../l10n.dart';
-import '../platform.dart';
 import '../state/app_state.dart';
 import '../theme/app_palette.dart';
 import '../widgets/paywall_sheet.dart';
@@ -68,46 +67,13 @@ class _PerAppScreenState extends State<PerAppScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // На iOS раздела приложений нет и быть не может: система не отдаёт ни
-    // списка установленных программ, ни выборочной маршрутизации. А вот
-    // правила по сайтам работают одинаково — маршрут строит само ядро по
-    // доменам. Поэтому вместо того чтобы выбрасывать весь раздел, оставляем
-    // ту его половину, которая там действительно работает.
-    if (!Caps.perAppRouting) {
-      return Scaffold(
-        backgroundColor: P.bg,
-        appBar: AppBar(
-          automaticallyImplyLeading: !widget.inShell,
-          title: Text(L.t('tab_urls')),
-        ),
-        body: const _UrlsTab(),
-      );
-    }
-
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        backgroundColor: P.bg,
-        appBar: AppBar(
-          automaticallyImplyLeading: !widget.inShell,
-          title: Text(L.t('tunneling')),
-          bottom: TabBar(
-            indicatorColor: P.lime,
-            labelColor: P.limeText,
-            unselectedLabelColor: P.textFaint,
-            tabs: [
-              Tab(text: L.t('tab_apps')),
-              Tab(text: L.t('tab_urls')),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: [
-            _appsTab(context),
-            const _UrlsTab(),
-          ],
-        ),
+    return Scaffold(
+      backgroundColor: P.bg,
+      appBar: AppBar(
+        automaticallyImplyLeading: !widget.inShell,
+        title: Text(L.t('tunneling')),
       ),
+      body: _appsTab(context),
     );
   }
 
@@ -277,171 +243,6 @@ class _ModeSelector extends StatelessWidget {
 }
 
 // ---- вкладка URL: сайты в обход VPN (идут напрямую) ----
-
-class _UrlsTab extends StatefulWidget {
-  const _UrlsTab();
-  @override
-  State<_UrlsTab> createState() => _UrlsTabState();
-}
-
-class _UrlsTabState extends State<_UrlsTab> {
-  final _ctrl = TextEditingController();
-
-  // популярные RU-сайты, которые логично пускать мимо VPN
-  static const _popular = [
-    'gosuslugi.ru',
-    'sberbank.ru',
-    'tinkoff.ru',
-    'vtb.ru',
-    'yandex.ru',
-    'vk.com',
-    'ok.ru',
-    'mail.ru',
-    'wildberries.ru',
-    'ozon.ru',
-    'avito.ru',
-    'kinopoisk.ru',
-    '2gis.ru',
-  ];
-
-  @override
-  void dispose() {
-    _ctrl.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final state = context.watch<AppState>();
-    final custom = state.splitUrls.where((u) => !_popular.contains(u)).toList();
-    // Без рабочей подписки (нашей или своей) раздельное туннелирование сайтов
-    // недоступно — работает только Telegram. Показываем баннер.
-    if (!state.featuresUnlocked) {
-      return ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          Container(
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: P.lime.withValues(alpha: 0.10),
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: P.lime.withValues(alpha: 0.4)),
-            ),
-            child: Row(children: [
-              const Icon(Icons.telegram, color: P.limeText),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(L.t('free_rules_banner'),
-                    style: const TextStyle(color: P.text, fontSize: 13)),
-              ),
-              TextButton(
-                onPressed: () => showFreeLockedDialog(context),
-                child: Text(L.t('free_locked_buy')),
-              ),
-            ]),
-          ),
-        ],
-      );
-    }
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
-        Text(L.t('url_hint'),
-            style: const TextStyle(color: P.textFaint, fontSize: 12)),
-        const SizedBox(height: 12),
-        Row(children: [
-          Expanded(
-            child: TextField(
-              controller: _ctrl,
-              style: const TextStyle(color: P.text, fontSize: 14),
-              decoration: InputDecoration(
-                hintText: 'example.com',
-                hintStyle: const TextStyle(color: P.textFaint),
-                isDense: true,
-                filled: true,
-                fillColor: P.surfaceLo,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-              onSubmitted: (v) {
-                state.addSplitUrl(v);
-                _ctrl.clear();
-              },
-            ),
-          ),
-          const SizedBox(width: 8),
-          TapScale(
-            onTap: () {
-              state.addSplitUrl(_ctrl.text);
-              _ctrl.clear();
-            },
-            child: Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: P.lime,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Icon(Icons.add, color: P.onLime),
-            ),
-          ),
-        ]),
-        if (custom.isNotEmpty) ...[
-          const SizedBox(height: 20),
-          Text(L.t('url_your'),
-              style: const TextStyle(color: P.textFaint, fontSize: 12)),
-          const SizedBox(height: 8),
-          ...custom.map((u) => _UrlRow(
-                domain: u,
-                on: true,
-                onToggle: (v) => state.toggleSplitUrl(u, v),
-              )),
-        ],
-        const SizedBox(height: 20),
-        Text(L.t('url_popular'),
-            style: const TextStyle(color: P.textFaint, fontSize: 12)),
-        const SizedBox(height: 8),
-        ..._popular.map((u) => _UrlRow(
-              domain: u,
-              on: state.splitUrls.contains(u),
-              onToggle: (v) => state.toggleSplitUrl(u, v),
-            )),
-      ],
-    );
-  }
-}
-
-class _UrlRow extends StatelessWidget {
-  final String domain;
-  final bool on;
-  final ValueChanged<bool> onToggle;
-  const _UrlRow(
-      {required this.domain, required this.on, required this.onToggle});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      decoration: BoxDecoration(
-        color: P.surfaceLo,
-        borderRadius: BorderRadius.circular(12),
-        border:
-            Border.all(color: on ? P.lime : P.surfaceHi, width: on ? 1 : 0.5),
-      ),
-      child: Row(children: [
-        const Icon(Icons.public, size: 18, color: P.textFaint),
-        const SizedBox(width: 10),
-        Expanded(
-          child:
-              Text(domain, style: const TextStyle(color: P.text, fontSize: 14)),
-        ),
-        IosSwitch(value: on, onChanged: onToggle),
-      ]),
-    );
-  }
-}
 
 class _AppRow extends StatelessWidget {
   final AppInfo app;

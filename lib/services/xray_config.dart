@@ -68,8 +68,6 @@ class NetOptions {
   final bool bypassRu; // российские сайты мимо VPN
   final IpStrategy ipStrategy;
   final bool fragment; // фрагментация TLS против DPI
-  final List<String>
-      directDomains; // пользовательские сайты в обход VPN (URL-split)
   final bool smartAi; // умный доступ к ИИ: домены ИИ всегда через туннель
   final bool adBlock; // блокировка рекламы/трекеров на уровне туннеля
   // Динамические списки из панели (если пусто — берём встроенные дефолты).
@@ -96,7 +94,6 @@ class NetOptions {
     this.bypassRu = false,
     this.ipStrategy = IpStrategy.auto,
     this.fragment = false,
-    this.directDomains = const [],
     this.smartAi = true,
     this.adBlock = false,
     this.aiDomains = const [],
@@ -529,24 +526,6 @@ String applyNetOptions(String baseConfig, NetOptions opts) {
       if (proto == 'hysteria') continue;
       m['mux'] = {'enabled': true, 'concurrency': 8};
     }
-  }
-
-  // --- пользовательские сайты в обход VPN (URL-split) ---
-  if (opts.directDomains.isNotEmpty) {
-    if (!outbounds.any((o) => (o as Map)['tag'] == 'direct')) {
-      outbounds.add(<String, dynamic>{'protocol': 'freedom', 'tag': 'direct'});
-    }
-    final routing =
-        (cfg['routing'] as Map<String, dynamic>?) ?? <String, dynamic>{};
-    routing['domainStrategy'] = 'IPIfNonMatch';
-    final rules = (routing['rules'] as List?)?.cast<dynamic>() ?? [];
-    rules.insert(0, {
-      'type': 'field',
-      'outboundTag': 'direct',
-      'domain': opts.directDomains.map((d) => 'domain:$d').toList(),
-    });
-    routing['rules'] = rules;
-    cfg['routing'] = routing;
   }
 
   // --- AdBlock: реклама/трекеры → blackhole (режутся прямо на устройстве) ---

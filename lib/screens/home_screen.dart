@@ -133,16 +133,15 @@ class _MainShellState extends State<MainShell> with WidgetsBindingObserver {
               ? const NeverScrollableScrollPhysics()
               : const PageScrollPhysics(),
           onPageChanged: (i) => setState(() => _index = i),
-          children: const [
-            HomeScreen(),
-            // Раздел маршрутов. На iOS в нём остаётся только половина —
-            // правила по сайтам: списка установленных программ система не
-            // отдаёт. Сам раздел при этом остаётся на месте, потому что
-            // работающая половина ничем не хуже целого раздела, а исчезнувшая
-            // вкладка заставляет искать, куда она делась.
-            PerAppScreen(inShell: true),
-            SupportScreen(inShell: true),
-            SettingsScreen(inShell: true),
+          children: [
+            const HomeScreen(),
+            // Разделение по приложениям — только Android: система iOS не
+            // отдаёт обычному приложению ни списка программ, ни выборочной
+            // маршрутизации, туннель там всегда общий. Вкладку просто не
+            // показываем — остаётся три.
+            if (Caps.perAppRouting) const PerAppScreen(inShell: true),
+            const SupportScreen(inShell: true),
+            const SettingsScreen(inShell: true),
           ],
         ),
       ),
@@ -2160,9 +2159,7 @@ class _BottomBarState extends State<_BottomBar> {
   /// уезжает мимо.
   static List<IconData> get _icons => [
         Icons.public,
-        // На iOS раздел про сайты, а не про приложения — и значок другой,
-        // иначе он обещал бы список программ, которого там нет.
-        Caps.perAppRouting ? Icons.apps : Icons.language,
+        if (Caps.perAppRouting) Icons.apps,
         Icons.chat_bubble_outline,
         Icons.settings_outlined,
       ];
