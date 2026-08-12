@@ -16,9 +16,9 @@ import Flutter
 enum VPNConst {
     // App Group — общий контейнер приложения и расширения (должен совпадать в
     // обоих entitlements). При смене bundle id поменяй и здесь.
-    static let appGroup = "group.com.example.variousVpn"
+    static let appGroup = "group.site.ugconnect.variousvpn"
     // Bundle id расширения Packet Tunnel Provider.
-    static let tunnelBundleId = "com.example.variousVpn.PacketTunnel"
+    static let tunnelBundleId = "site.ugconnect.variousvpn.PacketTunnel"
     static let serverAddress = "Various VPN"
 }
 

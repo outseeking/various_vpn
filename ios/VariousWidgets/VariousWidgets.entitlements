@@ -6,7 +6,7 @@
 	     виджет — процессы у них разные, общей памяти нет. -->
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.com.example.variousVpn</string>
+		<string>group.site.ugconnect.variousvpn</string>
 	</array>
 </dict>
 </plist>

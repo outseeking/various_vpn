@@ -93,7 +93,7 @@ class PacketTunnelProvider: NEPacketTunnelProvider {
 
     private func sharedDefaults() -> UserDefaults? {
         let group = (protocolConfiguration as? NETunnelProviderProtocol)?
-            .providerConfiguration?["group"] as? String ?? "group.com.example.variousVpn"
+            .providerConfiguration?["group"] as? String ?? "group.site.ugconnect.variousvpn"
         return UserDefaults(suiteName: group)
     }
 

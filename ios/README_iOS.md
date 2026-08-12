@@ -39,10 +39,10 @@ Libraries* → добавь оба `.xcframework` (Embed & Sign).
 В Xcode (`Runner.xcworkspace`):
 - Открой таргеты **Runner** и **PacketTunnelProvider** → *Signing & Capabilities*.
 - Выбери свою **Team**, включи автоподпись.
-- Bundle id: `com.example.variousVpn` и `com.example.variousVpn.PacketTunnel`
-  (или замени `com.example.variousVpn` на свой во всех местах — заодно в
+- Bundle id: `site.ugconnect.variousvpn` и `site.ugconnect.variousvpn.PacketTunnel`
+  (или замени `site.ugconnect.variousvpn` на свой во всех местах — заодно в
   `VPNManager.swift` `VPNConst` и в обоих `*.entitlements` / App Group).
-- Проверь Capability **App Groups** = `group.com.example.variousVpn` в обоих таргетах.
+- Проверь Capability **App Groups** = `group.site.ugconnect.variousvpn` в обоих таргетах.
 - Capability **Network Extensions** (Packet Tunnel) должна быть у обоих.
 
 ## 4. Сборка/запуск

@@ -25,7 +25,7 @@ class HomeWidgetSync {
   /// Общая группа приложения и его расширений. На iOS процессы разные, общей
   /// памяти нет — состояние передаётся только через неё. На Android параметр
   /// не используется, поэтому задаётся один раз при старте.
-  static const _group = 'group.com.example.variousVpn';
+  static const _group = 'group.site.ugconnect.variousvpn';
 
   static bool get _supported =>
       !kIsWeb &&

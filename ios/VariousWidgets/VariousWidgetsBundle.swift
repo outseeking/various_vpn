@@ -10,7 +10,7 @@ import WidgetKit
 
 /// Общая группа приложения и его расширений. Через неё передаётся состояние:
 /// напрямую в чужой процесс заглянуть нельзя.
-let appGroup = "group.com.example.variousVpn"
+let appGroup = "group.site.ugconnect.variousvpn"
 
 @main
 struct VariousWidgetsBundle: WidgetBundle {

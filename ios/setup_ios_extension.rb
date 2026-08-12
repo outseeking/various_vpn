@@ -13,7 +13,7 @@ require 'xcodeproj'
 
 ROOT = __dir__
 PROJECT = File.join(ROOT, 'Runner.xcodeproj')
-APP_BUNDLE = 'com.example.variousVpn'
+APP_BUNDLE = 'site.ugconnect.variousvpn'
 EXT_NAME = 'PacketTunnelProvider'
 EXT_BUNDLE = "#{APP_BUNDLE}.PacketTunnel"
 WDG_NAME = 'VariousWidgets'
@@ -53,6 +53,16 @@ if File.directory?(alt_dir)
     app_res.add_file_reference(alt_group.new_reference(fname))
   end
   puts "+ запасные значки → ресурсы Runner (#{Dir.children(alt_dir).size} файлов)"
+end
+
+# --- 1.2) Манифест приватности ---
+#
+# Без него App Store отклоняет загрузку. Файл обязан лежать в ресурсах именно
+# приложения: у расширений свои манифесты, и общий за них не отвечает.
+priv = 'PrivacyInfo.xcprivacy'
+unless runner.resources_build_phase.files_references.any? { |f| f.display_name == priv }
+  runner.resources_build_phase.add_file_reference(runner_group.new_reference(priv))
+  puts "+ #{priv} → ресурсы Runner"
 end
 
 # --- 2) Энтайтлменты приложения ---
