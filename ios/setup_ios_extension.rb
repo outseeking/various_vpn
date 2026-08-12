@@ -99,5 +99,42 @@ unless embed.files_references.include?(ext.product_reference)
   puts '+ Embed App Extensions'
 end
 
+# --- 5) Встраивание расширения — ДО шага «Thin Binary» ---
+#
+# Иначе Xcode отказывается собирать с «Cycle inside Runner»: копирование
+# расширения ждёт «Thin Binary», тот читает готовый Info.plist приложения, а
+# Info.plist собирается уже после копирования — круг замкнут.
+#
+# «Thin Binary» — шаг самого Flutter, он подчищает собранный бандл, поэтому
+# всё, что кладётся внутрь приложения, обязано попасть туда раньше.
+phases = runner.build_phases
+thin = phases.find { |ph| ph.respond_to?(:name) && ph.name.to_s.include?('Thin Binary') }
+if thin
+  ti = phases.index(thin)
+  ei = phases.index(embed)
+  if ti && ei && ei > ti
+    # Разные версии xcodeproj дают разный набор методов у списка фаз, а
+    # проверить это без Mac нельзя. Пробуем по очереди и не роняем скрипт:
+    # если переставить не вышло, лучше собрать с прежним порядком и увидеть
+    # понятную ошибку, чем оборваться здесь без объяснений.
+    moved = false
+    begin
+      phases.move(embed, ti)
+      moved = true
+    rescue NoMethodError, ArgumentError
+      begin
+        phases.delete(embed)
+        phases.insert(ti, embed)
+        moved = true
+      rescue NoMethodError, ArgumentError => e
+        puts "! переставить фазу не удалось: #{e.class}"
+      end
+    end
+    puts '~ Embed App Extensions поднят выше Thin Binary' if moved
+  end
+else
+  puts '= шаг Thin Binary не найден — порядок оставлен как есть'
+end
+
 project.save
 puts "OK. Открой Runner.xcworkspace, добавь libXray.xcframework и hev-socks5-tunnel в таргет #{EXT_NAME}, выставь Team/bundle id."
