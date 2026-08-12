@@ -1,11 +1,11 @@
 {
-    "name": "various_vpn",
-    "short_name": "various_vpn",
+    "name": "Various VPN",
+    "short_name": "Various VPN",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#04060B",
+    "theme_color": "#04060B",
+    "description": "Умный VPN нового поколения",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

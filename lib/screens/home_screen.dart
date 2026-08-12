@@ -16,21 +16,23 @@ import '../models/vpn_server.dart';
 import '../services/geo.dart';
 import '../state/app_state.dart';
 import '../theme/app_palette.dart';
+import '../theme/motion.dart';
 import '../widgets/ambient_bars.dart';
 import '../widgets/connect_button.dart';
+import '../widgets/connect_ways.dart';
 import '../widgets/connect_glow.dart';
 import '../widgets/flag.dart';
 import '../widgets/tap_scale.dart';
 import '../widgets/globe.dart';
 import '../widgets/session_card.dart';
-import 'import_screen.dart';
-import 'qr_import_screen.dart';
 import 'per_app_screen.dart';
 import 'profile_screen.dart';
 import 'servers_screen.dart';
 import 'settings_screen.dart';
 import 'support_screen.dart';
 import '../widgets/streak_flame.dart';
+import '../widgets/app_toast.dart';
+import '../platform.dart';
 
 /// Корневая оболочка приложения: 4 вкладки в PageView, между которыми можно
 /// переключаться свайпом (Apps / Чат / Настройки) и тапом по нижней панели.
@@ -43,18 +45,35 @@ class MainShell extends StatefulWidget {
   State<MainShell> createState() => _MainShellState();
 }
 
-class _MainShellState extends State<MainShell> {
+class _MainShellState extends State<MainShell> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // Вернулись в приложение — перемеряем список. Пока человек был снаружи,
+    // сеть могла смениться (Wi-Fi → мобильный), и прежние числа устарели.
+    if (state == AppLifecycleState.resumed) {
+      context.read<AppState>().refreshPingsOnResume();
+    }
+  }
+
   final PageController _pc = PageController();
   int _index = 0;
 
   void _go(int i) {
     if (i == _index) return;
     _pc.animateToPage(i,
-        duration: const Duration(milliseconds: 320), curve: Curves.easeOutCubic);
+        duration: const Duration(milliseconds: 320),
+        curve: Curves.easeOutCubic);
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _pc.dispose();
     super.dispose();
   }
@@ -74,19 +93,29 @@ class _MainShellState extends State<MainShell> {
         currentIndex: _index,
         onSelect: _go,
       ),
-      body: PageView(
-        controller: _pc,
-        // На глобусе (0) свайп страниц выключен — жест отдан вращению глобуса.
-        physics: _index == 0
-            ? const NeverScrollableScrollPhysics()
-            : const PageScrollPhysics(),
-        onPageChanged: (i) => setState(() => _index = i),
-        children: const [
-          HomeScreen(),
-          PerAppScreen(inShell: true),
-          SupportScreen(inShell: true),
-          SettingsScreen(inShell: true),
-        ],
+      // Пока палец на глобусе, листание вкладок выключено. Без этого любое
+      // движение вбок над глобусом улетало в PageView: страница перелистывалась,
+      // а глобус слушался только движений вверх-вниз.
+      body: ValueListenableBuilder<bool>(
+        valueListenable: GlobeTouch.active,
+        builder: (context, onGlobe, _) => PageView(
+          controller: _pc,
+          physics: onGlobe
+              ? const NeverScrollableScrollPhysics()
+              : const PageScrollPhysics(),
+          onPageChanged: (i) => setState(() => _index = i),
+          children: [
+            const HomeScreen(),
+            // Разделение по приложениям — только Android: iOS не отдаёт
+            // обычному приложению ни списка программ, ни выборочной
+            // маршрутизации. Вкладку там просто не показываем — остаётся три.
+            // Подменять её другим разделом не стали: лишний пункт ради
+            // симметрии заставляет искать, куда делся привычный.
+            if (Caps.perAppRouting) const PerAppScreen(inShell: true),
+            const SupportScreen(inShell: true),
+            const SettingsScreen(inShell: true),
+          ],
+        ),
       ),
     );
   }
@@ -101,7 +130,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   AppState? _state;
-  bool _globeTouch = false; // палец на глобусе → блокируем прокрутку списка
 
   @override
   void didChangeDependencies() {
@@ -115,9 +143,17 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _onNotice() {
-    // Всплывашку при подключении со сменой сервера/страны убрали по просьбе —
-    // событие остаётся только в логах (state._log), экран не перекрывается.
-    if (_state?.notice.value != null) _state!.notice.value = null;
+    // Плашка сверху: снизу её перекрывали панель навигации и палец. Событий
+    // про смену сервера здесь уже нет — они остались только в логах, — так что
+    // всё, что сюда доходит, человек и ждёт увидеть.
+    final n = _state?.notice.value;
+    if (n == null) return;
+    _state!.notice.value = null;
+    if (!mounted) return;
+    AppToast.show(context, n.text,
+        kind: n.error
+            ? ToastKind.error
+            : (n.success ? ToastKind.ok : ToastKind.info));
   }
 
   @override
@@ -141,6 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
         lon: ll[0],
         lat: ll[1],
         label: srv.countryName,
+        code: cc,
         selected: target != null && target.countryCode == cc,
       ));
     }
@@ -160,154 +197,167 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Stack(
         children: [
           Positioned.fill(
-              child: AmbientBars(connected: connected, animate: state.animationsOn)),
+              child: AmbientBars(
+                  connected: connected, animate: state.animationsOn)),
           if (state.animationsOn)
             Positioned.fill(child: ConnectGlow(connected: connected)),
           SafeArea(
-        bottom: false,
-        child: ListView(
-          physics: _globeTouch
-              ? const NeverScrollableScrollPhysics()
-              : const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(18, 8, 18, 48),
-          children: [
-            GestureDetector(
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const ProfileScreen()),
-              ),
-              behavior: HitTestBehavior.opaque,
-              child: _Header(active: active, telegramOnly: state.telegramOnly),
-            ),
-            const SizedBox(height: 14),
-            _ModeToggle(
-              mode: state.mode,
-              onChanged: state.setMode,
-            ),
-            const SizedBox(height: 10),
+            bottom: false,
+            // Пока палец на глобусе, список стоит — иначе он забирает
+            // вертикальный свайп и глобус не крутится. Перестраивается только
+            // сам список, а не весь экран.
+            child: ValueListenableBuilder<bool>(
+              valueListenable: GlobeTouch.active,
+              builder: (context, onGlobe, _) => ListView(
+              physics: onGlobe
+                  ? const NeverScrollableScrollPhysics()
+                  : const AlwaysScrollableScrollPhysics(),
+              padding: const EdgeInsets.fromLTRB(18, 8, 18, 48),
+              children: [
+                if (!state.online) ...[
+                  const _NoInternetBanner(),
+                  const SizedBox(height: 12),
+                ],
+                GestureDetector(
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const ProfileScreen()),
+                  ),
+                  behavior: HitTestBehavior.opaque,
+                  child:
+                      _Header(active: active, telegramOnly: state.telegramOnly),
+                ),
+                const SizedBox(height: 14),
+                _ModeToggle(
+                  mode: state.mode,
+                  onChanged: state.setMode,
+                ),
+                const SizedBox(height: 10),
 
-            // --- глобус ---
-            // Пока палец на глобусе — отключаем прокрутку списка, иначе
-            // вертикальный свайп «крадётся» ListView и глобус не вращается.
-            Center(
-              child: Listener(
-                onPointerDown: (_) {
-                  if (!_globeTouch) setState(() => _globeTouch = true);
-                },
-                onPointerUp: (_) {
-                  if (_globeTouch) setState(() => _globeTouch = false);
-                },
-                onPointerCancel: (_) {
-                  if (_globeTouch) setState(() => _globeTouch = false);
-                },
-                child: RepaintBoundary(
-                  child: GlobeView(
-                    size: 264,
-                    markers: _markers(state),
-                    focus: focus,
-                    connected: connected,
-                    packetFrom: connected ? Geo.origin : null,
-                    animationsEnabled: state.animationsOn,
+                // --- глобус ---
+                // Флаг «палец на глобусе» глобус выставляет сам (GlobeTouch),
+                // здесь его только слушают. Раньше это делал Listener с
+                // setState — и КАЖДОЕ касание перестраивало весь экран.
+                Center(
+                  child: RepaintBoundary(
+                    child: GlobeView(
+                      size: 264,
+                      markers: _markers(state),
+                      focus: focus,
+                      connected: connected,
+                      packetFrom: connected ? Geo.origin : null,
+                      // Подпись берём из общей таблицы стран — она переводится
+                      // вместе с интерфейсом.
+                      packetFromLabel: countryLabel('RU'),
+                      animationsEnabled: state.animationsOn,
+                      // Во время замера падающих звёзд больше.
+                      busy: state.pinging || state.pingSweepRunning,
+                    ),
                   ),
                 ),
+                const SizedBox(height: 10),
+
+                // --- кнопка подключения ---
+                Center(
+                  child: ConnectButton(
+                    connected: connected,
+                    animate: state.animationsOn,
+                    busy: connecting || state.busy,
+                    // Без сети подключаться не к чему: раньше кнопка нажималась,
+                    // крутилась и заканчивалась ошибкой. Теперь она честно
+                    // говорит, чего не хватает.
+                    label: !state.online && !connected
+                        ? L.t('no_net_btn')
+                        : connecting
+                            ? L.t('connecting')
+                            : connected
+                                ? L.t('protected')
+                                : L.t('disconnected'),
+                    onTap: () {
+                      if (connecting) return;
+                      if (!state.online && !connected) return;
+                      // Мгновенный виброотклик на нажатие (не ждём исход коннекта).
+                      if (state.vibrationEnabled) {
+                        HapticFeedback.mediumImpact();
+                        HapticFeedback.vibrate();
+                      }
+                      if (connected) {
+                        state.disconnect();
+                      } else if (state.telegramOnly) {
+                        // Бесплатный режим: поднимаем именно Telegram-only туннель,
+                        // а не полный (иначе через VPN пойдёт весь трафик).
+                        state.connectTelegramOnly();
+                      } else {
+                        state.connect();
+                      }
+                    },
+                  ),
+                ),
+                const SizedBox(height: 6),
+
+                // Карточка сессии плавно раскрывается при подключении (fade + size),
+                // а не появляется рывком.
+                AnimatedSize(
+                  duration: const Duration(milliseconds: 340),
+                  curve: Curves.easeOutCubic,
+                  alignment: Alignment.topCenter,
+                  child: AnimatedOpacity(
+                    opacity: connected ? 1 : 0,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeOut,
+                    child: connected
+                        ? Padding(
+                            padding: const EdgeInsets.only(bottom: 14),
+                            child: SessionCard(
+                              duration: state.sessionDuration,
+                              bytesDown: state.bytesDown,
+                              bytesUp: state.bytesUp,
+                              speedDownKbps: state.speedDownKbps,
+                              speedUpKbps: state.speedUpKbps,
+                              history: state.speedHistory,
+                              historyUp: state.speedHistoryUp,
+                            ),
+                          )
+                        : const SizedBox(width: double.infinity),
+                  ),
+                ),
+
+                // В бесплатном режиме — карточка «пробный доступ · только Telegram»
+                // в нашем стиле (с ∞ трафика и статусом подключения), вместо обычной.
+                if (state.telegramOnly) ...[
+                  _FreeStatusCard(
+                    connected: connected,
+                    connecting: connecting,
+                    server: active,
+                  ),
+                  const SizedBox(height: 10),
+                ] else if (state.subLoaded &&
+                    (state.subActive || state.subUntil != null)) ...[
+                  // Статус берём ТОЛЬКО из подписки. Наличие серверов доступом не
+                  // является: панель отдаёт список всем, и раньше из-за hasServers
+                  // неоплативший видел «Подписка активна» и не получал предложения
+                  // купить.
+                  _SubscriptionCard(
+                    active: state.subActive,
+                    until: state.subUntil,
+                    serverCount: state.servers.length,
+                  ),
+                  const SizedBox(height: 10),
+                ],
+
+                // «Уже есть подписка?» — только когда подписки НЕТ вообще.
+                // Раньше плашка висела и у того, кто только что добавил свою:
+                // приложение как будто не заметило её и продолжало продавать.
+                if (!state.subActive && !state.hasForeignServers) ...[
+                  const _SubActionsCard(),
+                  const SizedBox(height: 10),
+                ],
+
+                const SizedBox(height: 4),
+                _ServersSection(state: state),
+              ],
               ),
             ),
-            const SizedBox(height: 10),
-
-            // --- кнопка подключения ---
-            Center(
-              child: ConnectButton(
-                connected: connected,
-                animate: state.animationsOn,
-                busy: connecting || state.busy,
-                label: connecting
-                    ? L.t('connecting')
-                    : connected
-                        ? L.t('protected')
-                        : L.t('disconnected'),
-                onTap: () {
-                  if (connecting) return;
-                  // Мгновенный виброотклик на нажатие (не ждём исход коннекта).
-                  if (state.vibrationEnabled) {
-                    HapticFeedback.mediumImpact();
-                    HapticFeedback.vibrate();
-                  }
-                  if (connected) {
-                    state.disconnect();
-                  } else if (state.telegramOnly) {
-                    // Бесплатный режим: поднимаем именно Telegram-only туннель,
-                    // а не полный (иначе через VPN пойдёт весь трафик).
-                    state.connectTelegramOnly();
-                  } else {
-                    state.connect();
-                  }
-                },
-              ),
-            ),
-            const SizedBox(height: 6),
-
-            // Карточка сессии плавно раскрывается при подключении (fade + size),
-            // а не появляется рывком.
-            AnimatedSize(
-              duration: const Duration(milliseconds: 340),
-              curve: Curves.easeOutCubic,
-              alignment: Alignment.topCenter,
-              child: AnimatedOpacity(
-                opacity: connected ? 1 : 0,
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeOut,
-                child: connected
-                    ? Padding(
-                        padding: const EdgeInsets.only(bottom: 14),
-                        child: SessionCard(
-                          duration: state.sessionDuration,
-                          bytesDown: state.bytesDown,
-                          bytesUp: state.bytesUp,
-                          speedDownKbps: state.speedDownKbps,
-                          speedUpKbps: state.speedUpKbps,
-                          history: state.speedHistory,
-                          historyUp: state.speedHistoryUp,
-                        ),
-                      )
-                    : const SizedBox(width: double.infinity),
-              ),
-            ),
-
-            // В бесплатном режиме — карточка «пробный доступ · только Telegram»
-            // в нашем стиле (с ∞ трафика и статусом подключения), вместо обычной.
-            if (state.telegramOnly) ...[
-              _FreeStatusCard(
-                connected: connected,
-                connecting: connecting,
-                server: active,
-              ),
-              const SizedBox(height: 10),
-            ] else if (state.subLoaded &&
-                (state.subActive ||
-                    state.subUntil != null ||
-                    state.hasServers)) ...[
-              // Есть серверы (импорт по ссылке/ID) = доступ уже есть, даже если
-              // бэкенд не вернул статус — считаем подписку активной, не пугаем
-              // «подписки нет».
-              _SubscriptionCard(
-                active: state.subActive || state.hasServers,
-                until: state.subUntil,
-                serverCount: state.servers.length,
-              ),
-              const SizedBox(height: 10),
-            ],
-
-            // «Уже есть подписка?» — только когда доступа реально НЕТ (нет ни
-            // активной подписки, ни импортированных серверов).
-            if (!state.subActive && !state.hasServers) ...[
-              const _SubActionsCard(),
-              const SizedBox(height: 10),
-            ],
-
-            const SizedBox(height: 4),
-            _ServersSection(state: state),
-          ],
-        ),
-      ),
+          ),
           // празднование награды за серию (огонёк) — поверх всего
           if (state.celebrateMilestone > 0)
             Positioned.fill(
@@ -333,17 +383,24 @@ class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cc = active?.countryCode ?? '';
+    // Берём ТО ЖЕ имя, что показано в списке (title), а не название страны.
+    // Иначе у серверов вроде «Обход БС #9» шапка и список писали разное про
+    // один и тот же сервер, и выглядело это как рассинхрон.
     final name = telegramOnly
         ? L.t('free_tg')
-        : (active?.countryName ?? L.t('no_server'));
+        : (active?.title ?? L.t('no_server'));
     final sub = telegramOnly
         ? L.t('free_tg_sub')
         : (active != null ? active!.transportLabel : L.t('import_hint'));
-    final ping = active != null && active!.pingMs > 0 ? '${active!.pingMs} ms' : '—';
+    final ping =
+        active != null && active!.pingMs > 0 ? '${active!.pingMs} ms' : '—';
 
     return Row(
       children: [
-        if (cc.isNotEmpty) CountryFlag(cc) else const Icon(Icons.public, size: 20, color: P.textFaint),
+        if (cc.isNotEmpty)
+          CountryFlag(cc)
+        else
+          const Icon(Icons.public, size: 20, color: P.textFaint),
         const SizedBox(width: 10),
         Expanded(
           child: Column(
@@ -351,8 +408,11 @@ class _Header extends StatelessWidget {
             children: [
               Text(name,
                   style: const TextStyle(
-                      color: P.text, fontSize: 15, fontWeight: FontWeight.w600)),
-              Text(sub, style: const TextStyle(color: P.textFaint, fontSize: 11)),
+                      color: P.text,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600)),
+              Text(sub,
+                  style: const TextStyle(color: P.textFaint, fontSize: 11)),
             ],
           ),
         ),
@@ -361,8 +421,11 @@ class _Header extends StatelessWidget {
           children: [
             Text(ping,
                 style: const TextStyle(
-                    color: P.limeText, fontSize: 15, fontWeight: FontWeight.w600)),
-            Text(L.t('ping'), style: const TextStyle(color: P.textFaint, fontSize: 10)),
+                    color: P.limeText,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600)),
+            Text(L.t('ping'),
+                style: const TextStyle(color: P.textFaint, fontSize: 10)),
           ],
         ),
       ],
@@ -371,6 +434,54 @@ class _Header extends StatelessWidget {
 }
 
 // ---------- переключатель режима ----------
+
+/// Красивый баннер «нет интернета» — показывается вверху главного экрана, когда
+/// у телефона нет сети (VPN без интернета не заработает).
+class _NoInternetBanner extends StatelessWidget {
+  const _NoInternetBanner();
+
+  @override
+  Widget build(BuildContext context) {
+    const warn = Color(0xFFE2A24A);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+      decoration: BoxDecoration(
+        color: warn.withValues(alpha: 0.10),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: warn.withValues(alpha: 0.45)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 38,
+            height: 38,
+            decoration: BoxDecoration(
+              color: warn.withValues(alpha: 0.18),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(Icons.wifi_off_rounded, color: warn, size: 20),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(L.t('no_net_title'),
+                    style: const TextStyle(
+                        color: P.text,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700)),
+                const SizedBox(height: 2),
+                Text(L.t('no_net_body'),
+                    style: const TextStyle(color: P.textDim, fontSize: 12)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class _ModeToggle extends StatelessWidget {
   final GlobalMode mode;
@@ -396,7 +507,7 @@ class _ModeToggle extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 12.5,
                   fontWeight: FontWeight.w600,
-                  color: on ? const Color(0xFF0C1206) : P.textFaint,
+                  color: on ? P.onLime : P.textFaint,
                 )),
           ),
         ),
@@ -466,57 +577,66 @@ class _ServersSection extends StatelessWidget {
                 const Icon(Icons.chevron_right, color: P.textFaint, size: 18),
               ]),
             ),
-            Row(mainAxisSize: MainAxisSize.min, children: [
-              // Компактная сетка (2 в ряд) ↔ полный список (можно двигать).
-              TapScale(
-                onTap: () => state.setCompactServers(!state.compactServers),
-                child: Container(
-                  padding: const EdgeInsets.all(6),
-                  margin: const EdgeInsets.only(right: 8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(9),
-                    border: Border.all(color: P.textFaint.withValues(alpha: 0.4)),
-                  ),
-                  child: Icon(
-                      state.compactServers
-                          ? Icons.view_agenda_outlined
-                          : Icons.grid_view_rounded,
-                      size: 16,
-                      color: P.textFaint),
-                ),
+            // Кнопок в строке стало больше (вид списка + обновить + пинг), и на
+            // узких экранах она перестала помещаться. Ужимаем группу по месту,
+            // а не ломаем вёрстку.
+            Flexible(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerRight,
+                child: Row(mainAxisSize: MainAxisSize.min, children: [
+              // Вид списка серверов: сетка по два в ряд ↔ полный список.
+              //
+              // Раньше это была ОДНА кнопка с иконкой того вида, куда
+              // переключишься. Её стабильно читали наоборот — как текущий вид,
+              // — и переключение казалось перепутанным. Теперь видно сразу оба
+              // варианта, и подсвечен тот, который включён: спутать нечего.
+              _ViewModeToggle(
+                compact: state.compactServers,
+                onChanged: state.setCompactServers,
               ),
               TapScale(
-                onTap: state.busy
-                    ? null
-                    : () async {
-                        await state.refreshSubscription();
-                      },
+                // Ответ на нажатие приходит плашкой сверху из
+                // refreshSubscription: и «список обновлён», и причина отказа.
+                onTap: state.busy ? null : state.refreshSubscription,
                 child: Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   margin: const EdgeInsets.only(right: 8),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(9),
-                    border: Border.all(color: P.textFaint.withValues(alpha: 0.4)),
+                    border:
+                        Border.all(color: P.textFaint.withValues(alpha: 0.4)),
                   ),
                   child: Row(mainAxisSize: MainAxisSize.min, children: [
-                    const Icon(Icons.refresh, size: 15, color: P.textFaint),
+                    state.busy && !state.pinging
+                        ? const SizedBox(
+                            width: 13,
+                            height: 13,
+                            child: CircularProgressIndicator(
+                                strokeWidth: 2, color: P.textFaint))
+                        : const Icon(Icons.refresh,
+                            size: 15, color: P.textFaint),
                     const SizedBox(width: 5),
                     Text(L.t('update_short'),
-                        style: const TextStyle(color: P.textFaint, fontSize: 12)),
+                        style:
+                            const TextStyle(color: P.textFaint, fontSize: 12)),
                   ]),
                 ),
               ),
               TapScale(
-                onTap: state.busy ? null : state.pingAll,
+                onTap: state.busy || state.pingSweepRunning
+                    ? null
+                    : state.pingAll,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(9),
                     border: Border.all(color: P.lime.withValues(alpha: 0.4)),
                   ),
                   child: Row(mainAxisSize: MainAxisSize.min, children: [
-                    state.busy
+                    state.busy || state.pingSweepRunning
                         ? const SizedBox(
                             width: 13,
                             height: 13,
@@ -524,12 +644,21 @@ class _ServersSection extends StatelessWidget {
                                 strokeWidth: 2, color: P.limeText))
                         : const Icon(Icons.radar, size: 14, color: P.limeText),
                     const SizedBox(width: 5),
-                    Text(L.t('ping_btn'),
-                        style: const TextStyle(color: P.limeText, fontSize: 12)),
+                    // Во время замера показываем прогресс «7 / 15». Без этого
+                    // фоновый замер был совершенно незаметен, и казалось, что
+                    // авто-режим ничего не делает.
+                    Text(
+                        state.pingSweepRunning
+                            ? '${state.pingSweepDone}/${state.pingSweepTotal}'
+                            : L.t('ping_btn'),
+                        style:
+                            const TextStyle(color: P.limeText, fontSize: 12)),
                   ]),
                 ),
               ),
-            ]),
+                ]),
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 8),
@@ -625,7 +754,7 @@ class _ServersSection extends StatelessWidget {
                         CheckboxListTile(
                           value: state.folderOf(s.id) == folder,
                           activeColor: P.lime,
-                          checkColor: const Color(0xFF0C1206),
+                          checkColor: P.onLime,
                           controlAffinity: ListTileControlAffinity.trailing,
                           title: Row(children: [
                             CountryFlag(
@@ -690,7 +819,8 @@ class _ServersSection extends StatelessWidget {
               ]),
             ),
             ListTile(
-              leading: const Icon(Icons.layers_clear_outlined, color: P.textFaint),
+              leading:
+                  const Icon(Icons.layers_clear_outlined, color: P.textFaint),
               title: Text(L.t('folder_none'),
                   style: const TextStyle(color: P.text)),
               trailing: current.isEmpty
@@ -769,8 +899,7 @@ class _ServersSection extends StatelessWidget {
             child: Text(L.t('cancel')),
           ),
           FilledButton(
-            style: FilledButton.styleFrom(
-                backgroundColor: const Color(0xFFE2504A)),
+            style: FilledButton.styleFrom(backgroundColor: P.danger),
             onPressed: () {
               state.removeServer(s.id);
               Navigator.pop(context);
@@ -809,6 +938,54 @@ class _FolderSwipe extends StatelessWidget {
 
 /// Компактная сетка серверов (2 в ряд). В папке «Все» — перетаскивание
 /// долгим нажатием (порядок сохраняется).
+/// Переключатель вида списка серверов: сетка ↔ полный список.
+///
+/// Показывает оба варианта сразу и подсвечивает включённый — так не остаётся
+/// вопроса «эта иконка про текущий вид или про тот, куда я перейду».
+class _ViewModeToggle extends StatelessWidget {
+  final bool compact;
+  final ValueChanged<bool> onChanged;
+  const _ViewModeToggle({required this.compact, required this.onChanged});
+
+  @override
+  Widget build(BuildContext context) {
+    Widget seg(IconData icon, bool mine, String tip) {
+      final on = mine == compact;
+      return Tooltip(
+        message: tip,
+        child: TapScale(
+          onTap: on ? null : () => onChanged(mine),
+          child: AnimatedContainer(
+            duration: M.state,
+            curve: M.standard,
+            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(7),
+              color: on ? P.lime.withValues(alpha: 0.16) : Colors.transparent,
+            ),
+            child: Icon(icon,
+                size: 15, color: on ? P.limeText : P.textFaint),
+          ),
+        ),
+      );
+    }
+
+    return Container(
+      margin: const EdgeInsets.only(right: 8),
+      padding: const EdgeInsets.all(2),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(9),
+        border: Border.all(color: P.textFaint.withValues(alpha: 0.4)),
+      ),
+      child: Row(mainAxisSize: MainAxisSize.min, children: [
+        seg(Icons.grid_view_rounded, true, L.t('view_grid')),
+        seg(Icons.view_agenda_outlined, false, L.t('view_list')),
+      ]),
+    );
+  }
+}
+
+
 class _CompactGrid extends StatelessWidget {
   final AppState state;
   const _CompactGrid({required this.state});
@@ -821,13 +998,9 @@ class _CompactGrid extends StatelessWidget {
 
     Widget cellFor(VpnServer s) => _CompactServerCell(
           server: s,
-          active: state.activeServer?.id == s.id,
-          onTap: () {
-            state.setManualServer(s.id);
-            if (state.mode != GlobalMode.manual) {
-              state.setMode(GlobalMode.manual);
-            }
-          },
+          locked: _locked(state, s),
+          active: state.activeServer?.id == s.id && !_locked(state, s),
+          onTap: _tapFor(context, state, s),
           onRename: () => _ServersSection._showRenameDialog(context, state, s),
           onDelete: () => _ServersSection._confirmDelete(context, state, s),
           onFolder: () => _ServersSection._showFolderPicker(context, state, s),
@@ -850,28 +1023,24 @@ class _CompactGrid extends StatelessWidget {
                   data: s.id,
                   // Короче стандартных 500 мс — перетаскивание начинается легче.
                   delay: const Duration(milliseconds: 180),
-                  onDragStarted: () => HapticFeedback.mediumImpact(),
-                  // Тащим «поднятую» карточку с тенью — понятно, что схватили.
-                  feedback: Material(
-                    color: Colors.transparent,
-                    child: SizedBox(
-                      width: w,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.45),
-                                blurRadius: 18,
-                                spreadRadius: 1),
-                          ],
-                        ),
-                        child: cellFor(s),
-                      ),
+                  onDragStarted: () {
+                    HapticFeedback.mediumImpact();
+                    state.setListDragging(true);
+                  },
+                  onDragEnd: (_) => state.setListDragging(false),
+                  onDraggableCanceled: (_, __) => state.setListDragging(false),
+                  // Лёгкий подъём (scale 1.03), прозрачный Material, без тени —
+                  // тот же вид, что и у строк полного списка.
+                  feedback: Transform.scale(
+                    scale: 1.03,
+                    child: Material(
+                      color: Colors.transparent,
+                      elevation: 0,
+                      shadowColor: Colors.transparent,
+                      child: SizedBox(width: w, child: cellFor(s)),
                     ),
                   ),
-                  childWhenDragging:
-                      Opacity(opacity: 0.25, child: cellFor(s)),
+                  childWhenDragging: Opacity(opacity: 0.25, child: cellFor(s)),
                   // foregroundDecoration рисует рамку-подсветку ПОВЕРХ ячейки,
                   // не меняя её размер — иначе 2 в ряд «съезжают» в 1.
                   child: Container(
@@ -893,6 +1062,21 @@ class _CompactGrid extends StatelessWidget {
 
 /// Полный список серверов (по одному в ряд). В папке «Все» — перетаскивание
 /// долгим нажатием через ReorderableListView.
+/// Заблокирован ли сервер: нет НАШЕЙ подписки, а сервер — наш.
+///
+/// Конфиги чужой подписки не блокируются никогда: приложение для них — обычный
+/// VPN-клиент, продавать там нечего.
+bool _locked(AppState state, VpnServer s) => !state.hasAccess && !s.foreign;
+
+/// Что делает тап по серверу: выбирает его или зовёт оформить подписку.
+VoidCallback _tapFor(BuildContext context, AppState state, VpnServer s) {
+  if (_locked(state, s)) return () => showFreeLockedDialog(context);
+  return () {
+    state.setManualServer(s.id);
+    if (state.mode != GlobalMode.manual) state.setMode(GlobalMode.manual);
+  };
+}
+
 class _FullList extends StatelessWidget {
   final AppState state;
   const _FullList({required this.state});
@@ -903,27 +1087,28 @@ class _FullList extends StatelessWidget {
     Widget rowFor(VpnServer s) => _ServerRow(
           key: ValueKey(s.id),
           server: s,
-          active: state.activeServer?.id == s.id,
-          onTap: () {
-            state.setManualServer(s.id);
-            if (state.mode != GlobalMode.manual) {
-              state.setMode(GlobalMode.manual);
-            }
-          },
+          locked: _locked(state, s),
+          active: state.activeServer?.id == s.id && !_locked(state, s),
+          onTap: _tapFor(context, state, s),
           onRename: () => _ServersSection._showRenameDialog(context, state, s),
           onDelete: () => _ServersSection._confirmDelete(context, state, s),
           onFolder: () => _ServersSection._showFolderPicker(context, state, s),
         );
 
     if (state.activeFolder.isNotEmpty) {
-      // Внутри папки порядок общий — просто список без перетаскивания.
       return Column(children: [for (final s in list) rowFor(s)]);
     }
     return ReorderableListView(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       buildDefaultDragHandles: false,
-      onReorder: state.reorderServers,
+      // onReorderItem, а не устаревший onReorder: он сам вносит поправку на
+      // уже вынутый элемент, и та же логика перестановки живёт в состоянии.
+      onReorderItem: state.reorderServers,
+      // Пока карточку тащат, фоновый замер не должен перерисовывать список:
+      // каждая перерисовка срывала захват, и переставить конфиг было нельзя.
+      onReorderStart: (_) => state.setListDragging(true),
+      onReorderEnd: (_) => state.setListDragging(false),
       // Убираем дефолтную синеватую Material-тень при перетаскивании — вместо неё
       // мягкий подъём карточки (scale) без постороннего свечения.
       proxyDecorator: (child, index, animation) => AnimatedBuilder(
@@ -943,6 +1128,7 @@ class _FullList extends StatelessWidget {
         child: child,
       ),
       children: [
+        // Тащим за саму карточку, удержанием — так это и ожидается от списка.
         for (var i = 0; i < list.length; i++)
           ReorderableDelayedDragStartListener(
             key: ValueKey(list[i].id),
@@ -974,7 +1160,8 @@ class _FolderChips extends StatelessWidget {
               color: active ? P.lime.withValues(alpha: 0.16) : P.surfaceLo,
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                  color: active ? P.lime : P.surfaceHi, width: active ? 1 : 0.5),
+                  color: active ? P.lime : P.surfaceHi,
+                  width: active ? 1 : 0.5),
             ),
             child: Row(mainAxisSize: MainAxisSize.min, children: [
               if (icon != null) ...[
@@ -1050,15 +1237,15 @@ class _FolderChips extends StatelessWidget {
       context: context,
       builder: (_) => AlertDialog(
         backgroundColor: P.surface,
-        title: Text(L.t('folder_delete_q'), style: const TextStyle(color: P.text)),
+        title:
+            Text(L.t('folder_delete_q'), style: const TextStyle(color: P.text)),
         content: Text(name, style: const TextStyle(color: P.textDim)),
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(context),
               child: Text(L.t('cancel'))),
           FilledButton(
-            style: FilledButton.styleFrom(
-                backgroundColor: const Color(0xFFE2504A)),
+            style: FilledButton.styleFrom(backgroundColor: P.danger),
             onPressed: () {
               state.removeFolder(name);
               Navigator.pop(context);
@@ -1147,7 +1334,7 @@ class _AutoTelegramRow extends StatelessWidget {
                         fontWeight: FontWeight.w600)),
                 Text(
                   server != null
-                      ? '${L.t('free_auto_sub')} · ${server!.countryName}'
+                      ? '${L.t('free_auto_sub')} · ${server!.title}'
                       : L.t('free_auto_sub'),
                   style: const TextStyle(color: P.limeText, fontSize: 10),
                 ),
@@ -1164,11 +1351,13 @@ class _AutoTelegramRow extends StatelessWidget {
 class _ServerRow extends StatelessWidget {
   final VpnServer server;
   final bool active;
-  final bool locked; // бесплатный режим: сервер недоступен (тусклый, по тапу — апселл)
+  final bool
+      locked; // бесплатный режим: сервер недоступен (тусклый, по тапу — апселл)
   final VoidCallback onTap;
   final VoidCallback? onRename;
   final VoidCallback? onDelete;
   final VoidCallback? onFolder;
+
   const _ServerRow(
       {super.key,
       required this.server,
@@ -1182,98 +1371,115 @@ class _ServerRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final row = Container(
-        margin: const EdgeInsets.only(bottom: 8),
-        padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 9),
-        decoration: BoxDecoration(
-          color: active ? P.lime.withValues(alpha: 0.08) : P.surfaceLo,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-              color: active ? P.lime : P.surfaceHi, width: active ? 1 : 0.5),
-        ),
-        child: Row(
-          children: [
-            CountryFlag(server.countryCode.isEmpty ? '??' : server.countryCode),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(server.title,
-                      style: const TextStyle(color: P.text, fontSize: 13)),
-                  Text(server.transportLabel,
-                      style: const TextStyle(color: P.textFaint, fontSize: 10)),
-                ],
-              ),
+      margin: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 9),
+      decoration: BoxDecoration(
+        color: active ? P.lime.withValues(alpha: 0.08) : P.surfaceLo,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+            color: active ? P.lime : P.surfaceHi, width: active ? 1 : 0.5),
+      ),
+      child: Row(
+        children: [
+          CountryFlag(server.countryCode.isEmpty ? '??' : server.countryCode),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(server.title,
+                    style: const TextStyle(color: P.text, fontSize: 13)),
+                Text(server.transportLabel,
+                    style: const TextStyle(color: P.textFaint, fontSize: 10)),
+              ],
             ),
+          ),
+          if (context.watch<AppState>().pinging)
+            const Padding(
+              padding: EdgeInsets.only(right: 4),
+              child: SizedBox(
+                  width: 13,
+                  height: 13,
+                  child: CircularProgressIndicator(
+                      strokeWidth: 2, color: P.limeText)),
+            )
+          else ...[
             Container(
               width: 8,
               height: 8,
               margin: const EdgeInsets.only(right: 7),
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
+                  // Пороги «хорошо/средне/плохо» зависят от МЕТОДА: у точного
+                  // замера числа больше. Берём метод из самого сервера — при
+                  // настройке брались бы чужие пороги, если конкретный сервер
+                  // померян иначе.
                   color: P.pingColor(server.pingMs,
-                      proxy: context.read<AppState>().pingType == 'proxy')),
+                      proxy: server.pingVia == 'proxy')),
             ),
             Text(
               server.pingMs > 0 ? '${server.pingMs} ms' : '—',
               style: TextStyle(
                   color: active ? P.limeText : P.textFaint, fontSize: 12),
             ),
-            if (active) ...[
-              const SizedBox(width: 6),
-              const Icon(Icons.check_circle, color: P.lime, size: 18),
-            ],
-            if (locked) ...[
-              const SizedBox(width: 6),
-              const Icon(Icons.lock_outline, color: P.textFaint, size: 15),
-            ],
-            // ⋮ — переименовать / удалить (не в бесплатном режиме).
-            if (!locked && (onRename != null || onDelete != null))
-              PopupMenuButton<String>(
-                icon: const Icon(Icons.more_vert, color: P.textFaint, size: 20),
-                color: P.surface,
-                padding: EdgeInsets.zero,
-                onSelected: (v) {
-                  if (v == 'rename') onRename?.call();
-                  if (v == 'folder') onFolder?.call();
-                  if (v == 'delete') onDelete?.call();
-                },
-                itemBuilder: (_) => [
+          ],
+          if (active) ...[
+            const SizedBox(width: 6),
+            const Icon(Icons.check_circle, color: P.lime, size: 18),
+          ],
+          if (locked) ...[
+            const SizedBox(width: 6),
+            const Icon(Icons.lock_outline, color: P.textFaint, size: 15),
+          ],
+          // Замер пинга именно этого сервера. Общий замер по всему списку идёт
+          // секунды, а проверить обычно нужен один конкретный: ожил или нет.
+          if (!locked) _PingButton(server: server),
+          // ⋮ — переименовать / удалить (не в бесплатном режиме).
+          if (!locked && (onRename != null || onDelete != null))
+            PopupMenuButton<String>(
+              icon: const Icon(Icons.more_vert, color: P.textFaint, size: 20),
+              color: P.surface,
+              padding: EdgeInsets.zero,
+              onSelected: (v) {
+                if (v == 'rename') onRename?.call();
+                if (v == 'folder') onFolder?.call();
+                if (v == 'delete') onDelete?.call();
+              },
+              itemBuilder: (_) => [
+                PopupMenuItem(
+                  value: 'rename',
+                  child: Row(children: [
+                    const Icon(Icons.edit_outlined, size: 18, color: P.text),
+                    const SizedBox(width: 10),
+                    Text(L.t('srv_rename'),
+                        style: const TextStyle(color: P.text)),
+                  ]),
+                ),
+                if (onFolder != null)
                   PopupMenuItem(
-                    value: 'rename',
+                    value: 'folder',
                     child: Row(children: [
-                      const Icon(Icons.edit_outlined, size: 18, color: P.text),
+                      const Icon(Icons.folder_outlined,
+                          size: 18, color: P.text),
                       const SizedBox(width: 10),
-                      Text(L.t('srv_rename'),
+                      Text(L.t('srv_move_folder'),
                           style: const TextStyle(color: P.text)),
                     ]),
                   ),
-                  if (onFolder != null)
-                    PopupMenuItem(
-                      value: 'folder',
-                      child: Row(children: [
-                        const Icon(Icons.folder_outlined,
-                            size: 18, color: P.text),
-                        const SizedBox(width: 10),
-                        Text(L.t('srv_move_folder'),
-                            style: const TextStyle(color: P.text)),
-                      ]),
-                    ),
-                  PopupMenuItem(
-                    value: 'delete',
-                    child: Row(children: [
-                      const Icon(Icons.delete_outline,
-                          size: 18, color: Color(0xFFE2504A)),
-                      const SizedBox(width: 10),
-                      Text(L.t('delete'),
-                          style: const TextStyle(color: Color(0xFFE2504A))),
-                    ]),
-                  ),
-                ],
-              ),
-          ],
-        ),
-      );
+                PopupMenuItem(
+                  value: 'delete',
+                  child: Row(children: [
+                    const Icon(Icons.delete_outline, size: 18, color: P.danger),
+                    const SizedBox(width: 10),
+                    Text(L.t('delete'),
+                        style: const TextStyle(color: P.danger)),
+                  ]),
+                ),
+              ],
+            ),
+        ],
+      ),
+    );
     // В заблокированном виде — тусклый и «как будто не работает», по тапу апселл.
     if (locked) {
       return Opacity(
@@ -1289,31 +1495,78 @@ class _ServerRow extends StatelessWidget {
   }
 }
 
+
+/// Кнопка «померить пинг» рядом с одним конфигом.
+///
+/// Пока идёт замер — на её месте крутится спиннер. Состояние берётся из
+/// AppState по id сервера, поэтому кнопка честно показывает работу и не даёт
+/// запустить второй замер того же сервера.
+class _PingButton extends StatelessWidget {
+  final VpnServer server;
+  final bool compact;
+  const _PingButton({required this.server, this.compact = false});
+
+  @override
+  Widget build(BuildContext context) {
+    final state = context.watch<AppState>();
+    final busy = state.pingingIds.contains(server.id);
+    final size = compact ? 15.0 : 17.0;
+    return Tooltip(
+      message: L.t('srv_ping_one'),
+      child: TapScale(
+        onTap: busy ? null : () => state.pingOne(server),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: compact ? 2 : 5),
+          child: busy
+              ? SizedBox(
+                  width: size,
+                  height: size,
+                  child: const CircularProgressIndicator(
+                      strokeWidth: 2, color: P.limeText),
+                )
+              : Icon(Icons.network_ping, size: size, color: P.textFaint),
+        ),
+      ),
+    );
+  }
+}
+
 /// Компактная ячейка сервера (2 в ряд): флаг + страна + пинг + ⋮.
 class _CompactServerCell extends StatelessWidget {
   final VpnServer server;
   final bool active;
+
+  /// Сервер закрыт до оплаты: тусклый, по тапу — предложение подписки.
+  /// Раньше этого признака у компактной ячейки не было, и без подписки список
+  /// приходилось рисовать отдельной веткой — которая молча игнорировала выбор
+  /// вида, из-за чего переключатель «не работал».
+  final bool locked;
   final VoidCallback onTap;
-  final VoidCallback onRename;
-  final VoidCallback onDelete;
-  final VoidCallback onFolder;
+  final VoidCallback? onRename;
+  final VoidCallback? onDelete;
+  final VoidCallback? onFolder;
+
   const _CompactServerCell({
     required this.server,
     required this.active,
     required this.onTap,
-    required this.onRename,
-    required this.onDelete,
-    required this.onFolder,
+    this.locked = false,
+    this.onRename,
+    this.onDelete,
+    this.onFolder,
   });
 
   @override
   Widget build(BuildContext context) {
     // 2 ячейки в ряд: (ширина контента − отступ) / 2. Отступы ListView = 18.
     final w = (MediaQuery.of(context).size.width - 18 * 2 - 8) / 2;
-    final proxy = context.read<AppState>().pingType == 'proxy';
     return SizedBox(
       width: w,
-      child: TapScale(
+      // Заблокированная ячейка — тусклая и без «пружинки» нажатия, ровно как
+      // строка в полном списке: вид должен читаться одинаково в обоих режимах.
+      child: Opacity(
+        opacity: locked ? 0.38 : 1,
+        child: TapScale(
         onTap: onTap,
         child: Container(
           padding: const EdgeInsets.fromLTRB(9, 8, 2, 8),
@@ -1336,23 +1589,41 @@ class _CompactServerCell extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(color: P.text, fontSize: 12.5)),
-                  Row(children: [
-                    Container(
-                      width: 6,
-                      height: 6,
-                      margin: const EdgeInsets.only(right: 4),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: P.pingColor(server.pingMs, proxy: proxy)),
-                    ),
-                    Text(server.pingMs > 0 ? '${server.pingMs} ms' : '—',
-                        style: TextStyle(
-                            color: active ? P.limeText : P.textFaint,
-                            fontSize: 11)),
-                  ]),
+                  context.watch<AppState>().pinging
+                      ? const SizedBox(
+                          width: 12,
+                          height: 12,
+                          child: CircularProgressIndicator(
+                              strokeWidth: 2, color: P.limeText))
+                      : Row(children: [
+                          Container(
+                            width: 6,
+                            height: 6,
+                            margin: const EdgeInsets.only(right: 4),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color:
+                                    P.pingColor(server.pingMs,
+                                        proxy: server.pingVia == 'proxy')),
+                          ),
+                          // Flexible: ячейка узкая, и после появления ручки
+                          // перетаскивания строка с пингом перестала влезать.
+                          // Обрезать число лучше, чем ломать вёрстку.
+                          Flexible(
+                            child: Text(
+                                server.pingMs > 0 ? '${server.pingMs} ms' : '—',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    color: active ? P.limeText : P.textFaint,
+                                    fontSize: 11)),
+                          ),
+                        ]),
                 ],
               ),
             ),
+            if (!locked) _PingButton(server: server, compact: true),
+            if (!locked)
             SizedBox(
               width: 26,
               child: PopupMenuButton<String>(
@@ -1360,15 +1631,16 @@ class _CompactServerCell extends StatelessWidget {
                 color: P.surface,
                 padding: EdgeInsets.zero,
                 onSelected: (v) {
-                  if (v == 'rename') onRename();
-                  if (v == 'folder') onFolder();
-                  if (v == 'delete') onDelete();
+                  if (v == 'rename') onRename?.call();
+                  if (v == 'folder') onFolder?.call();
+                  if (v == 'delete') onDelete?.call();
                 },
                 itemBuilder: (_) => [
                   PopupMenuItem(
                       value: 'rename',
                       child: Row(children: [
-                        const Icon(Icons.edit_outlined, size: 18, color: P.text),
+                        const Icon(Icons.edit_outlined,
+                            size: 18, color: P.text),
                         const SizedBox(width: 10),
                         Text(L.t('srv_rename'),
                             style: const TextStyle(color: P.text)),
@@ -1376,7 +1648,8 @@ class _CompactServerCell extends StatelessWidget {
                   PopupMenuItem(
                       value: 'folder',
                       child: Row(children: [
-                        const Icon(Icons.folder_outlined, size: 18, color: P.text),
+                        const Icon(Icons.folder_outlined,
+                            size: 18, color: P.text),
                         const SizedBox(width: 10),
                         Text(L.t('srv_move_folder'),
                             style: const TextStyle(color: P.text)),
@@ -1385,15 +1658,16 @@ class _CompactServerCell extends StatelessWidget {
                       value: 'delete',
                       child: Row(children: [
                         const Icon(Icons.delete_outline,
-                            size: 18, color: Color(0xFFE2504A)),
+                            size: 18, color: P.danger),
                         const SizedBox(width: 10),
                         Text(L.t('delete'),
-                            style: const TextStyle(color: Color(0xFFE2504A))),
+                            style: const TextStyle(color: P.danger)),
                       ])),
                 ],
               ),
             ),
           ]),
+        ),
         ),
       ),
     );
@@ -1405,24 +1679,6 @@ class _CompactServerCell extends StatelessWidget {
 /// Меню активации полного доступа — единая точка «как купить/подключить».
 /// Открывается по кнопке в карточке бесплатного режима и из быстрых действий.
 void showActivateSheet(BuildContext context) {
-  Future<void> pasteImport() async {
-    final data = await Clipboard.getData(Clipboard.kTextPlain);
-    final txt = data?.text?.trim() ?? '';
-    if (!context.mounted) return;
-    if (txt.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(L.t('act_paste_empty'))));
-      return;
-    }
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(L.t('act_paste_ok'))));
-    final ok = await context.read<AppState>().importSmart(txt);
-    if (context.mounted && !ok) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(context.read<AppState>().lastError ?? 'Ошибка')));
-    }
-  }
-
   showModalBottomSheet<void>(
     context: context,
     backgroundColor: P.surface,
@@ -1452,14 +1708,12 @@ void showActivateSheet(BuildContext context) {
                 height: 42,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: primary
-                      ? const Color(0x260C1206)
-                      : P.lime.withValues(alpha: 0.12),
+                  color:
+                      primary ? P.onLimeGhost : P.lime.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(icon,
-                    color: primary ? const Color(0xFF0C1206) : P.limeText,
-                    size: 22),
+                    color: primary ? P.onLime : P.limeText, size: 22),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -1468,22 +1722,20 @@ void showActivateSheet(BuildContext context) {
                   children: [
                     Text(title,
                         style: TextStyle(
-                            color: primary ? const Color(0xFF0C1206) : P.text,
+                            color: primary ? P.onLime : P.text,
                             fontSize: 15,
                             fontWeight: FontWeight.w700)),
                     const SizedBox(height: 2),
                     Text(sub,
                         style: TextStyle(
-                            color: primary
-                                ? const Color(0xCC0C1206)
-                                : P.textFaint,
+                            color: primary ? P.onLimeDim : P.textFaint,
                             fontSize: 12,
                             height: 1.3)),
                   ],
                 ),
               ),
               Icon(Icons.chevron_right,
-                  color: primary ? const Color(0xFF0C1206) : P.textFaint),
+                  color: primary ? P.onLime : P.textFaint),
             ]),
           ),
         );
@@ -1497,11 +1749,14 @@ void showActivateSheet(BuildContext context) {
             children: [
               const SizedBox(height: 4),
               Row(children: [
-                const Icon(Icons.workspace_premium, color: P.limeText, size: 22),
+                const Icon(Icons.workspace_premium,
+                    color: P.limeText, size: 22),
                 const SizedBox(width: 8),
                 Text(L.t('act_title'),
                     style: const TextStyle(
-                        color: P.text, fontSize: 18, fontWeight: FontWeight.w800)),
+                        color: P.text,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800)),
               ]),
               const SizedBox(height: 4),
               Align(
@@ -1510,21 +1765,21 @@ void showActivateSheet(BuildContext context) {
                     style: const TextStyle(color: P.textFaint, fontSize: 12.5)),
               ),
               const SizedBox(height: 14),
-              row(Icons.workspace_premium, L.t('act_get_bot'),
+              row(
+                  Icons.workspace_premium,
+                  L.t('act_get_bot'),
                   L.t('act_get_bot_d'),
                   () => launchUrl(Uri.parse(Brand.bot),
                       mode: LaunchMode.externalApplication),
                   primary: true),
-              row(Icons.telegram, L.t('act_link_tg'), L.t('act_link_tg_d'),
-                  () => showLinkTelegramDialog(context)),
-              row(Icons.link, L.t('act_link'), L.t('act_link_d'),
-                  () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => const ImportScreen()))),
-              row(Icons.qr_code_scanner, L.t('act_qr'), L.t('act_qr_d'),
-                  () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => const QrImportScreen()))),
-              row(Icons.content_paste_rounded, L.t('act_paste'),
-                  L.t('act_paste_d'), pasteImport),
+              const SizedBox(height: 6),
+              // Дальше — ТОТ ЖЕ блок, что на экране входа и в инструкции:
+              // ID главным, ссылка и QR альтернативами. Раньше здесь были
+              // пять равнозначных строк, и человек выбирал вместо действия.
+              ConnectWays(
+                compact: true,
+                onSuccess: () => Navigator.of(ctx).maybePop(),
+              ),
             ],
           ),
         ),
@@ -1549,7 +1804,11 @@ class _FreeStatusCard extends StatelessWidget {
     final statusText = connected
         ? L.t('free_connected')
         : (connecting ? L.t('connecting') : L.t('free_off'));
-    final srvName = server?.countryName ?? '—';
+    // Имя берём РОВНО то же, что в списке ниже (`title`). Раньше в шапке стояло
+    // название страны, а в списке — имя конфига: у подписок с несколькими
+    // конфигами на одну страну выходило, что сверху «Германия», а отмечен
+    // «Автовыбор | Wi-Fi 4», и это читалось как выбор не того сервера.
+    final srvName = server?.title ?? '—';
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -1598,10 +1857,10 @@ class _FreeStatusCard extends StatelessWidget {
               ),
             ),
             Container(width: 0.5, height: 30, color: P.surfaceHi),
-            const Expanded(
+            Expanded(
               child: _SubMetric(
                 icon: Icons.all_inclusive,
-                label: 'Трафик / Traffic',
+                label: L.t('traffic'),
                 value: '∞',
               ),
             ),
@@ -1622,11 +1881,11 @@ class _FreeStatusCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Icon(Icons.workspace_premium,
-                      color: Color(0xFF0C1206), size: 18),
+                      color: P.onLime, size: 18),
                   const SizedBox(width: 8),
                   Text(L.t('free_buy_full'),
                       style: const TextStyle(
-                          color: Color(0xFF0C1206),
+                          color: P.onLime,
                           fontSize: 14,
                           fontWeight: FontWeight.w800)),
                 ],
@@ -1651,27 +1910,13 @@ class _SubscriptionCard extends StatelessWidget {
     required this.serverCount,
   });
 
-  static const _monthsRu = [
-    '', 'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
-    'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
-  ];
-  static const _monthsEn = [
-    '', 'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
-
-  String _fmtDate(DateTime d) {
-    final m = L.current == 'en' ? _monthsEn[d.month] : _monthsRu[d.month];
-    return L.current == 'en' ? '$m ${d.day}, ${d.year}' : '${d.day} $m ${d.year}';
-  }
-
   int? get _daysLeft => until?.difference(DateTime.now()).inDays;
 
   @override
   Widget build(BuildContext context) {
     final days = _daysLeft;
     final ok = active && (days == null || days >= 0);
-    final accent = ok ? P.lime : const Color(0xFFE2504A);
+    final accent = ok ? P.lime : P.danger;
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -1693,6 +1938,7 @@ class _SubscriptionCard extends StatelessWidget {
                       fontSize: 14,
                       fontWeight: FontWeight.w600)),
               const Spacer(),
+              const Spacer(),
               if (days != null && days >= 0)
                 Container(
                   padding:
@@ -1713,7 +1959,7 @@ class _SubscriptionCard extends StatelessWidget {
                 child: _SubMetric(
                   icon: Icons.event,
                   label: L.t('valid_until'),
-                  value: until != null ? _fmtDate(until!) : '—',
+                  value: until != null ? L.date(until!) : '—',
                 ),
               ),
               Container(width: 0.5, height: 30, color: P.surfaceHi),
@@ -1726,6 +1972,49 @@ class _SubscriptionCard extends StatelessWidget {
               ),
             ],
           ),
+
+          // ПРОДЛЕНИЕ — самая дешёвая конверсия из всех: человек уже платил и
+          // ему уже нравится. Раньше подписка просто молча заканчивалась, и
+          // он узнавал об этом, когда VPN переставал работать. Теперь за три
+          // дня до конца прямо в главной карточке появляется кнопка.
+          if (days != null && days <= 3) ...[
+            const SizedBox(height: 12),
+            TapScale(
+              onTap: () => launchUrl(Uri.parse(Brand.bot),
+                  mode: LaunchMode.externalApplication),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 13),
+                decoration: BoxDecoration(
+                  gradient: P.grad,
+                  borderRadius: BorderRadius.circular(13),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.autorenew_rounded,
+                        size: 18, color: P.onLime),
+                    const SizedBox(width: 8),
+                    Text(L.t('renew_cta'),
+                        style: const TextStyle(
+                            color: P.onLime,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w800)),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 7),
+            Text(
+              days < 0
+                  ? L.t('renew_over')
+                  : (days == 0
+                      ? L.t('renew_today')
+                      : L.t('renew_soon', {'n': days, 'd': L.days(days)})),
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: P.textFaint, fontSize: 11.5),
+            ),
+          ],
         ],
       ),
     );
@@ -1747,12 +2036,26 @@ class _SubMetric extends StatelessWidget {
         Row(children: [
           Icon(icon, size: 13, color: P.textFaint),
           const SizedBox(width: 5),
-          Text(label, style: const TextStyle(color: P.textFaint, fontSize: 11)),
+          // Длинная подпись («Действует до») в узкой половине карточки не
+          // помещалась — обрезаем, а не ломаем строку.
+          Flexible(
+            child: Text(label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(color: P.textFaint, fontSize: 11)),
+          ),
         ]),
         const SizedBox(height: 3),
-        Text(value,
-            style: const TextStyle(
-                color: P.text, fontSize: 14, fontWeight: FontWeight.w600)),
+        // Значение (дата или «1.7 / 110 ГБ») тоже бывает длинным. Уменьшаем
+        // кегль по месту вместо переполнения — читать всё равно можно.
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.centerLeft,
+          child: Text(value,
+              maxLines: 1,
+              style: const TextStyle(
+                  color: P.text, fontSize: 14, fontWeight: FontWeight.w600)),
+        ),
       ],
     );
   }
@@ -1764,38 +2067,6 @@ class _SubActionsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget btn(IconData icon, String label, VoidCallback onTap,
-        {bool primary = false}) {
-      return Expanded(
-        child: TapScale(
-          onTap: onTap,
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            decoration: BoxDecoration(
-              gradient: primary ? P.grad : null,
-              color: primary ? null : P.surfaceLo,
-              borderRadius: BorderRadius.circular(12),
-              border: primary ? null : Border.all(color: P.surfaceHi),
-            ),
-            child: Column(
-              children: [
-                Icon(icon,
-                    size: 20,
-                    color: primary ? const Color(0xFF0C1206) : P.limeText),
-                const SizedBox(height: 5),
-                Text(label,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: primary ? const Color(0xFF0C1206) : P.text,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600)),
-              ],
-            ),
-          ),
-        ),
-      );
-    }
-
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -1817,17 +2088,8 @@ class _SubActionsCard extends StatelessWidget {
           Text(L.t('sub_actions_sub'),
               style: const TextStyle(color: P.textFaint, fontSize: 12)),
           const SizedBox(height: 12),
-          Row(children: [
-            btn(Icons.link, L.t('sub_actions_import'), () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const ImportScreen()),
-              );
-            }),
-            const SizedBox(width: 10),
-            btn(Icons.telegram, L.t('sub_actions_link_tg'),
-                () => showLinkTelegramDialog(context),
-                primary: true),
-          ]),
+          // Единая схема подключения (ID → ссылка/QR) — та же, что везде.
+          const ConnectWays(compact: true),
         ],
       ),
     );
@@ -1836,7 +2098,7 @@ class _SubActionsCard extends StatelessWidget {
 
 // ---------- нижняя панель: трафик + табы ----------
 
-class _BottomBar extends StatelessWidget {
+class _BottomBar extends StatefulWidget {
   final List<String> trafficLines;
   final bool showTraffic;
   final double upKbps;
@@ -1853,6 +2115,52 @@ class _BottomBar extends StatelessWidget {
     required this.onSelect,
     this.animate = true,
   });
+
+  @override
+  State<_BottomBar> createState() => _BottomBarState();
+}
+
+class _BottomBarState extends State<_BottomBar>
+    with SingleTickerProviderStateMixin {
+  /// Позиция подсветки в «номерах вкладок». Дробные значения — это и есть
+  /// состояние на полпути, ради которого затевалось перетаскивание.
+  ///
+  /// Предел берётся из длины списка значков, а не пишется числом: на iOS
+  /// вкладок три, и с жёсткой четвёркой подсветку можно было бы утащить за
+  /// край панели.
+  late final AnimationController _pos = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 380),
+    lowerBound: 0,
+    upperBound: (_icons.length - 1).toDouble(),
+    value: widget.currentIndex.toDouble(),
+  );
+
+  bool _dragging = false;
+  int _lastHaptic = 0;
+
+  @override
+  void didUpdateWidget(covariant _BottomBar old) {
+    super.didUpdateWidget(old);
+    // Вкладку могли сменить не панелью, а листанием страницы.
+    if (widget.currentIndex != old.currentIndex && !_dragging) {
+      _pos.animateTo(widget.currentIndex.toDouble(),
+          duration: const Duration(milliseconds: 380),
+          curve: Curves.easeOutCubic);
+    }
+  }
+
+  @override
+  void dispose() {
+    _pos.dispose();
+    super.dispose();
+  }
+
+  void _settle(int i) {
+    _pos.animateTo(i.toDouble(),
+        duration: const Duration(milliseconds: 320), curve: Curves.easeOutBack);
+    if (i != widget.currentIndex) widget.onSelect(i);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -1873,70 +2181,102 @@ class _BottomBar extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (showTraffic)
-          _TrafficBar(lines: trafficLines, upKbps: upKbps, downKbps: downKbps),
+        if (widget.showTraffic)
+          _TrafficBar(lines: widget.trafficLines, upKbps: widget.upKbps, downKbps: widget.downKbps),
         nav,
       ],
     );
   }
 
-  static const _icons = [
-    Icons.public,
-    Icons.apps,
-    Icons.chat_bubble_outline,
-    Icons.settings_outlined,
-  ];
+  /// Значки вкладок. Их столько же, сколько страниц: на iOS вкладки
+  /// «Приложения» нет, и панель обязана быть из трёх кнопок, иначе подсветка
+  /// уезжает мимо.
+  static List<IconData> get _icons => [
+        Icons.public,
+        if (Caps.perAppRouting) Icons.apps,
+        Icons.chat_bubble_outline,
+        Icons.settings_outlined,
+      ];
 
   Widget _navRow(BuildContext context) {
-    const n = 4;
+    final n = _icons.length;
     return LayoutBuilder(builder: (context, c) {
       final slot = c.maxWidth / n;
       final pillW = slot * 0.66;
-      return SizedBox(
-        height: 48,
-        child: Stack(
-          children: [
-            // Плавно «переезжающий» индикатор под активной вкладкой (мягкая
-            // лаймово-фиолетовая капсула со свечением). В Lite — без свечения.
-            AnimatedPositioned(
-              duration: const Duration(milliseconds: 380),
-              curve: Curves.easeOutCubic,
-              left: slot * currentIndex + (slot - pillW) / 2,
-              top: 3,
-              width: pillW,
-              height: 42,
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                    P.lime.withValues(alpha: 0.20),
-                    P.violet.withValues(alpha: 0.18),
-                  ]),
-                  borderRadius: BorderRadius.circular(21),
-                  boxShadow: animate
-                      ? [
-                          BoxShadow(
-                              color: P.lime.withValues(alpha: 0.26),
-                              blurRadius: 16,
-                              spreadRadius: -3),
-                        ]
-                      : null,
-                ),
-              ),
-            ),
-            Row(
+
+      void moveTo(double dx) {
+        _pos.value = ((dx / slot) - 0.5).clamp(0.0, (n - 1) * 1.0);
+        // Отклик на пересечении границы, а не при отпускании: палец понимает,
+        // что перешёл на соседнюю вкладку, ещё до того как посмотрел.
+        final near = _pos.value.round();
+        if (near != _lastHaptic) {
+          _lastHaptic = near;
+          HapticFeedback.selectionClick();
+        }
+      }
+
+      return GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTapUp: (d) =>
+            _settle((d.localPosition.dx / slot).floor().clamp(0, n - 1)),
+        onHorizontalDragStart: (d) {
+          setState(() => _dragging = true);
+          moveTo(d.localPosition.dx);
+        },
+        onHorizontalDragUpdate: (d) => moveTo(d.localPosition.dx),
+        onHorizontalDragEnd: (_) {
+          setState(() => _dragging = false);
+          _settle(_pos.value.round().clamp(0, n - 1));
+        },
+        child: SizedBox(
+          height: 48,
+          child: AnimatedBuilder(
+            animation: _pos,
+            builder: (context, _) => Stack(
               children: [
-                for (var i = 0; i < n; i++)
-                  Expanded(
-                    child: _Tab(
-                      icon: _icons[i],
-                      active: currentIndex == i,
-                      animate: animate,
-                      onTap: () => onSelect(i),
+                // Капсула следует за пальцем без задержки: любое сглаживание
+                // здесь читается как «подтормаживает».
+                Positioned(
+                  left: slot * _pos.value + (slot - pillW) / 2,
+                  top: 3,
+                  width: pillW,
+                  height: 42,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [
+                        P.lime.withValues(alpha: _dragging ? 0.30 : 0.20),
+                        P.violet.withValues(alpha: _dragging ? 0.26 : 0.18),
+                      ]),
+                      borderRadius: BorderRadius.circular(21),
+                      boxShadow: widget.animate
+                          ? [
+                              BoxShadow(
+                                  color: P.lime.withValues(
+                                      alpha: _dragging ? 0.38 : 0.26),
+                                  blurRadius: _dragging ? 22 : 16,
+                                  spreadRadius: -3),
+                            ]
+                          : null,
                     ),
                   ),
+                ),
+                Row(
+                  children: [
+                    for (var i = 0; i < n; i++)
+                      Expanded(
+                        // Значок разгорается ПОСТЕПЕННО по мере наезда
+                        // капсулы: видно, между какими вкладками палец.
+                        child: _Tab(
+                          icon: _icons[i],
+                          t: (1 - (_pos.value - i).abs()).clamp(0.0, 1.0),
+                          animate: widget.animate,
+                        ),
+                      ),
+                  ],
+                ),
               ],
             ),
-          ],
+          ),
         ),
       );
     });
@@ -1945,57 +2285,36 @@ class _BottomBar extends StatelessWidget {
 
 class _Tab extends StatelessWidget {
   final IconData icon;
-  final bool active;
+
+  /// Насколько капсула наехала на эту вкладку: 0 — мимо, 1 — точно под ней.
+  ///
+  /// Дробное значение, а не «активна/нет»: при ведении пальцем вкладки должны
+  /// разгораться постепенно, иначе подсветка едет плавно, а значки скачут.
+  final double t;
+
   final bool animate;
-  final VoidCallback? onTap;
-  const _Tab(
-      {required this.icon,
-      this.active = false,
-      this.animate = true,
-      this.onTap});
+
+  const _Tab({required this.icon, required this.t, this.animate = true});
 
   @override
   Widget build(BuildContext context) {
-    // Иконка плавно меняет цвет (активная — лайм). Индикатор-капсула едет
-    // отдельно (в _navRow), поэтому у самой вкладки фона нет.
-    final glyph = TweenAnimationBuilder<Color?>(
-      duration: const Duration(milliseconds: 280),
-      tween: ColorTween(end: active ? P.limeText : P.textFaint),
-      builder: (_, color, __) => Icon(icon, color: color, size: 24),
-    );
-    if (!animate) {
-      return GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          child: Center(
-            child: Icon(icon, color: active ? P.limeText : P.textFaint, size: 24),
-          ),
-        ),
-      );
-    }
-    // Активная иконка чуть подрастает (пружиной) — вместе с едущей капсулой.
-    return TapScale(
-      onTap: onTap,
-      scale: 0.85,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        child: Center(
-          child: TweenAnimationBuilder<double>(
-            duration: const Duration(milliseconds: 340),
-            curve: Curves.easeOutBack,
-            tween: Tween(begin: 1, end: active ? 1.15 : 1.0),
-            builder: (_, s, child) => Transform.scale(scale: s, child: child),
-            child: glyph,
-          ),
+    // Нажатия у самой вкладки нет: и тап, и ведение слушает панель целиком —
+    // иначе жест ведения обрывался бы на границе между вкладками.
+    final color = Color.lerp(P.textFaint, P.limeText, t);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Center(
+        child: Transform.scale(
+          // Размер подсказывает выбор раньше цвета: глаз ловит изменение
+          // величины быстрее, чем оттенка.
+          scale: animate ? 1 + 0.15 * t : 1,
+          child: Icon(icon, color: color, size: 24),
         ),
       ),
     );
   }
 }
 
-// Строка над табами: что → куда идёт (страна/маршрут) + текущая скорость.
 class _TrafficBar extends StatefulWidget {
   final List<String> lines;
   final double upKbps;
@@ -2029,7 +2348,9 @@ class _TrafficBarState extends State<_TrafficBar> {
   }
 
   String _fmt(double kbps) {
-    if (kbps >= 1024) return '${(kbps / 1024).toStringAsFixed(1)} ${L.t('unit_mbps')}';
+    if (kbps >= 1024) {
+      return '${(kbps / 1024).toStringAsFixed(1)} ${L.t('unit_mbps')}';
+    }
     return '${kbps.toStringAsFixed(0)} ${L.t('unit_kbps')}';
   }
 
@@ -2061,12 +2382,16 @@ class _TrafficBarState extends State<_TrafficBar> {
             const Icon(Icons.arrow_upward, size: 12, color: P.limeText),
             Text(_fmt(widget.upKbps),
                 style: const TextStyle(
-                    color: P.limeText, fontSize: 11, fontWeight: FontWeight.w600)),
+                    color: P.limeText,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600)),
             const SizedBox(width: 7),
             const Icon(Icons.arrow_downward, size: 12, color: P.limeText),
             Text(_fmt(widget.downKbps),
                 style: const TextStyle(
-                    color: P.limeText, fontSize: 11, fontWeight: FontWeight.w600)),
+                    color: P.limeText,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600)),
           ]),
         ],
       ),

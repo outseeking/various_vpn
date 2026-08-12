@@ -1,0 +1,99 @@
+# Сборка iOS-приложения на облачном Mac.
+#
+# Зачем это здесь: у владельца проекта Windows, а iOS-приложение компилируется
+# только на macOS — требование Apple, обойти его нечем. Зато держать Mac не
+# обязательно: GitHub бесплатно даёт macOS-машины публичным репозиториям.
+# Здесь собирается .ipa, который ставится на iPhone прямо с Windows
+# (Sideloadly или AltStore) — см. ios/УСТАНОВКА.md.
+#
+# Сборка идёт БЕЗ ПОДПИСИ (--no-codesign): сертификаты Apple к репозиторию не
+# прикладываются и в облако не попадают. Подписывает уже установщик на
+# компьютере, вашей учётной записью Apple.
+
+name: Сборка iOS
+
+on:
+  workflow_dispatch:        # запуск кнопкой во вкладке Actions
+  push:
+    tags: ['v*']            # и автоматически на теги вида v1.2.3
+
+env:
+  # Версия ядра. Прибита гвоздями намеренно: «последняя» ломала бы сборку в
+  # произвольный день без единой правки в нашем коде.
+  LIBXRAY_TAG: v26.7.28
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Забрать исходники
+        uses: actions/checkout@v4
+
+      - name: Поставить Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Зависимости
+        run: flutter pub get
+
+      - name: Проверки
+        # Не собираем то, что не проходит собственные проверки: поймать
+        # опечатку здесь дешевле, чем на телефоне.
+        run: |
+          flutter analyze
+          flutter test
+
+      - name: Скачать ядро Xray для Apple
+        # Готовый бинарник из релизов libXray — собирать Go самим не нужно.
+        run: |
+          cd ios/PacketTunnelProvider
+          curl -sL -o libxray.zip \
+            "https://github.com/XTLS/libXray/releases/download/${LIBXRAY_TAG}/libxray-apple-cgo.zip"
+          unzip -q libxray.zip
+          mv libxray-apple-cgo/LibXray.xcframework .
+          rm -rf libxray.zip libxray-apple-cgo
+          ls -d LibXray.xcframework
+
+      - name: Скачать списки geosite / geoip
+        # Без них Xray не запускается вовсе: правила ссылаются на geosite: и
+        # geoip:, а неизвестный список для ядра — ошибка старта, а не пропуск
+        # правила. Файлы кладутся в бандл расширения, путь к ним ядру сообщает
+        # LibXrayBridge.setupAssets().
+        run: |
+          cd ios/PacketTunnelProvider
+          curl -sL -o geosite.dat \
+            "https://github.com/v2fly/domain-list-community/releases/latest/download/dlc.dat"
+          curl -sL -o geoip.dat \
+            "https://github.com/v2fly/geoip/releases/latest/download/geoip.dat"
+          ls -lh geosite.dat geoip.dat
+
+      - name: Подключить расширение VPN к проекту
+        # Таргет PacketTunnelProvider добавляется скриптом, а не хранится в
+        # project.pbxproj: этот файл конфликтует при каждом слиянии.
+        working-directory: ios
+        run: |
+          gem install xcodeproj --no-document
+          ruby setup_ios_extension.rb || echo "скрипт уже применён — пропускаем"
+
+      - name: Собрать без подписи
+        run: flutter build ios --release --no-codesign
+
+      - name: Упаковать в .ipa
+        # Обычная упаковка: приложение кладётся в Payload/ и архивируется.
+        # Установщик на компьютере подпишет его сам.
+        run: |
+          cd build/ios/iphoneos
+          mkdir -p Payload
+          cp -R Runner.app Payload/
+          zip -qry various-vpn.ipa Payload
+          ls -lh various-vpn.ipa
+
+      - name: Отдать файл
+        uses: actions/upload-artifact@v4
+        with:
+          name: various-vpn-ipa
+          path: build/ios/iphoneos/various-vpn.ipa
+          retention-days: 30

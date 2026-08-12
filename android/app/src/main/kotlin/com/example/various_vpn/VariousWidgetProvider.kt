@@ -23,6 +23,18 @@ import es.antonborri.home_widget.HomeWidgetProvider
  */
 class VariousWidgetProvider : HomeWidgetProvider() {
 
+    /**
+     * Значок для шапки виджета по выбранному варианту иконки приложения.
+     * Имя ресурса ищем по строке: так добавление нового варианта не требует
+     * править этот код. Не нашли — показываем классический.
+     */
+    private fun badgeFor(context: Context, key: String?): Int {
+        val name = "vv_badge_" + (key ?: "classic")
+        val id = context.resources.getIdentifier(
+            name, "drawable", context.packageName)
+        return if (id != 0) id else R.drawable.vv_badge_classic
+    }
+
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
@@ -38,6 +50,14 @@ class VariousWidgetProvider : HomeWidgetProvider() {
                 val ping = widgetData.getString("vv_ping", null) ?: ""
                 val button = widgetData.getString("vv_button", null)
                     ?: if (connected) "Disconnect" else "Connect"
+                // Бесплатный режим: сервер подбирается сам и работает только
+                // Telegram — мерить пинг нечего, поэтому кнопку замера прячем.
+                val free = widgetData.getString("vv_free", "false") == "true"
+                val hasServer = widgetData.getString("vv_has_server", "false") == "true"
+
+                // Значок виджета следует за выбранной иконкой приложения.
+                setImageViewResource(R.id.vv_badge, badgeFor(
+                    context, widgetData.getString("vv_icon", null)))
 
                 setTextViewText(R.id.vv_status, status)
                 setTextViewText(R.id.vv_server, server)
@@ -62,7 +82,15 @@ class VariousWidgetProvider : HomeWidgetProvider() {
                     setInt(R.id.vv_button, "setBackgroundResource", R.drawable.vv_btn_connect)
                     setTextColor(R.id.vv_button, 0xFF0C1206.toInt())
                 }
-                setViewVisibility(R.id.vv_ping, if (ping.isEmpty()) View.GONE else View.VISIBLE)
+                setViewVisibility(R.id.vv_ping,
+                    if (ping.isEmpty()) View.GONE else View.VISIBLE)
+                setViewVisibility(R.id.vv_ping_btn, if (free) View.GONE else View.VISIBLE)
+                // В free-режиме вместо флага страны — значок Telegram.
+                setViewVisibility(R.id.vv_tg, if (free) View.VISIBLE else View.GONE)
+                // Флаг показываем только когда сервер реально выбран и это не
+                // бесплатный режим (там вместо него значок Telegram).
+                setViewVisibility(R.id.vv_flag,
+                    if (free || !hasServer) View.GONE else View.VISIBLE)
 
                 // Тап по карточке — открыть приложение.
                 val open = HomeWidgetLaunchIntent.getActivity(

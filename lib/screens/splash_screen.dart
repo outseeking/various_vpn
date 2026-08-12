@@ -20,9 +20,9 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _fade =
-      AnimationController(vsync: this, duration: const Duration(milliseconds: 700))
-        ..forward();
+  late final AnimationController _fade = AnimationController(
+      vsync: this, duration: const Duration(milliseconds: 700))
+    ..forward();
 
   @override
   void initState() {

@@ -18,24 +18,40 @@ Future<int> tcpPing(String host, int port) async {
   }
 }
 
-/// Быстрый «прокси»-пинг: время TCP+TLS-хендшейка к Reality-порту сервера.
-/// Reality маскируется под TLS www.cloudflare.com, поэтому рукопожатие проходит
-/// и мы получаем реальную задержку соединения (RTT+TLS) за ~100-300 мс — быстро
-/// и точно, без медленного полного запроса через ядро.
-Future<int> tlsPing(String host, int port) async {
+/// «Точный» замер: время TCP-подключения ПЛЮС рукопожатия TLS.
+///
+/// [sni] обязателен для Reality-серверов. Они прикидываются чужим сайтом и
+/// отвечают только на рукопожатие с правильным именем; адрес у таких серверов
+/// обычно голый IP, и без явного SNI сервер рукопожатие не завершает. Раньше
+/// SNI не передавался, рукопожатие падало, и функция МОЛЧА возвращала обычный
+/// TCP-замер — в настройках стоял «Точный», а число приходило от быстрого.
+///
+/// Возвращает -1, если рукопожатие не прошло. Подменять результат TCP-замером
+/// здесь нельзя: вызывающий должен знать, каким методом получено число.
+Future<int> tlsPing(String host, int port, {String? sni}) async {
   final sw = Stopwatch()..start();
-  SecureSocket? s;
+  Socket? raw;
+  SecureSocket? sec;
   try {
-    s = await SecureSocket.connect(host, port,
-        timeout: const Duration(milliseconds: 2500),
-        onBadCertificate: (_) => true);
+    raw = await Socket.connect(host, port,
+        timeout: const Duration(milliseconds: 2500));
+    sec = await SecureSocket.secure(
+      raw,
+      host: (sni == null || sni.isEmpty) ? host : sni,
+      onBadCertificate: (_) => true,
+    ).timeout(const Duration(milliseconds: 3000));
     sw.stop();
     return sw.elapsedMilliseconds;
   } catch (_) {
-    // TLS не завершился (напр. Reality отбил как «невалидный клиент») — но TCP
-    // мог пройти; откатываемся на TCP-замер, чтобы значение всё же было.
-    return tcpPing(host, port);
+    return -1;
   } finally {
-    s?.destroy();
+    try {
+      // При успешном secure() сокетом владеет уже SecureSocket — закрываем
+      // что-то одно, поэтому оба вызова под защитой.
+      sec?.destroy();
+      if (sec == null) raw?.destroy();
+    } catch (_) {
+      // сокет уже закрыт
+    }
   }
 }

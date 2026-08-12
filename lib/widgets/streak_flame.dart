@@ -36,13 +36,15 @@ class _StreakFlameState extends State<StreakFlame>
   void initState() {
     super.initState();
     _ticker = createTicker((now) {
-      final dt = _last == Duration.zero ? 0.016 : (now - _last).inMicroseconds / 1e6;
+      final dt =
+          _last == Duration.zero ? 0.016 : (now - _last).inMicroseconds / 1e6;
       _last = now;
       if (widget.animate) {
         _time += dt;
         _t.value = _time;
       }
-    })..start();
+    })
+      ..start();
   }
 
   @override
@@ -95,10 +97,10 @@ class _FlamePainter extends CustomPainter {
       final tipY = h * (0.06 + 0.05 * flick) * 1;
       final width = w * 0.42 * scale;
       p.moveTo(cx, baseY);
-      p.cubicTo(cx - width, h * 0.78, cx - width * 0.9,
-          h * 0.42 + sway, cx + sway * 0.4, tipY);
-      p.cubicTo(cx + width * 0.9, h * 0.42 - sway, cx + width, h * 0.78,
-          cx, baseY);
+      p.cubicTo(cx - width, h * 0.78, cx - width * 0.9, h * 0.42 + sway,
+          cx + sway * 0.4, tipY);
+      p.cubicTo(
+          cx + width * 0.9, h * 0.42 - sway, cx + width, h * 0.78, cx, baseY);
       p.close();
       return p;
     }
@@ -121,8 +123,7 @@ class _FlamePainter extends CustomPainter {
           ).createShader(Rect.fromLTWH(0, 0, w, h))
           ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 1.2));
     // внутреннее ядро — ярче
-    canvas.drawPath(
-        flame(0.55, math.sin(time * 7 + 0.6) * w * 0.02),
+    canvas.drawPath(flame(0.55, math.sin(time * 7 + 0.6) * w * 0.02),
         Paint()..color = Colors.white.withValues(alpha: 0.55 + 0.35 * flick2));
   }
 
@@ -148,9 +149,9 @@ class StreakCelebration extends StatefulWidget {
 
 class _StreakCelebrationState extends State<StreakCelebration>
     with TickerProviderStateMixin {
-  late final AnimationController _in =
-      AnimationController(vsync: this, duration: const Duration(milliseconds: 650))
-        ..forward();
+  late final AnimationController _in = AnimationController(
+      vsync: this, duration: const Duration(milliseconds: 650))
+    ..forward();
   late final Ticker _ticker;
   final ValueNotifier<double> _t = ValueNotifier(0);
   double _time = 0;
@@ -161,11 +162,13 @@ class _StreakCelebrationState extends State<StreakCelebration>
   void initState() {
     super.initState();
     _ticker = createTicker((now) {
-      final dt = _last == Duration.zero ? 0.016 : (now - _last).inMicroseconds / 1e6;
+      final dt =
+          _last == Duration.zero ? 0.016 : (now - _last).inMicroseconds / 1e6;
       _last = now;
       _time += dt;
       _t.value = _time;
-    })..start();
+    })
+      ..start();
   }
 
   @override
@@ -213,15 +216,20 @@ class _StreakCelebrationState extends State<StreakCelebration>
                             letterSpacing: 1.5,
                           )),
                       const SizedBox(height: 10),
-                      Text(L.t('streak_celebrate_sub', {'n': widget.milestone}),
-                          style: const TextStyle(color: P.textDim, fontSize: 15)),
+                      Text(
+                          L.t('streak_celebrate_sub', {
+                            'n': widget.milestone,
+                            'w': L.days(widget.milestone)
+                          }),
+                          style:
+                              const TextStyle(color: P.textDim, fontSize: 15)),
                       const SizedBox(height: 18),
                       Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 22, vertical: 12),
                         decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                              colors: [P.violet, P.lime]),
+                          gradient:
+                              const LinearGradient(colors: [P.violet, P.lime]),
                           borderRadius: BorderRadius.circular(30),
                           boxShadow: [
                             BoxShadow(
@@ -231,7 +239,10 @@ class _StreakCelebrationState extends State<StreakCelebration>
                           ],
                         ),
                         child: Text(
-                            L.t('streak_reward_days', {'n': widget.rewardDays}),
+                            L.t('streak_reward_days', {
+                              'n': widget.rewardDays,
+                              'w': L.days(widget.rewardDays)
+                            }),
                             style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w800,
@@ -286,8 +297,8 @@ class _SparksPainter extends CustomPainter {
           Offset(x, y),
           s.sizePx * fade,
           Paint()
-            ..color = (s.lime ? P.limeText : P.violet)
-                .withValues(alpha: 0.9 * fade)
+            ..color =
+                (s.lime ? P.limeText : P.violet).withValues(alpha: 0.9 * fade)
             ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 1.5));
     }
   }

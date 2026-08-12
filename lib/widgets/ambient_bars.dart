@@ -141,5 +141,6 @@ class _Bar {
   final double phase;
   final double angle;
   final double width;
-  _Bar(this.x, this.y, this.len, this.color, this.phase, this.angle, this.width);
+  _Bar(
+      this.x, this.y, this.len, this.color, this.phase, this.angle, this.width);
 }

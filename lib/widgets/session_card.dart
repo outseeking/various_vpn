@@ -38,9 +38,16 @@ class SessionCard extends StatelessWidget {
   }
 
   static String _bytes(int b) {
+    // «0 Б» в первые секунды после подключения читается как сломанный счётчик.
+    // Прочерк честнее: данных ещё нет, а не «трафика ноль».
+    if (b <= 0) return '—';
     if (b < 1024) return '$b ${L.t('unit_b')}';
-    if (b < 1024 * 1024) return '${(b / 1024).toStringAsFixed(0)} ${L.t('unit_kb')}';
-    if (b < 1024 * 1024 * 1024) return '${(b / 1024 / 1024).toStringAsFixed(1)} ${L.t('unit_mb')}';
+    if (b < 1024 * 1024) {
+      return '${(b / 1024).toStringAsFixed(0)} ${L.t('unit_kb')}';
+    }
+    if (b < 1024 * 1024 * 1024) {
+      return '${(b / 1024 / 1024).toStringAsFixed(1)} ${L.t('unit_mb')}';
+    }
     return '${(b / 1024 / 1024 / 1024).toStringAsFixed(2)} ${L.t('unit_gb')}';
   }
 
@@ -52,9 +59,8 @@ class SessionCard extends StatelessWidget {
   /// Одна линия графика = суммарная скорость (приём + отдача) по точкам.
   List<double> _combined() {
     if (historyUp.isEmpty) return history;
-    final n = history.length < historyUp.length
-        ? history.length
-        : historyUp.length;
+    final n =
+        history.length < historyUp.length ? history.length : historyUp.length;
     return [for (var i = 0; i < n; i++) history[i] + historyUp[i]];
   }
 
@@ -105,7 +111,8 @@ class SessionCard extends StatelessWidget {
               Text('↓ ${_speed(speedDownKbps)}',
                   style: const TextStyle(color: P.limeText, fontSize: 12)),
               Text('↑ ${_speed(speedUpKbps)}',
-                  style: const TextStyle(color: Color(0xFFB48CE6), fontSize: 12)),
+                  style:
+                      const TextStyle(color: Color(0xFFB48CE6), fontSize: 12)),
             ],
           ),
         ],
@@ -167,8 +174,10 @@ class _SparkPainter extends CustomPainter {
       final p1 = pts[i];
       final p2 = pts[i + 1];
       final p3 = pts[i + 2 < pts.length ? i + 2 : pts.length - 1];
-      final c1 = Offset(p1.dx + (p2.dx - p0.dx) / 6, p1.dy + (p2.dy - p0.dy) / 6);
-      final c2 = Offset(p2.dx - (p3.dx - p1.dx) / 6, p2.dy - (p3.dy - p1.dy) / 6);
+      final c1 =
+          Offset(p1.dx + (p2.dx - p0.dx) / 6, p1.dy + (p2.dy - p0.dy) / 6);
+      final c2 =
+          Offset(p2.dx - (p3.dx - p1.dx) / 6, p2.dy - (p3.dy - p1.dy) / 6);
       path.cubicTo(c1.dx, c1.dy, c2.dx, c2.dy, p2.dx, p2.dy);
     }
     final fill = Path.from(path)

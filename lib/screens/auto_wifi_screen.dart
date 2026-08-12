@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import '../l10n.dart';
 import '../state/app_state.dart';
 import '../theme/app_palette.dart';
+import '../widgets/app_toast.dart';
+import '../widgets/ios_switch.dart';
 
 class AutoWifiScreen extends StatelessWidget {
   const AutoWifiScreen({super.key});
@@ -19,10 +21,7 @@ class AutoWifiScreen extends StatelessWidget {
     final granted = await state.ensureWifiPermission();
     if (!context.mounted) return;
     if (!granted) {
-      messenger.showSnackBar(SnackBar(
-        backgroundColor: P.surface,
-        content: Text(L.t('awifi_perm')),
-      ));
+      AppToast.error(context, L.t('awifi_perm'));
       return;
     }
     final ssid = await state.currentWifiSsid();
@@ -71,17 +70,12 @@ class AutoWifiScreen extends StatelessWidget {
                               fontSize: 15,
                               fontWeight: FontWeight.w700)),
                     ),
-                    Switch(
-                      value: state.autoWifiProtect,
-                      activeThumbColor: P.limeText,
+                    IosSwitch(value: state.autoWifiProtect,
                       onChanged: (v) async {
                         final ok = await state.setAutoWifiProtect(v);
                         if (!context.mounted) return;
                         if (v && !ok) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            backgroundColor: P.surface,
-                            content: Text(L.t('awifi_perm')),
-                          ));
+                          AppToast.error(context, L.t('awifi_perm'));
                         }
                       },
                     ),

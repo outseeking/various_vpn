@@ -1,6 +1,6 @@
 /// Админ-панель (видна владельцу). По APP_LOGIC.md §7: метрики, ошибки
 /// приложения и фундамент под ИИ-агента админа в Telegram.
-/// Большинство метрик придёт с бэкенда (TODO эндпоинт админ-статистики); пока
+/// Большинство метрик придёт с бэкенда, когда поднимем админ-панель; пока
 /// показываем то, что доступно локально, и ошибки из логов. Дизайн черновой.
 library;
 
@@ -44,7 +44,8 @@ class AdminScreen extends StatelessWidget {
             child: ListTile(
               leading: Icon(Icons.insights),
               title: Text('Пользователи / доход / убыток'),
-              subtitle: Text('Подтянем с бэкенда (эндпоинт админ-статистики — TODO)'),
+              subtitle:
+                  Text('Появится, когда поднимем админ-панель'),
             ),
           ),
 
@@ -73,7 +74,8 @@ class AdminScreen extends StatelessWidget {
 
           const SizedBox(height: 16),
           // --- ИИ-агент (будущее) ---
-          Text('ИИ-агент админа', style: Theme.of(context).textTheme.titleMedium),
+          Text('ИИ-агент админа',
+              style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 8),
           const Card(
             child: ListTile(

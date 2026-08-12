@@ -16,6 +16,9 @@ dependencies:
   # Сеть: запросы к нашему бэкенду (auth-код) и загрузка subscription-ссылки.
   http: ^1.2.2
 
+  # Разбор подписок в формате Clash/Clash.Meta (YAML-секция proxies).
+  yaml: ^3.1.2
+
   # Хранилище: гибрид — SharedPreferences (UI-состояние) + файл (конфиги VPN).
   shared_preferences: ^2.3.2
   path_provider: ^2.1.4
@@ -45,8 +48,6 @@ dependencies:
   # VPN-ядро (Xray внутри) для VLESS+Reality на Android/iOS. На web не работает —
   # выбор реализации идёт через conditional import (см. services/vpn_core.dart),
   # поэтому web-сборка тянет только заглушку. Hysteria2/TUIC — позже через sing-box.
-  flutter_v2ray: ^1.0.4
-
   # Список установленных приложений (с иконками) для per-app туннелирования
   # в стиле Quattro. Только Android; на web — не тянется (conditional по Platform).
   installed_apps: ^1.6.0
@@ -59,6 +60,11 @@ dependencies:
 
   # Открытие системных настроек Android (Always-on VPN для kill-switch).
   android_intent_plus: ^5.2.0
+
+  # VPN-ядро Android: Xray внутри (VLESS/Reality, VMess, Trojan, SS, Hysteria).
+  # Лицензия MIT — в отличие от sing-box (GPL), который потребовал бы открыть
+  # исходники всего приложения.
+  flutter_v2ray_client: ^3.4.1
 
 dev_dependencies:
   flutter_test:
@@ -77,9 +83,18 @@ flutter_launcher_icons:
 
 flutter:
   uses-material-design: true
+
   assets:
+    # Начертания фирменного шрифта лежат в сборке.
+    #
+    # Пакет google_fonts иначе качает их с fonts.gstatic.com при первом запуске:
+    # без интернета — и у всех, кому этот домен недоступен, — шрифт молча
+    # подменялся системным. Найдя файлы здесь, пакет берёт их и в сеть не ходит.
+    - assets/google_fonts/
     # Упрощённая карта мира (Natural Earth 110m) для тёмного глобуса на главной.
     - assets/geo/world.json
     # Брендовые звуки подключения/отключения.
     - assets/audio/connect.wav
     - assets/audio/disconnect.wav
+    # Превью вариантов иконки приложения (экран «Иконка приложения»).
+    - assets/icon/

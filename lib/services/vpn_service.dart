@@ -35,6 +35,12 @@ abstract class VpnService {
 
   /// Запрос системного разрешения на VPN (Android prepare / iOS NE). На Web и в
   /// заглушке — всегда true.
+  /// Прогрев ядра ЗАРАНЕЕ (на старте приложения). Инициализация + первый
+  /// запуск подряд на EMUI/Honor часто срывается — из-за этого «первое
+  /// подключение за день» не работало. Прогрев делает init заранее, и к моменту
+  /// нажатия ядро уже готово. Безопасно вызывать много раз.
+  Future<void> warmUp() async {}
+
   Future<bool> requestPermission();
 
   /// Поднять туннель к [server]. [rules] — per-app маршрутизация (для нативного
@@ -49,8 +55,9 @@ abstract class VpnService {
 
   Future<void> disconnect();
 
-  /// Замер задержки до сервера, мс. -1 = недоступен.
-  Future<int> ping(VpnServer server);
+  /// Замер задержки до сервера силами ядра, мс. -1 = недоступен.
+  /// [url] — проверочный адрес из настроек (null → адрес по умолчанию).
+  Future<int> ping(VpnServer server, {String? url});
 
   /// Задержка ЧЕРЕЗ уже поднятый туннель, мс. -1 = туннель не несёт трафик.
   /// В отличие от app-side HTTP (которая может пройти напрямую, пока ОС ещё не
@@ -83,6 +90,9 @@ class StubVpnService implements VpnService {
   }
 
   @override
+  Future<void> warmUp() async {}
+
+  @override
   Future<bool> requestPermission() async => true;
 
   @override
@@ -102,7 +112,7 @@ class StubVpnService implements VpnService {
   }
 
   @override
-  Future<int> ping(VpnServer server) async {
+  Future<int> ping(VpnServer server, {String? url}) async {
     await Future.delayed(Duration(milliseconds: 200 + _rng.nextInt(400)));
     // Стабильно-правдоподобный пинг на основе хоста (чтобы не прыгал хаотично).
     final base = server.address.hashCode.abs() % 180;

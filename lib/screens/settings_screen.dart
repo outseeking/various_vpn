@@ -1,33 +1,32 @@
-/// Настройки пользователя (как в Happ): подключение, интерфейс, уведомления,
-/// дополнительно. Тёмная тема. Реальные переключатели сохраняются в Storage,
-/// часть опций — задел под бэкенд (помечены как «скоро»).
+/// Настройки. Двухуровневая структура вместо одной длинной простыни.
+///
+/// Было: ~25 строк подряд в шести слабо различимых секциях — чтобы найти
+/// «пинг» или «раздельный туннель», приходилось перечитывать весь список.
+/// Стало: на верхнем уровне видно, ЧТО вообще можно настроить, а детали живут
+/// в разделах «Подключение» и «Туннель». Такой же принцип у сильных клиентов:
+/// короткий верх, глубина внутри.
 library;
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-import '../brand.dart';
 import '../l10n.dart';
 import '../state/app_state.dart';
 import '../theme/app_palette.dart';
+import '../widgets/settings_kit.dart';
 import 'admin_screen.dart';
+import 'app_icon_screen.dart';
 import 'connect_guide_screen.dart';
-import 'import_screen.dart';
-import 'profile_screen.dart';
-import 'logs_screen.dart';
+import 'connection_settings_screen.dart';
+// import 'logs_screen.dart'; // см. скрытый пункт «Логи» ниже
 import 'onboarding_screen.dart';
-import 'network_settings_screen.dart';
-import 'per_app_screen.dart';
-import 'custom_servers_screen.dart';
-import 'auto_wifi_screen.dart';
-import 'diagnostics_screen.dart';
-import 'terms_screen.dart';
-import 'killswitch_guide_screen.dart';
-import 'ping_settings_screen.dart';
+import 'profile_screen.dart';
 import 'speedtest_screen.dart';
 import 'stats_screen.dart';
+import 'subscriptions_screen.dart';
 import 'support_screen.dart';
+import 'tunnel_settings_screen.dart';
+import 'ios_preview_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   /// true — экран показан как вкладка в общей оболочке (без стрелки «назад»).
@@ -37,297 +36,212 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<AppState>();
-    // Бесплатный режим: настройки маршрутизации/подключения недоступны (серые) —
-    // работает только Telegram. Оставляем активными базовые (язык, уведомления,
-    // тема, вибро). Остальное — с замком, тап открывает предложение купить.
-    final free = state.telegramOnly;
+    void go(Widget screen) =>
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) => screen));
+
     return Scaffold(
       backgroundColor: P.bg,
       appBar: AppBar(
           automaticallyImplyLeading: !inShell, title: Text(L.t('settings'))),
       body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
         children: [
-          _Section(L.t('sec_account')),
-          _NavRow(
-            title: L.t('profile_sub'),
-            icon: Icons.account_circle,
-            subtitle: L.t('profile_sub_d'),
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const ProfileScreen()),
+          // ---------- аккаунт ----------
+          SettingsHeader(L.t('sec_account')),
+          SettingsGroup(children: [
+            SettingsRow(
+              icon: Icons.account_circle,
+              title: L.t('profile_sub'),
+              subtitle: L.t('profile_sub_d'),
+              onTap: () => go(const ProfileScreen()),
             ),
-          ),
-          // Добавление/обновление подписки прямо в приложении (перенесено из
-          // «Дополнительно» — логичнее в разделе аккаунта).
-          _NavRow(
-            title: L.t('acc_subscription'),
-            icon: Icons.link,
-            subtitle: L.t('acc_subscription_d'),
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const ImportScreen()),
+            SettingsRow(
+              icon: Icons.workspace_premium,
+              tint: P.gold,
+              title: L.t('subs_title'),
+              subtitle: state.subActive
+                  ? L.t('sub_active')
+                  : (state.hasForeignServers
+                      ? L.t('subs_own_active')
+                      : L.t('subs_none')),
+              onTap: () => go(const SubscriptionsScreen()),
             ),
-          ),
-          _NavRow(
-            title: L.t('link_tg'),
-            icon: Icons.telegram,
-            subtitle: L.t('link_tg_d'),
-            onTap: () => showLinkTelegramDialog(context),
-          ),
-          _NavRow(
-            title: L.t('channel'),
-            icon: Icons.campaign,
-            subtitle: L.t('channel_d'),
-            onTap: () => launchUrl(Uri.parse(Brand.channel),
-                mode: LaunchMode.externalApplication),
-          ),
+          ]),
 
-          _Section(L.t('sec_connection')),
-          _SwitchRow(
-            title: L.t('autoconnect'),
-            subtitle: L.t('autoconnect_d'),
-            value: state.autoConnect,
-            onChanged: state.setAutoConnect,
-            locked: free,
-          ),
-          _SwitchRow(
-            title: L.t('ondemand'),
-            subtitle: L.t('ondemand_d'),
-            value: state.onDemand,
-            onChanged: state.setOnDemand,
-            locked: free,
-          ),
-          _SwitchRow(
-            title: L.t('bypass_ru'),
-            subtitle: L.t('bypass_ru_d'),
-            value: state.bypassRu,
-            onChanged: state.setBypassRu,
-            locked: free,
-          ),
-          _SwitchRow(
-            title: L.t('adblock'),
-            subtitle: L.t('adblock_d'),
-            value: state.adBlock,
-            onChanged: state.setAdBlock,
-            locked: free,
-          ),
-          _SwitchRow(
-            title: L.t('smart_ai'),
-            subtitle: L.t('smart_ai_d'),
-            value: state.smartAi,
-            onChanged: state.setSmartAi,
-            locked: free,
-          ),
-          _SwitchRow(
-            title: L.t('autorefresh'),
-            subtitle: L.t('autorefresh_d'),
-            value: state.autoRefreshSub,
-            onChanged: state.setAutoRefreshSub,
-            locked: free,
-          ),
-          if (state.autoRefreshSub && !free)
-            _NavRow(
-              title: L.t('autorefresh_every'),
-              icon: Icons.schedule,
-              trailing: '${state.autoRefreshHours} '
-                  '${L.current == 'en' ? 'h' : 'ч'}',
-              onTap: () => _pickRefreshInterval(context, state),
+          // ---------- настройки VPN ----------
+          SettingsHeader(L.t('sec_vpn')),
+          SettingsGroup(children: [
+            SettingsRow(
+              icon: Icons.wifi_tethering_rounded,
+              title: L.t('sec_connection'),
+              subtitle: L.t('sec_connection_d'),
+              onTap: () => go(const ConnectionSettingsScreen()),
             ),
-          _NavRow(
-            title: L.t('per_app'),
-            trailing: '${state.rules.length}',
-            locked: free,
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const PerAppScreen()),
+            SettingsRow(
+              icon: Icons.shield_outlined,
+              tint: P.violetSoft,
+              title: L.t('sec_tunnel'),
+              subtitle: L.t('sec_tunnel_d'),
+              onTap: () => go(const TunnelSettingsScreen()),
             ),
-          ),
-          _NavRow(
-            title: L.t('ping_label'),
-            icon: Icons.speed_outlined,
-            trailing: state.pingType == 'proxy' ? 'via Proxy' : 'TCP',
-            locked: free,
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const PingSettingsScreen()),
-            ),
-          ),
-          _NavRow(
-            title: L.t('net_settings'),
-            icon: Icons.lan_outlined,
-            subtitle: L.t('net_settings_d'),
-            trailing: state.ipStrategy.label,
-            locked: free,
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const NetworkSettingsScreen()),
-            ),
-          ),
-          _NavRow(
-            title: L.t('awifi_nav'),
-            icon: Icons.wifi_lock,
-            subtitle: L.t('awifi_nav_d'),
-            locked: free,
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const AutoWifiScreen()),
-            ),
-          ),
-          _NavRow(
-            title: L.t('diag_nav'),
-            icon: Icons.wifi_find,
-            subtitle: L.t('diag_nav_d'),
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const DiagnosticsScreen()),
-            ),
-          ),
-          _NavRow(
-            title: L.t('ks_nav'),
-            icon: Icons.gpp_maybe_outlined,
-            subtitle: L.t('ks_nav_d'),
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const KillSwitchGuideScreen()),
-            ),
-          ),
-          _NavRow(
-            title: L.t('cs_nav'),
-            icon: Icons.tune,
-            subtitle: L.t('cs_nav_d'),
-            locked: free,
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const CustomServersScreen()),
-            ),
-          ),
+          ]),
 
-          _Section(L.t('sec_interface')),
-          // Язык — настоящий переключатель RU/EN.
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 6),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(L.t('language'),
-                    style: const TextStyle(color: P.text, fontSize: 14)),
-                SegmentedButton<String>(
-                  style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.resolveWith((st) =>
-                        st.contains(WidgetState.selected)
-                            ? P.lime
-                            : P.surfaceLo),
-                    foregroundColor: WidgetStateProperty.resolveWith((st) =>
-                        st.contains(WidgetState.selected)
-                            ? const Color(0xFF0C1206)
-                            : P.textDim),
-                    side: WidgetStateProperty.all(
-                        const BorderSide(color: P.surfaceHi)),
-                  ),
-                  showSelectedIcon: false,
-                  segments: const [
-                    ButtonSegment(value: 'ru', label: Text('Русский')),
-                    ButtonSegment(value: 'en', label: Text('English')),
-                  ],
-                  selected: {state.lang},
-                  onSelectionChanged: (s) => state.setLang(s.first),
+          // ---------- интерфейс ----------
+          SettingsHeader(L.t('sec_interface')),
+          SettingsGroup(children: [
+            SettingsExpand(
+              icon: Icons.language,
+              title: L.t('language'),
+              subtitle: state.lang == 'en' ? 'English' : 'Русский',
+              child: SegmentedButton<String>(
+                style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.resolveWith((st) =>
+                      st.contains(WidgetState.selected) ? P.lime : P.surfaceLo),
+                  foregroundColor: WidgetStateProperty.resolveWith((st) =>
+                      st.contains(WidgetState.selected) ? P.onLime : P.textDim),
+                  side: WidgetStateProperty.all(
+                      const BorderSide(color: P.surfaceHi)),
                 ),
-              ],
-            ),
-          ),
-          _SwitchRow(
-            title: L.t('lite_mode'),
-            subtitle: L.t('lite_mode_d'),
-            value: state.liteMode,
-            onChanged: state.setLiteMode,
-          ),
-          _SwitchRow(
-            title: L.t('sound'),
-            subtitle: L.t('sound_d'),
-            value: state.soundEnabled,
-            onChanged: state.setSoundEnabled,
-          ),
-          _SwitchRow(
-            title: L.t('vibration'),
-            subtitle: L.t('vibration_d'),
-            value: state.vibrationEnabled,
-            onChanged: state.setVibrationEnabled,
-          ),
-
-          _Section(L.t('sec_notifications')),
-          _SwitchRow(
-            title: L.t('notif_server'),
-            subtitle: L.t('notif_server_d'),
-            value: state.notificationsEnabled,
-            onChanged: state.setNotificationsEnabled,
-          ),
-
-          _Section(L.t('sec_extra')),
-          _NavRow(
-            title: L.t('stats'),
-            icon: Icons.insights,
-            subtitle: L.t('stats_d'),
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const StatsScreen()),
-            ),
-          ),
-          _NavRow(
-            title: L.t('speedtest'),
-            icon: Icons.speed,
-            subtitle: L.t('speedtest_d'),
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const SpeedtestScreen()),
-            ),
-          ),
-          _NavRow(
-            title: L.t('how_connect'),
-            icon: Icons.help_outline,
-            subtitle: L.t('how_connect_d'),
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const ConnectGuideScreen()),
-            ),
-          ),
-          _NavRow(
-            title: L.t('logs'),
-            icon: Icons.receipt_long,
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const LogsScreen()),
-            ),
-          ),
-          _NavRow(
-            title: L.t('support'),
-            icon: Icons.support_agent,
-            subtitle: L.t('support_d'),
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const SupportScreen()),
-            ),
-          ),
-          _NavRow(
-            title: L.t('terms'),
-            icon: Icons.description_outlined,
-            subtitle: L.t('terms_d'),
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const TermsScreen()),
-            ),
-          ),
-
-          if (state.isAdmin) ...[
-            _Section(L.t('sec_admin')),
-            _NavRow(
-              title: L.t('admin_panel'),
-              icon: Icons.shield,
-              subtitle: L.t('admin_panel_d'),
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const AdminScreen()),
+                showSelectedIcon: false,
+                segments: const [
+                  ButtonSegment(value: 'ru', label: Text('Русский')),
+                  ButtonSegment(value: 'en', label: Text('English')),
+                ],
+                selected: {state.lang},
+                onSelectionChanged: (s) => state.setLang(s.first),
               ),
             ),
+            SettingsRow(
+              icon: Icons.apps_outlined,
+              tint: P.violetSoft,
+              title: L.t('app_icon'),
+              subtitle: L.t('app_icon_d'),
+              onTap: () => go(const AppIconScreen()),
+            ),
+            SettingsSwitch(
+              icon: Icons.battery_saver_outlined,
+              tint: P.gold,
+              title: L.t('lite_mode'),
+              subtitle: L.t('lite_mode_d'),
+              value: state.liteMode,
+              onChanged: state.setLiteMode,
+            ),
+            SettingsSwitch(
+              icon: Icons.volume_up_outlined,
+              title: L.t('sound'),
+              subtitle: L.t('sound_d'),
+              value: state.soundEnabled,
+              onChanged: state.setSoundEnabled,
+            ),
+            SettingsSwitch(
+              icon: Icons.vibration,
+              title: L.t('vibration'),
+              subtitle: L.t('vibration_d'),
+              value: state.vibrationEnabled,
+              onChanged: state.setVibrationEnabled,
+            ),
+            SettingsSwitch(
+              icon: Icons.notifications_none_rounded,
+              tint: P.violetSoft,
+              title: L.t('notif_server'),
+              subtitle: L.t('notif_server_d'),
+              value: state.notificationsEnabled,
+              onChanged: state.setNotificationsEnabled,
+            ),
+          ]),
+
+          // ---------- инструменты ----------
+          SettingsHeader(L.t('sec_tools')),
+          SettingsGroup(children: [
+            SettingsRow(
+              icon: Icons.insights,
+              title: L.t('stats'),
+              subtitle: L.t('stats_d'),
+              onTap: () => go(const StatsScreen()),
+            ),
+            SettingsRow(
+              icon: Icons.speed,
+              tint: P.gold,
+              title: L.t('speedtest'),
+              subtitle: L.t('speedtest_d'),
+              onTap: () => go(const SpeedtestScreen()),
+            ),
+            // «Логи» временно скрыты из этой сборки — она уходит на обзор
+            // покупателю, и сырой технический вывод там лишний. Экран и весь
+            // его код на месте: чтобы вернуть пункт, достаточно раскомментировать
+            // строку ниже и импорт logs_screen.dart.
+            // SettingsRow(
+            //   icon: Icons.receipt_long,
+            //   title: L.t('logs'),
+            //   subtitle: L.t('logs_d'),
+            //   onTap: () => go(const LogsScreen()),
+            // ),
+          ]),
+
+          // ---------- помощь ----------
+          SettingsHeader(L.t('sec_help')),
+          SettingsGroup(children: [
+            // Инструкция нужна ровно до первого удачного подключения.
+            // Тому, у кого VPN уже работает, она только мешает.
+            if (!state.featuresUnlocked)
+              SettingsRow(
+                icon: Icons.help_outline,
+                title: L.t('how_connect'),
+                subtitle: L.t('how_connect_d'),
+                onTap: () => go(const ConnectGuideScreen()),
+              ),
+            // Витрина стиля iOS. Оценить отклик элементов можно только
+            // пальцем, поэтому они собраны на отдельном экране.
+            SettingsRow(
+              icon: Icons.phone_iphone,
+              tint: P.violetSoft,
+              title: L.t('ios_preview'),
+              subtitle: L.t('ios_preview_d'),
+              onTap: () => go(const IosPreviewScreen()),
+            ),
+            SettingsRow(
+              icon: Icons.support_agent,
+              title: L.t('support'),
+              subtitle: L.t('support_d'),
+              onTap: () => go(const SupportScreen()),
+            ),
+          ]),
+
+          if (state.isAdmin) ...[
+            SettingsHeader(L.t('sec_admin')),
+            SettingsGroup(children: [
+              SettingsRow(
+                icon: Icons.shield,
+                tint: P.gold,
+                title: L.t('admin_panel'),
+                subtitle: L.t('admin_panel_d'),
+                onTap: () => go(const AdminScreen()),
+              ),
+            ]),
           ],
 
-          const SizedBox(height: 8),
-          ListTile(
-            leading: const Icon(Icons.logout, color: Color(0xFFE2504A)),
-            title: Text(L.t('logout'),
-                style: const TextStyle(color: Color(0xFFE2504A))),
-            onTap: () => _confirmLogout(context, state),
-          ),
-          const SizedBox(height: 12),
+          // ---------- выход ----------
+          // Опасное действие отделено от остальных (правило
+          // destructive-nav-separation): своя группа, красным, внизу.
+          const SizedBox(height: 26),
+          SettingsGroup(children: [
+            SettingsRow(
+              icon: Icons.logout,
+              title: L.t('logout'),
+              danger: true,
+              chevron: false,
+              onTap: () => _confirmLogout(context, state),
+            ),
+          ]),
+          const SizedBox(height: 16),
           const Center(
+            // Только название и версия. Приписка «Premium» ничего человеку не
+            // сообщала — статус подписки и так виден на главной, — а на
+            // английском выбивалась из остального русского интерфейса.
             child: Text('Various VPN · v1.0.0',
                 style: TextStyle(color: P.textFaint, fontSize: 12)),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 16),
         ],
       ),
     );
@@ -337,7 +251,6 @@ class SettingsScreen extends StatelessWidget {
     final ok = await showDialog<bool>(
       context: context,
       builder: (_) => AlertDialog(
-        backgroundColor: P.surface,
         title: Text(L.t('logout_q')),
         content: Text(L.t('logout_body')),
         actions: [
@@ -346,6 +259,7 @@ class SettingsScreen extends StatelessWidget {
             child: Text(L.t('cancel')),
           ),
           FilledButton(
+            style: FilledButton.styleFrom(backgroundColor: P.danger),
             onPressed: () => Navigator.pop(context, true),
             child: Text(L.t('logout')),
           ),
@@ -361,146 +275,5 @@ class SettingsScreen extends StatelessWidget {
         );
       }
     }
-  }
-}
-
-/// Выбор интервала авто-обновления подписки (1/3/6/12/24 ч).
-void _pickRefreshInterval(BuildContext context, AppState state) {
-  const options = [1, 3, 6, 12, 24];
-  final en = L.current == 'en';
-  showModalBottomSheet<void>(
-    context: context,
-    backgroundColor: P.surface,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
-    ),
-    builder: (_) => SafeArea(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
-            child: Text(L.t('autorefresh_every'),
-                style: const TextStyle(
-                    color: P.text, fontSize: 16, fontWeight: FontWeight.w600)),
-          ),
-          for (final h in options)
-            ListTile(
-              title: Text('$h ${en ? 'h' : 'ч'}',
-                  style: const TextStyle(color: P.text)),
-              trailing: state.autoRefreshHours == h
-                  ? const Icon(Icons.check, color: P.lime)
-                  : null,
-              onTap: () {
-                state.setAutoRefreshHours(h);
-                Navigator.pop(context);
-              },
-            ),
-        ],
-      ),
-    ),
-  );
-}
-
-class _Section extends StatelessWidget {
-  final String text;
-  const _Section(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(2, 18, 2, 6),
-      child: Text(text.toUpperCase(),
-          style: const TextStyle(
-              color: P.limeText,
-              fontSize: 11,
-              letterSpacing: 0.6,
-              fontWeight: FontWeight.w600)),
-    );
-  }
-}
-
-class _SwitchRow extends StatelessWidget {
-  final String title;
-  final String? subtitle;
-  final bool value;
-  final ValueChanged<bool> onChanged;
-  final bool locked; // бесплатный режим: настройка недоступна
-  const _SwitchRow({
-    required this.title,
-    this.subtitle,
-    required this.value,
-    required this.onChanged,
-    this.locked = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final tile = SwitchListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 2),
-      title: Text(title, style: const TextStyle(color: P.text, fontSize: 14)),
-      subtitle: subtitle != null
-          ? Text(subtitle!,
-              style: const TextStyle(color: P.textFaint, fontSize: 12))
-          : null,
-      value: locked ? false : value,
-      activeThumbColor: P.lime,
-      onChanged: locked ? null : onChanged,
-    );
-    if (!locked) return tile;
-    return Opacity(
-      opacity: 0.4,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () => showFreeLockedDialog(context),
-        child: AbsorbPointer(child: tile),
-      ),
-    );
-  }
-}
-
-class _NavRow extends StatelessWidget {
-  final String title;
-  final String? subtitle;
-  final String? trailing;
-  final IconData? icon;
-  final VoidCallback onTap;
-  final bool locked;
-  const _NavRow({
-    required this.title,
-    this.subtitle,
-    this.trailing,
-    this.icon,
-    required this.onTap,
-    this.locked = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final tile = ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 2),
-      leading: icon != null ? Icon(icon, color: P.limeText) : null,
-      title: Text(title, style: const TextStyle(color: P.text, fontSize: 14)),
-      subtitle: subtitle != null
-          ? Text(subtitle!,
-              style: const TextStyle(color: P.textFaint, fontSize: 12))
-          : null,
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (locked)
-            const Icon(Icons.lock_outline, color: P.textFaint, size: 16)
-          else ...[
-            if (trailing != null)
-              Text(trailing!,
-                  style: const TextStyle(color: P.textFaint, fontSize: 12)),
-            const Icon(Icons.chevron_right, color: P.textFaint),
-          ],
-        ],
-      ),
-      onTap: locked ? () => showFreeLockedDialog(context) : onTap,
-    );
-    if (!locked) return tile;
-    return Opacity(opacity: 0.4, child: tile);
   }
 }

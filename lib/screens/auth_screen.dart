@@ -1,9 +1,9 @@
-/// Начало работы (для новичка / после онбординга). Премиальный тёмный экран с
-/// живым фоном и тремя понятными путями:
-///   1) Получить подписку — открыть Telegram-бота (главный CTA, с «блеском»).
-///   2) Попробовать бесплатно — VPN только для Telegram, работает сразу.
-///   3) У меня есть ссылка — импорт подписки.
-/// Если Telegram не установлен, ссылка t.me откроется в браузере.
+/// Экран входа — первое, что видит человек после онбординга. Порядок блоков
+/// подчинён воронке:
+///   1) «3 дня бесплатно» — главный оффер для новичка (у него ещё нет ID);
+///   2) «Тарифы» с ценой «от N ₽» — чтобы не идти в бота на разведку;
+///   3) ConnectWays — для тех, кто уже оплатил: ID главным, ссылка/QR запасными.
+/// Переключатель языка стоит в шапке: язык нужен до, а не после онбординга.
 library;
 
 import 'dart:async';
@@ -11,16 +11,16 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-import '../brand.dart';
 import '../l10n.dart';
 import '../theme/app_palette.dart';
 import '../state/app_state.dart';
 import '../widgets/brand_logo.dart';
+import '../widgets/connect_ways.dart';
+import '../widgets/lang_switch.dart';
 import '../widgets/tap_scale.dart';
+import 'home_screen.dart';
 import 'connect_guide_screen.dart';
-import 'import_screen.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -42,32 +42,38 @@ class _AuthScreenState extends State<AuthScreen>
     super.dispose();
   }
 
-  Future<void> _openBot() async {
-    final ok = await launchUrl(Uri.parse(Brand.bot),
-        mode: LaunchMode.externalApplication);
-    if (!ok && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(backgroundColor: P.surface, content: Text(L.t('gs_bot_manual'))),
-      );
-    }
-  }
-
-  Future<void> _freeTelegram() async {
+  /// «Попробовать 3 дня бесплатно»: сразу поднимаем бесплатный Telegram-режим
+  /// (иначе у человека с блокировками просто не откроется бот) и уводим в бота
+  /// за триалом. Одна кнопка вместо двух — меньше выбора, меньше потерь.
+  Future<void> _startTrial() async {
     if (_busy) return;
     setState(() => _busy = true);
+    // Поднимаем бесплатный Telegram В ФОНЕ (система спросит разрешение на
+    // VPN-профиль) и сразу ведём на экран-объяснение: что сейчас произойдёт,
+    // зачем разрешение и что делать в боте. Без него человек уходил в бота
+    // «вслепую» и возвращался, не понимая, куда нажимать.
     final state = context.read<AppState>();
-    // Бесплатный режим поднимаем В ФОНЕ и СРАЗУ ведём на инструкцию — кнопка
-    // всегда реагирует, даже если получение сервера/разрешение VPN занимает
-    // время (раньше при неудаче казалось, что «ничего не происходит»).
+    // У кого подписка уже активна, инструкции про бесплатный режим не нужны:
+    // ему всё доступно, и лишний экран между ним и приложением — просто
+    // препятствие. Ведём сразу на главный.
+    if (state.hasAccess) {
+      setState(() => _busy = false);
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const MainShell()));
+      return;
+    }
     unawaited(state.connectTelegramOnly());
     if (!mounted) return;
     setState(() => _busy = false);
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
+    Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => const ConnectGuideScreen(afterFreeEnable: true)));
   }
 
   @override
   Widget build(BuildContext context) {
+    // Без подписки на AppState тумблер языка перерисовывал только себя, а
+    // тексты экрана оставались на старом языке.
+    context.watch<AppState>();
     return Scaffold(
       backgroundColor: P.bg,
       body: Stack(
@@ -82,7 +88,12 @@ class _AuthScreenState extends State<AuthScreen>
             child: ListView(
               padding: const EdgeInsets.fromLTRB(22, 16, 22, 28),
               children: [
-                const SizedBox(height: 12),
+                // Переключатель языка с ПЕРВОГО экрана: раньше язык менялся
+                // только в настройках, то есть уже после онбординга на чужом
+                // языке. Стоит в углу и не спорит с главным действием.
+                const Align(
+                    alignment: Alignment.centerRight, child: LangSwitch()),
+                const SizedBox(height: 4),
                 Center(child: _FloatingLogo(anim: _bg)),
                 const SizedBox(height: 18),
                 Center(
@@ -109,61 +120,73 @@ class _AuthScreenState extends State<AuthScreen>
                   children: [
                     _TrustBadge(
                         icon: Icons.auto_awesome, text: L.t('gs_badge_ru')),
-                    _TrustBadge(
-                        icon: Icons.devices, text: L.t('gs_badge_dev')),
+                    _TrustBadge(icon: Icons.devices, text: L.t('gs_badge_dev')),
                     _TrustBadge(
                         icon: Icons.lock_outline, text: L.t('gs_badge_nolog')),
                   ],
                 ),
                 const SizedBox(height: 28),
 
-                // 1) Главный CTA — получить подписку в боте (с бегущим блеском).
+                // 1) ГЛАВНЫЙ ОФФЕР — триал. Стоит первым: у новичка ещё
+                // нет ID, и именно эта кнопка должна попадаться на глаза
+                // раньше всего. Сама включает Telegram и ведёт на объяснение.
                 _ShineButton(
                   step: 1,
                   title: L.t('gs_get_sub'),
-                  subtitle: L.t('gs_get_sub_d'),
+                  subtitle: L.t('gs_trial_d'),
                   anim: _bg,
-                  onTap: _openBot,
+                  onTap: _startTrial,
                 ),
-                const SizedBox(height: 14),
-
-                // 2) Попробовать бесплатно (Telegram-only).
-                _OptionCard(
-                  step: 2,
-                  icon: Icons.telegram,
-                  title: L.t('gs_free'),
-                  subtitle: L.t('gs_free_d'),
-                  busy: _busy,
-                  onTap: _freeTelegram,
+                const SizedBox(height: 10),
+                // Снятие возражений прямо под главной кнопкой: человек боится
+                // не цены, а того, что его привяжут к карте и спишут молча.
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 14,
+                  runSpacing: 6,
+                  children: [
+                    _NoRisk(text: L.t('gs_risk_card')),
+                    _NoRisk(text: L.t('gs_risk_auto')),
+                    _NoRisk(text: L.t('gs_risk_min')),
+                  ],
                 ),
-                const SizedBox(height: 14),
+                const SizedBox(height: 20),
 
-                // 3) У меня есть ссылка.
-                _OptionCard(
-                  step: 3,
-                  icon: Icons.link,
-                  title: L.t('gs_have_link'),
-                  subtitle: L.t('gs_have_link_d'),
-                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => const ImportScreen(firstRun: true))),
+                // 2) УЖЕ ЕСТЬ ПОДПИСКА — единый блок на всё приложение:
+                // ID главным, ссылка и QR альтернативами (см. ConnectWays).
+                //
+                // Карточки «Тарифы и оплата» между этими двумя путями больше
+                // нет: она перебивала главную кнопку и уводила в бота того,
+                // кто ещё ничего не попробовал. Тарифы никуда не делись —
+                // они там же, в боте, куда ведёт сама кнопка триала.
+                ConnectWays(
+                  onSuccess: () => Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (_) => const MainShell())),
                 ),
-                const SizedBox(height: 22),
-
-                Row(children: [
-                  const Icon(Icons.info_outline, size: 16, color: P.textFaint),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(L.t('gs_no_tg'),
-                        style: const TextStyle(
-                            color: P.textFaint, fontSize: 12, height: 1.4)),
-                  ),
-                ]),
+                const SizedBox(height: 20),
               ],
             ),
           ),
         ],
       ),
     );
+  }
+}
+
+/// Короткая строка «нечем рисковать» — галочка + два-три слова.
+class _NoRisk extends StatelessWidget {
+  final String text;
+  const _NoRisk({required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(mainAxisSize: MainAxisSize.min, children: [
+      const Icon(Icons.check_rounded, size: 14, color: P.limeText),
+      const SizedBox(width: 5),
+      Text(text,
+          style: const TextStyle(
+              color: P.textDim, fontSize: 12, fontWeight: FontWeight.w600)),
+    ]);
   }
 }
 
@@ -246,33 +269,36 @@ class _ShineButton extends StatelessWidget {
                       height: 46,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color: const Color(0x260C1206),
+                        color: P.onLimeGhost,
                         borderRadius: BorderRadius.circular(14),
                       ),
                       child: const Icon(Icons.workspace_premium,
-                          color: Color(0xFF0C1206), size: 26),
+                          color: P.onLime, size: 26),
                     ),
                     const SizedBox(width: 14),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(title,
-                              style: const TextStyle(
-                                  color: Color(0xFF0C1206),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w800)),
+                          Row(children: [
+                            Flexible(
+                              child: Text(title,
+                                  style: const TextStyle(
+                                      color: P.onLime,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w800)),
+                            ),
+                          ]),
                           const SizedBox(height: 3),
                           Text(subtitle,
                               style: const TextStyle(
-                                  color: Color(0xCC0C1206),
+                                  color: P.onLimeDim,
                                   fontSize: 12.5,
                                   height: 1.35)),
                         ],
                       ),
                     ),
-                    const Icon(Icons.arrow_forward_rounded,
-                        color: Color(0xFF0C1206)),
+                    const Icon(Icons.arrow_forward_rounded, color: P.onLime),
                   ],
                 ),
               ],
@@ -322,77 +348,6 @@ class _ShinePainter extends CustomPainter {
 }
 
 /// Вторичная карточка-путь (бесплатно / есть ссылка).
-class _OptionCard extends StatelessWidget {
-  final int step;
-  final IconData icon;
-  final String title;
-  final String subtitle;
-  final bool busy;
-  final VoidCallback onTap;
-  const _OptionCard({
-    required this.step,
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-    required this.onTap,
-    this.busy = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return TapScale(
-      onTap: busy ? null : onTap,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: P.surfaceLo,
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: P.surfaceHi),
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 44,
-              height: 44,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: P.lime.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(13),
-              ),
-              child: busy
-                  ? const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                          strokeWidth: 2, color: P.limeText))
-                  : Icon(icon, color: P.limeText, size: 24),
-            ),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title,
-                      style: const TextStyle(
-                          color: P.text,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700)),
-                  const SizedBox(height: 2),
-                  Text(subtitle,
-                      style: const TextStyle(
-                          color: P.textFaint, fontSize: 12.5, height: 1.35)),
-                ],
-              ),
-            ),
-            const Icon(Icons.chevron_right, color: P.textFaint),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/// Парящий логотип бренда.
 class _FloatingLogo extends StatelessWidget {
   final Animation<double> anim;
   const _FloatingLogo({required this.anim});

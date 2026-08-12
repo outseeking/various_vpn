@@ -42,7 +42,8 @@ class KillSwitchGuideScreen extends StatelessWidget {
             ),
             child: Text(
               L.t('ks_intro'),
-              style: const TextStyle(color: P.textDim, fontSize: 14, height: 1.5),
+              style:
+                  const TextStyle(color: P.textDim, fontSize: 14, height: 1.5),
             ),
           ),
           const SizedBox(height: 18),
@@ -63,7 +64,8 @@ class KillSwitchGuideScreen extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             L.t('ks_hint'),
-            style: const TextStyle(color: P.textFaint, fontSize: 12, height: 1.5),
+            style:
+                const TextStyle(color: P.textFaint, fontSize: 12, height: 1.5),
           ),
         ],
       ),
@@ -79,11 +81,11 @@ class KillSwitchGuideScreen extends StatelessWidget {
               width: 24,
               height: 24,
               alignment: Alignment.center,
-              decoration: const BoxDecoration(
-                  gradient: P.grad, shape: BoxShape.circle),
+              decoration:
+                  const BoxDecoration(gradient: P.grad, shape: BoxShape.circle),
               child: Text('$n',
                   style: const TextStyle(
-                      color: Color(0xFF0C1206),
+                      color: P.onLime,
                       fontSize: 13,
                       fontWeight: FontWeight.w800)),
             ),

@@ -2,6 +2,8 @@
 /// Считанная ссылка проходит ту же проверку «наша подписка», что и обычный импорт.
 library;
 
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +11,7 @@ import 'package:provider/provider.dart';
 import '../l10n.dart';
 import '../state/app_state.dart';
 import '../theme/app_palette.dart';
+import '../widgets/app_toast.dart';
 
 class QrImportScreen extends StatefulWidget {
   const QrImportScreen({super.key});
@@ -17,25 +20,30 @@ class QrImportScreen extends StatefulWidget {
   State<QrImportScreen> createState() => _QrImportScreenState();
 }
 
-class _QrImportScreenState extends State<QrImportScreen> {
+class _QrImportScreenState extends State<QrImportScreen>
+    with SingleTickerProviderStateMixin {
   final _controller = MobileScannerController();
   bool _handled = false;
+  late final AnimationController _scan = AnimationController(
+      vsync: this, duration: const Duration(milliseconds: 2200))
+    ..repeat(reverse: true);
 
   Future<void> _onDetect(BarcodeCapture cap) async {
     if (_handled) return;
     final raw = cap.barcodes.isNotEmpty ? cap.barcodes.first.rawValue : null;
     if (raw == null || raw.trim().isEmpty) return;
     _handled = true;
-    await _controller.stop();
+    // Состояние берём ДО остановки камеры: после await использовать context
+    // нельзя — экран мог уже закрыться, и обращение к нему упадёт.
     final state = context.read<AppState>();
+    await _controller.stop();
     final ok = await state.importSmart(raw.trim());
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: P.surface,
-      content: Text(ok
-          ? '${L.t('qr_added')}: ${state.servers.length}'
-          : (state.lastError ?? L.t('qr_fail'))),
-    ));
+    if (ok) {
+      AppToast.ok(context, '${L.t('qr_added')}: ${state.servers.length}');
+    } else {
+      AppToast.error(context, state.lastError ?? L.t('qr_fail'));
+    }
     if (ok) {
       Navigator.of(context).pop(true);
     } else {
@@ -46,6 +54,7 @@ class _QrImportScreenState extends State<QrImportScreen> {
 
   @override
   void dispose() {
+    _scan.dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -59,13 +68,16 @@ class _QrImportScreenState extends State<QrImportScreen> {
         alignment: Alignment.center,
         children: [
           MobileScanner(controller: _controller, onDetect: _onDetect),
-          // рамка-визир в стиле приложения
-          Container(
-            width: 240,
-            height: 240,
-            decoration: BoxDecoration(
-              border: Border.all(color: P.limeText, width: 2.5),
-              borderRadius: BorderRadius.circular(20),
+          // Затемняем всё, кроме окна визира: глаз сам находит, куда наводить.
+          const _ScanMask(),
+          // Уголки вместо сплошной рамки + бегущая линия: видно, что камера
+          // действительно ищет код, а не просто застыла.
+          SizedBox(
+            width: 244,
+            height: 244,
+            child: AnimatedBuilder(
+              animation: _scan,
+              builder: (_, __) => CustomPaint(painter: _ScanFrame(_scan.value)),
             ),
           ),
           Positioned(
@@ -81,7 +93,7 @@ class _QrImportScreenState extends State<QrImportScreen> {
               child: Text(
                 L.t('qr_hint'),
                 textAlign: TextAlign.center,
-                style: TextStyle(color: P.text, fontSize: 13),
+                style: const TextStyle(color: P.text, fontSize: 13),
               ),
             ),
           ),
@@ -89,4 +101,86 @@ class _QrImportScreenState extends State<QrImportScreen> {
       ),
     );
   }
+}
+
+/// Затемнение вокруг окна визира.
+class _ScanMask extends StatelessWidget {
+  const _ScanMask();
+
+  @override
+  Widget build(BuildContext context) => IgnorePointer(
+        child: CustomPaint(size: Size.infinite, painter: _MaskPainter()),
+      );
+}
+
+class _MaskPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    const side = 244.0;
+    final hole = RRect.fromRectAndRadius(
+      Rect.fromCenter(
+          center: size.center(Offset.zero), width: side, height: side),
+      const Radius.circular(24),
+    );
+    final full = Path()..addRect(Offset.zero & size);
+    final cut = Path()..addRRect(hole);
+    canvas.drawPath(
+      Path.combine(PathOperation.difference, full, cut),
+      Paint()..color = const Color(0xB3000000),
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant _MaskPainter old) => false;
+}
+
+/// Уголки визира + бегущая линия сканирования.
+class _ScanFrame extends CustomPainter {
+  final double t; // 0..1, туда-обратно
+  _ScanFrame(this.t);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final w = size.width, h = size.height;
+    const len = 34.0; // длина уголка
+    const r = 24.0; // радиус скругления
+    final p = Paint()
+      ..color = P.lime
+      ..strokeWidth = 3
+      ..strokeCap = StrokeCap.round
+      ..style = PaintingStyle.stroke;
+
+    void corner(double x, double y, double sx, double sy) {
+      final path = Path()
+        ..moveTo(x + sx * (r + len), y)
+        ..lineTo(x + sx * r, y)
+        ..arcToPoint(Offset(x, y + sy * r),
+            radius: const Radius.circular(r), clockwise: sx * sy < 0)
+        ..lineTo(x, y + sy * (r + len));
+      canvas.drawPath(path, p);
+    }
+
+    corner(0, 0, 1, 1);
+    corner(w, 0, -1, 1);
+    corner(0, h, 1, -1);
+    corner(w, h, -1, -1);
+
+    // Линия сканирования: плавно ходит сверху вниз, к краям притухая.
+    final y = 14 + (h - 28) * Curves.easeInOut.transform(t);
+    final fade = math.sin(t * math.pi).clamp(0.25, 1.0);
+    canvas.drawLine(
+      Offset(16, y),
+      Offset(w - 16, y),
+      Paint()
+        ..shader = LinearGradient(colors: [
+          P.lime.withValues(alpha: 0),
+          P.lime.withValues(alpha: 0.85 * fade),
+          P.lime.withValues(alpha: 0),
+        ]).createShader(Rect.fromLTWH(16, y - 1, w - 32, 2))
+        ..strokeWidth = 2,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant _ScanFrame old) => old.t != t;
 }

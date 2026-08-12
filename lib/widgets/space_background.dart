@@ -14,7 +14,14 @@ import '../theme/app_palette.dart';
 
 class SpaceBackground extends StatefulWidget {
   final bool animate;
-  const SpaceBackground({super.key, this.animate = true});
+
+  /// Насколько «живее» обычного идёт поле. 1 — спокойный фон, больше —
+  /// звёзд больше и летят они чаще. Поднимается на время действий, которые
+  /// человек запустил сам: обновления подписки и замера пинга.
+  final double intensity;
+
+  const SpaceBackground(
+      {super.key, this.animate = true, this.intensity = 1});
 
   @override
   State<SpaceBackground> createState() => _SpaceBackgroundState();
@@ -62,7 +69,8 @@ class _SpaceBackgroundState extends State<SpaceBackground>
       child: RepaintBoundary(
         child: CustomPaint(
           size: Size.infinite,
-          painter: _SpacePainter(_t, animate: widget.animate),
+          painter: _SpacePainter(_t,
+              animate: widget.animate, intensity: widget.intensity),
         ),
       ),
     );
@@ -72,7 +80,9 @@ class _SpaceBackgroundState extends State<SpaceBackground>
 class _SpacePainter extends CustomPainter {
   final ValueNotifier<double> t;
   final bool animate;
-  _SpacePainter(this.t, {required this.animate}) : super(repaint: t);
+  final double intensity;
+  _SpacePainter(this.t, {required this.animate, this.intensity = 1})
+      : super(repaint: t);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -85,9 +95,10 @@ class _SpacePainter extends CustomPainter {
   }
 
   // Звёзды только в полосе вокруг глобуса. Немного, мягко мерцают.
-  void _stars(
-      Canvas canvas, Size size, double time, double minY, double maxY) {
-    const n = 34;
+  void _stars(Canvas canvas, Size size, double time, double minY, double maxY) {
+    // При повышенной интенсивности звёзд ощутимо больше, но не «каша»:
+    // потолок держим в разумных пределах.
+    final n = (34 * intensity).round().clamp(34, 90);
     final p = Paint();
     for (var i = 0; i < n; i++) {
       final h = (i * 2654435761) & 0x7fffffff;
@@ -107,11 +118,19 @@ class _SpacePainter extends CustomPainter {
       Canvas canvas, Size size, double time, double minY, double maxY) {
     final band = maxY - minY;
     // период, фаза, startX(доля), startY(доля полосы 0..1), длина(доля ширины)
-    const channels = [
+    const base = [
       [3.5, 0.0, 0.10, 0.15, 0.40],
       [4.5, 1.6, 0.58, 0.35, 0.34],
       [6.0, 3.4, 0.30, 0.60, 0.30],
     ];
+    // Дополнительные дорожки включаются только на повышенной интенсивности —
+    // в покое небо остаётся спокойным.
+    const extra = [
+      [2.8, 0.9, 0.74, 0.22, 0.32],
+      [3.2, 2.3, 0.18, 0.48, 0.36],
+      [3.9, 0.4, 0.46, 0.72, 0.28],
+    ];
+    final channels = intensity > 1.3 ? [...base, ...extra] : base;
     const travel = 2.4; // с — дольше летит → плавнее (было 1.2)
     for (final c in channels) {
       final local = (time + c[1]) % c[0];
@@ -135,7 +154,10 @@ class _SpacePainter extends CustomPainter {
           ..shader = ui.Gradient.linear(
             Offset(tx, ty),
             Offset(hx, hy),
-            [Colors.white.withValues(alpha: 0), Colors.white.withValues(alpha: 0.9 * fade)],
+            [
+              Colors.white.withValues(alpha: 0),
+              Colors.white.withValues(alpha: 0.9 * fade)
+            ],
           )
           ..strokeWidth = 2.4
           ..strokeCap = StrokeCap.round
@@ -148,8 +170,8 @@ class _SpacePainter extends CustomPainter {
           Paint()
             ..color = P.limeText.withValues(alpha: 0.5 * fade)
             ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4));
-      canvas.drawCircle(
-          Offset(hx, hy), 2.6, Paint()..color = Colors.white.withValues(alpha: fade));
+      canvas.drawCircle(Offset(hx, hy), 2.6,
+          Paint()..color = Colors.white.withValues(alpha: fade));
     }
   }
 

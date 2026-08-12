@@ -7,12 +7,6 @@ enum VpnStage {
   connected,
   error;
 
-  String get label => switch (this) {
-        VpnStage.disconnected => 'Отключено',
-        VpnStage.connecting => 'Подключение…',
-        VpnStage.connected => 'Подключено',
-        VpnStage.error => 'Ошибка',
-      };
 }
 
 /// Одна строка «живого лога»: какое приложение идёт через какой сервер сейчас.

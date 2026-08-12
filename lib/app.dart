@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
 import 'screens/onboarding_screen.dart';
 import 'screens/splash_screen.dart';
-import 'screens/terms_screen.dart';
 import 'services/storage.dart';
 import 'theme/app_theme.dart';
 
@@ -17,17 +16,17 @@ class VariousVpnApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final storage = Storage.instance;
-    // Порядок первого запуска: сплеш → онбординг (слайды про плюсы) → оферта
-    // (ConsentGate внутри онбординга перед входом) → вход. Поэтому онбординг
-    // НЕ оборачиваем гейтом; уже прошедших — оборачиваем (гейт прозрачен, если
-    // соглашение принято, и показывается, если ещё нет).
+    // Порядок первого запуска: сплеш → онбординг (слайды про плюсы) → вход.
+    // Шага с офертой больше нет: документы живут в боте, и отдельный экран
+    // с согласием при первом запуске только отпугивал — человек ещё ничего не
+    // получил, а от него уже чего-то требуют.
     final Widget home;
     if (!storage.onboardingDone) {
       home = const OnboardingScreen();
     } else if (storage.subUrl != null || storage.tgId != null) {
-      home = const ConsentGate(child: MainShell());
+      home = const MainShell();
     } else {
-      home = const ConsentGate(child: OnboardingScreen());
+      home = const OnboardingScreen();
     }
 
     // Приложение фирменно тёмное: глобус, неон-акценты и переливание
@@ -36,7 +35,9 @@ class VariousVpnApp extends StatelessWidget {
     return MaterialApp(
       title: 'Various VPN',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.dark,
+      // Шрифт задаётся ключом — так его можно поменять одной строкой,
+      // не трогая тему.
+      theme: AppTheme.dark(),
       themeMode: ThemeMode.dark,
       home: SplashScreen(next: home),
     );

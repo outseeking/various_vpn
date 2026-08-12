@@ -5,6 +5,13 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"/>
+    <!-- Просьба не усыплять приложение в фоне. На прошивках Huawei/Honor и
+         Xiaomi система выгружает фоновые сервисы агрессивнее обычного, и
+         VPN-туннель обрывался «просто так», без действий пользователя.
+         Разрешение только позволяет ПОКАЗАТЬ системный запрос — решает
+         по-прежнему человек. -->
+    <uses-permission
+        android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <!-- Камера — сканирование QR-кода подписки из бота. -->
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -46,6 +53,102 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <!-- Вариант иконки «classic». Включается из настроек через
+             PackageManager.setComponentEnabledSetting (см. MainActivity). -->
+        <activity-alias
+            android:name=".IconAliasClassic"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:enabled="false"
+            android:label="Various VPN"
+            android:icon="@mipmap/ic_launcher_classic"
+            android:roundIcon="@mipmap/ic_launcher_classic">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+
+        <!-- Вариант иконки «midnight». Включается из настроек через
+             PackageManager.setComponentEnabledSetting (см. MainActivity). -->
+        <activity-alias
+            android:name=".IconAliasMidnight"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:enabled="false"
+            android:label="Various VPN"
+            android:icon="@mipmap/ic_launcher_midnight"
+            android:roundIcon="@mipmap/ic_launcher_midnight">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+
+        <!-- Вариант иконки «indigo». Включается из настроек через
+             PackageManager.setComponentEnabledSetting (см. MainActivity). -->
+        <activity-alias
+            android:name=".IconAliasIndigo"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:enabled="false"
+            android:label="Various VPN"
+            android:icon="@mipmap/ic_launcher_indigo"
+            android:roundIcon="@mipmap/ic_launcher_indigo">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+
+        <!-- Вариант иконки «steel». Включается из настроек через
+             PackageManager.setComponentEnabledSetting (см. MainActivity). -->
+        <activity-alias
+            android:name=".IconAliasSteel"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:enabled="false"
+            android:label="Various VPN"
+            android:icon="@mipmap/ic_launcher_steel"
+            android:roundIcon="@mipmap/ic_launcher_steel">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+
+        <!-- Вариант иконки «pearl». Включается из настроек через
+             PackageManager.setComponentEnabledSetting (см. MainActivity). -->
+        <activity-alias
+            android:name=".IconAliasPearl"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:enabled="false"
+            android:label="Various VPN"
+            android:icon="@mipmap/ic_launcher_pearl"
+            android:roundIcon="@mipmap/ic_launcher_pearl">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+
+        <!-- Вариант иконки «lime». Включается из настроек через
+             PackageManager.setComponentEnabledSetting (см. MainActivity). -->
+        <activity-alias
+            android:name=".IconAliasLime"
+            android:targetActivity=".MainActivity"
+            android:exported="true"
+            android:enabled="false"
+            android:label="Various VPN"
+            android:icon="@mipmap/ic_launcher_lime"
+            android:roundIcon="@mipmap/ic_launcher_lime">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+
         <!-- Домашний виджет Various VPN -->
         <receiver
             android:name=".VariousWidgetProvider"

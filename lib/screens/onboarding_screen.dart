@@ -5,12 +5,14 @@ library;
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../l10n.dart';
 import '../services/storage.dart';
+import '../state/app_state.dart';
 import '../theme/app_palette.dart';
+import '../widgets/lang_switch.dart';
 import 'auth_screen.dart';
-import 'terms_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -32,111 +34,79 @@ class _OnboardingScreenState extends State<OnboardingScreen>
   List<({IconData icon, String title, String body})> get _slides =>
       L.current == 'en' ? _slidesEn : _slidesRu;
 
+  // Онбординг — это НЕ инструкция, а продажа. Было 7 длинных слайдов (люди
+  // такое не читают и жмут «Пропустить»); осталось 5 коротких, по одной мысли
+  // на слайд, последний — с оффером. Без технических слов: человеку не важно,
+  // как называется протокол, ему важно, что быстро и работает.
   static const _slidesRu = [
     (
       icon: Icons.public,
-      title: 'Добро пожаловать в Various VPN',
-      body: 'Твой личный премиум-VPN: быстрый, умный и без блокировок. '
-          'За пару секунд покажем всё, что он умеет — это займёт полминуты.'
+      title: 'Интернет без границ',
+      body:
+          'Быстрый VPN, который просто работает. Даже там, где остальные уже нет.'
     ),
     (
       icon: Icons.bolt,
-      title: 'Подключение в один тап',
-      body: 'Нажми большую кнопку на главном экране — приложение само выберет '
-          'самый быстрый рабочий сервер и проверит связь. Если сеть «спит» после '
-          'простоя — переподключит незаметно, ждать не нужно.'
-    ),
-    (
-      icon: Icons.smart_toy_outlined,
-      title: 'Умный доступ к нейросетям',
-      body: 'ChatGPT, Gemini, Claude открываются всегда: приложение само находит '
-          'сервер, где ИИ работает, даже если на ближайшем он заблокирован. '
-          'Включается тумблером в настройках.'
+      title: 'Одна кнопка',
+      body: 'Нажал — подключено. Самый быстрый сервер приложение выберет само.'
     ),
     (
       icon: Icons.alt_route,
-      title: 'Раздельное туннелирование',
-      body: 'Российские сайты и банки идут напрямую (быстро, без VPN), а всё '
-          'остальное — через защищённый туннель. Можно выбрать, какие приложения '
-          'пускать через VPN, а какие — мимо.'
+      title: 'Банки работают',
+      body: 'Российские сайты идут напрямую, без VPN и без потери скорости. '
+          'Через туннель — только то, что нужно.'
     ),
     (
       icon: Icons.local_fire_department,
-      title: 'Огонёк серии 🔥 — награды за верность',
-      body: 'Пользуйся VPN каждый день — растёт серия (стрик). За вехи 7, 30, 90, '
-          '180 и 365 дней начисляем бонусные дни подписки автоматически. '
-          'Активность 25+ ч в неделю даёт «заморозки», которые спасают серию, '
-          'если пропустишь день.'
-    ),
-    (
-      icon: Icons.flash_on,
-      title: 'Режим «По требованию»',
-      body: 'Включи On-Demand в настройках — и VPN будет подниматься сам при '
-          'запуске приложения. А ещё: обход блокировок по современным протоколам '
-          'Reality/Hysteria2 и защита от DPI.'
+      title: 'Дни в подарок',
+      body:
+          'Пользуйся каждый день — серия растёт, а мы дарим бонусные дни подписки.'
     ),
     (
       icon: Icons.card_giftcard,
-      title: 'Бонусы и поддержка',
-      body: 'Приглашай друзей и получай дни + процент с их оплат. Есть вопрос — '
-          'пиши прямо в приложении, ответим быстро. Следи за новостями в нашем '
-          'Telegram-канале. Погнали! 🚀'
+      title: '3 дня бесплатно',
+      body: 'Без карты и без автосписаний. Не понравится — просто удалишь.'
     ),
   ];
 
   static const _slidesEn = [
     (
       icon: Icons.public,
-      title: 'Welcome to Various VPN',
-      body: 'Your personal premium VPN: fast, smart and unblockable. '
-          'In a few seconds we\'ll show everything it can do — takes half a minute.'
+      title: 'Internet without borders',
+      body: 'A fast VPN that just works. Even where the others already don\'t.'
     ),
     (
       icon: Icons.bolt,
-      title: 'One-tap connection',
-      body: 'Tap the big button on the home screen — the app picks the fastest '
-          'working server and verifies the link. If the network was asleep after '
-          'idle, it reconnects invisibly — no waiting.'
-    ),
-    (
-      icon: Icons.smart_toy_outlined,
-      title: 'Smart access to AI',
-      body: 'ChatGPT, Gemini, Claude always open: the app finds a server where AI '
-          'works, even if it\'s blocked on the nearest one. Toggle it in settings.'
+      title: 'One button',
+      body: 'Tap — connected. The app picks the fastest server for you.'
     ),
     (
       icon: Icons.alt_route,
-      title: 'Split tunneling',
-      body: 'Local sites and banks go direct (fast, no VPN), everything else '
-          'through the secure tunnel. You choose which apps go through the VPN.'
+      title: 'Your bank still works',
+      body:
+          'Local sites go direct — no VPN, no speed loss. Only what needs the '
+          'tunnel goes through it.'
     ),
     (
       icon: Icons.local_fire_department,
-      title: 'Streak flame 🔥 — loyalty rewards',
-      body: 'Use the VPN daily — your streak grows. At 7, 30, 90, 180 and 365 days '
-          'we credit bonus subscription days automatically. 25+ h a week earns '
-          '“freezes” that save your streak if you miss a day.'
-    ),
-    (
-      icon: Icons.flash_on,
-      title: 'On-Demand mode',
-      body: 'Enable On-Demand in settings and the VPN comes up on app launch. '
-          'Plus: anti-block via modern Reality/Hysteria2 protocols and DPI defense.'
+      title: 'Free days',
+      body:
+          'Use it daily — your streak grows and we credit bonus subscription days.'
     ),
     (
       icon: Icons.card_giftcard,
-      title: 'Bonuses & support',
-      body: 'Invite friends and earn days + a share of their payments. Questions? '
-          'Message us right in the app. Follow news in our Telegram channel. Let\'s go! 🚀'
+      title: '3 days free',
+      body: 'No card, no auto-charges. Don\'t like it — just uninstall.'
     ),
   ];
 
   void _finish() {
     Storage.instance.onboardingDone = true;
-    // После слайдов о плюсах — оферта (ConsentGate), затем экран входа.
+    // Сразу на вход. Экран с офертой убран: юридические документы живут в
+    // боте, и заставлять читать их отдельным шагом при первом запуске значит
+    // терять человека там, где он ещё ничего не получил.
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-          builder: (_) => const ConsentGate(child: AuthScreen())),
+      MaterialPageRoute(builder: (_) => const AuthScreen()),
     );
   }
 
@@ -149,6 +119,10 @@ class _OnboardingScreenState extends State<OnboardingScreen>
 
   @override
   Widget build(BuildContext context) {
+    // Подписка на AppState нужна ИМЕННО ЗДЕСЬ: тумблер языка сам по себе
+    // перерисовывался, а слайды — нет (они читают L.current, а не AppState),
+    // поэтому язык «не переключался». Теперь весь экран слушает смену.
+    context.watch<AppState>();
     final last = _page == _slides.length - 1;
     return Scaffold(
       backgroundColor: P.bg,
@@ -165,12 +139,21 @@ class _OnboardingScreenState extends State<OnboardingScreen>
           SafeArea(
             child: Column(
               children: [
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: _finish,
-                    child: Text(L.t('skip'),
-                        style: const TextStyle(color: P.textFaint)),
+                // Язык доступен с САМОГО первого экрана — иначе человек
+                // проходит весь онбординг на чужом языке и меняет его уже
+                // потом, в настройках.
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 6, 8, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const LangSwitch(),
+                      TextButton(
+                        onPressed: _finish,
+                        child: Text(L.t('skip'),
+                            style: const TextStyle(color: P.textFaint)),
+                      ),
+                    ],
                   ),
                 ),
                 Expanded(
@@ -243,10 +226,12 @@ class _OnboardingScreenState extends State<OnboardingScreen>
                         color: P.lime,
                         borderRadius: BorderRadius.circular(14),
                       ),
-                      child: Text(last ? L.t('start') : L.t('next'),
+                      // На последнем слайде — не безликое «Начать», а сам
+                      // оффер: кнопка должна обещать конкретную выгоду.
+                      child: Text(last ? L.t('ob_cta') : L.t('next'),
                           textAlign: TextAlign.center,
                           style: const TextStyle(
-                              color: Color(0xFF0C1206),
+                              color: P.onLime,
                               fontSize: 16,
                               fontWeight: FontWeight.w700)),
                     ),

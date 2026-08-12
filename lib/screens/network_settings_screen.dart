@@ -77,7 +77,6 @@ class _NetworkSettingsScreenState extends State<NetworkSettingsScreen> {
             style: const TextStyle(color: P.textFaint, fontSize: 11),
           ),
           const SizedBox(height: 24),
-
           _Label(L.t('custom_dns')),
           const SizedBox(height: 8),
           TextField(
@@ -102,7 +101,6 @@ class _NetworkSettingsScreenState extends State<NetworkSettingsScreen> {
             style: const TextStyle(color: P.textFaint, fontSize: 11),
           ),
           const SizedBox(height: 24),
-
           SwitchListTile(
             contentPadding: EdgeInsets.zero,
             title: Text(L.t('fragment'),
@@ -123,6 +121,6 @@ class _Label extends StatelessWidget {
   final String text;
   const _Label(this.text);
   @override
-  Widget build(BuildContext context) => Text(text,
-      style: const TextStyle(color: P.textFaint, fontSize: 12));
+  Widget build(BuildContext context) =>
+      Text(text, style: const TextStyle(color: P.textFaint, fontSize: 12));
 }

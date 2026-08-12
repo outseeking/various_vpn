@@ -7,9 +7,13 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 import '../l10n.dart';
+import '../state/app_state.dart';
 import '../theme/app_palette.dart';
+import '../widgets/connect_glow.dart';
+import '../widgets/space_background.dart';
 
 class SpeedtestScreen extends StatefulWidget {
   const SpeedtestScreen({super.key});
@@ -22,7 +26,9 @@ class _SpeedtestScreenState extends State<SpeedtestScreen> {
   double _mbps = 0; // текущая стрелка
   double _result = 0; // итог
   bool _running = false;
-  String _status = 'Готов к тесту';
+  // Пустая строка, а не готовый текст: язык может смениться, пока экран
+  // открыт, и подпись обязана смениться вместе с ним.
+  String? _statusKey = 'st_ready';
 
   static const _maxMbps = 200.0; // верх шкалы
   static const _url =
@@ -34,7 +40,7 @@ class _SpeedtestScreenState extends State<SpeedtestScreen> {
       _running = true;
       _mbps = 0;
       _result = 0;
-      _status = 'Измеряем загрузку…';
+      _statusKey = 'st_running';
     });
     try {
       final client = http.Client();
@@ -51,7 +57,9 @@ class _SpeedtestScreenState extends State<SpeedtestScreen> {
           final inst = (bytes - lastBytes) * 8 / 1000 / (ms - lastMs); // Мбит/с
           lastBytes = bytes;
           lastMs = ms;
-          if (mounted) setState(() => _mbps = inst.clamp(0, _maxMbps).toDouble());
+          if (mounted) {
+            setState(() => _mbps = inst.clamp(0, _maxMbps).toDouble());
+          }
         }
       }
       sw.stop();
@@ -61,14 +69,14 @@ class _SpeedtestScreenState extends State<SpeedtestScreen> {
         setState(() {
           _result = avg;
           _mbps = avg.clamp(0, _maxMbps).toDouble();
-          _status = 'Готово';
+          _statusKey = 'st_done';
           _running = false;
         });
       }
     } catch (e) {
       if (mounted) {
         setState(() {
-          _status = 'Ошибка теста (проверь соединение)';
+          _statusKey = 'st_fail';
           _running = false;
         });
       }
@@ -77,10 +85,29 @@ class _SpeedtestScreenState extends State<SpeedtestScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Режим для слабых устройств выключает всю анимацию и на этом экране.
+    final anim = context.watch<AppState>().animationsOn;
     return Scaffold(
       backgroundColor: P.bg,
       appBar: AppBar(title: Text(L.t('st_title'))),
-      body: SafeArea(
+      body: Stack(
+        children: [
+          // Звёзды видны сразу при входе — экран не должен «оживать» только
+          // после нажатия. Во время замера они летят интенсивнее.
+          if (anim)
+            Positioned.fill(
+              child: IgnorePointer(
+                child: SpaceBackground(animate: true, intensity: _running ? 2.2 : 1),
+              ),
+            ),
+          // Свечение как на главной: спокойное в покое, ярче во время замера.
+          if (anim)
+            Positioned.fill(
+              child: IgnorePointer(
+                child: ConnectGlow(connected: _running),
+              ),
+            ),
+          SafeArea(
         child: Column(
           children: [
             const Spacer(),
@@ -100,17 +127,20 @@ class _SpeedtestScreenState extends State<SpeedtestScreen> {
                               .titleLarge
                               ?.copyWith(color: P.text, fontSize: 40)),
                       Text(L.t('st_mbps'),
-                          style: const TextStyle(color: P.textFaint, fontSize: 13)),
+                          style: const TextStyle(
+                              color: P.textFaint, fontSize: 13)),
                     ],
                   ),
                 ),
               ),
             ),
             const SizedBox(height: 18),
-            Text(_status, style: const TextStyle(color: P.textDim, fontSize: 14)),
+            Text(L.t(_statusKey!),
+                style: const TextStyle(color: P.textDim, fontSize: 14)),
             if (_result > 0) ...[
               const SizedBox(height: 8),
-              Text('${L.t('st_avg')}: ${_result.toStringAsFixed(1)} ${L.t('st_mbps')}',
+              Text(
+                  '${L.t('st_avg')}: ${_result.toStringAsFixed(1)} ${L.t('st_mbps')}',
                   style: const TextStyle(color: P.limeText, fontSize: 14)),
               const SizedBox(height: 10),
               Builder(builder: (_) {
@@ -119,8 +149,11 @@ class _SpeedtestScreenState extends State<SpeedtestScreen> {
                     ? (L.t('net_good'), P.limeText, Icons.check_circle)
                     : _result >= 8
                         ? (L.t('net_ok'), P.gold, Icons.thumb_up_alt_outlined)
-                        : (L.t('net_slow'), const Color(0xFFE0574A),
-                            Icons.warning_amber_rounded);
+                        : (
+                            L.t('net_slow'),
+                            const Color(0xFFE0574A),
+                            Icons.warning_amber_rounded
+                          );
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -151,14 +184,16 @@ class _SpeedtestScreenState extends State<SpeedtestScreen> {
                   child: Text(_running ? L.t('st_running') : L.t('st_run'),
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          color: _running ? P.textFaint : const Color(0xFF0C1206),
+                          color: _running ? P.textFaint : P.onLime,
                           fontSize: 16,
                           fontWeight: FontWeight.w700)),
                 ),
               ),
             ),
-          ],
-        ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -203,7 +238,8 @@ class _GaugePainter extends CustomPainter {
 
     // стрелка
     final ang = start + sweep * t.clamp(0, 1);
-    final tip = Offset(c.dx + r * 0.8 * math.cos(ang), c.dy + r * 0.8 * math.sin(ang));
+    final tip =
+        Offset(c.dx + r * 0.8 * math.cos(ang), c.dy + r * 0.8 * math.sin(ang));
     canvas.drawLine(
         c,
         tip,

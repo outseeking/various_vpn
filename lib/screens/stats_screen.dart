@@ -15,7 +15,9 @@ class StatsScreen extends StatelessWidget {
   const StatsScreen({super.key});
 
   static String _bytes(int b) {
-    if (b < 1024 * 1024) return '${(b / 1024).toStringAsFixed(0)} ${L.t('unit_kb')}';
+    if (b < 1024 * 1024) {
+      return '${(b / 1024).toStringAsFixed(0)} ${L.t('unit_kb')}';
+    }
     if (b < 1024 * 1024 * 1024) {
       return '${(b / 1024 / 1024).toStringAsFixed(1)} ${L.t('unit_mb')}';
     }
@@ -49,9 +51,8 @@ class StatsScreen extends StatelessWidget {
                     color: const Color(0xFFB48CE6))),
           ]),
           const SizedBox(height: 20),
-
           Text(L.t('st_last7'),
-              style: TextStyle(
+              style: const TextStyle(
                   color: P.text, fontSize: 14, fontWeight: FontWeight.w600)),
           const SizedBox(height: 12),
           Container(
@@ -93,17 +94,17 @@ class StatsScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-
           Text(L.t('st_fav'),
-              style: TextStyle(
+              style: const TextStyle(
                   color: P.text, fontSize: 14, fontWeight: FontWeight.w600)),
           const SizedBox(height: 12),
           if (top.isEmpty)
             Text(L.t('st_nodata'),
-                style: TextStyle(color: P.textFaint, fontSize: 13))
+                style: const TextStyle(color: P.textFaint, fontSize: 13))
           else
             ...top.map((e) {
-              final frac = e.value / top.first.value;
+              final topMax = top.first.value > 0 ? top.first.value : 1;
+              final frac = e.value / topMax;
               final name = state.countryNameOf(e.key);
               final servers = state.serverStatsForCountry(e.key);
               return _CountryRow(
@@ -114,8 +115,7 @@ class StatsScreen extends StatelessWidget {
                 serverCount: servers.length,
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) =>
-                        CountryDetailScreen(cc: e.key, name: name),
+                    builder: (_) => CountryDetailScreen(cc: e.key, name: name),
                   ),
                 ),
               );
@@ -163,8 +163,8 @@ class _CountryRow extends StatelessWidget {
                     Text(name,
                         style: const TextStyle(color: P.text, fontSize: 13)),
                     Text(StatsScreen._bytes(bytes),
-                        style: const TextStyle(
-                            color: P.textFaint, fontSize: 12)),
+                        style:
+                            const TextStyle(color: P.textFaint, fontSize: 12)),
                   ],
                 ),
                 const SizedBox(height: 4),
@@ -206,7 +206,8 @@ class CountryDetailScreen extends StatelessWidget {
     final state = context.watch<AppState>();
     final servers = state.serverStatsForCountry(cc);
     final total = servers.fold<int>(0, (s, e) => s + e.value);
-    final max = servers.isEmpty ? 1 : servers.first.value;
+    final max =
+        (servers.isEmpty || servers.first.value <= 0) ? 1 : servers.first.value;
 
     return Scaffold(
       backgroundColor: P.bg,
@@ -228,18 +229,18 @@ class CountryDetailScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
             ),
             child: Row(children: [
-              const Icon(Icons.public, color: Color(0xFF0C1206)),
+              const Icon(Icons.public, color: P.onLime),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(L.t('st_country_total'),
-                        style: const TextStyle(
-                            color: Color(0xCC0C1206), fontSize: 12)),
+                        style:
+                            const TextStyle(color: P.onLimeDim, fontSize: 12)),
                     Text(StatsScreen._bytes(total),
                         style: const TextStyle(
-                            color: Color(0xFF0C1206),
+                            color: P.onLime,
                             fontSize: 22,
                             fontWeight: FontWeight.w800)),
                   ],
@@ -247,7 +248,7 @@ class CountryDetailScreen extends StatelessWidget {
               ),
               Text(L.t('st_servers_n', {'n': servers.length}),
                   style: const TextStyle(
-                      color: Color(0xCC0C1206),
+                      color: P.onLimeDim,
                       fontSize: 12,
                       fontWeight: FontWeight.w600)),
             ]),

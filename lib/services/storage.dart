@@ -27,6 +27,16 @@ class Storage {
     _ready = true;
   }
 
+  /// Забыть уже загруженные настройки и перечитать их заново.
+  ///
+  /// Нужно тестам: хранилище — синглтон, и без сброса второй сценарий получал
+  /// настройки первого. В приложении не используется.
+  @visibleForTesting
+  Future<void> resetForTests() async {
+    _ready = false;
+    await init();
+  }
+
   // ---- ключи ----
   static const _kOnboardingDone = 'onboarding_done';
   static const _kSubUrl = 'sub_url';
@@ -44,6 +54,58 @@ class Storage {
   void setStr(String key, String v) => _prefs.setString(key, v);
   int getInt(String key, {int def = 0}) => _prefs.getInt(key) ?? def;
   void setInt(String key, int v) => _prefs.setInt(key, v);
+
+  // ---- резервная копия настроек ----
+  //
+  // Снимок ВСЕХ сохранённых настроек: человек меняет телефон или переустанавливает
+  // приложение и не собирает заново правила по приложениям, свои серверы и
+  // список сайтов в обход. Токен и данные подписки в копию не попадают: файл
+  // может уйти в облако или в мессенджер, а это ключ от чужого доступа.
+  static const _kSecret = {_kAuthToken, _kTgId, _kSubUrl, 'personal_sub_url'};
+
+  Map<String, Object?> exportSettings() {
+    final out = <String, Object?>{};
+    for (final k in _prefs.getKeys()) {
+      if (_kSecret.contains(k)) continue;
+      out[k] = _prefs.get(k);
+    }
+    return out;
+  }
+
+  /// Возвращает число применённых настроек. Значения неизвестных типов
+  /// пропускаем молча — файл мог прийти от другой версии приложения.
+  int importSettings(Map<String, Object?> data) {
+    var n = 0;
+    for (final e in data.entries) {
+      if (_kSecret.contains(e.key)) continue;
+      final v = e.value;
+      if (v is bool) {
+        _prefs.setBool(e.key, v);
+      } else if (v is int) {
+        _prefs.setInt(e.key, v);
+      } else if (v is double) {
+        _prefs.setDouble(e.key, v);
+      } else if (v is String) {
+        _prefs.setString(e.key, v);
+      } else if (v is List) {
+        _prefs.setStringList(e.key, v.map((x) => '$x').toList());
+      } else {
+        continue;
+      }
+      n++;
+    }
+    return n;
+  }
+
+  /// Сброс к заводским настройкам. Подписку и привязку НЕ трогаем — человек
+  /// хочет вернуть настройки к исходным, а не потерять оплаченный доступ.
+  Future<void> resetSettings() async {
+    for (final k in _prefs.getKeys().toList()) {
+      if (_kSecret.contains(k)) continue;
+      if (k == _kOnboardingDone || k == 'terms_accepted') continue;
+      await _prefs.remove(k);
+    }
+  }
 
   // ---- простые флаги/строки ----
   bool get onboardingDone => _prefs.getBool(_kOnboardingDone) ?? false;
@@ -70,9 +132,8 @@ class Storage {
       : _prefs.setString(_kManualServerId, v);
 
   String? get appRulesJson => _prefs.getString(_kAppRules);
-  set appRulesJson(String? v) => v == null
-      ? _prefs.remove(_kAppRules)
-      : _prefs.setString(_kAppRules, v);
+  set appRulesJson(String? v) =>
+      v == null ? _prefs.remove(_kAppRules) : _prefs.setString(_kAppRules, v);
 
   // ---- крупные данные: сырой текст подписки ----
   Future<void> saveConfigsBlob(String blob) async {
@@ -104,14 +165,54 @@ class Storage {
     return File('${dir.path}/$_kConfigsFile');
   }
 
+  // ---- крупные данные под своим именем ----
+  //
+  // Тела чужих подписок — это сотни килобайт готовых конфигов. В настройках им
+  // не место: SharedPreferences держит всё в памяти и переписывает файл целиком
+  // при каждой правке. Поэтому кладём в отдельные файлы.
+
+  Future<void> saveNamedBlob(String name, String data) async {
+    if (kIsWeb) {
+      await _prefs.setString('blob_$name', data);
+      return;
+    }
+    try {
+      final dir = await getApplicationDocumentsDirectory();
+      await File('${dir.path}/$name.blob').writeAsString(data);
+    } catch (_) {
+      await _prefs.setString('blob_$name', data);
+    }
+  }
+
+  Future<String?> loadNamedBlob(String name) async {
+    if (kIsWeb) return _prefs.getString('blob_$name');
+    try {
+      final dir = await getApplicationDocumentsDirectory();
+      final f = File('${dir.path}/$name.blob');
+      if (await f.exists()) return f.readAsString();
+    } catch (_) {
+      // фоллбэк ниже
+    }
+    return _prefs.getString('blob_$name');
+  }
+
   /// Полный сброс (выход из аккаунта).
+  ///
+  /// Удаляет и отдельные файлы-хранилища. Без этого выход чистил настройки, а
+  /// сохранённые тела подписок оставались на диске — после перезапуска серверы
+  /// возвращались, и выход выглядел не сработавшим.
   Future<void> clearAll() async {
     await _prefs.clear();
-    if (!kIsWeb) {
-      try {
-        final f = await _configsFile();
-        if (await f.exists()) await f.delete();
-      } catch (_) {}
-    }
+    if (kIsWeb) return;
+    try {
+      final f = await _configsFile();
+      if (await f.exists()) await f.delete();
+    } catch (_) {}
+    try {
+      final dir = await getApplicationDocumentsDirectory();
+      for (final e in dir.listSync()) {
+        if (e is File && e.path.endsWith('.blob')) e.deleteSync();
+      }
+    } catch (_) {}
   }
 }

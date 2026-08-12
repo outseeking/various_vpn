@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Фон варианта иконки «indigo». Сгенерирован scripts/gen_icons.py -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:startColor="#6030B0"
+        android:endColor="#160730"
+        android:angle="270"/>
+</shape>

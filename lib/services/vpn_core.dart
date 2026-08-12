@@ -1,7 +1,7 @@
 /// Выбор реализации VPN-ядра по платформе через conditional import:
 ///  - web (нет dart.library.io) → vpn_core_stub.dart (StubVpnService);
 ///  - Android/iOS/desktop → vpn_core_native.dart (V2RayVpnService на flutter_v2ray).
-/// Благодаря этому web-сборка НЕ тянет нативный код (flutter_v2ray/dart:io).
+/// Благодаря этому web-сборка НЕ тянет нативный код (VPN-ядро/dart:io).
 library;
 
 import 'vpn_service.dart';

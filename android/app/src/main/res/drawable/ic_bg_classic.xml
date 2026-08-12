@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Фон варианта иконки «classic». Сгенерирован scripts/gen_icons.py -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:startColor="#202B48"
+        android:endColor="#080A13"
+        android:angle="270"/>
+</shape>

@@ -9,10 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../brand.dart';
 import '../l10n.dart';
 import '../state/app_state.dart';
-
-const _supportUrl = 'https://t.me/variousvpnsupport';
+import '../theme/app_palette.dart';
+import '../widgets/link_tile.dart';
 
 class SupportScreen extends StatefulWidget {
   /// true — экран показан как вкладка в общей оболочке (без стрелки «назад»).
@@ -58,104 +59,147 @@ class _SupportScreenState extends State<SupportScreen> {
   @override
   Widget build(BuildContext context) {
     final chat = context.watch<AppState>().supportChat;
-    final cs = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: !widget.inShell,
         title: Text(L.t('sup_title')),
         actions: [
           IconButton(
-            tooltip: 'Открыть в Telegram',
+            tooltip: L.t('open_in_tg'),
             icon: const Icon(Icons.telegram),
-            onPressed: () => launchUrl(Uri.parse(_supportUrl),
+            onPressed: () => launchUrl(Uri.parse(Brand.support),
                 mode: LaunchMode.externalApplication),
           ),
         ],
       ),
       body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(), // тап по пустому — скрыть клавиатуру
+        onTap: () => FocusScope.of(context)
+            .unfocus(), // тап по пустому — скрыть клавиатуру
         behavior: HitTestBehavior.opaque,
         child: Column(
-        children: [
-          Expanded(
-            child: chat.isEmpty
-                ? const Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(32),
-                      child: Text(
-                        'Напиши нам прямо здесь — ответим в приложении.\n'
-                        'Или нажми значок Telegram вверху, чтобы написать в чат.',
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  )
-                : ListView.builder(
-                    padding: const EdgeInsets.all(12),
-                    itemCount: chat.length,
-                    itemBuilder: (_, i) {
-                      final m = chat[i];
-                      return Align(
-                        alignment: m.fromUser
-                            ? Alignment.centerRight
-                            : Alignment.centerLeft,
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 4),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 14, vertical: 10),
-                          constraints: const BoxConstraints(maxWidth: 280),
-                          decoration: BoxDecoration(
-                            color: m.fromUser
-                                ? cs.primaryContainer
-                                : cs.surfaceContainerHighest,
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(m.text),
-                              const SizedBox(height: 2),
-                              Text(m.hhmm,
-                                  style: Theme.of(context).textTheme.bodySmall),
-                            ],
-                          ),
+          children: [
+            Expanded(
+              // Пустой чат — не голая надпись, а понятное «что тут делать»
+              // плюс кликабельные способы связи (правило empty-states).
+              child: chat.isEmpty
+                  ? ListView(
+                      padding: const EdgeInsets.fromLTRB(20, 40, 20, 20),
+                      children: [
+                        const Icon(Icons.forum_outlined,
+                            size: 40, color: P.limeText),
+                        const SizedBox(height: 14),
+                        Text(L.t('sup_empty_t'),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                color: P.text,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w700)),
+                        const SizedBox(height: 8),
+                        Text(L.t('sup_empty_b'),
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                color: P.textFaint, fontSize: 13, height: 1.5)),
+                        const SizedBox(height: 22),
+                        LinkTile(
+                          icon: Icons.telegram,
+                          title: L.t('sup_in_tg'),
+                          subtitle: '@variousvpnbot',
+                          url: Brand.support,
                         ),
-                      );
-                    },
-                  ),
-          ),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.attach_file),
-                    tooltip: L.t('sup_attach'),
-                    onPressed: _attach,
-                  ),
-                  Expanded(
-                    child: TextField(
-                      controller: _ctrl,
-                      minLines: 1,
-                      maxLines: 4,
-                      decoration: InputDecoration(
-                        hintText: L.t('sup_hint'),
-                        border: OutlineInputBorder(),
-                        isDense: true,
-                      ),
-                      onSubmitted: (_) => _send(),
+                        const SizedBox(height: 8),
+                        LinkTile(
+                          icon: Icons.campaign_outlined,
+                          title: L.t('channel'),
+                          subtitle:
+                              Brand.channel.replaceFirst('https://t.me/', '@'),
+                          url: Brand.channel,
+                        ),
+                      ],
+                    )
+                  : ListView.builder(
+                      padding: const EdgeInsets.all(12),
+                      itemCount: chat.length,
+                      itemBuilder: (_, i) {
+                        final m = chat[i];
+                        return Align(
+                          alignment: m.fromUser
+                              ? Alignment.centerRight
+                              : Alignment.centerLeft,
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 14, vertical: 10),
+                            constraints: const BoxConstraints(maxWidth: 280),
+                            decoration: BoxDecoration(
+                              // Свои сообщения — фирменным лаймом, ответы
+                              // поддержки — нейтральной поверхностью.
+                              color: m.fromUser
+                                  ? P.lime.withValues(alpha: 0.16)
+                                  : P.surfaceUp,
+                              borderRadius: BorderRadius.only(
+                                topLeft: const Radius.circular(16),
+                                topRight: const Radius.circular(16),
+                                bottomLeft:
+                                    Radius.circular(m.fromUser ? 16 : 5),
+                                bottomRight:
+                                    Radius.circular(m.fromUser ? 5 : 16),
+                              ),
+                              border: Border.all(
+                                  color: m.fromUser
+                                      ? P.lime.withValues(alpha: 0.30)
+                                      : P.surfaceHi),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(m.text,
+                                    style: const TextStyle(
+                                        color: P.text,
+                                        fontSize: 14,
+                                        height: 1.4)),
+                                const SizedBox(height: 3),
+                                Text(m.hhmm,
+                                    style: const TextStyle(
+                                        color: P.textFaint, fontSize: 10.5)),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  IconButton.filled(
-                    icon: const Icon(Icons.send),
-                    onPressed: _send,
-                  ),
-                ],
+            ),
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.attach_file),
+                      tooltip: L.t('sup_attach'),
+                      onPressed: _attach,
+                    ),
+                    Expanded(
+                      child: TextField(
+                        controller: _ctrl,
+                        minLines: 1,
+                        maxLines: 4,
+                        decoration: InputDecoration(
+                          hintText: L.t('sup_hint'),
+                          isDense: true,
+                        ),
+                        onSubmitted: (_) => _send(),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    IconButton.filled(
+                      icon: const Icon(Icons.send),
+                      onPressed: _send,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
         ),
       ),
     );

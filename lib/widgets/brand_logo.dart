@@ -49,11 +49,23 @@ class _LogoPainter extends CustomPainter {
     List<Offset> n(List<List<double>> pts) =>
         pts.map((p) => Offset(cx + p[0] * w, cy + p[1] * h)).toList();
     final nodes = n([
-      [-0.20, -0.08], [0.17, -0.13], [0.24, 0.10],
-      [-0.11, 0.17], [0.10, 0.27], [-0.24, 0.12], [0.02, -0.26],
+      [-0.20, -0.08],
+      [0.17, -0.13],
+      [0.24, 0.10],
+      [-0.11, 0.17],
+      [0.10, 0.27],
+      [-0.24, 0.12],
+      [0.02, -0.26],
     ]);
     final edges = [
-      [6, 0], [6, 1], [0, 1], [1, 2], [2, 4], [0, 3], [3, 5], [3, 4]
+      [6, 0],
+      [6, 1],
+      [0, 1],
+      [1, 2],
+      [2, 4],
+      [0, 3],
+      [3, 5],
+      [3, 4]
     ];
     final line = Paint()
       ..style = PaintingStyle.stroke
@@ -63,8 +75,8 @@ class _LogoPainter extends CustomPainter {
       canvas.drawLine(nodes[e[0]], nodes[e[1]], line);
     }
     for (final node in nodes) {
-      canvas.drawCircle(
-          node, w * 0.018, Paint()..color = Colors.white.withValues(alpha: 0.35));
+      canvas.drawCircle(node, w * 0.018,
+          Paint()..color = Colors.white.withValues(alpha: 0.35));
     }
 
     // молния (скорость) — бело-жёлтая с градиентом

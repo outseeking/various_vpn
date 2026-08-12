@@ -14,18 +14,40 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
+import '../services/geo.dart';
 import '../theme/app_palette.dart';
+
+/// Признак «палец сейчас на глобусе».
+///
+/// Глобус живёт внутри прокручиваемого списка, а тот — внутри PageView со
+/// свайпом между вкладками. Оба перехватывали жест: вертикаль забирал список,
+/// горизонталь — листалка страниц, и глобус почти не вращался. Драться за жест
+/// в арене распознавателей ненадёжно, поэтому делаем прямо: пока палец на
+/// глобусе, прокрутка и листание просто выключены.
+class GlobeTouch {
+  GlobeTouch._();
+
+  static final ValueNotifier<bool> active = ValueNotifier<bool>(false);
+}
 
 /// Маркер сервера на глобусе.
 class GlobeMarker {
   final double lon;
   final double lat;
-  final String label; // подпись (страна)
+  final String label; // подпись (страна) — только для показа
+
+  /// Код страны (ISO-2). Подсветка контура ищет страну именно по нему.
+  ///
+  /// Раньше искали по подписи, переводя её из русского в английский по списку
+  /// из шести стран. Всё остальное — Швейцария, Япония, Казахстан — молча не
+  /// подсвечивалось, а при английском интерфейсе ломались и эти шесть.
+  final String code;
   final bool selected;
   const GlobeMarker({
     required this.lon,
     required this.lat,
     required this.label,
+    this.code = '',
     this.selected = false,
   });
 }
@@ -37,9 +59,8 @@ class WorldData {
 
   static Future<WorldData>? _future;
   static Future<WorldData> load() {
-    return _future ??= rootBundle
-        .loadString('assets/geo/world.json')
-        .then((raw) {
+    return _future ??=
+        rootBundle.loadString('assets/geo/world.json').then((raw) {
       final list = jsonDecode(raw) as List;
       final countries = <MapCountry>[];
       for (final c in list) {
@@ -79,13 +100,25 @@ class GlobeView extends StatefulWidget {
   /// Откуда летят пакеты (Россия). null → без пакетов.
   final List<double>? packetFrom;
 
+  /// Подпись точки-источника. Приходит уже переведённой: раньше здесь было
+  /// зашитое слово «Россия», и при английском интерфейсе оно оставалось
+  /// русским — единственная непереведённая надпись на экране.
+  final String packetFromLabel;
+
   /// Промежуточная нода (вход) для двойного VPN: [lon,lat]. При наличии —
   /// путь строится через неё (from → relay → exit) с доп. пакетом, а её страна
   /// тоже подсвечивается.
   final List<double>? relay;
-  final String? relayLabel;
+
+  /// Код страны входной ноды — для подсветки её контура.
+  final String? relayCode;
 
   final bool animationsEnabled;
+
+  /// Идёт замер пинга: падающих звёзд становится заметно больше — видно, что
+  /// приложение работает, а не замерло.
+  final bool busy;
+
   final double size;
 
   const GlobeView({
@@ -94,9 +127,11 @@ class GlobeView extends StatefulWidget {
     this.focus,
     this.connected = false,
     this.packetFrom,
+    this.packetFromLabel = '',
     this.relay,
-    this.relayLabel,
+    this.relayCode,
     this.animationsEnabled = true,
+    this.busy = false,
     this.size = 240,
   });
 
@@ -196,9 +231,8 @@ class _GlobeViewState extends State<GlobeView>
     }
     _lastPaint = now;
 
-    final dt = _last == Duration.zero
-        ? 0.016
-        : (now - _last).inMicroseconds / 1e6;
+    final dt =
+        _last == Duration.zero ? 0.016 : (now - _last).inMicroseconds / 1e6;
     _last = now;
 
     final anim = widget.animationsEnabled;
@@ -285,17 +319,24 @@ class _GlobeViewState extends State<GlobeView>
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onPanStart: _onPanStart,
-      onPanUpdate: _onPanUpdate,
-      onPanEnd: _onPanEnd,
-      child: SizedBox(
-        width: widget.size,
-        height: widget.size,
-        child: CustomPaint(
-          painter: _GlobePainter(
-            state: this,
-            repaint: _repaint,
+    // Listener срабатывает раньше распознавателей жестов — флаг успевает
+    // выключить прокрутку ДО того, как список или PageView заберут движение.
+    return Listener(
+      onPointerDown: (_) => GlobeTouch.active.value = true,
+      onPointerUp: (_) => GlobeTouch.active.value = false,
+      onPointerCancel: (_) => GlobeTouch.active.value = false,
+      child: GestureDetector(
+        onPanStart: _onPanStart,
+        onPanUpdate: _onPanUpdate,
+        onPanEnd: _onPanEnd,
+        child: SizedBox(
+          width: widget.size,
+          height: widget.size,
+          child: CustomPaint(
+            painter: _GlobePainter(
+              state: this,
+              repaint: _repaint,
+            ),
           ),
         ),
       ),
@@ -323,7 +364,9 @@ class _GlobePainter extends CustomPainter {
     final t = state._time;
     // звёзды вокруг Земли + изредка падающие звёзды (в области глобуса)
     _drawStars(canvas, size, cx, cy, r, t);
-    if (state.widget.animationsEnabled) _drawShootingStars(canvas, size, t);
+    if (state.widget.animationsEnabled) {
+      _drawShootingStars(canvas, size, t, state.widget.busy);
+    }
 
     // атмосфера — мягкое свечение по краю сферы (при подключении ярче/лаймовее)
     final atmoColor = state.widget.connected ? P.lime : P.violet;
@@ -341,32 +384,70 @@ class _GlobePainter extends CustomPainter {
           ).createShader(Rect.fromCircle(center: Offset(cx, cy), radius: r + 6))
           ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6));
 
-    // вода (сфера)
-    final water = Paint()..color = P.bgGlobe;
-    canvas.drawCircle(Offset(cx, cy), r, water);
+    // Океан. Не плоская заливка, а градиент от освещённой стороны к тёмной:
+    // ровный цвет читается как круг, градиент — как шар. Свет один и тот же
+    // сверху-слева, что и у блика с затенением ниже.
     canvas.drawCircle(
-        Offset(cx, cy),
-        r,
-        Paint()
-          ..style = PaintingStyle.stroke
-          ..color = const Color(0x0DFFFFFF));
+      Offset(cx, cy),
+      r,
+      Paint()
+        ..shader = const RadialGradient(
+          center: Alignment(-0.35, -0.4),
+          radius: 1.15,
+          colors: [
+            // Вода обязана остаться заметно темнее суши, иначе материки
+            // сливаются с океаном — на этом первый подход и споткнулся.
+            Color(0xFF0C1830), // ближе к свету
+            Color(0xFF070D18), // базовый цвет океана
+            Color(0xFF03060C), // у терминатора почти чёрный
+          ],
+          stops: [0.0, 0.5, 1.0],
+        ).createShader(Rect.fromCircle(center: Offset(cx, cy), radius: r)),
+    );
 
     // ограничиваем рисование диском глобуса
     canvas.save();
-    canvas.clipPath(Path()
-      ..addOval(Rect.fromCircle(center: Offset(cx, cy), radius: r)));
+    canvas.clipPath(
+        Path()..addOval(Rect.fromCircle(center: Offset(cx, cy), radius: r)));
 
     // проекция точки -> экран; возвращает null, если на обратной стороне
     Offset? project(double lonDeg, double latDeg) {
       final lon = lonDeg * math.pi / 180;
       final lat = latDeg * math.pi / 180;
-      final cosc =
-          sinLat0 * math.sin(lat) + cosLat0 * math.cos(lat) * math.cos(lon - lon0);
+      final cosc = sinLat0 * math.sin(lat) +
+          cosLat0 * math.cos(lat) * math.cos(lon - lon0);
       if (cosc < 0) return null; // обратная сторона
       final x = math.cos(lat) * math.sin(lon - lon0);
-      final y =
-          cosLat0 * math.sin(lat) - sinLat0 * math.cos(lat) * math.cos(lon - lon0);
+      final y = cosLat0 * math.sin(lat) -
+          sinLat0 * math.cos(lat) * math.cos(lon - lon0);
+      // При наезде на страну масштаб БОЛЬШЕ радиуса шара, поэтому точка у края
+      // видимой стороны уезжает за пределы диска. Материки это скрывал клип, а
+      // маркеры рисуются поверх него — и точки серверов «летали в небе» рядом
+      // с глобусом. Всё, что вышло за круг, просто не показываем.
+      if (x * x + y * y > (r / scale) * (r / scale)) return null;
       return Offset(cx + scale * x, cy - scale * y);
+    }
+
+    /// То же, но БЕЗ отбрасывания обратной стороны: точка за горизонтом
+    /// прижимается к краю диска по своему азимуту.
+    ///
+    /// Это нужно только для заливки материков. Раньше контур страны, попавшей
+    /// на линию горизонта, рвался на куски, и заливка замыкала каждый кусок
+    /// прямой хордой — поперёк страны шли треугольные клинья, а половина
+    /// России выглядела обрубленной по прямой. Прижимая скрытые точки к краю,
+    /// мы получаем непрерывный контур, который сам обрезается по кругу глобуса.
+    (Offset, bool) projectEdge(double lonDeg, double latDeg) {
+      final lon = lonDeg * math.pi / 180;
+      final lat = latDeg * math.pi / 180;
+      final cosc = sinLat0 * math.sin(lat) +
+          cosLat0 * math.cos(lat) * math.cos(lon - lon0);
+      final x = math.cos(lat) * math.sin(lon - lon0);
+      final y = cosLat0 * math.sin(lat) -
+          sinLat0 * math.cos(lat) * math.cos(lon - lon0);
+      if (cosc >= 0) return (Offset(cx + scale * x, cy - scale * y), true);
+      final n = math.sqrt(x * x + y * y);
+      if (n < 1e-9) return (Offset(cx + scale, cy), false);
+      return (Offset(cx + scale * x / n, cy - scale * y / n), false);
     }
 
     _drawGraticule(canvas, project);
@@ -385,21 +466,24 @@ class _GlobePainter extends CustomPainter {
         ..color = P.gold;
 
       // имена подсвечиваемых стран: выбранный сервер + вход (при мультихопе)
+      // Ищем страну по КОДУ, а не по подписи: подпись переводится на язык
+      // интерфейса и совпасть с именем в карте мира не обязана.
       final highlight = <String>{};
       for (final m in state.widget.markers) {
-        if (m.selected) highlight.add(_ru2world(m.label));
+        if (!m.selected) continue;
+        final n = Geo.worldName[m.code];
+        if (n != null) highlight.add(n);
       }
-      if (state.widget.relayLabel != null) {
-        highlight.add(_ru2world(state.widget.relayLabel!));
-      }
+      final relayName = Geo.worldName[state.widget.relayCode ?? ''];
+      if (relayName != null) highlight.add(relayName);
 
       for (final c in world.countries) {
         final isSel = highlight.contains(c.name);
         for (final ring in c.rings) {
-          final path = _ringPath(ring, project);
-          if (path == null) continue;
-          canvas.drawPath(path, isSel ? selFill : landFill);
-          canvas.drawPath(path, isSel ? selStroke : landStroke);
+          final shape = _ringShape(ring, projectEdge);
+          if (shape == null) continue;
+          canvas.drawPath(shape.fill, isSel ? selFill : landFill);
+          canvas.drawPath(shape.outline, isSel ? selStroke : landStroke);
         }
       }
     }
@@ -456,6 +540,31 @@ class _GlobePainter extends CustomPainter {
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 10),
     );
 
+    // 3) атмосферный ободок ИЗНУТРИ края — тонкая холодная полоска света там,
+    // где шар уходит за горизонт. Именно она читается как воздух вокруг
+    // планеты и сильнее всего добавляет ощущение объёма.
+    canvas.drawCircle(
+      Offset(cx, cy),
+      r - 0.75,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.5
+        ..shader = SweepGradient(
+          // Со стороны света ободок ярче, с теневой — почти гаснет.
+          startAngle: 0,
+          endAngle: math.pi * 2,
+          transform: const GradientRotation(math.pi * 0.75),
+          colors: [
+            const Color(0xFF8FB6FF).withValues(alpha: 0.34),
+            const Color(0xFF8FB6FF).withValues(alpha: 0.10),
+            const Color(0xFF8FB6FF).withValues(alpha: 0.03),
+            const Color(0xFF8FB6FF).withValues(alpha: 0.10),
+            const Color(0xFF8FB6FF).withValues(alpha: 0.34),
+          ],
+          stops: const [0.0, 0.25, 0.5, 0.75, 1.0],
+        ).createShader(Rect.fromCircle(center: Offset(cx, cy), radius: r)),
+    );
+
     canvas.restore(); // снимаем клип для маркеров/подписей (они поверх края ок)
 
     // маркеры серверов: НЕвыбранные — только аккуратные точки (без подписей,
@@ -487,7 +596,8 @@ class _GlobePainter extends CustomPainter {
               ..style = PaintingStyle.stroke
               ..strokeWidth = 1.6
               ..color = P.gold.withValues(alpha: (1 - pr) * 0.7));
-        canvas.drawCircle(p, 7, Paint()..color = P.gold.withValues(alpha: 0.22));
+        canvas.drawCircle(
+            p, 7, Paint()..color = P.gold.withValues(alpha: 0.22));
         canvas.drawCircle(p, 3.2, Paint()..color = P.gold);
         canvas.drawCircle(
             p,
@@ -503,7 +613,8 @@ class _GlobePainter extends CustomPainter {
       final p = project(from[0], from[1]);
       if (p != null) {
         canvas.drawCircle(p, 3, Paint()..color = const Color(0xCCFFFFFF));
-        _label(canvas, p, 'Россия', false);
+        final name = state.widget.packetFromLabel;
+        if (name.isNotEmpty) _label(canvas, p, name, false);
       }
     }
 
@@ -521,8 +632,8 @@ class _GlobePainter extends CustomPainter {
           final p = project(pos[0], pos[1]);
           if (p == null) continue;
           final a = (1 - tI / 5.0) * 0.9;
-          canvas.drawCircle(
-              p, 3.2 - tI * 0.5, Paint()..color = P.limeText.withValues(alpha: a));
+          canvas.drawCircle(p, 3.2 - tI * 0.5,
+              Paint()..color = P.limeText.withValues(alpha: a));
         }
       }
     }
@@ -549,7 +660,8 @@ class _GlobePainter extends CustomPainter {
   // Падающие звёзды — несколько каналов, красивый затухающий след с длинным
   // хвостом. Часть траекторий проходит через центр — и уходит ЗА глобус (сфера
   // рисуется поверх, звезда скрывается за Землёй).
-  void _drawShootingStars(Canvas canvas, Size size, double t) {
+  void _drawShootingStars(Canvas canvas, Size size, double t,
+      [bool busy = false]) {
     // период, фаза, startX, startY, длина(доля ширины), наклон(dy/dx)
     const channels = [
       [5.0, 0.0, 0.05, 0.06, 0.95, 0.55],
@@ -558,8 +670,11 @@ class _GlobePainter extends CustomPainter {
       [9.5, 1.2, 0.85, 0.30, 0.70, 0.50],
       [11.0, 6.0, 0.40, 0.55, 0.65, -0.45],
     ];
+    // Пока идёт замер, дорожки пролетают ЧАЩЕ: период сокращаем втрое.
+    // Больше ничего не меняется — эффект остаётся спокойным.
+    final speed = busy ? 3.0 : 1.0;
     for (final c in channels) {
-      final local = (t + c[1]) % c[0];
+      final local = (t * speed + c[1]) % c[0];
       if (local > 1.2) continue;
       final p = local / 1.2;
       final sx = size.width * c[2];
@@ -577,14 +692,17 @@ class _GlobePainter extends CustomPainter {
           ..shader = ui.Gradient.linear(
             Offset(tx, ty),
             Offset(hx, hy),
-            [Colors.white.withValues(alpha: 0), Colors.white.withValues(alpha: 0.9 * fade)],
+            [
+              Colors.white.withValues(alpha: 0),
+              Colors.white.withValues(alpha: 0.9 * fade)
+            ],
           )
           ..strokeWidth = 2.4
           ..strokeCap = StrokeCap.round
           ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 1.3),
       );
-      canvas.drawCircle(
-          Offset(hx, hy), 2.6, Paint()..color = Colors.white.withValues(alpha: fade));
+      canvas.drawCircle(Offset(hx, hy), 2.6,
+          Paint()..color = Colors.white.withValues(alpha: fade));
       canvas.drawCircle(
           Offset(hx, hy),
           6,
@@ -607,9 +725,12 @@ class _GlobePainter extends CustomPainter {
     }
   }
 
-  void _polyline(Canvas canvas, Paint paint,
+  void _polyline(
+      Canvas canvas,
+      Paint paint,
       Offset? Function(double, double) project,
-      List<double> Function(double) at, int steps) {
+      List<double> Function(double) at,
+      int steps) {
     Path? path;
     for (var i = 0; i <= steps; i++) {
       final ll = at(i / steps);
@@ -628,25 +749,44 @@ class _GlobePainter extends CustomPainter {
     if (path != null) canvas.drawPath(path, paint);
   }
 
-  Path? _ringPath(List<double> flat, Offset? Function(double, double) project) {
-    Path? path;
-    var started = false;
+  /// Страна на экране: заливка и линия границы — это РАЗНЫЕ пути.
+  ///
+  /// Заливка собирается целиком и замыкается: точки за горизонтом прижаты к
+  /// краю диска, поэтому форма получается правильной, а лишнее срезает клип.
+  /// Но обводить такой путь нельзя — линия пойдёт и по краю глобуса, и по
+  /// отрезкам между прижатыми точками. Из-за этого границы выглядели разной
+  /// толщины: у одних стран поверх настоящей границы ложилась ещё и линия по
+  /// краю диска. Поэтому обводим ТОЛЬКО участки, где обе точки реально видны.
+  ///
+  /// null — страна целиком на обратной стороне, рисовать нечего.
+  ({Path fill, Path outline})? _ringShape(
+      List<double> flat, (Offset, bool) Function(double, double) project) {
+    if (flat.length < 6) return null; // меньше трёх точек — не полигон
+    final fill = Path();
+    final outline = Path();
+    var anyVisible = false;
+    Offset? prev;
+    var prevVisible = false;
+
     for (var i = 0; i < flat.length; i += 2) {
-      final p = project(flat[i], flat[i + 1]);
-      if (p == null) {
-        // обрыв на горизонте — завершаем подпуть
-        started = false;
-        continue;
-      }
-      if (!started) {
-        path ??= Path();
-        path.moveTo(p.dx, p.dy);
-        started = true;
+      final (p, visible) = project(flat[i], flat[i + 1]);
+      if (visible) anyVisible = true;
+      if (i == 0) {
+        fill.moveTo(p.dx, p.dy);
       } else {
-        path!.lineTo(p.dx, p.dy);
+        fill.lineTo(p.dx, p.dy);
       }
+      if (visible && prevVisible && prev != null) {
+        outline
+          ..moveTo(prev.dx, prev.dy)
+          ..lineTo(p.dx, p.dy);
+      }
+      prev = p;
+      prevVisible = visible;
     }
-    return path;
+    if (!anyVisible) return null;
+    fill.close();
+    return (fill: fill, outline: outline);
   }
 
   void _drawArc(Canvas canvas, Offset? Function(double, double) project,
@@ -692,7 +832,11 @@ class _GlobePainter extends CustomPainter {
 
   List<double> _toVec(List<double> ll) {
     final lon = ll[0] * math.pi / 180, lat = ll[1] * math.pi / 180;
-    return [math.cos(lat) * math.cos(lon), math.cos(lat) * math.sin(lon), math.sin(lat)];
+    return [
+      math.cos(lat) * math.cos(lon),
+      math.cos(lat) * math.sin(lon),
+      math.sin(lat)
+    ];
   }
 
   void _label(Canvas canvas, Offset p, String text, bool selected) {
@@ -711,16 +855,6 @@ class _GlobePainter extends CustomPainter {
     )..layout();
     tp.paint(canvas, Offset(p.dx + 7, p.dy - tp.height / 2));
   }
-
-  static String _ru2world(String ru) => switch (ru) {
-        'Германия' => 'Germany',
-        'Нидерланды' => 'Netherlands',
-        'Финляндия' => 'Finland',
-        'Россия' => 'Russia',
-        'США' => 'United States of America',
-        'Великобритания' => 'United Kingdom',
-        _ => ru,
-      };
 
   @override
   bool shouldRepaint(covariant _GlobePainter old) => true;

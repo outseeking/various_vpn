@@ -34,6 +34,7 @@ bool _hasRuleTo(Map<String, dynamic> cfg, String tag,
 }
 
 void main() {
+  _muxSafetyTests();
   test('обход РФ: .ru и geoip:ru идут в direct (тумблер работает)', () {
     final cfg = _apply(const NetOptions(bypassRu: true, smartAi: false));
     // должен появиться direct-outbound
@@ -90,5 +91,54 @@ void main() {
     expect(_hasRuleTo(cfg, 'proxy', domainContains: 'domain:my-ai.example'), isTrue);
     expect(_hasRuleTo(cfg, 'direct', domainContains: 'domain:my-bank.ru'), isTrue);
     expect(_hasRuleTo(cfg, 'blocked', domainContains: 'domain:my-ads.example'), isTrue);
+  });
+}
+
+/// Мультиплексирование и поток XTLS Vision несовместимы: ядро молча
+/// обрывает соединения. Проверено на живом сервере — тот же конфиг без mux
+/// отдаёт 204, с mux не отдаёт ничего. Этот тест не даёт ошибке вернуться.
+void _muxSafetyTests() {
+  String cfgWith({required String flow}) => jsonEncode({
+        'outbounds': [
+          {
+            'tag': 'proxy',
+            'protocol': 'vless',
+            'settings': {
+              'vnext': [
+                {
+                  'address': '203.0.113.10',
+                  'port': 443,
+                  'users': [
+                    {'id': 'u', 'encryption': 'none', 'flow': flow}
+                  ],
+                }
+              ]
+            },
+            'streamSettings': {'network': 'tcp', 'security': 'reality'},
+          },
+        ],
+      });
+
+  bool muxEnabled(String out) {
+    final o = (jsonDecode(out)['outbounds'] as List).first as Map;
+    return (o['mux'] as Map?)?['enabled'] == true;
+  }
+
+  test('mux НЕ включается на сервере с flow=xtls-rprx-vision', () {
+    final out = applyNetOptions(
+        cfgWith(flow: 'xtls-rprx-vision'), const NetOptions(mux: true));
+    expect(muxEnabled(out), isFalse,
+        reason: 'это убивает туннель: connection closed, скачано ноль');
+  });
+
+  test('mux включается там, где потока XTLS нет', () {
+    final out = applyNetOptions(cfgWith(flow: ''), const NetOptions(mux: true));
+    expect(muxEnabled(out), isTrue);
+  });
+
+  test('без настройки mux не появляется вовсе', () {
+    final out =
+        applyNetOptions(cfgWith(flow: ''), const NetOptions(mux: false));
+    expect(muxEnabled(out), isFalse);
   });
 }

@@ -3,6 +3,8 @@
 /// перестраиваются при смене языка.
 library;
 
+import 'package:flutter/foundation.dart';
+
 class L {
   L._();
 
@@ -18,36 +20,115 @@ class L {
     return s;
   }
 
+  /// Дата словами на языке интерфейса: «14 августа 2026» / «August 14, 2026».
+  /// Живёт здесь, а не в экране: дату показывают в нескольких местах, и
+  /// выглядеть везде она обязана одинаково.
+  static String date(DateTime d) {
+    const ru = [
+      '',
+      'января',
+      'февраля',
+      'марта',
+      'апреля',
+      'мая',
+      'июня',
+      'июля',
+      'августа',
+      'сентября',
+      'октября',
+      'ноября',
+      'декабря'
+    ];
+    const en = [
+      '',
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ];
+    return current == 'en'
+        ? '${en[d.month]} ${d.day}, ${d.year}'
+        : '${d.day} ${ru[d.month]} ${d.year}';
+  }
+
+  /// Русское склонение существительного по числу (1 день / 2 дня / 5 дней).
+  /// EN: единственное при n==1, иначе множественное.
+  static String plural(int n,
+      {required String one,
+      required String few,
+      required String many,
+      String? enOne,
+      String? enMany}) {
+    if (current == 'en') return n == 1 ? (enOne ?? one) : (enMany ?? many);
+    final mod100 = n % 100;
+    final mod10 = n % 10;
+    if (mod100 >= 11 && mod100 <= 14) return many;
+    if (mod10 == 1) return one;
+    if (mod10 >= 2 && mod10 <= 4) return few;
+    return many;
+  }
+
+  /// Слово «день» в правильной форме для числа [n] (день/дня/дней · day/days).
+  static String days(int n) => plural(n,
+      one: 'день', few: 'дня', many: 'дней', enOne: 'day', enMany: 'days');
+
+  /// Весь словарь целиком — для проверок в тестах.
+  ///
+  /// Открыто наружу намеренно: полнота перевода проверяется автоматически, а
+  /// не глазами. Пропущенный английский вариант иначе всплывает уже у
+  /// пользователя.
+  @visibleForTesting
+  static Map<String, Map<String, String>> get debugAll => _d;
+
   static const Map<String, Map<String, String>> _d = {
     // --- онбординг ---
-    'ob1_title': {'ru': 'Умный авто-роутинг', 'en': 'Smart auto-routing'},
-    'ob1_body': {
-      'ru': 'Каждое приложение идёт через свою страну. ИИ сам выбирает лучший рабочий сервер по пингу.',
-      'en': 'Each app goes through its own country. AI picks the best working server by ping.'
-    },
-    'ob2_title': {'ru': 'Россия — напрямую', 'en': 'Russia — direct'},
-    'ob2_body': {
-      'ru': 'Банки, госуслуги и локальные сайты работают без VPN и без потери скорости. Туннель — только где нужно.',
-      'en': 'Banks, government and local sites work without VPN and without speed loss. Tunnel only where needed.'
-    },
-    'ob3_title': {'ru': 'Современные протоколы', 'en': 'Modern protocols'},
-    'ob3_body': {
-      'ru': 'VLESS, Reality и другие — быстро, стабильно и незаметно для блокировок. Видно, что и через какой сервер идёт.',
-      'en': 'VLESS, Reality and more — fast, stable and invisible to blocks. See what goes through which server.'
-    },
     'skip': {'ru': 'Пропустить', 'en': 'Skip'},
     'next': {'ru': 'Далее', 'en': 'Next'},
-    'start': {'ru': 'Начать', 'en': 'Start'},
+    // Последний слайд онбординга обещает конкретную выгоду, а не «Начать».
+    'ob_cta': {'ru': 'Забрать 3 дня', 'en': 'Claim 3 free days'},
+    // --- единый блок подключения (ConnectWays) ---
+    'cw_clip': {'ru': 'Войти как {id}', 'en': 'Sign in as {id}'},
+    'cw_or': {'ru': 'или', 'en': 'or'},
+    // Снятие возражений под главной кнопкой — только честные обещания.
+    'gs_risk_card': {'ru': 'Без карты', 'en': 'No card'},
+    'gs_risk_auto': {'ru': 'Без автосписаний', 'en': 'No auto-charges'},
+    'gs_risk_min': {'ru': 'Настройка — минута', 'en': 'Set up in a minute'},
+    'no_net_btn': {'ru': 'Нет интернета', 'en': 'No internet'},
+    // --- продление подписки (самая дешёвая конверсия) ---
+    'renew_cta': {'ru': 'Продлить подписку', 'en': 'Renew subscription'},
+    'renew_soon': {
+      'ru': 'Осталось {n} {d}. Продлишь сейчас — не отключим.',
+      'en': 'Only {n} {d} left. Renew now and stay connected.'
+    },
+    'renew_today': {
+      'ru': 'Заканчивается сегодня. Продли, чтобы не потерять доступ.',
+      'en': 'Expires today. Renew so you don\'t lose access.'
+    },
+    'renew_over': {
+      'ru':
+          'Подписка закончилась. Серия и настройки сохранены — продли и всё вернётся.',
+      'en':
+          'Your subscription ended. Streak and settings are saved — renew and it all comes back.'
+    },
+    'guide_later': {'ru': 'Позже, на главную', 'en': 'Later, go home'},
 
     // --- главный экран ---
     'protected': {'ru': 'Подключено', 'en': 'Connected'},
     'disconnected': {'ru': 'Отключено', 'en': 'Disconnected'},
     'connecting': {'ru': 'Подключение…', 'en': 'Connecting…'},
-    'ai_auto': {'ru': 'ИИ · авто', 'en': 'AI · auto'},
+    'ai_auto': {'ru': 'Авто', 'en': 'Auto'},
     'manual': {'ru': 'Ручной', 'en': 'Manual'},
     'mode_hint_ai': {
-      'ru': 'ИИ сам выбирает лучший сервер по пингу',
-      'en': 'AI picks the best server by ping'
+      'ru': 'Приложение само выберет самый быстрый сервер',
+      'en': 'The app picks the fastest server for you'
     },
     'mode_hint_manual': {
       'ru': 'Выбери сервер вручную — тапни по стране ниже',
@@ -57,30 +138,24 @@ class L {
     'servers': {'ru': 'Серверы', 'en': 'Servers'},
     'ping_btn': {'ru': 'Пинг', 'en': 'Ping'},
     'update_short': {'ru': 'Обновить', 'en': 'Update'},
-    'sub_actions_title': {'ru': 'Уже есть подписка?', 'en': 'Already subscribed?'},
+    'sub_actions_title': {
+      'ru': 'Уже есть подписка?',
+      'en': 'Already subscribed?'
+    },
     'sub_actions_sub': {
-      'ru': 'Вставь ссылку из бота или привяжи Telegram — доступ подтянется сам.',
-      'en': 'Paste the link from the bot or link Telegram — access loads automatically.'
+      'ru':
+          'Вставь ссылку из бота или привяжи Telegram — доступ подтянется сам.',
+      'en':
+          'Paste the link from the bot or link Telegram — access loads automatically.'
     },
-    'sub_actions_import': {'ru': 'Вставить ссылку', 'en': 'Paste link'},
-    'sub_actions_link_tg': {'ru': 'Привязать Telegram', 'en': 'Link Telegram'},
-    'acc_subscription': {'ru': 'Подписка (ссылка / импорт)', 'en': 'Subscription (link / import)'},
-    'acc_subscription_d': {'ru': 'Добавить или обновить подписку в приложении', 'en': 'Add or update your subscription in the app'},
     'ip_auto': {'ru': 'Авто', 'en': 'Auto'},
-    'lite_mode': {'ru': 'Режим экономии (слабые устройства)', 'en': 'Lite mode (weak devices)'},
-    'compact_servers': {'ru': 'Компактный список серверов', 'en': 'Compact server list'},
-    'compact_servers_d': {
-      'ru': 'Два сервера в ряд — только флаг и пинг. Удобно, когда серверов много.',
-      'en': 'Two servers per row — flag and ping only. Handy with many servers.'
-    },
-    'liquid_glass': {'ru': 'Liquid glass', 'en': 'Liquid glass'},
-    'liquid_glass_d': {
-      'ru': 'Эффект матового стекла на карточках. Можно отключить.',
-      'en': 'Frosted-glass effect on cards. Can be turned off.'
+    'lite_mode': {
+      'ru': 'Режим экономии (слабые устройства)',
+      'en': 'Lite mode (weak devices)'
     },
     'lite_mode_d': {
-      'ru': 'Убирает тяжёлые эффекты — свечение, падающие звёзды и блики. Приложение работает плавнее и меньше расходует батарею.',
-      'en': 'Removes heavy effects — glow, shooting stars and highlights. The app runs smoother and saves battery.'
+      'ru': 'Меньше эффектов — дольше держит батарея',
+      'en': 'Fewer effects — longer battery life'
     },
     'net_good': {'ru': 'Отличный интернет', 'en': 'Great connection'},
     'net_ok': {'ru': 'Нормальный интернет', 'en': 'Decent connection'},
@@ -93,9 +168,16 @@ class L {
     'st_running': {'ru': 'Идёт тест…', 'en': 'Testing…'},
     'imp_title': {'ru': 'Импорт подписки', 'en': 'Import subscription'},
     'imp_hint2': {
-      'ru': 'Вставь ссылку подписки из бота (начинается с https://) — или сам текст конфигов (vless://…, base64-подписку).',
-      'en': 'Paste the subscription link from the bot (starts with https://) — or the config text itself (vless://…, base64 subscription).'
+      'ru':
+          'Подойдёт ID из бота, ссылка на подписку или сами настройки серверов. Можно добавить и подписку другого сервиса — приложение будет работать с её серверами.',
+      'en':
+          'An ID from the bot, a subscription link or the configs themselves all work. You can also add another service\'s subscription — the app will use its servers.'
     },
+    'imp_field_hint': {
+      'ru': 'ID, ссылка или vless://…',
+      'en': 'ID, link or vless://…'
+    },
+    'imp_fail': {'ru': 'Не удалось добавить', 'en': 'Could not add'},
     'imp_btn': {'ru': 'Импортировать', 'en': 'Import'},
     'imp_qr': {'ru': 'Добавить по QR-коду', 'en': 'Add by QR code'},
     'imp_paste': {'ru': 'Добавить из буфера', 'en': 'Paste from clipboard'},
@@ -104,41 +186,100 @@ class L {
       'ru': 'Ещё нет подписки? Возьми её в нашем Telegram-боте:',
       'en': 'No subscription yet? Get one in our Telegram bot:'
     },
-    'imp_get_in_bot': {'ru': 'Взять подписку в боте', 'en': 'Get subscription in the bot'},
+    'imp_get_in_bot': {
+      'ru': 'Взять подписку в боте',
+      'en': 'Get subscription in the bot'
+    },
     'imp_ok': {'ru': 'Импортировано серверов', 'en': 'Servers imported'},
     'sup_title': {'ru': 'Поддержка', 'en': 'Support'},
     'sup_hint': {'ru': 'Сообщение…', 'en': 'Message…'},
-    'sup_empty': {
-      'ru': 'Напиши нам прямо здесь — ответим в приложении.\nИли нажми значок Telegram вверху, чтобы написать в чат.',
-      'en': 'Write to us right here — we\'ll reply in the app.\nOr tap the Telegram icon above to chat there.'
+    'sup_attach': {
+      'ru': 'Прикрепить файл или фото',
+      'en': 'Attach a file or photo'
     },
-    'sup_attach': {'ru': 'Прикрепить файл или фото', 'en': 'Attach a file or photo'},
     'logs_title2': {'ru': 'Логи', 'en': 'Logs'},
     'guide_title': {'ru': 'Как подключиться', 'en': 'How to connect'},
+    // баннер «нет интернета»
+    // --- экран входа: приоритет входу по ID ---
+    'gs_id_title': {
+      'ru': 'Уже есть подписка? Войди по ID',
+      'en': 'Already subscribed? Sign in with ID'
+    },
+    'gs_id_hint': {
+      'ru': 'ID из бота',
+      'en': 'ID from the bot — e.g. 1658245753'
+    },
+    'gs_id_help': {
+      'ru': 'ID показан в боте под приветствием.',
+      'en': 'Your ID is shown in the bot under the greeting.'
+    },
+    'gs_id_go': {'ru': 'Войти', 'en': 'Sign in'},
+    'gs_id_paste': {'ru': 'Вставить', 'en': 'Paste'},
+    'gs_id_empty': {
+      'ru': 'Введи свой ID из бота',
+      'en': 'Enter your ID from the bot'
+    },
+    'gs_from_price': {'ru': 'от {p} ₽', 'en': 'from {p} ₽'},
+    // текст постоянного уведомления VPN в бесплатном режиме
+    'notif_free': {
+      'ru': '🆓 Бесплатный режим · работает только Telegram',
+      'en': '🆓 Free mode · Telegram only'
+    },
+    'gs_plans': {'ru': 'Тарифы и оплата', 'en': 'Plans & payment'},
+    'gs_trial_d': {
+      'ru': 'Без карты, за минуту',
+      'en': 'No card, takes a minute'
+    },
+    'gs_way_link': {'ru': 'По ссылке', 'en': 'By link'},
+    'gs_way_qr': {'ru': 'По QR-коду', 'en': 'By QR code'},
+    'wdg_no_server': {'ru': 'Сервер не выбран', 'en': 'No server selected'},
+    'wdg_auto_tg': {'ru': 'Авто · Telegram', 'en': 'Auto · Telegram'},
+    'no_net_title': {
+      'ru': 'Нет подключения к интернету',
+      'en': 'No internet connection'
+    },
+    'no_net_body': {
+      'ru':
+          'VPN не заработает без сети. Включи Wi-Fi или мобильный интернет — и возвращайся.',
+      'en':
+          'VPN won\'t work without a network. Turn on Wi-Fi or mobile data and come back.'
+    },
     // мультихоп
-    'mh_routes_title': {'ru': 'Готовые маршруты (настоящий двойной хоп)', 'en': 'Ready routes (real double hop)'},
-    'mh_connecting': {'ru': 'Подключаю двойной VPN', 'en': 'Connecting Double VPN'},
-    'mh_or_single': {'ru': 'Или выбери страну выхода (одиночный туннель)', 'en': 'Or pick an exit country (single tunnel)'},
-    'mh_dvpn': {'ru': 'Двойной VPN', 'en': 'Double VPN'},
     // QR
-    'qr_added': {'ru': '✅ Подписка добавлена, серверов', 'en': '✅ Subscription added, servers'},
-    'qr_fail': {'ru': 'Не удалось распознать подписку', 'en': 'Could not read the subscription'},
+    'qr_added': {
+      'ru': '✅ Подписка добавлена, серверов',
+      'en': '✅ Subscription added, servers'
+    },
+    'qr_fail': {
+      'ru': 'Не удалось распознать подписку',
+      'en': 'Could not read the subscription'
+    },
     'qr_title': {'ru': 'Добавить по QR', 'en': 'Add by QR'},
-    'qr_hint': {'ru': 'Наведи камеру на QR-код подписки из нашего бота — подключение добавится автоматически.', 'en': 'Point the camera at the subscription QR from our bot — it will be added automatically.'},
+    'qr_hint': {
+      'ru':
+          'Наведи камеру на QR-код подписки из нашего бота — подключение добавится автоматически.',
+      'en':
+          'Point the camera at the subscription QR from our bot — it will be added automatically.'
+    },
     // серверы
     'srv_ping_all': {'ru': 'Пинговать все', 'en': 'Ping all'},
-    'srv_none': {'ru': 'Нет серверов — импортируй подписку', 'en': 'No servers — import a subscription'},
-    'srv_search': {'ru': 'Поиск страны или сервера', 'en': 'Search country or server'},
-    'srv_sort': {'ru': 'Сортировка', 'en': 'Sort'},
-    'srv_sort_ping': {'ru': 'Пинг', 'en': 'Ping'},
-    'srv_sort_country': {'ru': 'Страна', 'en': 'Country'},
-    'srv_sort_fav': {'ru': 'Избранное', 'en': 'Favorites'},
+    'srv_none': {
+      'ru': 'Нет серверов — импортируй подписку',
+      'en': 'No servers — import a subscription'
+    },
+    'srv_search': {
+      'ru': 'Поиск страны или сервера',
+      'en': 'Search country or server'
+    },
     // статистика
     'st_total_down': {'ru': 'Всего скачано', 'en': 'Total downloaded'},
     'st_total_up': {'ru': 'Всего отдано', 'en': 'Total uploaded'},
     'st_last7': {'ru': 'За последние 7 дней', 'en': 'Last 7 days'},
     'st_fav': {'ru': 'Любимые страны', 'en': 'Favorite countries'},
-    'st_nodata': {'ru': 'Пока нет данных — подключись, и здесь появится статистика.', 'en': 'No data yet — connect and stats will appear here.'},
+    'st_nodata': {
+      'ru': 'Пока нет данных — подключись, и здесь появится статистика.',
+      'en': 'No data yet — connect and stats will appear here.'
+    },
     'st_servers_n': {'ru': '{n} сервер(ов)', 'en': '{n} server(s)'},
     'st_country_total': {'ru': 'Всего по стране', 'en': 'Country total'},
     'st_by_server': {'ru': 'По серверам', 'en': 'By server'},
@@ -148,99 +289,144 @@ class L {
     'unit_gb': {'ru': 'ГБ', 'en': 'GB'},
     // логи
     'clear': {'ru': 'Очистить', 'en': 'Clear'},
-    'logs_empty': {'ru': 'Пока пусто — события появятся здесь', 'en': 'Empty — events will appear here'},
-    'id_copied': {'ru': 'ID скопирован', 'en': 'ID copied'},
+    'logs_empty': {
+      'ru': 'Пока пусто — события появятся здесь',
+      'en': 'Empty — events will appear here'
+    },
     // гайд подключения
     'guide_free_on': {
-      'ru': 'Включаем бесплатный VPN для Telegram… Работать будет только Telegram.',
-      'en': 'Enabling free VPN for Telegram… Only Telegram will work.'
+      'ru': 'Включаем бесплатный VPN для Telegram…',
+      'en': 'Enabling free VPN for Telegram…'
     },
     'guide_free_connected': {
-      'ru': 'VPN подключён! Работает только Telegram, остальное — без интернета до подписки.',
-      'en': 'VPN connected! Only Telegram works; everything else has no internet until you subscribe.'
+      'ru':
+          'VPN подключён! Работает только Telegram, остальное — без интернета до подписки.',
+      'en':
+          'VPN connected! Only Telegram works; everything else has no internet until you subscribe.'
     },
     'guide_next': {'ru': 'Что дальше', 'en': "What's next"},
     'guide_s1_t': {'ru': 'Разреши VPN-профиль', 'en': 'Allow the VPN profile'},
     'guide_s1_b': {
-      'ru': 'При первом включении система спросит разрешение на VPN — нажми «Разрешить». Это нужно, чтобы трафик шёл через туннель.',
-      'en': 'On first launch the system asks for VPN permission — tap "Allow". This lets traffic go through the tunnel.'
+      'ru': 'Нажми «ОК» в окне запроса — без этого VPN не запустится',
+      'en': 'Tap OK in the request dialog — the VPN cannot start without it'
     },
-    'guide_s2_t': {'ru': 'Сейчас работает только Telegram', 'en': 'Only Telegram works for now'},
+    'guide_s2_t': {
+      'ru': 'Сейчас работает только Telegram',
+      'en': 'Only Telegram works for now'
+    },
     'guide_s2_b': {
-      'ru': 'В бесплатном режиме работает только Telegram — он идёт через VPN даже при блокировках. Остальные приложения и сайты пока без интернета: полный доступ откроется с подпиской.',
-      'en': 'In free mode only Telegram works — it goes through the VPN even under blocks. Other apps and sites have no internet yet: full access comes with a subscription.'
+      'ru': 'Telegram работает через VPN бесплатно и без ограничений по времени',
+      'en': 'Telegram works through the VPN free, with no time limit'
     },
     'guide_sub_active': {
-      'ru': 'Подписка активна! VPN работает для всех приложений — с авто-выбором лучшего сервера.',
-      'en': 'Subscription active! The VPN works for all apps — with auto best-server selection.'
+      'ru':
+          'Подписка активна! VPN работает для всех приложений — с авто-выбором лучшего сервера.',
+      'en':
+          'Subscription active! The VPN works for all apps — with auto best-server selection.'
     },
-    'guide_sub_s2_t': {'ru': 'Работает весь интернет', 'en': 'The whole internet works'},
+    'guide_sub_s2_t': {
+      'ru': 'Работает весь интернет',
+      'en': 'The whole internet works'
+    },
     'guide_sub_s2_b': {
-      'ru': 'Через VPN идут все приложения и сайты. Российские сервисы можно пускать напрямую в Настройках → Обход РФ.',
-      'en': 'All apps and sites go through the VPN. Local services can bypass it in Settings → RU bypass.'
+      'ru':
+          'Через VPN идут все приложения и сайты. Российские сервисы можно пускать напрямую в Настройках → Обход РФ.',
+      'en':
+          'All apps and sites go through the VPN. Local services can bypass it in Settings → RU bypass.'
     },
     'guide_sub_s3_t': {'ru': 'Настрой под себя', 'en': 'Make it yours'},
     'guide_sub_s3_b': {
-      'ru': 'В Настройках: авто-подключение, per-app правила, умный доступ к ИИ, свои серверы и многое другое.',
-      'en': 'In Settings: auto-connect, per-app rules, smart AI access, your own servers and more.'
+      'ru':
+          'В Настройках: авто-подключение, per-app правила, умный доступ к ИИ, свои серверы и многое другое.',
+      'en':
+          'In Settings: auto-connect, per-app rules, smart AI access, your own servers and more.'
     },
-    'guide_link_tg': {'ru': 'Привязать по Telegram ID', 'en': 'Link by Telegram ID'},
-    'guide_s3_t': {'ru': 'Хочешь весь интернет?', 'en': 'Want the whole internet?'},
+    'guide_s3_t': {
+      'ru': 'Открой всё остальное',
+      'en': 'Open everything else'
+    },
     'guide_s3_b': {
-      'ru': 'Возьми подписку в нашем Telegram-боте и вставь ссылку — тогда VPN заработает для всех приложений с авто-выбором лучшего сервера.',
-      'en': 'Get a subscription in our Telegram bot and paste the link — then the VPN works for all apps with auto-selection of the best server.'
+      'ru': 'Подписка в боте — без карты, за минуту. Весь интернет откроется сразу',
+      'en': 'Subscribe in the bot — no card, takes a minute. The whole internet opens at once'
     },
-    'guide_open_bot': {'ru': 'Открыть бота и взять подписку', 'en': 'Open the bot and get a subscription'},
-    'guide_have_link': {'ru': 'У меня есть ссылка подписки', 'en': 'I have a subscription link'},
+    'guide_open_bot': {
+      'ru': 'Открыть бота и забрать 3 дня',
+      'en': 'Open the bot and grab 3 days'
+    },
     'guide_ok_home': {'ru': 'На главную', 'en': 'Go to home'},
-    'splash_tagline': {'ru': 'Умный VPN с авто-роутингом', 'en': 'Smart VPN with auto-routing'},
+    'splash_tagline': {
+      'ru': 'Быстрый VPN, который просто работает',
+      'en': 'A fast VPN that just works'
+    },
     'wdg_connect': {'ru': 'Подключить', 'en': 'Connect'},
     'wdg_disconnect': {'ru': 'Отключить', 'en': 'Disconnect'},
     // экран «начало работы» (после онбординга / для новичка)
-    'gs_tagline': {'ru': 'Быстрый VPN без блокировок — сайты и приложения снова работают', 'en': 'A fast VPN without blocks — your sites and apps work again'},
-    'gs_badge_ru': {'ru': 'ИИ подбирает сервер', 'en': 'AI picks your server'},
+    'gs_tagline': {
+      'ru': 'Быстрый VPN без блокировок — сайты и приложения снова работают',
+      'en': 'A fast VPN without blocks — your sites and apps work again'
+    },
+    'gs_badge_ru': {'ru': 'Сервер подбирается сам', 'en': 'Server picked for you'},
     'gs_badge_dev': {'ru': 'До 3 устройств', 'en': 'Up to 3 devices'},
     'gs_badge_nolog': {'ru': 'Без логов', 'en': 'No logs'},
-    'gs_get_sub': {'ru': 'Попробовать 3 дня бесплатно', 'en': 'Try 3 days free'},
-    'gs_get_sub_d': {'ru': 'Полный доступ ко всем сайтам и приложениям. Настройка за минуту в Telegram.', 'en': 'Full access to every site and app. Set up in a minute via Telegram.'},
-    'gs_free': {'ru': 'Бесплатно для Telegram', 'en': 'Free for Telegram'},
-    'gs_free_d': {'ru': 'Telegram заработает прямо сейчас — без регистрации и оплаты.', 'en': 'Telegram works right now — no signup, no payment.'},
-    'gs_have_link': {'ru': 'У меня есть ссылка или ID', 'en': 'I have a link or ID'},
-    'gs_have_link_d': {'ru': 'Вставь ссылку подписки или ID из бота.', 'en': 'Paste your subscription link or ID from the bot.'},
-    'gs_no_tg': {'ru': 'Нет Telegram? Бот откроется в браузере — подписка придёт ссылкой.', 'en': 'No Telegram? The bot opens in a browser — the subscription arrives as a link.'},
-    'gs_step': {'ru': 'Шаг {n}', 'en': 'Step {n}'},
-    'gs_bot_manual': {'ru': 'Открой бота вручную: @variousvpnbot', 'en': 'Open the bot manually: @variousvpnbot'},
+    'gs_get_sub': {
+      'ru': 'Попробовать 3 дня бесплатно',
+      'en': 'Try 3 days free'
+    },
     // премиальная кнопка-CTA к боту после включения бесплатного режима
-    'guide_get_full': {'ru': 'Получить полный VPN', 'en': 'Get the full VPN'},
     // авто-VPN в незнакомых сетях
-    'awifi_nav': {'ru': 'Авто-VPN на чужом Wi-Fi', 'en': 'Auto-VPN on public Wi-Fi'},
-    'awifi_nav_d': {'ru': 'Включать защиту в незнакомых сетях', 'en': 'Protect on unknown networks'},
-    'awifi_title': {'ru': 'Авто-VPN на чужом Wi-Fi', 'en': 'Auto-VPN on public Wi-Fi'},
-    'awifi_enable': {'ru': 'Включать VPN в незнакомых сетях', 'en': 'Turn on VPN in unknown networks'},
+    'awifi_title': {
+      'ru': 'Авто-VPN на чужом Wi-Fi',
+      'en': 'Auto-VPN on public Wi-Fi'
+    },
+    'awifi_enable': {
+      'ru': 'Включать VPN в незнакомых сетях',
+      'en': 'Turn on VPN in unknown networks'
+    },
     'awifi_enable_d': {
-      'ru': 'Как только подключаешься к Wi-Fi, которого нет в списке доверенных, — VPN поднимается сам. Дома и на работе (доверенные сети) не мешает.',
-      'en': 'As soon as you join a Wi-Fi that is not in your trusted list, the VPN turns on by itself. At home or work (trusted networks) it stays out of the way.'
+      'ru':
+          'Как только подключаешься к Wi-Fi, которого нет в списке доверенных, — VPN поднимается сам. Дома и на работе (доверенные сети) не мешает.',
+      'en':
+          'As soon as you join a Wi-Fi that is not in your trusted list, the VPN turns on by itself. At home or work (trusted networks) it stays out of the way.'
     },
     'awifi_trusted': {'ru': 'Доверенные сети', 'en': 'Trusted networks'},
     'awifi_trusted_d': {
       'ru': 'В этих Wi-Fi VPN не включается автоматически.',
       'en': 'The VPN will not auto-connect on these Wi-Fi networks.'
     },
-    'awifi_add_current': {'ru': 'Добавить текущую сеть', 'en': 'Add current network'},
-    'awifi_none': {'ru': 'Пока нет доверенных сетей', 'en': 'No trusted networks yet'},
-    'awifi_no_ssid': {'ru': 'Не удалось определить Wi-Fi (нужен доступ к геолокации и активный Wi-Fi)', 'en': 'Could not detect Wi-Fi (needs location access and active Wi-Fi)'},
-    'awifi_added': {'ru': 'Сеть добавлена в доверенные', 'en': 'Network added to trusted'},
-    'awifi_perm': {'ru': 'Нужен доступ к геолокации — Android требует его, чтобы приложение видело имя Wi-Fi. Разреши в настройках.', 'en': 'Location access is required — Android needs it for the app to see the Wi-Fi name. Allow it in settings.'},
+    'awifi_add_current': {
+      'ru': 'Добавить текущую сеть',
+      'en': 'Add current network'
+    },
+    'awifi_none': {
+      'ru': 'Пока нет доверенных сетей',
+      'en': 'No trusted networks yet'
+    },
+    'awifi_no_ssid': {
+      'ru':
+          'Не удалось определить Wi-Fi (нужен доступ к геолокации и активный Wi-Fi)',
+      'en': 'Could not detect Wi-Fi (needs location access and active Wi-Fi)'
+    },
+    'awifi_perm': {
+      'ru':
+          'Нужен доступ к геолокации — Android требует его, чтобы приложение видело имя Wi-Fi. Разреши в настройках.',
+      'en':
+          'Location access is required — Android needs it for the app to see the Wi-Fi name. Allow it in settings.'
+    },
     'awifi_how_t': {'ru': 'Как это работает', 'en': 'How it works'},
     'awifi_how': {
-      'ru': '• В незнакомой Wi-Fi (кафе, отель, аэропорт) VPN включается сам — именно там выше риск слежки и перехвата.\n• В доверенных сетях (дом, работа) VPN не навязывается — добавь их кнопкой ниже.\n\nЧто должно быть включено:\n• Доступ к геолокации для приложения — Android отдаёт имя Wi-Fi только с ним (само местоположение мы не используем и никуда не отправляем, это требование системы).\n• Включённая геолокация (GPS) в шторке — без неё система тоже скрывает имя сети.\n\nЕсли доступа или GPS нет — авто-режим просто не сработает, ничего не сломается.',
-      'en': '• On an unknown Wi-Fi (café, hotel, airport) the VPN turns on by itself — that is exactly where snooping risk is highest.\n• On trusted networks (home, work) the VPN is not forced — add them with the button below.\n\nWhat must be enabled:\n• Location access for the app — Android only reveals the Wi-Fi name with it (we do not use or send your location anywhere; it is a system requirement).\n• Location (GPS) turned on in quick settings — without it the system also hides the network name.\n\nIf access or GPS is off, the auto mode simply won\'t trigger — nothing breaks.'
+      'ru':
+          '• В незнакомой Wi-Fi (кафе, отель, аэропорт) VPN включается сам — именно там выше риск слежки и перехвата.\n• В доверенных сетях (дом, работа) VPN не навязывается — добавь их кнопкой ниже.\n\nЧто должно быть включено:\n• Доступ к геолокации для приложения — Android отдаёт имя Wi-Fi только с ним (само местоположение мы не используем и никуда не отправляем, это требование системы).\n• Включённая геолокация (GPS) в шторке — без неё система тоже скрывает имя сети.\n\nЕсли доступа или GPS нет — авто-режим просто не сработает, ничего не сломается.',
+      'en':
+          '• On an unknown Wi-Fi (café, hotel, airport) the VPN turns on by itself — that is exactly where snooping risk is highest.\n• On trusted networks (home, work) the VPN is not forced — add them with the button below.\n\nWhat must be enabled:\n• Location access for the app — Android only reveals the Wi-Fi name with it (we do not use or send your location anywhere; it is a system requirement).\n• Location (GPS) turned on in quick settings — without it the system also hides the network name.\n\nIf access or GPS is off, the auto mode simply won\'t trigger — nothing breaks.'
     },
     'streak_day_short': {'ru': 'дн', 'en': 'd'},
     'error': {'ru': 'Ошибка', 'en': 'Error'},
     'no_server': {'ru': 'Нет сервера', 'en': 'No server'},
     'free_tg': {'ru': 'Бесплатно · Telegram', 'en': 'Free · Telegram'},
-    'free_tg_sub': {'ru': 'Только трафик Telegram', 'en': 'Telegram traffic only'},
+    'free_tg_sub': {
+      'ru': 'Только трафик Telegram',
+      'en': 'Telegram traffic only'
+    },
     'free_rules_banner': {
       'ru': 'Бесплатный режим: VPN работает только для Telegram.',
       'en': 'Free mode: VPN works for Telegram only.'
@@ -249,124 +435,489 @@ class L {
       'ru': 'Зафиксировано на Telegram (бесплатный режим)',
       'en': 'Locked to Telegram (free mode)'
     },
-    'free_locked_title': {
-      'ru': 'Нужна подписка',
-      'en': 'Subscription required'
-    },
-    'free_locked_body': {
-      'ru': 'В бесплатном режиме VPN работает только для Telegram. Чтобы настраивать правила для всех приложений и сайтов, оформи подписку в нашем боте.',
-      'en': 'In free mode the VPN works for Telegram only. To set rules for all apps and sites, get a subscription in our bot.'
-    },
     'free_locked_buy': {'ru': 'Купить подписку', 'en': 'Get subscription'},
-    'free_connected': {'ru': 'Подключено · только Telegram', 'en': 'Connected · Telegram only'},
+    'free_connected': {
+      'ru': 'Подключено · только Telegram',
+      'en': 'Connected · Telegram only'
+    },
     'free_off': {'ru': 'Не подключено', 'en': 'Not connected'},
     'free_only_tg': {'ru': 'Только Telegram', 'en': 'Telegram only'},
     'free_server_label': {'ru': 'Сервер', 'en': 'Server'},
-    'free_buy_full': {'ru': 'Хочу полный доступ →', 'en': 'I want full access →'},
-    'act_title': {'ru': 'Включить полный доступ', 'en': 'Get full access'},
-    'act_sub': {'ru': 'Все сайты и приложения на скорости. Выбери, как подключить:', 'en': 'All sites and apps at full speed. Pick how to connect:'},
-    'act_get_bot': {'ru': 'Оформить подписку', 'en': 'Get a subscription'},
-    'act_get_bot_d': {'ru': 'Быстро и просто в нашем Telegram-боте', 'en': 'Fast and easy in our Telegram bot'},
-    'act_link_tg': {'ru': 'Войти через Telegram', 'en': 'Sign in with Telegram'},
-    'act_link_tg_d': {'ru': 'Подписка подтянется сама', 'en': 'Your subscription loads automatically'},
-    'act_link': {'ru': 'Вставить ссылку или ID', 'en': 'Paste link or ID'},
-    'act_link_d': {'ru': 'Из бота — ссылка или твой ID', 'en': 'From the bot — a link or your ID'},
-    'act_qr': {'ru': 'Сканировать QR-код', 'en': 'Scan QR code'},
-    'act_qr_d': {'ru': 'Наведи камеру на код из бота', 'en': 'Point the camera at the code from the bot'},
-    'act_paste': {'ru': 'Вставить из буфера', 'en': 'Paste from clipboard'},
-    'act_paste_d': {'ru': 'Уже скопировал ссылку или ID? Вставим сами', 'en': 'Copied a link or ID? We’ll paste it'},
-    'act_paste_empty': {'ru': 'Буфер пуст — скопируй ссылку или ID', 'en': 'Clipboard is empty — copy a link or ID'},
-    'act_paste_ok': {'ru': 'Готово! Доступ подключается…', 'en': 'Done! Connecting your access…'},
-    'free_auto_title': {'ru': 'Авто · Telegram', 'en': 'Auto · Telegram'},
-    'free_auto_sub': {'ru': 'Сам подбирает рабочий сервер', 'en': 'Auto-picks a working server'},
-    'import_hint': {'ru': 'Импортируй подписку', 'en': 'Import subscription'},
-    'no_servers': {'ru': 'Нет серверов', 'en': 'No servers'},
-    'no_servers_sub': {
-      'ru': 'Импортируй подписку из бота',
-      'en': 'Import a subscription from the bot'
+    'free_buy_full': {
+      'ru': 'Хочу полный доступ →',
+      'en': 'I want full access →'
     },
-    'traffic_via': {'ru': 'Трафик идёт через VPN', 'en': 'Traffic goes via VPN'},
+    'act_title': {'ru': 'Включить полный доступ', 'en': 'Get full access'},
+    'act_sub': {
+      'ru': 'Все сайты и приложения на скорости. Выбери, как подключить:',
+      'en': 'All sites and apps at full speed. Pick how to connect:'
+    },
+    'act_get_bot': {'ru': 'Оформить подписку', 'en': 'Get a subscription'},
+    'act_get_bot_d': {
+      'ru': 'Быстро и просто в нашем Telegram-боте',
+      'en': 'Fast and easy in our Telegram bot'
+    },
+    'free_auto_title': {'ru': 'Авто · Telegram', 'en': 'Auto · Telegram'},
+    'free_auto_sub': {
+      'ru': 'Сам подбирает рабочий сервер',
+      'en': 'Auto-picks a working server'
+    },
+    'import_hint': {'ru': 'Импортируй подписку', 'en': 'Import subscription'},
+    'traffic_via': {
+      'ru': 'Трафик идёт через VPN',
+      'en': 'Traffic goes via VPN'
+    },
 
     // --- сессия ---
     'time': {'ru': 'Время', 'en': 'Time'},
     'downloaded': {'ru': 'Скачано', 'en': 'Downloaded'},
     'uploaded': {'ru': 'Отдано', 'en': 'Uploaded'},
-    'received': {'ru': 'Приём', 'en': 'Down'},
-    'sent': {'ru': 'Отдача', 'en': 'Up'},
 
     // --- настройки ---
     'settings': {'ru': 'Настройки', 'en': 'Settings'},
     'sec_account': {'ru': 'Аккаунт', 'en': 'Account'},
     'sec_connection': {'ru': 'Подключение', 'en': 'Connection'},
+    // --- новая структура настроек (два уровня) ---
+    'sec_vpn': {'ru': 'Настройки VPN', 'en': 'VPN settings'},
+    'sec_connection_d': {
+      'ru': 'Когда включаться, что делать при обрыве',
+      'en': 'When to connect, what to do on drop'
+    },
+    'sec_tunnel': {'ru': 'Туннель', 'en': 'Tunnel'},
+    'sec_tunnel_d': {
+      'ru': 'Что идёт через VPN, а что напрямую',
+      'en': 'What goes through the VPN and what doesn\'t'
+    },
+    'sec_tools': {'ru': 'Инструменты', 'en': 'Tools'},
+    'sec_help': {'ru': 'Помощь', 'en': 'Help'},
+    'conn_grp_start': {'ru': 'Включение', 'en': 'Turning on'},
+    'conn_grp_safety': {'ru': 'Защита', 'en': 'Protection'},
+    'tun_grp_routing': {'ru': 'Маршруты', 'en': 'Routing'},
+    'tun_grp_net': {'ru': 'Сеть', 'en': 'Network'},
+    'tun_grp_speed': {'ru': 'Скорость и доступ', 'en': 'Speed & access'},
+    'mux': {'ru': 'Ускорение загрузки', 'en': 'Faster page loads'},
+    'mux_d': {
+      'ru': 'Сайты открываются быстрее. Для больших загрузок лучше выключить',
+      'en': 'Pages open faster. Better off for large downloads'
+    },
+    'lan_direct': {
+      'ru': 'Домашняя сеть напрямую',
+      'en': 'Local network direct'
+    },
+    'lan_direct_d': {
+      'ru': 'Принтер, телевизор и роутер остаются доступны',
+      'en': 'Printer, TV and router stay reachable'
+    },
+    'tun_grp_own': {'ru': 'Свои серверы', 'en': 'Your own servers'},
+    'ping_label_d': {
+      'ru': 'Как замеряем скорость отклика серверов',
+      'en': 'How we measure server response'
+    },
+    'logs_d': {
+      'ru': 'Что и через какой сервер идёт прямо сейчас',
+      'en': 'What goes through which server right now'
+    },
+    // --- мои подписки ---
+    'subs_title': {'ru': 'Мои подписки', 'en': 'My subscriptions'},
+    'subs_owner': {'ru': 'Оформлена на', 'en': 'Registered to'},
+    'subs_until_label': {'ru': 'Действует до', 'en': 'Valid until'},
+    'subs_ours': {'ru': 'Various VPN', 'en': 'Various VPN'},
+    'subs_none': {'ru': 'Подписки нет', 'en': 'No subscription'},
+    'subs_own_active': {'ru': 'Своя подписка', 'en': 'Your own subscription'},
+    'subs_ours_off': {
+      'ru':
+          'Наши серверы закрыты. Оформи подписку — откроются все страны и настройки.',
+      'en':
+          'Our servers are locked. Get a subscription to unlock every country and setting.'
+    },
+    'subs_foreign': {'ru': 'Подписки других сервисов', 'en': 'Other services'},
+    'subs_servers': {'ru': '{n} серверов', 'en': '{n} servers'},
+    'subs_tap_remove': {
+      'ru': 'Нажми на подписку, чтобы убрать её.',
+      'en': 'Tap a subscription to remove it.'
+    },
+    'subs_refresh': {'ru': 'Обновить серверы', 'en': 'Refresh servers'},
+    'nosub_title': {
+      'ru': 'Нужна подписка',
+      'en': 'Subscription needed'
+    },
+    'nosub_body': {
+      'ru': 'Этот ID мы знаем, но активной подписки на нём нет. '
+          'Оформи или продли её в боте — доступ откроется сразу, '
+          'вводить ID заново не придётся.',
+      'en': 'We know this ID, but it has no active subscription. Get or '
+          'renew it in the bot — access opens right away, no need to '
+          'enter the ID again.'
+    },
+    'nosub_cta': {
+      'ru': 'Тарифы и оплата',
+      'en': 'Plans and payment'
+    },
+    'later': {'ru': 'Позже', 'en': 'Later'},
+    'id_no_sub': {
+      'ru': 'По этому ID подписка не найдена или закончилась. Проверь ID — он '
+          'показан в боте — или оформи подписку.',
+      'en': 'No active subscription for this ID. Check the ID shown in the bot, '
+          'or get a subscription.'
+    },
+    'id_no_server': {
+      'ru': 'Наш сервер сейчас не отвечает — проверить подписку не удалось. '
+          'Это не значит, что с ней что-то не так. Попробуй через несколько '
+          'минут или добавь подписку ссылкой.',
+      'en': 'Our server is not responding, so we could not check the '
+          'subscription. That does not mean anything is wrong with it. Try '
+          'again in a few minutes or add the subscription by link.'
+    },
+    'refresh_nothing': {
+      'ru': 'Обновлять нечего: подписка не добавлена',
+      'en': 'Nothing to refresh: no subscription added'
+    },
+    'refresh_ok': {
+      'ru': 'Обновлено. Серверов: {n}',
+      'en': 'Updated. Servers: {n}'
+    },
+    'refresh_fail': {
+      'ru': 'Не удалось обновить: сервис не ответил',
+      'en': 'Could not update: the service did not respond'
+    },
+    'refresh_fail_vpn': {
+      'ru': 'Не удалось обновить: запрос идёт через включённый VPN. Выключи '
+          'подключение и попробуй снова.',
+      'en': 'Could not update: the request goes through the active VPN. '
+          'Disconnect and try again.'
+    },
+    'subs_refresh_ok': {
+      'ru': 'Обновлено. Серверов: {n}',
+      'en': 'Updated. Servers: {n}'
+    },
+    'subs_refresh_fail': {
+      'ru': 'Не удалось обновить: сервис не ответил. Если включён VPN — '
+          'выключи его и попробуй ещё раз.',
+      'en': 'Could not update: the service did not respond. If the VPN is on, '
+          'turn it off and try again.'
+    },
+    'subs_add': {'ru': 'Добавить подписку', 'en': 'Add a subscription'},
+    'srv_own': {'ru': 'СВОЙ', 'en': 'OWN'},
+    'ping_every': {
+      'ru': 'Как часто перемерять пинг — для режима «Авто»',
+      'en': 'How often to re-measure ping — for Auto mode'
+    },
+    'ping_every_off': {'ru': 'Не мерить', 'en': 'Off'},
+    // Прямо говорим, на что влияет настройка: без этого человек видел набор
+    // интервалов и не понимал, зачем они и почему что-то должно мериться само.
+    'ping_every_hint': {
+      'ru': 'Нужно только режиму «Авто»: по этим числам он выбирает сервер.\n'
+          'Реже — меньше расход батареи',
+      'en': 'Only the Auto mode needs this: it picks a server by these numbers.\n'
+          'Less often means less battery'
+    },
+    'unit_sec': {'ru': 'сек', 'en': 'sec'},
+    'unit_min': {'ru': 'мин', 'en': 'min'},
+    'srv_dead': {
+      'ru': 'Не отвечает — трафик не идёт',
+      'en': 'Not responding — no traffic'
+    },
+    // --- шторка «нужна подписка» ---
+    'pw_title': {'ru': 'Нужна подписка', 'en': 'Subscription needed'},
+    'pw_perk_countries': {
+      'ru': 'Все страны и серверы, а не только Telegram',
+      'en': 'Every country and server, not just Telegram'
+    },
+    'pw_perk_speed': {
+      'ru': 'Полная скорость без ограничений трафика',
+      'en': 'Full speed, no traffic limits'
+    },
+    'pw_perk_devices': {
+      'ru': 'Три устройства на одну подписку',
+      'en': 'Three devices on one subscription'
+    },
+    'pw_perk_settings': {
+      'ru': 'Тонкие настройки: маршруты, приложения, блокировки',
+      'en': 'Fine control: routing, per-app rules, blocking'
+    },
+    'pw_cta': {'ru': 'Забрать 3 дня бесплатно', 'en': 'Claim 3 free days'},
+    'pw_no_card': {
+      'ru': 'Без карты и без автосписаний',
+      'en': 'No card, no auto-charges'
+    },
+    'pw_have_sub': {
+      'ru': 'Подписка уже есть — войти',
+      'en': 'Already subscribed — sign in'
+    },
+    'pw_unlocked': {'ru': 'Доступ открыт', 'en': 'Access unlocked'},
+    // --- иконка приложения ---
+    'app_icon': {'ru': 'Иконка приложения', 'en': 'App icon'},
+    'app_icon_d': {
+      'ru': 'Шесть вариантов',
+      'en': 'Six looks'
+    },
+    'icon_intro': {
+      'ru': 'Знак остаётся нашим — меняется оправа. Выбери тот, что лучше садится на твой домашний экран.',
+      'en': 'The mark stays ours — only the frame changes. Pick the one that sits best on your home screen.'
+    },
+    'icon_note': {
+      'ru': 'Иконка сменится, когда закроешь приложение',
+      'en': 'The icon changes once you leave the app'
+    },
+    'icon_changed': {
+      'ru': 'Готово',
+      'en': 'Done'
+    },
+    'icon_failed': {
+      'ru': 'Не удалось сменить иконку',
+      'en': 'Could not change the icon'
+    },
+    'icon_classic': {'ru': 'Классика', 'en': 'Classic'},
+    'icon_midnight': {'ru': 'Полночь', 'en': 'Midnight'},
+    'icon_indigo': {'ru': 'Индиго', 'en': 'Indigo'},
+    'icon_steel': {'ru': 'Графит', 'en': 'Graphite'},
+    'icon_pearl': {'ru': 'Перламутр', 'en': 'Pearl'},
+    'icon_lime': {'ru': 'Лайм', 'en': 'Lime'},
+    // --- почему не добавилась чужая подписка ---
+    'fsub_vpn_on': {
+      'ru': 'Сейчас включён VPN — запрос идёт через него. Выключи подключение и попробуй ещё раз.',
+      'en': 'The VPN is on, so the request goes through it. Disconnect and try again.'
+    },
+    'fsub_bad_url': {
+      'ru': 'Это не похоже на ссылку. Она должна начинаться с https://',
+      'en': 'That does not look like a link. It should start with https://'
+    },
+    'fsub_no_host': {
+      'ru': 'Сервер по этой ссылке не отвечает. Проверь адрес — или интернет, если сейчас включён VPN.',
+      'en': 'No response from that address. Check the link — or your internet if the VPN is on right now.'
+    },
+    'fsub_tls': {
+      'ru': 'У сервера просроченный сертификат — соединение небезопасно. Возьми свежую ссылку у своего сервиса.',
+      'en': 'That server has an expired certificate, so the connection is not safe. Get a fresh link from your provider.'
+    },
+    'fsub_refused': {
+      'ru': 'Сервис не отдаёт подписку этому приложению. Обычно это лимит '
+          'устройств: отключи лишнее в его боте и попробуй снова.',
+      'en': 'The service refuses to give the subscription to this app. Usually '
+          'a device limit: disconnect a device in its bot and try again.'
+    },
+    'fsub_not_found': {
+      'ru': 'Подписка не найдена (404). Скорее всего ссылка устарела — возьми новую.',
+      'en': 'Subscription not found (404). The link has most likely expired — get a new one.'
+    },
+    'fsub_forbidden': {
+      'ru': 'Сервис не пустил нас к подписке. Возможно, она закончилась или закрыта для сторонних приложений.',
+      'en': 'The service refused access to the subscription. It may have expired or be closed to third-party apps.'
+    },
+    'fsub_server': {
+      'ru': 'У сервиса сейчас сбой на стороне сервера. Попробуй через несколько минут.',
+      'en': 'That service is having a server-side problem. Try again in a few minutes.'
+    },
+    'fsub_empty': {
+      'ru': 'Сервис ответил пустой подпиской. Проверь, что ссылка полная и не обрезалась при копировании.',
+      'en': 'The service returned an empty subscription. Check the link was copied in full.'
+    },
+    'fsub_timeout': {
+      'ru': 'Сервер не ответил вовремя. Если сейчас включён VPN — выключи его и попробуй снова.',
+      'en': 'The server did not answer in time. If the VPN is on, turn it off and try again.'
+    },
+    // Формат ответа вообще не удалось разобрать: ни ссылок, ни конфига.
+    'fsub_unreadable': {
+      'ru': 'По этой ссылке не подписка, а что-то другое — ни одного сервера '
+          'в ответе нет. Скопируй ссылку из своего сервиса ещё раз целиком.',
+      'en': 'That link returns something other than a subscription — there are '
+          'no servers in the response. Copy the full link from your provider again.'
+    },
+    // Серверы нашлись, но все — на протоколах, которых нет в нашем ядре.
+    'fsub_other_proto': {
+      'ru': 'Серверы в подписке есть, но все они работают по протоколам '
+          '{list}. Наше приложение их пока не поднимает — оно умеет VLESS, '
+          'VMess, Trojan и Shadowsocks. Если у сервиса есть ссылка с этими '
+          'протоколами, подойдёт она.',
+      'en': 'The subscription has servers, but all of them use {list}. The app '
+          'does not support those yet — it works with VLESS, VMess, Trojan and '
+          'Shadowsocks. If your provider offers a link with those, use it instead.'
+    },
+    // Разобрали формат, но список узлов внутри пустой.
+    'fsub_no_servers': {
+      'ru': 'Подписка открылась, но серверов в ней нет — похоже, она '
+          'закончилась или ещё не выдана. Проверь её в своём сервисе.',
+      'en': 'The subscription opened but contains no servers — it looks expired '
+          'or not issued yet. Check it with your provider.'
+    },
+    // Часть серверов пропущена — не ошибка, а честное предупреждение.
+    'fsub_partial': {
+      'ru': 'Добавлено серверов: {ok}. Ещё {skipped} пропущено — они на '
+          'протоколах {list}, их наше ядро не поддерживает.',
+      'en': 'Added {ok} servers. {skipped} more were skipped — they use {list}, '
+          'which the core does not support.'
+    },
+    'subs_until': {'ru': 'до {d}', 'en': 'until {d}'},
+    'srv_ping_one': {'ru': 'Померить пинг этого сервера', 'en': 'Ping this server'},
+    // --- вид списка серверов ---
+    'view_grid': {'ru': 'Сеткой, по два в ряд', 'en': 'Grid, two per row'},
+    'view_list': {'ru': 'Списком, крупно', 'en': 'List, large cards'},
+    // --- поддержка ---
+    'sup_empty_t': {'ru': 'Чем помочь?', 'en': 'How can we help?'},
+    'sup_empty_b': {
+      'ru':
+          'Напиши прямо здесь — ответим в приложении. Обычно отвечаем в течение часа.',
+      'en':
+          'Write right here — we answer inside the app, usually within an hour.'
+    },
+    'sup_in_tg': {'ru': 'Написать в Telegram', 'en': 'Message us on Telegram'},
+    // --- резервная копия настроек ---
+    'backup': {'ru': 'Резервная копия', 'en': 'Backup'},
+    'bk_intro': {
+      'ru':
+          'В копию попадают правила по приложениям, свои серверы, сайты в обход и настройки интерфейса. Подписка и доступ в файл НЕ записываются — файл можно спокойно хранить где угодно.',
+      'en':
+          'The copy holds per-app rules, your own servers, bypass sites and interface settings. Your subscription and access are NOT written to the file — keep it wherever you like.'
+    },
+    'bk_grp_copy': {'ru': 'Копия', 'en': 'Copy'},
+    'bk_grp_reset': {'ru': 'Опасная зона', 'en': 'Danger zone'},
+    'bk_export': {'ru': 'Сохранить в файл', 'en': 'Save to file'},
+    'bk_export_d': {
+      'ru': 'Создать файл с текущими настройками',
+      'en': 'Create a file with your current settings'
+    },
+    'bk_import': {'ru': 'Восстановить из файла', 'en': 'Restore from file'},
+    'bk_import_d': {
+      'ru': 'Применить настройки из сохранённой копии',
+      'en': 'Apply settings from a saved copy'
+    },
+    'bk_saved': {'ru': 'Сохранено настроек: {n}', 'en': 'Settings saved: {n}'},
+    'bk_restored': {
+      'ru': 'Восстановлено настроек: {n}',
+      'en': 'Settings restored: {n}'
+    },
+    'bk_fail': {'ru': 'Не удалось сохранить', 'en': 'Could not save'},
+    'bk_bad_file': {'ru': 'Файл не подошёл', 'en': 'File not accepted'},
+    'bk_copied': {'ru': 'Путь скопирован', 'en': 'Path copied'},
+    'bk_reset': {'ru': 'Сбросить настройки', 'en': 'Reset settings'},
+    'bk_reset_d': {
+      'ru': 'Вернуть всё к исходному виду. Подписка сохранится.',
+      'en': 'Return everything to defaults. Your subscription stays.'
+    },
+    'bk_reset_q': {'ru': 'Сбросить настройки?', 'en': 'Reset settings?'},
+    'bk_reset_body': {
+      'ru':
+          'Правила по приложениям, свои серверы, сайты в обход и настройки интерфейса вернутся к исходным. Подписка и привязка аккаунта останутся на месте.',
+      'en':
+          'Per-app rules, your own servers, bypass sites and interface settings return to defaults. Your subscription and account link stay.'
+    },
+    'bk_reset_done': {'ru': 'Настройки сброшены', 'en': 'Settings reset'},
+    'subs_remove_q': {'ru': 'Убрать подписку?', 'en': 'Remove subscription?'},
+    'subs_remove_body': {
+      'ru':
+          'Серверы {h} исчезнут из списка. Саму подписку это не отменяет — её можно добавить снова.',
+      'en':
+          'Servers from {h} will disappear from the list. This does not cancel the subscription itself — you can add it back.'
+    },
     'sec_interface': {'ru': 'Интерфейс', 'en': 'Interface'},
-    'sec_notifications': {'ru': 'Уведомления', 'en': 'Notifications'},
-    'sec_extra': {'ru': 'Дополнительно', 'en': 'More'},
     'sec_admin': {'ru': 'Администрирование', 'en': 'Administration'},
     'profile_sub': {'ru': 'Профиль и подписка', 'en': 'Profile & subscription'},
-    'profile_sub_d': {'ru': 'Статус, продление, рефералка', 'en': 'Status, renew, referral'},
+    'profile_sub_d': {
+      'ru': 'Статус, продление, рефералка',
+      'en': 'Status, renew, referral'
+    },
     'channel': {'ru': 'Наш Telegram-канал', 'en': 'Our Telegram channel'},
-    'channel_d': {'ru': 'Новости и статусы серверов', 'en': 'News and server status'},
     'autoconnect': {'ru': 'Автоподключение', 'en': 'Auto-connect'},
     'autoconnect_d': {
-      'ru': 'Как только открываешь приложение — VPN сам подключается. Не нужно жать «Подключить».',
-      'en': 'The moment you open the app, the VPN connects itself — no need to tap Connect.'
+      'ru': 'VPN включается сам при запуске приложения',
+      'en': 'The VPN connects itself when you open the app'
     },
-    'killswitch': {'ru': 'Kill-switch', 'en': 'Kill-switch'},
-    'killswitch_d': {'ru': 'Блокировать трафик при обрыве VPN', 'en': 'Block traffic if VPN drops'},
     'bypass_ru': {'ru': 'Обход для РФ-сайтов', 'en': 'Bypass for RU sites'},
-    'bypass_ru_d': {'ru': 'Локальные ресурсы — напрямую, мимо VPN', 'en': 'Local resources go direct, bypassing VPN'},
-    'per_app': {'ru': 'Раздельно по приложениям', 'en': 'Per-app routing'},
+    'bypass_ru_d': {
+      'ru': 'Российские сайты и приложения — напрямую, остальное — через VPN',
+      'en': 'Russian sites and apps go direct, everything else through the VPN'
+    },
     'protocol': {'ru': 'Протокол', 'en': 'Protocol'},
     'dns': {'ru': 'DNS', 'en': 'DNS'},
     'language': {'ru': 'Язык', 'en': 'Language'},
-    'globe_anim': {'ru': 'Анимации глобуса', 'en': 'Globe animations'},
-    'globe_anim_d': {'ru': 'Вращение, пакеты, наезд при подключении', 'en': 'Rotation, packets, zoom on connect'},
     'sound': {'ru': 'Звук подключения', 'en': 'Connection sound'},
-    'sound_d': {'ru': 'Звук при подключении и отключении', 'en': 'Sound on connect and disconnect'},
+    'sound_d': {
+      'ru': 'Звук при подключении и отключении',
+      'en': 'Sound on connect and disconnect'
+    },
     'vibration': {'ru': 'Вибрация', 'en': 'Vibration'},
-    'vibration_d': {'ru': 'Виброотклик при подключении', 'en': 'Haptic feedback on connect'},
-    'notif_server': {'ru': 'Смена сервера / статус', 'en': 'Server change / status'},
-    'notif_server_d': {'ru': 'Подключение, переключение, алерты', 'en': 'Connect, switch, alerts'},
+    'vibration_d': {
+      'ru': 'Виброотклик при подключении',
+      'en': 'Haptic feedback on connect'
+    },
+    'notif_server': {
+      'ru': 'Уведомления',
+      'en': 'Notifications'
+    },
+    'notif_server_d': {
+      'ru': 'О подключении и смене сервера',
+      'en': 'About connecting and server changes'
+    },
     'stats': {'ru': 'Статистика', 'en': 'Statistics'},
-    'stats_d': {'ru': 'Трафик за всё время, страны, графики', 'en': 'All-time traffic, countries, charts'},
+    'stats_d': {
+      'ru': 'Трафик за всё время, страны, графики',
+      'en': 'All-time traffic, countries, charts'
+    },
     'speedtest': {'ru': 'Тест скорости', 'en': 'Speed test'},
-    'speedtest_d': {'ru': 'Замер скорости со спидометром', 'en': 'Speed measurement with a gauge'},
+    'speedtest_d': {
+      'ru': 'Замер скорости со спидометром',
+      'en': 'Speed measurement with a gauge'
+    },
+    'ios_preview': {'ru': 'Стиль iOS', 'en': 'iOS style'},
+    'ios_preview_d': {
+      'ru': 'Тумблеры, стекло и шторки — пощупать',
+      'en': 'Switches, glass and sheets — try them'
+    },
     'how_connect': {'ru': 'Как подключиться', 'en': 'How to connect'},
-    'how_connect_d': {'ru': 'Инструкция по подключению VPN', 'en': 'VPN connection guide'},
+    'how_connect_d': {
+      'ru': 'Инструкция по подключению VPN',
+      'en': 'VPN connection guide'
+    },
     'logs': {'ru': 'Логи (что → куда идёт)', 'en': 'Logs (what goes where)'},
-    'update_sub': {'ru': 'Обновить / импортировать подписку', 'en': 'Update / import subscription'},
     'support': {'ru': 'Поддержка', 'en': 'Support'},
-    'support_d': {'ru': 'Чат в приложении или Telegram', 'en': 'In-app chat or Telegram'},
-    'terms': {'ru': 'Пользовательское соглашение', 'en': 'Terms of Service'},
-    'terms_d': {'ru': 'Условия использования и приватность', 'en': 'Terms of use and privacy'},
+    'support_d': {
+      'ru': 'Чат в приложении или Telegram',
+      'en': 'In-app chat or Telegram'
+    },
     'admin_panel': {'ru': 'Админ-панель', 'en': 'Admin panel'},
-    'admin_panel_d': {'ru': 'Метрики, ошибки, ИИ-агент', 'en': 'Metrics, errors, AI agent'},
+    'admin_panel_d': {
+      'ru': 'Метрики, ошибки, ИИ-агент',
+      'en': 'Metrics, errors, AI agent'
+    },
     'logout': {'ru': 'Выйти из аккаунта', 'en': 'Log out'},
 
     // --- профиль ---
     'profile': {'ru': 'Профиль', 'en': 'Profile'},
-    'account_not_linked': {'ru': 'Аккаунт не привязан', 'en': 'Account not linked'},
+    'account_not_linked': {
+      'ru': 'Аккаунт не привязан',
+      'en': 'Account not linked'
+    },
     'sub_active': {'ru': 'Подписка активна', 'en': 'Subscription active'},
-    'sub_inactive': {'ru': 'Подписка не активна', 'en': 'Subscription inactive'},
-    'full_access': {'ru': 'Полный доступ ко всем серверам', 'en': 'Full access to all servers'},
-    'subscribe_hint': {'ru': 'Оформи в боте для полного доступа', 'en': 'Subscribe in the bot for full access'},
+    'sub_inactive': {
+      'ru': 'Подписка не активна',
+      'en': 'Subscription inactive'
+    },
+    'full_access': {
+      'ru': 'Полный доступ ко всем серверам',
+      'en': 'Full access to all servers'
+    },
+    'subscribe_hint': {
+      'ru': 'Оформи в боте для полного доступа',
+      'en': 'Subscribe in the bot for full access'
+    },
     'renew': {'ru': 'Продлить подписку', 'en': 'Renew subscription'},
     'subscribe': {'ru': 'Оформить подписку', 'en': 'Get subscription'},
     'invite': {'ru': 'Пригласить друга', 'en': 'Invite a friend'},
-    'invite_d': {'ru': 'Реферальная ссылка и бонусы в боте', 'en': 'Referral link and bonuses in the bot'},
-    'copy_id': {'ru': 'Скопировать Telegram ID', 'en': 'Copy Telegram ID'},
+    'invite_d': {
+      'ru': 'Реферальная ссылка и бонусы в боте',
+      'en': 'Referral link and bonuses in the bot'
+    },
+    'our_channel': {'ru': 'Наш канал', 'en': 'Our channel'},
     'valid_until': {'ru': 'Действует до', 'en': 'Valid until'},
     'days_short': {'ru': 'дн.', 'en': 'd'},
     'servers_label': {'ru': 'Серверов', 'en': 'Servers'},
     'unit_mbps': {'ru': 'МБ/с', 'en': 'MB/s'},
     'unit_kbps': {'ru': 'КБ/с', 'en': 'KB/s'},
     'link_tg': {'ru': 'Привязать Telegram', 'en': 'Link Telegram'},
-    'link_tg_d': {'ru': 'Синхронизировать подписку и статус', 'en': 'Sync subscription and status'},
-    'link_tg_hint': {
-      'ru': 'Введи свой Telegram ID (узнать можно в нашем боте).',
-      'en': 'Enter your Telegram ID (get it from our bot).'
+    'link_tg_d': {
+      'ru': 'Синхронизировать подписку и статус',
+      'en': 'Sync subscription and status'
     },
-    'link_tg_openbot': {'ru': 'Открыть бота (узнать ID)', 'en': 'Open bot (find ID)'},
     'cancel': {'ru': 'Отмена', 'en': 'Cancel'},
     'save': {'ru': 'Сохранить', 'en': 'Save'},
     'delete': {'ru': 'Удалить', 'en': 'Delete'},
@@ -388,29 +939,86 @@ class L {
     'paste': {'ru': 'Вставить', 'en': 'Paste'},
 
     // --- пинг ---
+    'traffic': {'ru': 'Трафик', 'en': 'Traffic'},
+    'st_ready': {'ru': 'Готов к тесту', 'en': 'Ready to test'},
+    'st_done': {'ru': 'Готово', 'en': 'Done'},
+    'st_fail': {
+      'ru': 'Тест не прошёл — проверь соединение',
+      'en': 'Test failed — check your connection'
+    },
+    'open_in_tg': {'ru': 'Открыть в Telegram', 'en': 'Open in Telegram'},
     'ping_settings': {'ru': 'Настройки пинга', 'en': 'Ping settings'},
     'ping_type': {'ru': 'Тип пинга', 'en': 'Ping type'},
-    'ping_proxy_d': {'ru': 'Точнее — реальная задержка через туннель', 'en': 'More accurate — real latency via tunnel'},
-    'ping_tcp_d': {'ru': 'Быстрее — время TCP-хендшейка до сервера', 'en': 'Faster — TCP handshake time to server'},
-    'ping_test_url': {'ru': 'Тестовый URL (via Proxy)', 'en': 'Test URL (via Proxy)'},
+    // Названия методов — словами, а не аббревиатурами: человек должен
+    // понимать, что он выбирает, не зная сетевых терминов.
+    // Короткие подписи для строки «Пинг» в настройках туннеля.
+    'ping_short_tcp': {'ru': 'TCP', 'en': 'TCP'},
+    'ping_short_proxy': {'ru': 'TLS', 'en': 'TLS'},
+    'ping_m_tcp': {'ru': 'Быстрый (TCP)', 'en': 'Fast (TCP)'},
+    'ping_m_tls': {'ru': 'Точный (TLS)', 'en': 'Accurate (TLS)'},
+    'ping_proxy_d': {
+      'ru': 'Медленнее, зато честно. Числа можно сравнивать между собой',
+      'en': 'Slower but honest. The numbers are comparable with each other'
+    },
+    'ping_tcp_d': {
+      'ru': 'Быстро. При включённом VPN сам переключается на точный',
+      'en': 'Fast. Switches to accurate on its own when the VPN is on'
+    },
+    'ping_url_hint': {
+      'ru': 'Куда стучимся при замере. Адрес влияет на числа, поэтому меняй,\n'
+          'только если текущий недоступен',
+      'en': 'Where we knock during a measurement. It affects the numbers, so\n'
+          'change it only if the current one is unreachable'
+    },
+    'ping_test_url': {
+      'ru': 'Адрес проверки',
+      'en': 'Check address'
+    },
 
     // --- сеть ---
     'net_settings': {'ru': 'Сеть и протокол', 'en': 'Network & protocol'},
-    'net_settings_d': {'ru': 'IPv4/IPv6, DNS, фрагментация', 'en': 'IPv4/IPv6, DNS, fragmentation'},
-    'ip_type': {'ru': 'Тип адресов (IPv4 / IPv6)', 'en': 'Address type (IPv4 / IPv6)'},
+    'net_settings_d': {
+      'ru': 'Версия сети, DNS, обход блокировок',
+      'en': 'Network version, DNS, anti-blocking'
+    },
+    'ip_type': {
+      'ru': 'Тип адресов (IPv4 / IPv6)',
+      'en': 'Address type (IPv4 / IPv6)'
+    },
     'ip_type_hint': {
-      'ru': 'IPv4 — максимальная совместимость. IPv6 — если провайдер поддерживает. Менять только если понимаете, что делаете.',
-      'en': 'IPv4 — max compatibility. IPv6 — if your ISP supports it. Change only if you know what you are doing.'
+      'ru':
+          'IPv4 — максимальная совместимость. IPv6 — если провайдер поддерживает. Менять только если понимаете, что делаете.',
+      'en':
+          'IPv4 — max compatibility. IPv6 — if your ISP supports it. Change only if you know what you are doing.'
     },
     'custom_dns': {'ru': 'Свой DNS', 'en': 'Custom DNS'},
     'custom_dns_hint': {
-      'ru': 'Через запятую. Пусто — DNS сервера по умолчанию. Менять только если понимаете, что делаете.',
-      'en': 'Comma-separated. Empty — server default DNS. Change only if you know what you are doing.'
+      'ru':
+          'Через запятую. Пусто — DNS сервера по умолчанию. Менять только если понимаете, что делаете.',
+      'en':
+          'Comma-separated. Empty — server default DNS. Change only if you know what you are doing.'
     },
-    'fragment': {'ru': 'Фрагментация TLS', 'en': 'TLS fragmentation'},
+    'bg_keep': {
+      'ru': 'Не усыплять приложение',
+      'en': 'Keep the app awake'
+    },
+    'bg_keep_off': {
+      'ru': 'Android усыпляет приложение, и оно не восстановит связь, '
+          'если сервер отвалится. Разреши — будет чинить само',
+      'en': 'Android puts the app to sleep, so it cannot restore the '
+          'connection if a server drops. Allow it to fix that itself'
+    },
+    'bg_keep_on': {
+      'ru': 'Приложение восстановит связь само, даже свёрнутым',
+      'en': 'The app restores the connection itself, even when minimised'
+    },
+    'bg_keep_ok': {'ru': 'Разрешено', 'en': 'Allowed'},
+    'fragment': {'ru': 'Фрагментирование', 'en': 'Fragmentation'},
     'fragment_d': {
-      'ru': 'Дробит TLS-пакеты для обхода блокировок (DPI). Включай, если провайдер режет VPN.',
-      'en': 'Splits TLS packets to bypass DPI blocking. Enable if your ISP throttles VPN.'
+      'ru': 'Разбивает начало соединения на части, чтобы провайдер не узнал '
+          'в нём VPN. Включай, если обычное подключение не проходит.',
+      'en': 'Splits the start of the connection into pieces so your provider '
+          'cannot recognise it as a VPN. Turn on if the normal connection fails.'
     },
 
     // --- выход ---
@@ -424,7 +1032,10 @@ class L {
     // --- туннелирование (split) ---
     'tunneling': {'ru': 'Туннелирование', 'en': 'Tunneling'},
     'search': {'ru': 'Поиск', 'en': 'Search'},
-    'split_enable': {'ru': 'Включить туннелирование трафика', 'en': 'Enable split tunneling'},
+    'split_enable': {
+      'ru': 'Включить туннелирование трафика',
+      'en': 'Enable split tunneling'
+    },
     'split_hint_through': {
       'ru': 'Выбранные приложения идут через VPN, остальные — напрямую.',
       'en': 'Selected apps go through VPN, the rest go direct.'
@@ -434,7 +1045,10 @@ class L {
       'en': 'Selected apps go direct, the rest go through VPN.'
     },
     'split_bypass': {'ru': 'В обход VPN', 'en': 'Bypass VPN'},
-    'split_bypass_sub': {'ru': 'Остальное — через VPN', 'en': 'Rest — through VPN'},
+    'split_bypass_sub': {
+      'ru': 'Остальное — через VPN',
+      'en': 'Rest — through VPN'
+    },
     'split_through': {'ru': 'Через VPN', 'en': 'Through VPN'},
     'split_through_sub': {'ru': 'Остальное — напрямую', 'en': 'Rest — direct'},
     'split_no_apps': {
@@ -451,131 +1065,138 @@ class L {
     'url_popular': {'ru': 'Популярные', 'en': 'Popular'},
 
     // --- новые тумблеры/разделы настроек ---
-    'adblock': {'ru': 'Блокировка рекламы и трекеров', 'en': 'Ad & tracker blocking'},
+    'adblock': {
+      'ru': 'Блокировка рекламы и трекеров',
+      'en': 'Ad & tracker blocking'
+    },
     'adblock_d': {
-      'ru': 'Режет рекламу, аналитику и трекеры прямо в туннеле — страницы легче, трафика меньше, приватность выше.',
-      'en': 'Blocks ads, analytics and trackers right in the tunnel — lighter pages, less traffic, more privacy.'
+      'ru': 'Реклама и трекеры блокируются',
+      'en': 'Ads and trackers are blocked'
     },
     'smart_ai': {'ru': 'Умный доступ к ИИ', 'en': 'Smart AI access'},
     'smart_ai_d': {
-      'ru': 'ChatGPT, Gemini, Claude и другие нейросети автоматически идут через сервер, где ИИ работает — даже при включённом обходе РФ-сайтов.',
-      'en': 'ChatGPT, Gemini, Claude and other AI auto-route through a server where they work — even with RU bypass on.'
+      'ru': 'Любая нейросеть автоматически идёт через рабочий сервер',
+      'en': 'Any AI service automatically goes through a working server'
     },
-    'autorefresh': {'ru': 'Авто-обновление подписки', 'en': 'Auto-update subscription'},
-    'autorefresh_d': {
-      'ru': 'Периодически заново скачивать список серверов из подписки.',
-      'en': 'Periodically re-download the server list from your subscription.'
-    },
-    'autorefresh_every': {'ru': 'Обновлять каждые', 'en': 'Update every'},
-    'ondemand': {'ru': 'On Demand', 'en': 'On Demand'},
+    // Без англицизма и без названий протоколов: человеку важно, что связь
+    // не пропадёт, а не как это устроено внутри.
+    'ondemand': {'ru': 'По требованию', 'en': 'On demand'},
     'ondemand_d': {
-      'ru': 'Сам VPN не включает. Но если во время работы связь оборвётся — молча поднимет туннель заново, чтобы ты не остался в сети без VPN.',
-      'en': 'Does not turn the VPN on by itself. But if the connection drops while you are online, it silently brings the tunnel back so you are never left online without VPN.'
+      'ru': 'Если связь оборвётся — вернём её сами',
+      'en': 'If the connection drops, we bring it back'
     },
-    'mh_nav': {'ru': 'Двойной VPN (мультихоп)', 'en': 'Double VPN (multihop)'},
-    'mh_nav_on': {'ru': 'Включён · вход → выход', 'en': 'On · entry → exit'},
-    'mh_nav_off': {'ru': 'Цепочка из двух серверов', 'en': 'Chain of two servers'},
-    'diag_nav': {'ru': 'Проверить блокировку', 'en': 'Check for blocking'},
-    'diag_nav_d': {'ru': 'Диагностика: почему VPN не подключается', 'en': 'Diagnostics: why VPN won\'t connect'},
-    'ks_nav': {'ru': 'Kill-switch (защита от утечек)', 'en': 'Kill-switch (leak protection)'},
-    'ks_nav_d': {'ru': 'Системная блокировка сети без VPN', 'en': 'System-level block without VPN'},
+    'ks_nav': {
+      'ru': 'Kill-switch (защита от утечек)',
+      'en': 'Kill-switch (leak protection)'
+    },
+    'ks_nav_d': {
+      'ru': 'Без VPN интернета не будет',
+      'en': 'No VPN — no internet'
+    },
     'cs_nav': {'ru': 'Свои серверы (JSON)', 'en': 'Custom servers (JSON)'},
-    'cs_nav_d': {'ru': 'Для продвинутых · при активном подключении', 'en': 'Advanced · while connected'},
+    'cs_nav_d': {
+      'ru': 'Для продвинутых · при активном подключении',
+      'en': 'Advanced · while connected'
+    },
 
     // --- двойной VPN ---
-    'mh_title': {'ru': 'Двойной VPN (мультихоп)', 'en': 'Double VPN (multihop)'},
-    'mh_privacy_title': {'ru': 'Двойной хоп', 'en': 'Double hop'},
-    'mh_privacy_body': {
-      'ru': 'Выбери готовый маршрут ниже — трафик реально пройдёт через ДВЕ страны (вход → выход). Даже если выходной сервер захотят вычислить, увидят только IP входного, а не твой. Ниже можно выбрать и одиночный выход.',
-      'en': 'Pick a ready route below — traffic really goes through TWO countries (entry → exit). Even if the exit server is compromised, only the entry\'s IP is seen, not yours. You can also pick a single exit below.'
-    },
-    'mh_speed': {
-      'ru': 'Выбирай выход по стране, которая нужна сайтам и сервисам. Чем дальше сервер — тем выше пинг.',
-      'en': 'Pick the exit by the country you need for sites and services. The farther the server, the higher the ping.'
-    },
-    'mh_enable': {'ru': 'Включить двойной VPN', 'en': 'Enable Double VPN'},
-    'mh_entry_tag': {'ru': 'ВХОД · текущий сервер', 'en': 'ENTRY · current server'},
-    'mh_entry_on': {'ru': 'Подключён — заходишь через эту страну', 'en': 'Connected — you enter via this country'},
-    'mh_entry_off': {'ru': 'Подключись на главном экране', 'en': 'Connect on the home screen'},
-    'mh_no_server': {'ru': 'Сервер не выбран', 'en': 'No server selected'},
-    'mh_exit_label': {'ru': 'Выход (его страну видят сайты):', 'en': 'Exit (sites see its country):'},
-    'mh_need_two': {'ru': 'Нужно минимум два сервера для цепочки.', 'en': 'Need at least two servers for a chain.'},
-    'mh_route': {'ru': 'Маршрут', 'en': 'Route'},
-    'mh_pick_exit': {'ru': 'выбери выход', 'en': 'pick exit'},
-    'mh_footer': {
-      'ru': 'Вход меняется на главном экране (это твой текущий сервер). Здесь выбираешь только выход.',
-      'en': 'The entry is changed on the home screen (it\'s your current server). Here you only pick the exit.'
-    },
 
     // --- диагностика ---
-    'diag_title': {'ru': 'Проверить блокировку', 'en': 'Check for blocking'},
-    'diag_intro': {
-      'ru': 'Проверяем, почему VPN может не подключаться. Все пробы идут в обход туннеля — так видно реальную картину сети.',
-      'en': 'We check why the VPN may not connect. All probes go outside the tunnel to show the real network picture.'
-    },
-    'diag_s_net': {'ru': 'Интернет доступен', 'en': 'Internet available'},
-    'diag_s_tcp': {'ru': 'Сервер отвечает (TCP)', 'en': 'Server responds (TCP)'},
-    'diag_s_tls': {'ru': 'TLS-рукопожатие проходит', 'en': 'TLS handshake passes'},
-    'diag_s_tun': {'ru': 'Трафик идёт через туннель', 'en': 'Traffic flows via tunnel'},
-    'diag_retry': {'ru': 'Проверить снова', 'en': 'Check again'},
-    'diag_running': {'ru': 'Проверяю…', 'en': 'Checking…'},
-    'diag_v_nonet': {'ru': 'Нет интернета. Проверь Wi-Fi/мобильные данные — VPN тут ни при чём.', 'en': 'No internet. Check Wi-Fi/mobile data — the VPN isn\'t the issue.'},
-    'diag_v_nosrv': {'ru': 'Сначала импортируй подписку — серверов для проверки нет.', 'en': 'Import a subscription first — no servers to test.'},
-    'diag_v_tcp': {'ru': 'Сервер недоступен по сети: либо узел лежит, либо провайдер блокирует его IP. Попробуй другой сервер.', 'en': 'Server unreachable: the node is down or your ISP blocks its IP. Try another server.'},
-    'diag_v_tls': {'ru': 'TCP проходит, но TLS-рукопожатие сбрасывается — признак DPI-блокировки протокола провайдером. Помогают фрагментация и смена сервера.', 'en': 'TCP passes but the TLS handshake is reset — a sign of DPI protocol blocking by your ISP. Fragmentation and switching servers help.'},
-    'diag_v_tun': {'ru': 'Связь с сервером есть, но туннель не пропускает трафик — переподключись; если повторяется, смени сервер.', 'en': 'The server is reachable but the tunnel passes no traffic — reconnect; if it repeats, switch servers.'},
-    'diag_v_ok': {'ru': 'Всё в порядке ✅ Сервер доступен и протокол не блокируется.', 'en': 'All good ✅ The server is reachable and the protocol isn\'t blocked.'},
-    'diag_ok': {'ru': 'есть', 'en': 'ok'},
-    'diag_nonet': {'ru': 'нет соединения с сетью', 'en': 'no network connection'},
-    'diag_port_open': {'ru': 'порт открыт', 'en': 'port open'},
-    'diag_port_closed': {'ru': 'порт не отвечает', 'en': 'port not responding'},
-    'diag_tls_ok': {'ru': 'рукопожатие ок', 'en': 'handshake ok'},
-    'diag_tls_dpi': {'ru': 'TLS сбрасывается (похоже на DPI)', 'en': 'TLS reset (looks like DPI)'},
-    'diag_tun_ok': {'ru': 'работает', 'en': 'works'},
-    'diag_tun_fail': {'ru': 'нет ответа через туннель', 'en': 'no response via tunnel'},
-    'diag_tun_skip': {'ru': 'VPN не подключён — пропущено', 'en': 'VPN not connected — skipped'},
-    'diag_no_srv2': {'ru': 'нет выбранного сервера', 'en': 'no server selected'},
 
     // --- kill-switch ---
-    'ks_title': {'ru': 'Kill-switch (защита от утечек)', 'en': 'Kill-switch (leak protection)'},
+    'ks_title': {
+      'ru': 'Kill-switch (защита от утечек)',
+      'en': 'Kill-switch (leak protection)'
+    },
     'ks_intro': {
-      'ru': 'Настоящий Kill-switch — это системная функция Android. Она блокирует весь интернет, если VPN отключился, и работает даже при перезапуске или сбое приложения.',
-      'en': 'A real kill-switch is an Android system feature. It blocks all internet if the VPN drops and works even if the app restarts or crashes.'
+      'ru':
+          'Настоящий Kill-switch — это системная функция Android. Она блокирует весь интернет, если VPN отключился, и работает даже при перезапуске или сбое приложения.',
+      'en':
+          'A real kill-switch is an Android system feature. It blocks all internet if the VPN drops and works even if the app restarts or crashes.'
     },
     'ks_how': {'ru': 'Как включить:', 'en': 'How to enable:'},
-    'ks_s1': {'ru': 'Нажми кнопку ниже — откроются настройки VPN.', 'en': 'Tap the button below — VPN settings will open.'},
-    'ks_s2': {'ru': 'Возле «Various VPN» нажми ⚙️ (шестерёнку).', 'en': 'Next to “Various VPN” tap ⚙️ (the gear).'},
-    'ks_s3': {'ru': 'Включи «Постоянная VPN» (Always-on VPN).', 'en': 'Turn on “Always-on VPN”.'},
-    'ks_s4': {'ru': 'Включи «Блокировать соединения без VPN».', 'en': 'Turn on “Block connections without VPN”.'},
+    'ks_s1': {
+      'ru': 'Нажми кнопку ниже — откроются настройки VPN.',
+      'en': 'Tap the button below — VPN settings will open.'
+    },
+    'ks_s2': {
+      'ru': 'Возле «Various VPN» нажми ⚙️ (шестерёнку).',
+      'en': 'Next to “Various VPN” tap ⚙️ (the gear).'
+    },
+    'ks_s3': {
+      'ru': 'Включи «Постоянная VPN» (Always-on VPN).',
+      'en': 'Turn on “Always-on VPN”.'
+    },
+    'ks_s4': {
+      'ru': 'Включи «Блокировать соединения без VPN».',
+      'en': 'Turn on “Block connections without VPN”.'
+    },
     'ks_open': {'ru': 'Открыть настройки VPN', 'en': 'Open VPN settings'},
     'ks_hint': {
-      'ru': 'Подсказка: для «Постоянной VPN» подключение должно быть настроено — сначала хотя бы раз подключись к Various VPN.',
-      'en': 'Tip: for Always-on VPN a connection must exist — connect to Various VPN at least once first.'
+      'ru':
+          'Подсказка: для «Постоянной VPN» подключение должно быть настроено — сначала хотя бы раз подключись к Various VPN.',
+      'en':
+          'Tip: for Always-on VPN a connection must exist — connect to Various VPN at least once first.'
     },
 
     // --- свои серверы ---
     'cs_title': {'ru': 'Свои серверы', 'en': 'Custom servers'},
     'cs_advanced': {'ru': 'Для продвинутых', 'en': 'For advanced users'},
     'cs_body': {
-      'ru': 'Добавь до 5 своих серверов. Вставь share-ссылку (vless://…), их список, ИЛИ целиком Xray-конфиг {"outbounds":[…]} — приложение само вытащит сервер. Появятся рядом с нашими.',
-      'en': 'Add up to 5 of your own servers. Paste a share link (vless://…), a list of them, OR a full Xray config {"outbounds":[…]} — the app extracts the server. They appear next to ours.'
+      'ru':
+          'Добавь до 5 своих серверов. Подойдёт ссылка вида vless://…, список таких ссылок или файл настроек, выгруженный из другого VPN-приложения — сервер вытащим сами. Появятся рядом с нашими.',
+      'en':
+          'Add up to 5 of your own servers. A vless://… link, a list of them, or a settings file exported from another VPN app all work — we pull the server out ourselves. They appear next to ours.'
     },
-    'cs_locked': {'ru': 'Твоя подписка Various VPN неактивна — оформи её, и добавление своих серверов откроется.', 'en': 'Your Various VPN subscription is inactive — get one to unlock adding your own servers.'},
+    'cs_locked': {
+      'ru':
+          'Твоя подписка Various VPN неактивна — оформи её, и добавление своих серверов откроется.',
+      'en':
+          'Your Various VPN subscription is inactive — get one to unlock adding your own servers.'
+    },
     'cs_paste': {'ru': 'Вставить из буфера', 'en': 'Paste from clipboard'},
     'cs_add': {'ru': 'Добавить серверы', 'en': 'Add servers'},
-    'cs_added': {'ru': '✅ Свои серверы добавлены', 'en': '✅ Custom servers added'},
 
     // --- стрик / огонёк ---
-    'streak_title_on': {'ru': 'Серия: {n} дней подряд', 'en': 'Streak: {n} days in a row'},
+    'streak_title_on': {
+      'ru': 'Серия: {n} {w} подряд',
+      'en': 'Streak: {n} {w} in a row'
+    },
     'streak_title_off': {'ru': 'Начни серию!', 'en': 'Start a streak!'},
-    'streak_hint_on': {'ru': 'Заходи каждый день — не потеряй огонёк 🔥', 'en': 'Come back daily — don\'t lose the flame 🔥'},
-    'streak_hint_off': {'ru': 'Подключай VPN каждый день и получай бонусные дни', 'en': 'Connect the VPN daily and earn bonus days'},
-    'streak_next': {'ru': 'До награды +{r} дней: осталось {d} дн. (веха {m})', 'en': 'To reward +{r} days: {d} days left (milestone {m})'},
-    'streak_freezes': {'ru': 'Заморозки: {n} · копятся за 25+ ч VPN в неделю и спасают серию при пропуске дня', 'en': 'Freezes: {n} · earned for 25+ h VPN a week, save your streak if you miss a day'},
+    'streak_hint_on': {
+      'ru': 'Заходи каждый день — не потеряй огонёк 🔥',
+      'en': 'Come back daily — don\'t lose the flame 🔥'
+    },
+    'streak_hint_off': {
+      'ru': 'Подключай VPN каждый день и получай бонусные дни',
+      'en': 'Connect the VPN daily and earn bonus days'
+    },
+    'streak_next': {
+      'ru': 'До награды +{r} {rw}: осталось {d} {dw} (веха {m})',
+      'en': 'To reward +{r} {rw}: {d} {dw} left (milestone {m})'
+    },
+    'streak_freezes': {
+      'ru':
+          'Заморозки: {n} · копятся за 25+ ч VPN в неделю и спасают серию при пропуске дня',
+      'en':
+          'Freezes: {n} · earned for 25+ h VPN a week, save your streak if you miss a day'
+    },
     'streak_rewards': {'ru': 'Награды за серию', 'en': 'Streak rewards'},
-    'streak_celebrate': {'ru': 'СЕРИЯ ПРОДОЛЖАЕТСЯ!', 'en': 'STREAK CONTINUES!'},
-    'streak_celebrate_sub': {'ru': '{n} дней подряд с Various VPN', 'en': '{n} days in a row with Various VPN'},
-    'streak_reward_days': {'ru': '🎁  +{n} дней подписки', 'en': '🎁  +{n} subscription days'},
-    'streak_close': {'ru': 'Начислено автоматически · тапни, чтобы закрыть', 'en': 'Credited automatically · tap to close'},
+    'streak_celebrate': {
+      'ru': 'СЕРИЯ ПРОДОЛЖАЕТСЯ!',
+      'en': 'STREAK CONTINUES!'
+    },
+    'streak_celebrate_sub': {
+      'ru': '{n} {w} подряд с Various VPN',
+      'en': '{n} {w} in a row with Various VPN'
+    },
+    'streak_reward_days': {
+      'ru': '🎁  +{n} {w} подписки',
+      'en': '🎁  +{n} {w} of subscription'
+    },
+    'streak_close': {
+      'ru': 'Начислено автоматически · тапни, чтобы закрыть',
+      'en': 'Credited automatically · tap to close'
+    },
   };
 }

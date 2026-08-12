@@ -63,7 +63,8 @@ Map<String, dynamic> buildXrayConfig(String rawUrl) {
 }
 
 /// Полный конфиг в виде JSON-строки (как getFullConfiguration на Android).
-String buildXrayConfigJson(String rawUrl) => jsonEncode(buildXrayConfig(rawUrl));
+String buildXrayConfigJson(String rawUrl) =>
+    jsonEncode(buildXrayConfig(rawUrl));
 
 // ---------- VLESS ----------
 Map<String, dynamic> _vless(String url) {

@@ -18,12 +18,26 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="Умный VPN нового поколения">
 
-  <!-- iOS meta tags & icons -->
+  <!--
+    viewport-fit=cover — чтобы страница занимала экран целиком, вместе с
+    областями под вырезом и жестовой полосой. Без него iOS оставляет по краям
+    белые поля, и приложение сразу видно как «сайт в рамке».
+
+    Безопасные отступы после этого не пропадают: Flutter получает их из
+    системы и сам не заводит содержимое под Dynamic Island.
+  -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,
+    maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+  <!-- Запуск с домашнего экрана: без адресной строки и кнопок Safari. -->
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="various_vpn">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <!-- Строка состояния прозрачная: тёмный фон приложения уходит под неё. -->
+  <meta name="apple-mobile-web-app-status-bar-style"
+        content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Various VPN">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
@@ -34,13 +48,21 @@
 </head>
 <body>
   <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
+    Свой bootstrap вместо стандартного flutter_bootstrap.js.
 
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
+    Причина одна: по умолчанию Flutter грузит движок отрисовки (CanvasKit) с
+    gstatic.com, хотя тот же файл лежит рядом в сборке. Там, где gstatic
+    недоступен — а это как раз наши пользователи, — страница остаётсябелой
+    навсегда: каркас смонтирован, рисовать нечем. canvasKitBaseUrl заставляет
+    брать движок из собственной папки, и внешняя сеть не нужна вовсе.
   -->
-  <script src="flutter_bootstrap.js" async></script>
+  <script>
+    {{flutter_js}}
+    {{flutter_build_config}}
+
+    _flutter.loader.load({
+      config: { canvasKitBaseUrl: 'canvaskit/' }
+    });
+  </script>
 </body>
 </html>

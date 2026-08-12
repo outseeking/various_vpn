@@ -10,4 +10,5 @@ Future<int> tcpPing(String host, int port) async {
   return 40 + _rng.nextInt(140);
 }
 
-Future<int> tlsPing(String host, int port) => tcpPing(host, port);
+Future<int> tlsPing(String host, int port, {String? sni}) =>
+    tcpPing(host, port);

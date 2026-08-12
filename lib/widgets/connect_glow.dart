@@ -86,6 +86,5 @@ class _GlowPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _GlowPainter old) =>
-      old.intensity != intensity;
+  bool shouldRepaint(covariant _GlowPainter old) => old.intensity != intensity;
 }

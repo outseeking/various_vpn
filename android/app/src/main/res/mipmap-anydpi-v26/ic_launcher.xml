@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Основная иконка приложения. Использует те же слои, что и вариант
+     «Классика», чтобы иконка по умолчанию не отличалась по качеству от
+     выбираемых в настройках. -->
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
-  <background android:drawable="@color/ic_launcher_background"/>
-  <foreground>
-      <inset
-          android:drawable="@drawable/ic_launcher_foreground"
-          android:inset="16%" />
-  </foreground>
+  <background android:drawable="@drawable/ic_bg_classic"/>
+  <foreground android:drawable="@drawable/ic_fg_classic"/>
 </adaptive-icon>

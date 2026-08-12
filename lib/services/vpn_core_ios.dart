@@ -75,6 +75,10 @@ class IosVpnService implements VpnService {
       };
 
   @override
+  @override
+  Future<void> warmUp() async {}
+
+  @override
   Future<bool> requestPermission() async {
     try {
       final ok = await _m.invokeMethod<bool>('prepare');
@@ -131,7 +135,7 @@ class IosVpnService implements VpnService {
   }
 
   @override
-  Future<int> ping(VpnServer server) async {
+  Future<int> ping(VpnServer server, {String? url}) async {
     // Пинг меряем на стороне Dart (TCP/TLS-хендшейк) — не зависит от ядра и
     // работает одинаково на всех платформах.
     try {

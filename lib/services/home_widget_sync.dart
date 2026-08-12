@@ -13,6 +13,7 @@ import 'package:home_widget/home_widget.dart';
 
 import '../l10n.dart';
 import '../widgets/flag.dart';
+import 'storage.dart';
 
 class HomeWidgetSync {
   HomeWidgetSync._();
@@ -21,6 +22,19 @@ class HomeWidgetSync {
   static bool get _supported =>
       !kIsWeb && (defaultTargetPlatform == TargetPlatform.android);
   static String _lastFlagCc = '';
+
+  /// Обновить ТОЛЬКО значок виджета — сразу после смены иконки приложения.
+  /// Ждать очередного изменения состояния VPN нельзя: человек поменял иконку и
+  /// должен увидеть результат на домашнем экране немедленно.
+  static Future<void> refreshIcon(String key) async {
+    if (!_supported) return;
+    try {
+      await HomeWidget.saveWidgetData<String>('vv_icon', key);
+      await HomeWidget.updateWidget(androidName: _android);
+    } catch (_) {
+      // виджет может быть не добавлен на экран — это не ошибка
+    }
+  }
 
   /// Толкнуть актуальное состояние в виджет.
   static Future<void> push({
@@ -31,24 +45,43 @@ class HomeWidgetSync {
     int port = 0,
     String pingType = 'tcp',
     int pingMs = -1,
+    bool telegramOnly = false,
   }) async {
     if (!_supported) return;
     try {
+      // Виджет носит тот же значок, что и сама иконка приложения: сменил
+      // иконку — сменился и он, иначе на экране рядом два разных логотипа.
+      await HomeWidget.saveWidgetData<String>(
+          'vv_icon', Storage.instance.getStr('app_icon', def: 'classic'));
       await HomeWidget.saveWidgetData<String>(
           'vv_connected', connected ? 'true' : 'false');
       await HomeWidget.saveWidgetData<String>(
           'vv_status', connected ? L.t('protected') : L.t('disconnected'));
-      await HomeWidget.saveWidgetData<String>('vv_server', server);
+      // В бесплатном режиме сервер выбирается автоматически и работает только
+      // Telegram — так и подписываем, вместо имени конкретной страны. Пинг там
+      // не показываем (мерить нечего: конфиг подбирается сам).
       await HomeWidget.saveWidgetData<String>(
-          'vv_ping', pingMs > 0 ? '$pingMs ms' : '');
+          'vv_server', telegramOnly ? L.t('wdg_auto_tg') : server);
+      await HomeWidget.saveWidgetData<String>(
+          'vv_free', telegramOnly ? 'true' : 'false');
+      // Есть ли вообще выбранный сервер: если нет — прячем флаг, иначе рядом
+      // с «Сервер не выбран» висел флаг прошлой страны и это путало.
+      await HomeWidget.saveWidgetData<String>(
+          'vv_has_server', countryCode.isNotEmpty ? 'true' : 'false');
+      await HomeWidget.saveWidgetData<String>(
+          'vv_ping', (telegramOnly || pingMs <= 0) ? '' : '$pingMs ms');
       await HomeWidget.saveWidgetData<String>(
           'vv_button', connected ? L.t('wdg_disconnect') : L.t('wdg_connect'));
 
       // Локализованные подписи — их подставляет нативный ресивер при toggle.
-      await HomeWidget.saveWidgetData<String>('vv_lbl_protected', L.t('protected'));
-      await HomeWidget.saveWidgetData<String>('vv_lbl_disconnected', L.t('disconnected'));
-      await HomeWidget.saveWidgetData<String>('vv_lbl_connect', L.t('wdg_connect'));
-      await HomeWidget.saveWidgetData<String>('vv_lbl_disconnect', L.t('wdg_disconnect'));
+      await HomeWidget.saveWidgetData<String>(
+          'vv_lbl_protected', L.t('protected'));
+      await HomeWidget.saveWidgetData<String>(
+          'vv_lbl_disconnected', L.t('disconnected'));
+      await HomeWidget.saveWidgetData<String>(
+          'vv_lbl_connect', L.t('wdg_connect'));
+      await HomeWidget.saveWidgetData<String>(
+          'vv_lbl_disconnect', L.t('wdg_disconnect'));
 
       // Параметры замера пинга (как в приложении: tcp / tls-хендшейк).
       if (host.isNotEmpty) {

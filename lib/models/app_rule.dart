@@ -11,11 +11,6 @@ enum RouteMode {
   manualServer, // закреплён конкретный сервер (см. serverId)
   direct; // мимо VPN (bypass)
 
-  String get label => switch (this) {
-        RouteMode.ai => 'ИИ выбирает',
-        RouteMode.manualServer => 'Свой сервер',
-        RouteMode.direct => 'Без VPN',
-      };
 }
 
 class AppRule {

@@ -12,7 +12,8 @@ class SupportMessage {
       {'text': text, 'fromUser': fromUser, 'time': time.toIso8601String()};
 
   factory SupportMessage.fromJson(Map<String, dynamic> j) {
-    final m = SupportMessage(j['text'] as String, fromUser: j['fromUser'] as bool);
+    final m =
+        SupportMessage(j['text'] as String, fromUser: j['fromUser'] as bool);
     return m;
   }
 

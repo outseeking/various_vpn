@@ -10,9 +10,8 @@ import 'package:url_launcher/url_launcher.dart';
 import '../l10n.dart';
 import '../state/app_state.dart';
 import '../theme/app_palette.dart';
+import '../widgets/connect_ways.dart';
 import 'home_screen.dart';
-import 'import_screen.dart';
-import 'profile_screen.dart';
 
 const _botUrl = 'https://t.me/variousvpnbot';
 
@@ -95,48 +94,35 @@ class ConnectGuideScreen extends StatelessWidget {
                 ),
               )
             else ...[
+              // ОДИН главный путь — забрать триал в боте. Раньше здесь стояли
+              // четыре одинаковые по весу кнопки, и человек снова выбирал
+              // вместо того, чтобы действовать.
               _PrimaryButton(
                 label: L.t('guide_open_bot'),
                 icon: Icons.open_in_new,
                 onTap: () => launchUrl(Uri.parse(_botUrl),
                     mode: LaunchMode.externalApplication),
               ),
-              const SizedBox(height: 10),
-              _OutlineButton(
-                label: L.t('guide_have_link'),
-                icon: Icons.link,
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (_) => const ImportScreen(firstRun: true)),
-                ),
-              ),
-              const SizedBox(height: 10),
-              // Привязка подписки по Telegram ID — прямо из инструкции.
-              _OutlineButton(
-                label: L.t('guide_link_tg'),
-                icon: Icons.telegram,
-                onTap: () => showLinkTelegramDialog(context),
-              ),
-            ],
-
-            if (afterFreeEnable && !sub) ...[
-              const SizedBox(height: 22),
-              GestureDetector(
-                onTap: () => Navigator.of(context).pushReplacement(
+              const SizedBox(height: 18),
+              const _OrDivider(),
+              const SizedBox(height: 14),
+              // Тот же самый блок «уже есть подписка», что и на экране входа:
+              // ID главным, ссылка и QR альтернативами.
+              ConnectWays(
+                compact: true,
+                onSuccess: () => Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (_) => const MainShell()),
                 ),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  decoration: BoxDecoration(
-                    color: P.lime,
-                    borderRadius: BorderRadius.circular(14),
+              ),
+              const SizedBox(height: 18),
+              // Уйти на главную — текстовой ссылкой, чтобы не спорить с CTA.
+              Center(
+                child: TextButton(
+                  onPressed: () => Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (_) => const MainShell()),
                   ),
-                  child: Text(L.t('guide_ok_home'),
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          color: Color(0xFF0C1206),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700)),
+                  child: Text(L.t('guide_later'),
+                      style: const TextStyle(color: P.textFaint)),
                 ),
               ),
             ],
@@ -262,13 +248,18 @@ class _PrimaryButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: const Color(0xFF0C1206), size: 20),
+            Icon(icon, color: P.onLime, size: 20),
             const SizedBox(width: 8),
-            Text(label,
-                style: const TextStyle(
-                    color: Color(0xFF0C1206),
-                    fontSize: 16,
-                    fontWeight: FontWeight.w800)),
+            // Надпись длинная («Открыть бота и забрать 3 дня») и на узком
+            // экране не помещалась в строку — обрезалась по краю кнопки.
+            Flexible(
+              child: Text(label,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                      color: P.onLime,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w800)),
+            ),
           ],
         ),
       ),
@@ -276,33 +267,21 @@ class _PrimaryButton extends StatelessWidget {
   }
 }
 
-class _OutlineButton extends StatelessWidget {
-  final String label;
-  final IconData icon;
-  final VoidCallback onTap;
-  const _OutlineButton(
-      {required this.label, required this.icon, required this.onTap});
+/// Разделитель «или» между главным действием и альтернативным путём.
+class _OrDivider extends StatelessWidget {
+  const _OrDivider();
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 13),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: P.surfaceHi),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: P.textDim, size: 18),
-            const SizedBox(width: 8),
-            Text(label,
-                style: const TextStyle(color: P.text, fontSize: 14)),
-          ],
-        ),
+    final line = Expanded(child: Container(height: 1, color: P.surfaceHi));
+    return Row(children: [
+      line,
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Text(L.t('cw_or'),
+            style: const TextStyle(color: P.textFaint, fontSize: 12)),
       ),
-    );
+      line,
+    ]);
   }
 }

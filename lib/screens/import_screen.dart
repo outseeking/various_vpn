@@ -1,6 +1,8 @@
-/// Импорт подписки: вставить ссылку (грузим с сервера) ИЛИ вставить сам текст
-/// подписки/ссылку конфига. QR-сканер добавим на мобильной сборке (mobile_scanner
-/// не работает в Web). Дизайн черновой.
+/// Добавление подписки: ID, ссылка, готовые конфиги или QR-код.
+///
+/// Экран приведён к общему стилю приложения — раньше он был на стандартных
+/// материаловских кнопках и выглядел как из другого продукта. Порядок тот же,
+/// что везде: сначала главный путь (поле ввода), потом альтернативы.
 library;
 
 import 'package:flutter/material.dart';
@@ -11,8 +13,11 @@ import 'package:url_launcher/url_launcher.dart';
 import '../brand.dart';
 import '../l10n.dart';
 import '../state/app_state.dart';
+import '../theme/app_palette.dart';
+import '../widgets/tap_scale.dart';
 import 'home_screen.dart';
 import 'qr_import_screen.dart';
+import '../widgets/app_toast.dart';
 
 class ImportScreen extends StatefulWidget {
   /// true — открыт в потоке первого входа (после успеха идём на главный экран).
@@ -36,9 +41,7 @@ class _ImportScreenState extends State<ImportScreen> {
     if (!mounted) return;
     setState(() => _busy = false);
     if (ok) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('${L.t('imp_ok')}: ${state.servers.length}')),
-      );
+      AppToast.ok(context, '${L.t('imp_ok')}: ${state.servers.length}');
       if (widget.firstRun) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (_) => const MainShell()),
@@ -47,9 +50,7 @@ class _ImportScreenState extends State<ImportScreen> {
         Navigator.of(context).pop(true);
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(state.lastError ?? 'Ошибка импорта')),
-      );
+      AppToast.error(context, state.lastError ?? L.t('imp_fail'));
     }
   }
 
@@ -58,9 +59,7 @@ class _ImportScreenState extends State<ImportScreen> {
     final txt = data?.text?.trim() ?? '';
     if (txt.isEmpty) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(L.t('imp_clip_empty'))),
-      );
+      AppToast.error(context, L.t('imp_clip_empty'));
       return;
     }
     _ctrl.text = txt;
@@ -70,14 +69,18 @@ class _ImportScreenState extends State<ImportScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: P.bg,
       appBar: AppBar(title: Text(L.t('imp_title'))),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(20, 8, 20, 28),
           children: [
-            Text(L.t('imp_hint2')),
-            const SizedBox(height: 16),
+            Text(L.t('imp_hint2'),
+                style: const TextStyle(
+                    color: P.textDim, fontSize: 13.5, height: 1.5)),
+            const SizedBox(height: 18),
             TextField(
               controller: _ctrl,
               minLines: 3,
@@ -88,69 +91,174 @@ class _ImportScreenState extends State<ImportScreen> {
               textCapitalization: TextCapitalization.none,
               autocorrect: false,
               enableSuggestions: false,
-              decoration: const InputDecoration(
-                hintText: 'ID из бота (напр. 1658245753)\n'
-                    'или https://…  ·  vless://…',
-                border: OutlineInputBorder(),
-              ),
+              style: const TextStyle(color: P.text, fontSize: 14),
+              decoration: InputDecoration(hintText: L.t('imp_field_hint')),
             ),
             const SizedBox(height: 16),
-            FilledButton.icon(
-              onPressed: _busy ? null : _import,
-              icon: const Icon(Icons.download),
-              label: Text(L.t('imp_btn')),
+            _Primary(
+              label: L.t('imp_btn'),
+              icon: Icons.download_rounded,
+              busy: _busy,
+              onTap: _busy ? null : _import,
             ),
-            const SizedBox(height: 10),
-            OutlinedButton.icon(
-              onPressed: _busy
-                  ? null
-                  : () async {
-                      final ok = await Navigator.of(context).push<bool>(
-                        MaterialPageRoute(builder: (_) => const QrImportScreen()),
-                      );
-                      if (ok == true && mounted) {
-                        if (widget.firstRun) {
-                          Navigator.of(context).pushReplacement(MaterialPageRoute(
-                              builder: (_) => const MainShell()));
-                        } else {
-                          Navigator.of(context).pop(true);
-                        }
-                      }
-                    },
-              icon: const Icon(Icons.qr_code_scanner),
-              label: Text(L.t('imp_qr')),
-            ),
-            const SizedBox(height: 10),
-            OutlinedButton.icon(
-              onPressed: _busy ? null : _pasteAndImport,
-              icon: const Icon(Icons.content_paste),
-              label: Text(L.t('imp_paste')),
-            ),
-            const SizedBox(height: 22),
+            const SizedBox(height: 12),
+            Row(children: [
+              Expanded(
+                child: _Secondary(
+                  label: L.t('imp_qr'),
+                  icon: Icons.qr_code_scanner,
+                  onTap: _busy ? null : _openQr,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: _Secondary(
+                  label: L.t('imp_paste'),
+                  icon: Icons.content_paste_rounded,
+                  onTap: _busy ? null : _pasteAndImport,
+                ),
+              ),
+            ]),
+            const SizedBox(height: 26),
             // Где взять подписку — сразу ведём в бота, чтобы новичок не терялся.
-            Text(L.t('imp_where'),
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 12.5)),
-            const SizedBox(height: 8),
-            FilledButton.tonalIcon(
-              onPressed: () => launchUrl(Uri.parse(Brand.bot),
-                  mode: LaunchMode.externalApplication),
-              icon: const Icon(Icons.smart_toy_outlined),
-              label: Text(L.t('imp_get_in_bot')),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: P.surfaceLo,
+                borderRadius: BorderRadius.circular(18),
+                border: Border.all(color: P.surfaceHi),
+              ),
+              child: Column(children: [
+                Text(L.t('imp_where'),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        color: P.textDim, fontSize: 13, height: 1.45)),
+                const SizedBox(height: 12),
+                _Secondary(
+                  label: L.t('imp_get_in_bot'),
+                  icon: Icons.smart_toy_outlined,
+                  onTap: () => launchUrl(Uri.parse(Brand.bot),
+                      mode: LaunchMode.externalApplication),
+                ),
+              ]),
             ),
-            if (_busy) ...[
-              const SizedBox(height: 24),
-              const Center(child: CircularProgressIndicator()),
-            ],
           ],
         ),
       ),
     );
   }
 
+  Future<void> _openQr() async {
+    final ok = await Navigator.of(context)
+        .push<bool>(MaterialPageRoute(builder: (_) => const QrImportScreen()));
+    if (ok != true || !mounted) return;
+    if (widget.firstRun) {
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const MainShell()));
+    } else {
+      Navigator.of(context).pop(true);
+    }
+  }
+
   @override
   void dispose() {
     _ctrl.dispose();
     super.dispose();
+  }
+}
+
+/// Главная кнопка экрана — фирменный градиент, состояние загрузки внутри.
+class _Primary extends StatelessWidget {
+  final String label;
+  final IconData icon;
+  final bool busy;
+  final VoidCallback? onTap;
+  const _Primary({
+    required this.label,
+    required this.icon,
+    required this.onTap,
+    this.busy = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TapScale(
+      onTap: onTap,
+      haptic: true,
+      scale: 0.975,
+      child: Opacity(
+        opacity: onTap == null ? 0.6 : 1,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 15),
+          decoration: BoxDecoration(
+            gradient: P.grad,
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: [
+              BoxShadow(
+                  color: P.lime.withValues(alpha: 0.26),
+                  blurRadius: 20,
+                  spreadRadius: -6,
+                  offset: const Offset(0, 6)),
+            ],
+          ),
+          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            if (busy)
+              const SizedBox(
+                width: 18,
+                height: 18,
+                child:
+                    CircularProgressIndicator(strokeWidth: 2, color: P.onLime),
+              )
+            else
+              Icon(icon, size: 19, color: P.onLime),
+            const SizedBox(width: 9),
+            Text(label,
+                style: const TextStyle(
+                    color: P.onLime,
+                    fontSize: 15.5,
+                    fontWeight: FontWeight.w800)),
+          ]),
+        ),
+      ),
+    );
+  }
+}
+
+/// Второстепенная кнопка — контур, тот же ритм скруглений и высоты.
+class _Secondary extends StatelessWidget {
+  final String label;
+  final IconData icon;
+  final VoidCallback? onTap;
+  const _Secondary(
+      {required this.label, required this.icon, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return TapScale(
+      onTap: onTap,
+      child: Opacity(
+        opacity: onTap == null ? 0.5 : 1,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 10),
+          decoration: BoxDecoration(
+            color: P.surfaceLo,
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: P.surfaceHi),
+          ),
+          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Icon(icon, size: 17, color: P.limeText),
+            const SizedBox(width: 8),
+            Flexible(
+              child: Text(label,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      color: P.text,
+                      fontSize: 13.5,
+                      fontWeight: FontWeight.w600)),
+            ),
+          ]),
+        ),
+      ),
+    );
   }
 }

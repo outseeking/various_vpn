@@ -5,8 +5,8 @@ import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import com.github.blueboytm.flutter_v2ray.v2ray.V2rayController
-import com.github.blueboytm.flutter_v2ray.v2ray.utils.AppConfigs
+import dev.amirzr.flutter_v2ray_client.v2ray.V2rayController
+import dev.amirzr.flutter_v2ray_client.v2ray.utils.AppConfigs
 import java.util.concurrent.Executors
 import javax.net.ssl.SSLSocketFactory
 

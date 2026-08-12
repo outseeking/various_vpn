@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../l10n.dart';
 import '../state/app_state.dart';
 import '../theme/app_palette.dart';
+import '../widgets/app_toast.dart';
 
 class CustomServersScreen extends StatefulWidget {
   const CustomServersScreen({super.key});
@@ -26,8 +27,16 @@ class _CustomServersScreenState extends State<CustomServersScreen> {
       '  "vless://uuid@host2:443?security=reality&...#Мой сервер 2"\n]';
 
   Future<void> _add() async {
-    setState(() => _busy = true);
     final state = context.read<AppState>();
+    // ЗАЩИТА: без единой рабочей подписки свои серверы не добавляются — иначе
+    // через свой конфиг приложением пользовались бы в обход оплаты. Своя
+    // подписка другого сервиса этому условию удовлетворяет: человек и так
+    // подключается своими серверами, запрещать ему добавить ещё один незачем.
+    if (!state.featuresUnlocked) {
+      AppToast.show(context, L.t('cs_locked'));
+      return;
+    }
+    setState(() => _busy = true);
     final ok = await state.importCustomServers(_ctrl.text);
     if (!mounted) return;
     setState(() => _busy = false);
@@ -36,13 +45,7 @@ class _CustomServersScreenState extends State<CustomServersScreen> {
       Navigator.of(context).pop();
       return;
     }
-    // Ошибка — короткое сообщение в фирменном цвете (не навязчивая синяя плашка).
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      behavior: SnackBarBehavior.floating,
-      backgroundColor: const Color(0xFFE2504A),
-      content: Text(state.lastError ?? L.t('error'),
-          style: const TextStyle(color: Colors.white)),
-    ));
+    AppToast.error(context, state.lastError ?? L.t('error'));
   }
 
   @override
@@ -85,7 +88,8 @@ class _CustomServersScreenState extends State<CustomServersScreen> {
                   const SizedBox(height: 8),
                   Text(
                     L.t('cs_body'),
-                    style: const TextStyle(color: P.textDim, fontSize: 13, height: 1.5),
+                    style: const TextStyle(
+                        color: P.textDim, fontSize: 13, height: 1.5),
                   ),
                 ],
               ),

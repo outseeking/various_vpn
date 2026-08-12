@@ -34,7 +34,8 @@ class LogsScreen extends StatelessWidget {
                 final e = state.logs[i];
                 return ListTile(
                   dense: true,
-                  leading: Text(e.kind.icon, style: const TextStyle(fontSize: 18)),
+                  leading:
+                      Text(e.kind.icon, style: const TextStyle(fontSize: 18)),
                   title: Text(e.text),
                   trailing: Text(
                     e.hhmmss,
