@@ -146,6 +146,11 @@ if File.directory?(fw_path)
   ext.build_configurations.each do |c|
     c.build_settings['FRAMEWORK_SEARCH_PATHS'] =
       ['$(inherited)', "$(PROJECT_DIR)/#{EXT_NAME}"]
+    # Ядро написано на Go, и его сетевая часть обращается к системному
+    # резолверу напрямую: res_ninit, res_nsearch, res_nclose. В обычных
+    # приложениях эта библиотека не нужна и сама не подключается — без неё
+    # сборка доходит до самого конца и падает на «Undefined symbol».
+    c.build_settings['OTHER_LDFLAGS'] = ['$(inherited)', '-lresolv']
   end
 else
   puts '! LibXray.xcframework не найден — расширение соберётся без ядра'
