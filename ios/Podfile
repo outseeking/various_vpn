@@ -51,6 +51,12 @@ _pbxproj = File.join(__dir__, 'Runner.xcodeproj', 'project.pbxproj')
 if File.exist?(_pbxproj) && File.read(_pbxproj).include?('PacketTunnelProvider')
   target 'PacketTunnelProvider' do
     use_frameworks!
+
+    # Перекачка utun ↔ SOCKS. Обёртка над hev-socks5-tunnel с уже собранным
+    # бинарником: система отдаёт расширению сырые IP-пакеты, а Xray понимает
+    # только SOCKS — без этого переводчика туннель поднимется, но трафик
+    # стоять будет.
+    pod 'Tun2SocksKit', '~> 5.16'
   end
 end
 

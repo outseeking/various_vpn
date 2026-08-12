@@ -99,6 +99,29 @@ res = ext.resources_build_phase
   puts "+ #{fname} → ресурсы #{EXT_NAME}"
 end
 
+# --- 3.2) Ядро Xray: подключаем xcframework ---
+#
+# Файл скачивает сборка (см. шаг «Скачать ядро Xray» в CI). Без линковки
+# `#if canImport(LibXray)` в XrayCore.swift выбирает пустую ветку: расширение
+# соберётся, туннель поднимется, а трафика не будет — самая обидная поломка,
+# потому что внешне всё выглядит рабочим.
+fw_path = File.join(ROOT, EXT_NAME, 'LibXray.xcframework')
+if File.directory?(fw_path)
+  fw_ref = ext_group.files.find { |f| f.display_name == 'LibXray.xcframework' } ||
+           ext_group.new_reference('LibXray.xcframework')
+  frameworks = ext.frameworks_build_phase
+  unless frameworks.files_references.include?(fw_ref)
+    frameworks.add_file_reference(fw_ref)
+    puts '+ LibXray.xcframework → линковка расширения'
+  end
+  ext.build_configurations.each do |c|
+    c.build_settings['FRAMEWORK_SEARCH_PATHS'] =
+      ['$(inherited)', "$(PROJECT_DIR)/#{EXT_NAME}"]
+  end
+else
+  puts '! LibXray.xcframework не найден — расширение соберётся без ядра'
+end
+
 # --- 4) Встраиваем расширение в приложение ---
 runner.add_dependency(ext) unless runner.dependencies.any? { |d| d.target == ext }
 
