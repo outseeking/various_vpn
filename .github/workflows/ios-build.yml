@@ -52,6 +52,28 @@ jobs:
           flutter analyze
           flutter test
 
+      - name: Починить имя файла podspec у плагина ядра
+        # Плагин flutter_v2ray_client — форк flutter_v2ray, и при переименовании
+        # пакета файл описания для CocoaPods остался со старым именем:
+        # flutter_v2ray.podspec вместо flutter_v2ray_client.podspec. Внутри имя
+        # уже правильное (s.name = 'flutter_v2ray_client'), но CocoaPods ищет
+        # файл по имени пакета и падает: «No podspec found».
+        #
+        # Чиним копией, а не правкой пакета: кэш pub перезаписывается при каждом
+        # обновлении зависимостей, и правка бы там не пережила.
+        run: |
+          CACHE="${PUB_CACHE:-$HOME/.pub-cache}"
+          found=0
+          for dir in "$CACHE"/hosted/pub.dev/flutter_v2ray_client-*/ios; do
+            [ -d "$dir" ] || continue
+            if [ -f "$dir/flutter_v2ray.podspec" ] &&                [ ! -f "$dir/flutter_v2ray_client.podspec" ]; then
+              cp "$dir/flutter_v2ray.podspec" "$dir/flutter_v2ray_client.podspec"
+              echo "починено: $dir"
+              found=1
+            fi
+          done
+          [ "$found" = 1 ] || echo "правка не понадобилась — имя уже верное"
+
       - name: Скачать ядро Xray для Apple
         # Готовый бинарник из релизов libXray — собирать Go самим не нужно.
         run: |
