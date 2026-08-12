@@ -153,7 +153,9 @@ class Storage {
     if (kIsWeb) return _prefs.getString(_kConfigsFile);
     try {
       final f = await _configsFile();
-      if (await f.exists()) return f.readAsString();
+      // await обязателен: без него ошибка чтения улетела бы мимо catch, и
+      // возврата к настройкам (фоллбэк ниже) не случилось бы.
+      if (await f.exists()) return await f.readAsString();
     } catch (_) {
       // фоллбэк ниже
     }
@@ -189,7 +191,8 @@ class Storage {
     try {
       final dir = await getApplicationDocumentsDirectory();
       final f = File('${dir.path}/$name.blob');
-      if (await f.exists()) return f.readAsString();
+      // await обязателен — иначе сбой чтения обойдёт catch стороной.
+      if (await f.exists()) return await f.readAsString();
     } catch (_) {
       // фоллбэк ниже
     }
