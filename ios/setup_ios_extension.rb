@@ -18,6 +18,13 @@ EXT_NAME = 'PacketTunnelProvider'
 EXT_BUNDLE = "#{APP_BUNDLE}.PacketTunnel"
 DEPLOY = '13.0'
 
+# Версия берётся из pubspec.yaml — единственного места, где её правят.
+# Формат «1.0.0+1»: до плюса — версия для человека, после — номер сборки.
+pubspec = File.read(File.join(ROOT, '..', 'pubspec.yaml'))
+version_line = pubspec[/^version:\s*(\S+)/, 1] || '1.0.0+1'
+BUILD_NAME, BUILD_NUMBER = version_line.split('+')
+BUILD_NUMBER ||= '1'
+
 project = Xcodeproj::Project.open(PROJECT)
 runner = project.targets.find { |t| t.name == 'Runner' } or abort('Runner target не найден')
 
@@ -41,6 +48,8 @@ if ext.nil?
   puts "+ target #{EXT_NAME}"
 end
 
+puts "= версия расширения: #{BUILD_NAME} (#{BUILD_NUMBER})"
+
 ext_group = project.main_group[EXT_NAME] || project.main_group.new_group(EXT_NAME, EXT_NAME)
 %w[PacketTunnelProvider.swift XrayCore.swift LibXrayBridge.swift].each do |fname|
   next if ext.source_build_phase.files_references.any? { |f| f.display_name == fname }
@@ -61,6 +70,11 @@ ext.build_configurations.each do |c|
   # именем — «.appex», — и сборка падает на «Multiple commands produce»:
   # несколько шагов начинают писать по одному и тому же пути.
   bs['PRODUCT_NAME'] = '$(TARGET_NAME)'
+  # Info.plist расширения ссылается на эти переменные, но Flutter объявляет их
+  # только для основного приложения. Без них версия расширения пустая, и iOS
+  # отказывается его устанавливать: «bundleVersion must be set».
+  bs['FLUTTER_BUILD_NAME'] = BUILD_NAME
+  bs['FLUTTER_BUILD_NUMBER'] = BUILD_NUMBER
   bs['GENERATE_INFOPLIST_FILE'] = 'NO'
   bs['SKIP_INSTALL'] = 'YES'
   bs['TARGETED_DEVICE_FAMILY'] = '1,2'
