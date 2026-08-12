@@ -42,7 +42,7 @@ if ext.nil?
 end
 
 ext_group = project.main_group[EXT_NAME] || project.main_group.new_group(EXT_NAME, EXT_NAME)
-%w[PacketTunnelProvider.swift XrayCore.swift].each do |fname|
+%w[PacketTunnelProvider.swift XrayCore.swift LibXrayBridge.swift].each do |fname|
   next if ext.source_build_phase.files_references.any? { |f| f.display_name == fname }
   ext.add_file_references([ext_group.new_reference(fname)])
   puts "+ #{fname} → #{EXT_NAME}"
@@ -57,10 +57,32 @@ ext.build_configurations.each do |c|
   bs['CODE_SIGN_ENTITLEMENTS'] = "#{EXT_NAME}/#{EXT_NAME}.entitlements"
   bs['SWIFT_VERSION'] = '5.0'
   bs['IPHONEOS_DEPLOYMENT_TARGET'] = DEPLOY
+  # Без явного имени продукта Xcode собирает расширение в файл с пустым
+  # именем — «.appex», — и сборка падает на «Multiple commands produce»:
+  # несколько шагов начинают писать по одному и тому же пути.
+  bs['PRODUCT_NAME'] = '$(TARGET_NAME)'
   bs['GENERATE_INFOPLIST_FILE'] = 'NO'
   bs['SKIP_INSTALL'] = 'YES'
   bs['TARGETED_DEVICE_FAMILY'] = '1,2'
   bs['CODE_SIGN_STYLE'] = 'Automatic'
+end
+
+# --- 3.1) geo-списки в ресурсы расширения ---
+#
+# Файлы скачивает сборка, но сами по себе в бандл они не попадут: нужна фаза
+# копирования ресурсов у таргета. Искать их код будет в СВОЁМ бандле
+# (Bundle.main внутри расширения — это бандл расширения), а без них Xray не
+# «пропустит» правило geosite/geoip, а откажется стартовать.
+res = ext.resources_build_phase
+%w[geoip.dat geosite.dat].each do |fname|
+  path = File.join(ROOT, EXT_NAME, fname)
+  unless File.exist?(path)
+    puts "= #{fname} не найден — пропускаю (скачивается на этапе сборки)"
+    next
+  end
+  next if res.files_references.any? { |f| f.display_name == fname }
+  res.add_file_reference(ext_group.new_reference(fname))
+  puts "+ #{fname} → ресурсы #{EXT_NAME}"
 end
 
 # --- 4) Встраиваем расширение в приложение ---
