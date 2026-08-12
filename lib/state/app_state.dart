@@ -20,6 +20,7 @@ import '../models/connection_status.dart';
 import '../models/log_entry.dart';
 import '../models/support_message.dart';
 import '../l10n.dart';
+import '../services/live_activity.dart';
 import '../models/vpn_server.dart';
 import '../services/auto_wifi_guard.dart';
 import '../services/backend_api.dart';
@@ -136,7 +137,28 @@ class AppState extends ChangeNotifier {
       pingMs: a?.pingMs ?? -1,
       telegramOnly: telegramOnly,
     );
+
+    // То же состояние — в живое событие iOS (Dynamic Island и экран
+    // блокировки). Место общее с домашним виджетом намеренно: оба показывают
+    // одно и то же, и разойтись они не должны.
+    LiveActivity.push(
+      connected: isConnected,
+      status: isConnected ? L.t('protected') : L.t('disconnected'),
+      server: name,
+      countryCode: a?.countryCode ?? '',
+      ping: (telegramOnly || (a?.pingMs ?? -1) <= 0) ? '' : '${a!.pingMs} ms',
+      up: _speedLabel(speedUpKbps),
+      down: _speedLabel(speedDownKbps),
+      since: _sessionStart,
+    );
   }
+
+  /// Скорость строкой. Считаем здесь, а не в самом событии: у расширения нет
+  /// доступа к переводам, а правила округления обязаны совпадать с теми, что
+  /// человек видит в приложении.
+  String _speedLabel(double kbps) => kbps >= 1024
+      ? '${(kbps / 1024).toStringAsFixed(1)} ${L.t('unit_mbps')}'
+      : '${kbps.toStringAsFixed(0)} ${L.t('unit_kbps')}';
 
   // ---- состояние ----
 

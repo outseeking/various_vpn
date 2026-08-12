@@ -16,6 +16,8 @@ PROJECT = File.join(ROOT, 'Runner.xcodeproj')
 APP_BUNDLE = 'com.example.variousVpn'
 EXT_NAME = 'PacketTunnelProvider'
 EXT_BUNDLE = "#{APP_BUNDLE}.PacketTunnel"
+WDG_NAME = 'VariousWidgets'
+WDG_BUNDLE = "#{APP_BUNDLE}.Widgets"
 DEPLOY = '13.0'
 
 # Версия берётся из pubspec.yaml — единственного места, где её правят.
@@ -30,10 +32,10 @@ runner = project.targets.find { |t| t.name == 'Runner' } or abort('Runner target
 
 # --- 1) VPNManager.swift → в таргет Runner ---
 runner_group = project.main_group['Runner'] || project.main_group.new_group('Runner', 'Runner')
-unless runner.source_build_phase.files_references.any? { |f| f.display_name == 'VPNManager.swift' }
-  ref = runner_group.new_reference('VPNManager.swift')
-  runner.add_file_references([ref])
-  puts '+ VPNManager.swift → Runner'
+%w[VPNManager.swift LiveActivityBridge.swift].each do |fname|
+  next if runner.source_build_phase.files_references.any? { |f| f.display_name == fname }
+  runner.add_file_references([runner_group.new_reference(fname)])
+  puts "+ #{fname} → Runner"
 end
 
 # --- 2) Энтайтлменты приложения ---
@@ -171,6 +173,78 @@ if thin
   end
 else
   puts '= шаг Thin Binary не найден — порядок оставлен как есть'
+end
+
+# --- 6) Расширение виджетов: домашний экран + Dynamic Island ---
+#
+# Отдельный таргет, а не часть туннеля: система запускает виджеты своим
+# процессом и по своему поводу, а расширение VPN обязано жить ровно столько,
+# сколько поднят туннель. Смешивать их нельзя.
+wdg_group = project.main_group[WDG_NAME] || project.main_group.new_group(WDG_NAME, WDG_NAME)
+wdg = project.targets.find { |t| t.name == WDG_NAME }
+if wdg.nil?
+  wdg = project.new_target(:app_extension, WDG_NAME, :ios, '14.0')
+  puts "+ target #{WDG_NAME}"
+end
+
+%w[VariousWidgetsBundle.swift StatusWidget.swift VpnState.swift Palette.swift
+   VpnActivityAttributes.swift VpnLiveActivity.swift].each do |fname|
+  next if wdg.source_build_phase.files_references.any? { |f| f.display_name == fname }
+  wdg.add_file_references([wdg_group.new_reference(fname)])
+  puts "+ #{fname} → #{WDG_NAME}"
+end
+wdg_group.new_reference('Info.plist') unless wdg_group.files.any? { |f| f.display_name == 'Info.plist' }
+
+# Описание живого события компилируется И в приложение: система сопоставляет
+# запущенное событие с его оформлением по имени типа, а типы из чужого
+# расширения приложению не видны. Без этой строки остров просто не появится.
+attrs = 'VpnActivityAttributes.swift'
+unless runner.source_build_phase.files_references.any? { |f| f.display_name == attrs }
+  ref = wdg_group.files.find { |f| f.display_name == attrs } || wdg_group.new_reference(attrs)
+  runner.add_file_references([ref])
+  puts "+ #{attrs} → Runner"
+end
+
+wdg.build_configurations.each do |c|
+  bs = c.build_settings
+  bs['PRODUCT_BUNDLE_IDENTIFIER'] = WDG_BUNDLE
+  bs['INFOPLIST_FILE'] = "#{WDG_NAME}/Info.plist"
+  bs['CODE_SIGN_ENTITLEMENTS'] = "#{WDG_NAME}/#{WDG_NAME}.entitlements"
+  bs['SWIFT_VERSION'] = '5.0'
+  # Виджеты появились в iOS 14, живое событие — в 16.1. Нижнюю планку держим
+  # на 14: код версии проверяет сам, а расширение с более высоким минимумом
+  # просто не поставится на часть телефонов.
+  bs['IPHONEOS_DEPLOYMENT_TARGET'] = '14.0'
+  bs['PRODUCT_NAME'] = '$(TARGET_NAME)'
+  bs['FLUTTER_BUILD_NAME'] = BUILD_NAME
+  bs['FLUTTER_BUILD_NUMBER'] = BUILD_NUMBER
+  bs['GENERATE_INFOPLIST_FILE'] = 'NO'
+  bs['SKIP_INSTALL'] = 'YES'
+  bs['TARGETED_DEVICE_FAMILY'] = '1,2'
+  bs['CODE_SIGN_STYLE'] = 'Automatic'
+  # Расширению виджетов нужен SwiftUI-«главный» тип, а не main.swift.
+  bs['SWIFT_ACTIVE_COMPILATION_CONDITIONS'] ||= '$(inherited)'
+end
+
+runner.add_dependency(wdg) unless runner.dependencies.any? { |d| d.target == wdg }
+unless embed.files_references.include?(wdg.product_reference)
+  bf = embed.add_file_reference(wdg.product_reference)
+  bf.settings = { 'ATTRIBUTES' => ['RemoveHeadersOnCopy'] }
+  puts '+ VariousWidgets → Embed App Extensions'
+end
+
+# --- 7) Разрешение на живые события ---
+#
+# Без этого ключа система молча не покажет ни острова, ни карточки на экране
+# блокировки — и разбираться будет не в чем: ошибок не будет тоже.
+app_plist = File.join(ROOT, 'Runner', 'Info.plist')
+plist = File.read(app_plist)
+unless plist.include?('NSSupportsLiveActivities')
+  plist = plist.sub('<dict>', "<dict>
+	<key>NSSupportsLiveActivities</key>
+	<true/>")
+  File.write(app_plist, plist)
+  puts '+ NSSupportsLiveActivities → Runner/Info.plist'
 end
 
 project.save

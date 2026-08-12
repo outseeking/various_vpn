@@ -4,6 +4,7 @@ library;
 
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,7 @@ import '../state/app_state.dart';
 import '../theme/app_palette.dart';
 import '../theme/motion.dart';
 import '../widgets/ambient_bars.dart';
+import '../widgets/ios_segmented.dart';
 import '../widgets/connect_button.dart';
 import '../widgets/connect_ways.dart';
 import '../widgets/connect_glow.dart';
@@ -47,12 +49,6 @@ class MainShell extends StatefulWidget {
 
 class _MainShellState extends State<MainShell> with WidgetsBindingObserver {
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-  }
-
-  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     // Вернулись в приложение — перемеряем список. Пока человек был снаружи,
     // сеть могла смениться (Wi-Fi → мобильный), и прежние числа устарели.
@@ -64,6 +60,27 @@ class _MainShellState extends State<MainShell> with WidgetsBindingObserver {
   final PageController _pc = PageController();
   int _index = 0;
 
+  /// Дробная позиция страниц — та же величина, что и у листания, только
+  /// доступная панели снизу.
+  ///
+  /// Ради неё всё и затевалось: в Telegram подпись вкладки разгорается не в
+  /// момент отпускания, а по ходу движения пальца. Страница уехала на треть —
+  /// значок внизу на треть же и перекрасился. Без этого панель узнаёт о смене
+  /// вкладки последней и выглядит приклеенной задним числом.
+  final ValueNotifier<double> _pos = ValueNotifier(0);
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _pc.addListener(_syncPos);
+  }
+
+  void _syncPos() {
+    final p = _pc.hasClients ? _pc.page : null;
+    if (p != null) _pos.value = p;
+  }
+
   void _go(int i) {
     if (i == _index) return;
     _pc.animateToPage(i,
@@ -71,10 +88,20 @@ class _MainShellState extends State<MainShell> with WidgetsBindingObserver {
         curve: Curves.easeOutCubic);
   }
 
+  /// Ведение пальцем по самой панели: страницы едут следом, а не прыгают в
+  /// конце. Панель и содержимое — одно движение, поэтому позицию задаём
+  /// напрямую в пикселях листания.
+  void _scrub(double page) {
+    if (!_pc.hasClients) return;
+    _pc.jumpTo(page * _pc.position.viewportDimension);
+  }
+
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    _pc.removeListener(_syncPos);
     _pc.dispose();
+    _pos.dispose();
     super.dispose();
   }
 
@@ -90,8 +117,10 @@ class _MainShellState extends State<MainShell> with WidgetsBindingObserver {
         upKbps: state.speedUpKbps,
         downKbps: state.speedDownKbps,
         animate: state.animationsOn,
+        position: _pos,
         currentIndex: _index,
         onSelect: _go,
+        onScrub: _scrub,
       ),
       // Пока палец на глобусе, листание вкладок выключено. Без этого любое
       // движение вбок над глобусом улетало в PageView: страница перелистывалась,
@@ -490,54 +519,18 @@ class _ModeToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget seg(GlobalMode m, String t) {
-      final on = mode == m;
-      return Expanded(
-        child: TapScale(
-          onTap: () => onChanged(m),
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 220),
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            decoration: BoxDecoration(
-              color: on ? P.lime : null,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Text(t,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 12.5,
-                  fontWeight: FontWeight.w600,
-                  color: on ? P.onLime : P.textFaint,
-                )),
-          ),
-        ),
-      );
-    }
-
     return Column(
       children: [
-        // Свайп влево/вправо переключает режим (как сегменты в Telegram/iOS).
-        GestureDetector(
-          onHorizontalDragEnd: (d) {
-            final v = d.primaryVelocity ?? 0;
-            if (v < -120 && mode != GlobalMode.manual) {
-              onChanged(GlobalMode.manual);
-            } else if (v > 120 && mode != GlobalMode.ai) {
-              onChanged(GlobalMode.ai);
-            }
-          },
-          child: Container(
-            padding: const EdgeInsets.all(3),
-            decoration: BoxDecoration(
-              color: P.surfaceLo,
-              borderRadius: BorderRadius.circular(11),
-              border: Border.all(color: P.surfaceHi),
-            ),
-            child: Row(children: [
-              seg(GlobalMode.ai, L.t('ai_auto')),
-              seg(GlobalMode.manual, L.t('manual')),
-            ]),
-          ),
+        // Раньше переключалось рывком по взмаху: пока палец не оторвёшь —
+        // ничего не происходит, а потом сегмент перекрашивается скачком.
+        // Теперь таблетка едет ЗА пальцем и доводится пружиной, как в iOS.
+        IosSegmented<GlobalMode>(
+          value: mode,
+          onChanged: onChanged,
+          items: [
+            (GlobalMode.ai, L.t('ai_auto')),
+            (GlobalMode.manual, L.t('manual')),
+          ],
         ),
         const SizedBox(height: 4),
         Text(
@@ -2104,15 +2097,25 @@ class _BottomBar extends StatefulWidget {
   final double upKbps;
   final double downKbps;
   final bool animate;
+
+  /// Дробная позиция листания страниц. Панель ничего не считает сама —
+  /// подсветка целиком повторяет то, что делает содержимое.
+  final ValueListenable<double> position;
   final int currentIndex;
   final ValueChanged<int> onSelect;
+
+  /// Ведение пальцем по панели: просим страницы встать на эту позицию.
+  final ValueChanged<double> onScrub;
+
   const _BottomBar({
     required this.trafficLines,
     required this.showTraffic,
     required this.upKbps,
     required this.downKbps,
+    required this.position,
     required this.currentIndex,
     required this.onSelect,
+    required this.onScrub,
     this.animate = true,
   });
 
@@ -2120,47 +2123,11 @@ class _BottomBar extends StatefulWidget {
   State<_BottomBar> createState() => _BottomBarState();
 }
 
-class _BottomBarState extends State<_BottomBar>
-    with SingleTickerProviderStateMixin {
-  /// Позиция подсветки в «номерах вкладок». Дробные значения — это и есть
-  /// состояние на полпути, ради которого затевалось перетаскивание.
-  ///
-  /// Предел берётся из длины списка значков, а не пишется числом: на iOS
-  /// вкладок три, и с жёсткой четвёркой подсветку можно было бы утащить за
-  /// край панели.
-  late final AnimationController _pos = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 380),
-    lowerBound: 0,
-    upperBound: (_icons.length - 1).toDouble(),
-    value: widget.currentIndex.toDouble(),
-  );
-
+class _BottomBarState extends State<_BottomBar> {
+  /// Пока панель ведут пальцем, подсветка светится ярче и капсула чуть шире —
+  /// видно, что элемент «взят в руку», а не просто перекрасился.
   bool _dragging = false;
   int _lastHaptic = 0;
-
-  @override
-  void didUpdateWidget(covariant _BottomBar old) {
-    super.didUpdateWidget(old);
-    // Вкладку могли сменить не панелью, а листанием страницы.
-    if (widget.currentIndex != old.currentIndex && !_dragging) {
-      _pos.animateTo(widget.currentIndex.toDouble(),
-          duration: const Duration(milliseconds: 380),
-          curve: Curves.easeOutCubic);
-    }
-  }
-
-  @override
-  void dispose() {
-    _pos.dispose();
-    super.dispose();
-  }
-
-  void _settle(int i) {
-    _pos.animateTo(i.toDouble(),
-        duration: const Duration(milliseconds: 320), curve: Curves.easeOutBack);
-    if (i != widget.currentIndex) widget.onSelect(i);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -2204,21 +2171,32 @@ class _BottomBarState extends State<_BottomBar>
       final slot = c.maxWidth / n;
       final pillW = slot * 0.66;
 
-      void moveTo(double dx) {
-        _pos.value = ((dx / slot) - 0.5).clamp(0.0, (n - 1) * 1.0);
-        // Отклик на пересечении границы, а не при отпускании: палец понимает,
-        // что перешёл на соседнюю вкладку, ещё до того как посмотрел.
-        final near = _pos.value.round();
+      /// Отклик на пересечении границы, а не при отпускании: палец понимает,
+      /// что перешёл на соседнюю вкладку, ещё до того как посмотрел.
+      void haptic(double pos) {
+        final near = pos.round();
         if (near != _lastHaptic) {
           _lastHaptic = near;
           HapticFeedback.selectionClick();
         }
       }
 
+      void moveTo(double dx) {
+        final pos = ((dx / slot) - 0.5).clamp(0.0, (n - 1) * 1.0);
+        haptic(pos);
+        // Панель не двигает подсветку сама: она просит страницы встать на эту
+        // позицию, а подсветка приедет следом — тем же путём, что и при
+        // обычном листании. Иначе получилось бы два независимых движения,
+        // которые рано или поздно разъезжаются.
+        widget.onScrub(pos);
+      }
+
       return GestureDetector(
         behavior: HitTestBehavior.opaque,
-        onTapUp: (d) =>
-            _settle((d.localPosition.dx / slot).floor().clamp(0, n - 1)),
+        onTapUp: (d) {
+          final i = (d.localPosition.dx / slot).floor().clamp(0, n - 1);
+          if (i != widget.currentIndex) widget.onSelect(i);
+        },
         onHorizontalDragStart: (d) {
           setState(() => _dragging = true);
           moveTo(d.localPosition.dx);
@@ -2226,18 +2204,19 @@ class _BottomBarState extends State<_BottomBar>
         onHorizontalDragUpdate: (d) => moveTo(d.localPosition.dx),
         onHorizontalDragEnd: (_) {
           setState(() => _dragging = false);
-          _settle(_pos.value.round().clamp(0, n - 1));
+          widget.onSelect(
+              widget.position.value.round().clamp(0, n - 1));
         },
         child: SizedBox(
           height: 48,
-          child: AnimatedBuilder(
-            animation: _pos,
-            builder: (context, _) => Stack(
+          child: ValueListenableBuilder<double>(
+            valueListenable: widget.position,
+            builder: (context, pos, _) => Stack(
               children: [
                 // Капсула следует за пальцем без задержки: любое сглаживание
                 // здесь читается как «подтормаживает».
                 Positioned(
-                  left: slot * _pos.value + (slot - pillW) / 2,
+                  left: slot * pos + (slot - pillW) / 2,
                   top: 3,
                   width: pillW,
                   height: 42,
@@ -2268,7 +2247,7 @@ class _BottomBarState extends State<_BottomBar>
                         // капсулы: видно, между какими вкладками палец.
                         child: _Tab(
                           icon: _icons[i],
-                          t: (1 - (_pos.value - i).abs()).clamp(0.0, 1.0),
+                          t: (1 - (pos - i).abs()).clamp(0.0, 1.0),
                           animate: widget.animate,
                         ),
                       ),

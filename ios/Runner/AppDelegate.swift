@@ -45,6 +45,15 @@ import UIKit
       case "disconnect":
         VPNManager.shared.disconnect()
         result(nil)
+      case "liveActivity":
+        // Живое событие: Dynamic Island и карточка на экране блокировки.
+        // Отдаём результат сразу — показ события идёт своим чередом и ждать
+        // его незачем, а Dart из-за ожидания притормозил бы обновление экрана.
+        LiveActivityBridge.push(call.arguments as? [String: Any] ?? [:])
+        result(nil)
+      case "liveActivityStop":
+        LiveActivityBridge.stop()
+        result(nil)
       case "connectedDelay":
         // Пинг через туннель меряем на стороне Dart; тут -1 (не блокируем UI).
         result(-1)
