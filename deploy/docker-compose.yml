@@ -1,0 +1,47 @@
+# Бэкенд Various VPN: бот и сервер подписок.
+#
+# Сейчас оба крутятся под systemd прямо на сервере, в общем виртуальном
+# окружении. Работает, но выкатка обновления там — это «зайти по ssh, git pull,
+# перезапустить и надеяться»: окружение меняется на живом сервере, и если новая
+# зависимость не встала, откатываться не к чему.
+#
+# С контейнерами откат — это предыдущий образ, а он уже собран и лежит рядом.
+
+services:
+  bot:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    image: various-bot:latest
+    container_name: various-bot
+    restart: unless-stopped
+    env_file: ../.env
+    volumes:
+      # База и присланные файлы обязаны пережить обновление — они снаружи
+      # образа. Всё, что внутри контейнера, при выкатке заменяется целиком.
+      - ../various.db:/app/various.db
+      - ../assets:/app/assets
+    # Бот сам стучится в Telegram, входящих соединений ему не нужно.
+    command: python -m app.bot.main
+
+  sub:
+    image: various-bot:latest
+    container_name: various-sub
+    restart: unless-stopped
+    # Образ один, поэтому этот сервис ждёт, пока его соберёт первый: иначе при
+    # первом запуске compose попытается взять несуществующий образ.
+    depends_on:
+      - bot
+    env_file: ../.env
+    volumes:
+      - ../various.db:/app/various.db
+      # Сертификаты только на чтение: сервер подписок их предъявляет, но
+      # менять ему нечего — обновляет их certbot снаружи.
+      - ../certs:/app/certs:ro
+    ports:
+      - "8088:8088"
+    command: >
+      uvicorn app.subserver:app
+      --host 0.0.0.0 --port 8088
+      --ssl-certfile /app/certs/nl1.fullchain.cer
+      --ssl-keyfile /app/certs/nl1.key
