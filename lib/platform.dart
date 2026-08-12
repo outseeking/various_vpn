@@ -31,19 +31,28 @@ class Caps {
 
   /// Смена значка приложения.
   ///
-  /// Обе системы умеют, но по-разному: на Android это подмена activity-alias,
-  /// на iOS — штатный alternate icon. Сейчас реализован только Android.
+  /// Обе системы умеют, но по-разному: на Android подменяется activity-alias,
+  /// на iOS система берёт готовый файл из бандла по имени (см. AltIcons и
+  /// CFBundleAlternateIcons в Info.plist). Работает и там, и там.
   static bool get appIconSwitch =>
-      !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
+      !kIsWeb &&
+      (defaultTargetPlatform == TargetPlatform.android ||
+          defaultTargetPlatform == TargetPlatform.iOS);
 
   /// Доступны ли списки geosite/geoip прямо в ядре.
   ///
   /// На Android они лежат внутри самого ядра (geosite.dat и geoip.dat в AAR).
-  /// На iOS ядро подключается отдельно, и файлы туда надо класть руками — пока
-  /// этого не сделано, ссылок на списки в конфиге быть не должно: Xray не
-  /// пропускает неизвестный список, а отказывается стартовать.
+  /// На iOS те же файлы кладутся в ресурсы расширения на сборке, а перед
+  /// стартом ядра каталог с ними объявляется через XRAY_LOCATION_ASSET
+  /// (LibXrayBridge.setupAssets).
+  ///
+  /// Проверка осталась не на всякий случай: в вебе ядра нет вовсе, а без
+  /// списков Xray не «пропускает» правило, а отказывается стартовать целиком —
+  /// то есть ошибка выглядела бы как «VPN просто не включается».
   static bool get geoAssets =>
-      !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
+      !kIsWeb &&
+      (defaultTargetPlatform == TargetPlatform.android ||
+          defaultTargetPlatform == TargetPlatform.iOS);
 
   /// Настоящий VPN-туннель.
   ///

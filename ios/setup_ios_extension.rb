@@ -38,6 +38,23 @@ runner_group = project.main_group['Runner'] || project.main_group.new_group('Run
   puts "+ #{fname} → Runner"
 end
 
+# --- 1.1) Запасные значки приложения ---
+#
+# Система берёт их ГОТОВЫМИ файлами из корня бандла по имени из Info.plist —
+# в отличие от Android, где подменяется алиас activity. Значит все варианты
+# обязаны попасть в ресурсы приложения заранее.
+alt_dir = File.join(ROOT, 'Runner', 'AltIcons')
+if File.directory?(alt_dir)
+  alt_group = runner_group['AltIcons'] || runner_group.new_group('AltIcons', 'AltIcons')
+  app_res = runner.resources_build_phase
+  Dir.children(alt_dir).sort.each do |fname|
+    next unless fname.end_with?('.png')
+    next if app_res.files_references.any? { |f| f.display_name == fname }
+    app_res.add_file_reference(alt_group.new_reference(fname))
+  end
+  puts "+ запасные значки → ресурсы Runner (#{Dir.children(alt_dir).size} файлов)"
+end
+
 # --- 2) Энтайтлменты приложения ---
 runner.build_configurations.each do |c|
   c.build_settings['CODE_SIGN_ENTITLEMENTS'] = 'Runner/Runner.entitlements'

@@ -62,6 +62,34 @@ import UIKit
       }
     }
 
+    // Смена значка приложения. Канал общий с Android — экран выбора один и
+    // тот же, и разводить его по платформам значило бы дублировать логику.
+    let status = FlutterMethodChannel(name: "various_vpn/status",
+                                      binaryMessenger: messenger)
+    status.setMethodCallHandler { call, result in
+      switch call.method {
+      case "setAppIcon":
+        let args = call.arguments as? [String: Any] ?? [:]
+        let key = args["key"] as? String ?? "classic"
+        // Основной значок задаётся не именем, а его отсутствием: так система
+        // отличает возврат к штатному от выбора запасного.
+        let name: String? = (key == "classic") ? nil : key
+        guard UIApplication.shared.supportsAlternateIcons else {
+          result(false)
+          return
+        }
+        // Переключение обязано идти с главной очереди — иначе система молча
+        // ничего не делает, и разбираться будет не в чем.
+        DispatchQueue.main.async {
+          UIApplication.shared.setAlternateIconName(name) { error in
+            result(error == nil)
+          }
+        }
+      default:
+        result(FlutterMethodNotImplemented)
+      }
+    }
+
     FlutterEventChannel(name: "various_vpn/ios/stage", binaryMessenger: messenger)
       .setStreamHandler(stageHandler)
     FlutterEventChannel(name: "various_vpn/ios/traffic", binaryMessenger: messenger)

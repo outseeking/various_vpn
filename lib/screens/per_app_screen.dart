@@ -13,6 +13,7 @@ import 'package:installed_apps/installed_apps.dart';
 import 'package:provider/provider.dart';
 
 import '../l10n.dart';
+import '../platform.dart';
 import '../state/app_state.dart';
 import '../theme/app_palette.dart';
 import '../widgets/paywall_sheet.dart';
@@ -67,6 +68,22 @@ class _PerAppScreenState extends State<PerAppScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // На iOS раздела приложений нет и быть не может: система не отдаёт ни
+    // списка установленных программ, ни выборочной маршрутизации. А вот
+    // правила по сайтам работают одинаково — маршрут строит само ядро по
+    // доменам. Поэтому вместо того чтобы выбрасывать весь раздел, оставляем
+    // ту его половину, которая там действительно работает.
+    if (!Caps.perAppRouting) {
+      return Scaffold(
+        backgroundColor: P.bg,
+        appBar: AppBar(
+          automaticallyImplyLeading: !widget.inShell,
+          title: Text(L.t('tab_urls')),
+        ),
+        body: const _UrlsTab(),
+      );
+    }
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
