@@ -102,7 +102,11 @@ class SubscriptionParser {
 
     final servers = <VpnServer>[];
     for (final line in const LineSplitter().convert(text)) {
-      final s = line.trim();
+      // Обрамление снимаем ДО разбора. Ссылку часто копируют из JSON или из
+      // сообщения, и она приезжает в кавычках, в угловых скобках или с
+      // запятой на конце. Одного лишнего знака хватает, чтобы строка
+      // перестала быть ссылкой, — а человек видит только «не добавляется».
+      final s = line.trim().replaceAll(RegExp(r'''^["'<\s]+|["'>,;\s]+$'''), '');
       if (s.isEmpty) continue;
       final server = parseLink(s);
       if (server != null) servers.add(server);

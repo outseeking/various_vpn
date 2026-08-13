@@ -13,7 +13,6 @@ import '../l10n.dart';
 import '../state/app_state.dart';
 import '../theme/app_palette.dart';
 import '../widgets/connect_glow.dart';
-import '../widgets/space_background.dart';
 
 class SpeedtestScreen extends StatefulWidget {
   const SpeedtestScreen({super.key});
@@ -94,12 +93,11 @@ class _SpeedtestScreenState extends State<SpeedtestScreen> {
         children: [
           // Звёзды видны сразу при входе — экран не должен «оживать» только
           // после нажатия. Во время замера они летят интенсивнее.
-          if (anim)
-            Positioned.fill(
-              child: IgnorePointer(
-                child: SpaceBackground(animate: true, intensity: _running ? 2.2 : 1),
-              ),
-            ),
+          // Звёздного поля здесь больше нет. На главной оно работает: там
+          // глобус, и звёзды вокруг него читаются как небо. На замере
+          // скорости небо не при чём — под цифрами мельтешил шум, который
+          // мешал смотреть на единственное, ради чего сюда заходят.
+          // Фирменное свечение осталось: оно и связывает экран с остальными.
           // Свечение как на главной: спокойное в покое, ярче во время замера.
           if (anim)
             Positioned.fill(

@@ -16,6 +16,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../brand.dart';
 import '../l10n.dart';
+import '../platform.dart';
 import '../screens/import_screen.dart';
 import '../screens/qr_import_screen.dart';
 import '../state/app_state.dart';
@@ -65,6 +66,10 @@ class _ConnectWaysState extends State<ConnectWays> with WidgetsBindingObserver {
   }
 
   Future<void> _sniffClipboard() async {
+    // Без просьбы в буфер не заглядываем там, где система это показывает
+    // человеку: он ничего не нажимал, а поверх экрана всплывает «приложение
+    // вставило из…». Кнопка вставки ниже никуда не делась.
+    if (!Caps.clipboardSniff) return;
     final data = await Clipboard.getData(Clipboard.kTextPlain);
     final m = RegExp(r'\b\d{6,15}\b').firstMatch(data?.text ?? '');
     final id = m?.group(0);
