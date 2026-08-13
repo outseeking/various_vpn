@@ -477,6 +477,27 @@ final Map<String, String> _nameToCode = () {
 /// Порядок от самого надёжного к самому приблизительному. Важно, что список
 /// стран нигде не дублируется: и названия, и коды берутся из [_countryNames],
 /// поэтому новая страна начинает определяться сразу после добавления в таблицу.
+/// Домены, у которых буквы не совпадают с кодом страны.
+///
+/// Британия — главный случай: домен .uk, а код в стандарте GB. Без этой пары
+/// все британские узлы оставались без флага.
+const _tldToCode = {
+  'uk': 'GB',
+  'su': 'RU',
+};
+
+/// Домены, которые о стране НИЧЕГО не говорят.
+///
+/// Формально они чьи-то: .io — Британская территория в Индийском океане, .me —
+/// Черногория, .ai — Ангилья. Но покупают их по всему миру ради красивого
+/// имени, и страну по ним определять нельзя. Выдуманный флаг хуже глобуса:
+/// человек по флагу выбирает страну, и ошибка здесь означает не «некрасиво», а
+/// «подключился не туда, куда хотел».
+const _genericTlds = {
+  'io', 'co', 'me', 'tv', 'cc', 'ai', 'gg', 'to', 'sh', 'st',
+  'fm', 'ws', 'ly', 'is', 'im', 'nu', 'la', 'so', 'vc', 'gl',
+};
+
 String _guessCountry(String name, String host) {
   // 1) Флаг-эмодзи прямо в имени («🇵🇱 Польша») — однозначный признак.
   final fromFlag = _countryFromFlagEmoji(name);
@@ -507,8 +528,11 @@ String _guessCountry(String name, String host) {
   // 5) Домен верхнего уровня хоста: «srv.pl», «node.de».
   final tld = RegExp(r'\.([a-z]{2})$').firstMatch(hostL);
   if (tld != null) {
-    final cc = tld.group(1)!.toUpperCase();
-    if (_countryNames.containsKey(cc)) return cc;
+    final dom = tld.group(1)!;
+    if (!_genericTlds.contains(dom)) {
+      final cc = (_tldToCode[dom] ?? dom).toUpperCase();
+      if (_countryNames.containsKey(cc)) return cc;
+    }
   }
 
   // 6) Города и характерные слова.
