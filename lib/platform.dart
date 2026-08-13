@@ -39,6 +39,15 @@ class Caps {
       (defaultTargetPlatform == TargetPlatform.android ||
           defaultTargetPlatform == TargetPlatform.iOS);
 
+  /// Отключение экономии батареи для приложения.
+  ///
+  /// Спрашивается системным запросом Android. На iOS такого понятия нет:
+  /// приложение там усыпляют всегда, а связь держит расширение туннеля — оно
+  /// живёт отдельно от приложения и в экономию не попадает. Показывать эту
+  /// настройку там значило бы обещать управление тем, чего нет.
+  static bool get batteryOptimization =>
+      !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
+
   /// Доступны ли списки geosite/geoip прямо в ядре.
   ///
   /// На Android они лежат внутри самого ядра (geosite.dat и geoip.dat в AAR).

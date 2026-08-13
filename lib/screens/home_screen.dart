@@ -2130,12 +2130,16 @@ class _BottomBarState extends State<_BottomBar> {
 
   @override
   Widget build(BuildContext context) {
-    final navInner = SafeArea(
-      top: false,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-        child: _navRow(context),
-      ),
+    // Нижнюю безопасную зону добавляем сами, а не через SafeArea. У SafeArea
+    // всё или ничего: на телефонах с жестовой полосой она отдаёт под неё 34
+    // точки, и под панелью зияет пустая полоса чуть ли не в палец высотой.
+    // Полоса системная, рисовать в ней нельзя, но и отступать от неё ЕЩЁ раз
+    // незачем — она сама и есть отступ. Оставляем небольшой зазор, чтобы
+    // значки не упирались в неё вплотную.
+    final safe = MediaQuery.of(context).padding.bottom;
+    final navInner = Padding(
+      padding: EdgeInsets.fromLTRB(8, 6, 8, safe > 0 ? safe - 12 : 8),
+      child: _navRow(context),
     );
     final nav = Container(
       decoration: const BoxDecoration(
@@ -2168,7 +2172,10 @@ class _BottomBarState extends State<_BottomBar> {
     final n = _icons.length;
     return LayoutBuilder(builder: (context, c) {
       final slot = c.maxWidth / n;
-      final pillW = slot * 0.66;
+      // Капсула по значку, а не по доле от ширины. Раньше было «две трети
+      // ячейки»: на четырёх вкладках выходило нормально, а на трёх ячейка
+      // шире — и капсула растянулась в лепёшку вокруг маленького значка.
+      final pillW = slot < 76 ? slot - 8 : 68.0;
 
       /// Отклик на пересечении границы, а не при отпускании: палец понимает,
       /// что перешёл на соседнюю вкладку, ещё до того как посмотрел.
@@ -2207,7 +2214,7 @@ class _BottomBarState extends State<_BottomBar> {
               widget.position.value.round().clamp(0, n - 1));
         },
         child: SizedBox(
-          height: 48,
+          height: 44,
           child: ValueListenableBuilder<double>(
             valueListenable: widget.position,
             builder: (context, pos, _) => Stack(
@@ -2216,9 +2223,9 @@ class _BottomBarState extends State<_BottomBar> {
                 // здесь читается как «подтормаживает».
                 Positioned(
                   left: slot * pos + (slot - pillW) / 2,
-                  top: 3,
+                  top: 2,
                   width: pillW,
-                  height: 42,
+                  height: 40,
                   child: Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(colors: [
@@ -2280,7 +2287,7 @@ class _Tab extends StatelessWidget {
     // иначе жест ведения обрывался бы на границе между вкладками.
     final color = Color.lerp(P.textFaint, P.limeText, t);
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: Center(
         child: Transform.scale(
           // Размер подсказывает выбор раньше цвета: глаз ловит изменение

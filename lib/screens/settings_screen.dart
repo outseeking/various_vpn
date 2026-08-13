@@ -26,7 +26,6 @@ import 'stats_screen.dart';
 import 'subscriptions_screen.dart';
 import 'support_screen.dart';
 import 'tunnel_settings_screen.dart';
-import 'ios_preview_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   /// true — экран показан как вкладка в общей оболочке (без стрелки «назад»).
@@ -190,15 +189,6 @@ class SettingsScreen extends StatelessWidget {
                 subtitle: L.t('how_connect_d'),
                 onTap: () => go(const ConnectGuideScreen()),
               ),
-            // Витрина стиля iOS. Оценить отклик элементов можно только
-            // пальцем, поэтому они собраны на отдельном экране.
-            SettingsRow(
-              icon: Icons.phone_iphone,
-              tint: P.violetSoft,
-              title: L.t('ios_preview'),
-              subtitle: L.t('ios_preview_d'),
-              onTap: () => go(const IosPreviewScreen()),
-            ),
             SettingsRow(
               icon: Icons.support_agent,
               title: L.t('support'),

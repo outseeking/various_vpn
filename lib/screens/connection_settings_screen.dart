@@ -134,6 +134,10 @@ class _BatteryRowState extends State<_BatteryRow> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    // На iOS такого понятия нет: приложение усыпляют всегда, а связь держит
+    // расширение туннеля — оно живёт отдельно и в экономию не попадает.
+    // Строка там была мёртвой: нажатие ничего не открывало.
+    if (!Caps.batteryOptimization) return const SizedBox.shrink();
     final ok = _granted == true;
     return SettingsRow(
       icon: ok ? Icons.battery_charging_full : Icons.battery_alert_outlined,
