@@ -115,6 +115,16 @@ class AppState extends ChangeNotifier {
   /// Отправить текущее состояние в домашний виджет Android. Кнопки виджета
   /// (вкл/выкл, пинг) обрабатываются нативно — здесь только данные для показа
   /// и параметры (хост/порт/тип пинга), которыми пользуется нативный ресивер.
+  /// Отказ в установке профиля VPN, словами. Причину, если система её назвала,
+  /// дописываем: без неё «нет разрешения» одинаково выглядит и когда человек
+  /// нажал «Запретить», и когда профиль не создаётся в принципе.
+  String _permissionError() {
+    final detail = vpn.lastPermissionError;
+    return detail.isEmpty
+        ? 'Не удалось включить VPN: система не выдала разрешение'
+        : 'Не удалось включить VPN: $detail';
+  }
+
   void _pushWidget() {
     final a = activeServer;
     // Имя для виджета: берём первое НЕПУСТОЕ. Раньше стояло `a?.title ?? …` —
@@ -3079,8 +3089,11 @@ class AppState extends ChangeNotifier {
     _storage.setBool('telegram_only', false);
     final ok = await vpn.requestPermission();
     if (!ok) {
-      lastError = 'Нет разрешения на VPN';
-      _log('Нет разрешения на VPN', LogKind.error);
+      // Раньше причина уходила только в лог, а на экране не менялось ничего:
+      // кнопка нажималась и молчала. Понять, что произошло, было нельзя.
+      lastError = _permissionError();
+      _log(lastError!, LogKind.error);
+      _notify(lastError!, error: true);
       notifyListeners();
       return;
     }

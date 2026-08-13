@@ -78,12 +78,25 @@ class IosVpnService implements VpnService {
   @override
   Future<void> warmUp() async {}
 
+  /// Почему система отказалась установить профиль VPN. Пусто, если отказа не
+  /// было. Хранится отдельно, потому что сам запрос отвечает «да/нет», а
+  /// человеку нужно знать, что именно не так.
+  @override
+  String lastPermissionError = '';
+
   @override
   Future<bool> requestPermission() async {
+    lastPermissionError = '';
     try {
       final ok = await _m.invokeMethod<bool>('prepare');
+      if (ok != true) lastPermissionError = 'система не подтвердила профиль';
       return ok ?? false;
-    } on PlatformException {
+    } on PlatformException catch (e) {
+      // Причину система называет словами, и она бывает решающей: у бесплатной
+      // учётной записи разработчика профиль VPN не создаётся в принципе.
+      // Проглотить её — значит оставить человека с кнопкой, которая нажимается
+      // и молчит.
+      lastPermissionError = e.message ?? e.code;
       return false;
     }
   }

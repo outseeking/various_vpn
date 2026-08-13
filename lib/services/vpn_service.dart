@@ -43,6 +43,14 @@ abstract class VpnService {
 
   Future<bool> requestPermission();
 
+  /// Почему система отказалась разрешить VPN, её словами. Пусто, если причины
+  /// нет или платформа её не называет.
+  ///
+  /// Часть общего интерфейса, а не только реализации iOS: место вызова не
+  /// должно знать, на чём оно работает. На Android отказ приходит без слов —
+  /// там остаётся пусто, и человек видит общую формулировку.
+  String get lastPermissionError => '';
+
   /// Поднять туннель к [server]. [rules] — per-app маршрутизация (для нативного
   /// ядра; заглушка их игнорирует). Если задан [relay] — строится ЦЕПОЧКА
   /// (мультихоп): трафик идёт relay → server → интернет (сервер-выход виден как
@@ -70,6 +78,11 @@ abstract class VpnService {
 
 /// Заглушка: имитирует поведение ядра для Web/раннего UI.
 class StubVpnService implements VpnService {
+  /// Эта платформа причину отказа не называет — общая формулировка на месте
+  /// вызова окажется точнее, чем выдуманная подробность.
+  @override
+  String get lastPermissionError => '';
+
   final _controller = StreamController<VpnStage>.broadcast();
   final _traffic = StreamController<VpnTraffic>.broadcast();
   VpnStage _stage = VpnStage.disconnected;

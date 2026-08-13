@@ -47,6 +47,11 @@ String _buildConfigInIsolate((String, NetOptions) args) =>
     applyNetOptions(args.$1, args.$2);
 
 class V2RayVpnService implements VpnService {
+  /// Эта платформа причину отказа не называет — общая формулировка на месте
+  /// вызова окажется точнее, чем выдуманная подробность.
+  @override
+  String get lastPermissionError => '';
+
   final _controller = StreamController<VpnStage>.broadcast();
   final _traffic = StreamController<VpnTraffic>.broadcast();
   late final V2ray _v2ray = V2ray(onStatusChanged: _onStatus);
