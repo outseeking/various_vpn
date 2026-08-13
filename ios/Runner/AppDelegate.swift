@@ -29,7 +29,10 @@ import UIKit
     method.setMethodCallHandler { call, result in
       switch call.method {
       case "prepare":
-        VPNManager.shared.prepare { ok in result(ok) }
+        VPNManager.shared.prepare { ok, err in
+          if ok { result(true) }
+          else { result(FlutterError(code: "no_permission", message: err, details: nil)) }
+        }
       case "connect":
         let args = call.arguments as? [String: Any] ?? [:]
         let config = args["config"] as? String ?? ""

@@ -14,11 +14,29 @@ import NetworkExtension
 import Flutter
 
 enum VPNConst {
-    // App Group — общий контейнер приложения и расширения (должен совпадать в
-    // обоих entitlements). При смене bundle id поменяй и здесь.
-    static let appGroup = "group.site.ugconnect.variousvpn"
-    // Bundle id расширения Packet Tunnel Provider.
-    static let tunnelBundleId = "site.ugconnect.variousvpn.PacketTunnel"
+    /// Адрес приложения — такой, каким его видит система ПРЯМО СЕЙЧАС.
+    ///
+    /// Не константа: при установке в обход магазина программы вроде Sideloadly
+    /// переименовывают приложение под учётную запись, которой его подписывают.
+    /// Расширения переименовываются вместе с ним, а записанный в коде адрес —
+    /// нет.
+    static var appBundleId: String {
+        Bundle.main.bundleIdentifier ?? "site.ugconnect.variousvpn"
+    }
+
+    /// Адрес расширения, поднимающего туннель.
+    ///
+    /// Вычисляется от адреса приложения, потому что система сверяет их
+    /// БУКВАЛЬНО. Не сошлось — сохранение профиля отклоняется, а системный
+    /// запрос «разрешить добавить конфигурацию VPN» даже не показывается:
+    /// снаружи это выглядит как кнопка, которая нажимается и молчит.
+    static var tunnelBundleId: String { "\(appBundleId).PacketTunnel" }
+
+    /// Общий контейнер приложения и расширения. Должен совпадать со строкой в
+    /// обоих файлах прав — там он записан целиком, поэтому и здесь собирается
+    /// из адреса приложения тем же способом.
+    static var appGroup: String { "group.\(appBundleId)" }
+
     static let serverAddress = "Various VPN"
 }
 
@@ -40,12 +58,19 @@ final class VPNManager: NSObject {
     // MARK: - Публичный API (вызывается из MethodChannel)
 
     /// Устанавливает профиль (первый раз показывает системный диалог разрешения).
-    func prepare(_ completion: @escaping (Bool) -> Void) {
+    func prepare(_ completion: @escaping (Bool, String?) -> Void) {
         loadOrCreate { mgr in
-            guard let mgr = mgr else { completion(false); return }
+            guard let mgr = mgr else {
+                completion(false, "не удалось прочитать профили VPN")
+                return
+            }
             mgr.isEnabled = true
             mgr.saveToPreferences { err in
-                completion(err == nil)
+                // Причину система называет словами и она бывает решающей:
+                // «отсутствует право» означает, что приложение подписано
+                // учётной записью без разрешения на VPN, и никакие правки в
+                // коде этого не изменят.
+                completion(err == nil, err?.localizedDescription)
             }
         }
     }
