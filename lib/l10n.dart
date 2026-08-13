@@ -691,10 +691,12 @@ class L {
       'en': 'That server has an expired certificate, so the connection is not safe. Get a fresh link from your provider.'
     },
     'fsub_refused': {
-      'ru': 'Сервис не отдаёт подписку этому приложению. Обычно это лимит '
-          'устройств: отключи лишнее в его боте и попробуй снова.',
-      'en': 'The service refuses to give the subscription to this app. Usually '
-          'a device limit: disconnect a device in its bot and try again.'
+      'ru': 'Сервис прислал пустую подписку — вместо серверов заглушки. Так он '
+          'отвечает, когда исчерпан лимит устройств или разрешено только его '
+          'приложение. Отключи лишнее устройство в его боте и попробуй снова.',
+      'en': 'The service returned an empty subscription — placeholders instead '
+          'of servers. That is its answer when the device limit is used up or '
+          'only its own app is allowed. Free a device in its bot and retry.'
     },
     'fsub_not_found': {
       'ru': 'Подписка не найдена (404). Скорее всего ссылка устарела — возьми новую.',

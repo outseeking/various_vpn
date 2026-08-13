@@ -14,6 +14,8 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
+import 'device_id.dart';
+
 /// Что подписка рассказывает о себе сама: название сервиса, срок и трафик.
 class SubInfo {
   const SubInfo({
@@ -176,6 +178,11 @@ class BackendApi {
         final r = await http.get(uri, headers: {
           'User-Agent': ua,
           'Accept': '*/*',
+          // Отпечаток устройства. Сервисы с привязкой к устройствам без него
+          // отдают не отказ, а подписку-ЗАГЛУШКУ: три несуществующих сервера
+          // с именами вроде «Установите Happ». Снаружи это неотличимо от
+          // «наше приложение не умеет читать подписку».
+          ...DeviceId.headers,
         }).timeout(const Duration(seconds: 10));
         lastStatus = r.statusCode;
         if (r.statusCode == 200 && r.body.trim().isNotEmpty) {
